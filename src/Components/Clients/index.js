@@ -15,6 +15,10 @@ function Clients() {
     saveClients(clients.filter((client) => client._id !== id));
   };
 
+  const addClient = () =>{
+    window.location.href = `/clients/form`;
+  };
+
   return (
     <section className={styles.container}>
       <h2>Clients</h2>
@@ -46,6 +50,7 @@ function Clients() {
           })}
         </tbody>
       </table>
+      <button onClick={addClient}>ADD CLIENT</button>
     </section>
   );
 }
