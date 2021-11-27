@@ -10,9 +10,6 @@ const FormClient = () => {
   const [phoneValue, setPhoneValue] = useState('');
   const [openPositionsValue, setOpenPositionsValue] = useState([]);
 
-  const params = new URLSearchParams(window.location.search);
-  const clientId = params.get('id');
-
   const onChangeCompanyNameValue = (event) => {
     setCompanyNameValue(event.target.value);
   };
@@ -37,9 +34,13 @@ const FormClient = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
+    const params = new URLSearchParams(window.location.search);
+    const clientId = params.get('id');
+    let url;
 
-    const option = {
-      method: 'POST',
+    console.log(clientId);
+
+    const options = {
       headers: {
         'Content-Type': 'application/json'
       },
@@ -54,15 +55,22 @@ const FormClient = () => {
       })
     };
 
-    const clientId = params.get('id');
-    const url = `${process.env.REACT_APP_API}/api/clients/add?id=${clientId}`;
+    if (clientId === null) {
+      options.method = 'POST';
+      url = `${process.env.REACT_APP_API}/api/clients/add`;
+      window.location.href = `/clients`;
+    } else {
+      options.method = 'PUT';
+      url = `${process.env.REACT_APP_API}/api/clients/update/${clientId}`;
+      window.location.href = `/clients`;
+    }
 
-    fetch(url, option).then((response) => {
-      if (response.status !== 200 && response.status !== 201){
-        return response.json().then(({message}) => {
-          throw new Error(message);
-        });
-      }
+    fetch(url, options).then((response) => {
+      // if (response.status !== 200 && response.status !== 201){
+      //   return response.json().then(({message}) => {
+      //     throw new Error(message);
+      //   });
+      // }
       return response.json();
     });
   };
