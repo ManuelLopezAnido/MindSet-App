@@ -1,6 +1,129 @@
+h2 {
+  align-self: center;
+}
+
 .container {
-  flex: 1;
   display: flex;
+  flex-direction: column;
+  flex: 1;
   justify-content: center;
   align-items: center;
+  border: 5px solid lightblue;
+}
+
+.header {
+  display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 80px;
+	margin-bottom: 40px;
+	padding: 0 30px;
+	box-shadow: 0px 2px 9px 0px rgba(0,0,0,0.75);
+}
+
+.listContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.list {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 16px;
+  min-width: 400px;
+  max-width: 800px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.list thead tr {
+  background-color: #FDC800;
+  color: #ffffff;
+  text-align: left;
+}
+
+.list th,
+.list td {
+	padding: 12px 15px;
+	cursor: pointer;
+}
+
+.list tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.list tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.list tbody tr:last-of-type {
+  border-bottom: 2px solid #FDC800;
+}
+
+.list tbody tr.active-row {
+  font-weight: bold;
+  color: #FDC800;
+}
+
+.content {
+	max-width: 400px;
+	margin: 10px auto;
+	padding: 16px;
+	background: #F7F7F7;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.header {
+	background: #FDC800;
+	padding: 20px 0;
+	font-size: 140%;
+	font-weight: 300;
+	text-align: center;
+	color: #fff;
+	margin: -16px -16px 16px -16px;
+}
+
+.container input,
+.container textarea,
+.container select {
+	outline: none;
+	box-sizing: border-box;
+	width: 100%;
+	background: #fff;
+	margin-bottom: 4%;
+	border: 1px solid #ccc;
+	padding: 15px;
+	color: #555;
+}
+
+.container input:focus,
+.container textarea:focus,
+.container select:focus {
+	box-shadow: 0 0 5px #FDC800;
+	padding: 15px;
+	border: 1px solid #FDC800;
+}
+
+button, .container input[type="submit"] {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 400px;
+	padding: 15px;
+	background: #FDC800;
+	border-bottom: 2px solid #b18b01;
+	border-top-style: none;
+	border-right-style: none;
+	border-left-style: none;
+	color: #fff;
+}
+
+
+.button:hover, .container input[type="submit"]:hover {
+	background: #b18b01;
+}
+
+.button:disabled, .container input[type="submit"]:disabled {
+	background: #555;
+	border-bottom: 2px solid #555;
+	cursor: not-allowed;
 }
