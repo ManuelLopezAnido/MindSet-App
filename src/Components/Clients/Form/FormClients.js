@@ -38,8 +38,6 @@ const FormClient = () => {
     const clientId = params.get('id');
     let url;
 
-    console.log(clientId);
-
     const options = {
       headers: {
         'Content-Type': 'application/json'
@@ -66,12 +64,15 @@ const FormClient = () => {
     }
 
     fetch(url, options).then((response) => {
-      // if (response.status !== 200 && response.status !== 201){
-      //   return response.json().then(({message}) => {
-      //     throw new Error(message);
-      //   });
-      // }
+      if (response.status !== 200 && response.status !== 201){
+        return response.json().then(({message}) => {
+          throw new Error(message);
+        });
+      }
       return response.json();
+    })
+    .catch((error) => {
+      return error;
     });
   };
 

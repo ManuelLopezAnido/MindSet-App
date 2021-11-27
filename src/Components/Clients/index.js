@@ -12,7 +12,23 @@ function Clients() {
   }, []);
 
   const deleteClient = (id) => {
-    saveClients(clients.filter((client) => client._id !== id));
+    const url = `${process.env.REACT_APP_API}/api/clients/delete/${id}`;
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    })
+      .then((res) => {
+        if (res.status !== 204) {
+          return res.json().then((message) => {
+            throw new Error(message);
+          });
+        }
+        return;
+      })
+      .catch((error) => error);
+      saveClients(clients.filter((client) => client._id !== id));
   };
 
   const addClient = () =>{
@@ -36,7 +52,7 @@ function Clients() {
             return (
               <tr key={client._id}>
                 <td>
-                  <a href={`clients/form?id=${client._id}`}>{client.companyName}</a>
+                  <a className={styles.clientLink} href={`clients/form?id=${client._id}`}>{client.companyName}</a>
                 </td>
                 <td>{client.companyType}</td>
                 <td>{client.email}</td>

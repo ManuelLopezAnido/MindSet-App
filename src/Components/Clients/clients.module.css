@@ -5,3 +5,13 @@
   justify-content: center;
   align-items: center;
 }
+
+tbody {
+  text-align: center;
+}
+
+.clientLink {
+  font-weight: bold;
+  text-decoration: inherit;
+  color: black
+}
