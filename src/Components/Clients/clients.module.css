@@ -13,5 +13,10 @@ tbody {
 .clientLink {
   font-weight: bold;
   text-decoration: inherit;
-  color: black
+  color: black;
+  margin: 40px;
+}
+
+.tr-table {
+  border: 2px solid black;
 }

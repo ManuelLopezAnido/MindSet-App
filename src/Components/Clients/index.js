@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import styles from './clients.module.css';
+import ModalClient from './Modal/ModalClient';
 
 function Clients() {
+  const [showModal, setShowModal] = useState(false);
   const [clients, saveClients] = useState([]);
+  const [selectedId, setSelectedId] = useState('');
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/api/clients`)
       .then((response) => response.json())
@@ -10,6 +13,10 @@ function Clients() {
         saveClients(response.data);
       });
   }, []);
+
+  const addClient = () =>{
+    window.location.href = `/clients/form`;
+  };
 
   const deleteClient = (id) => {
     const url = `${process.env.REACT_APP_API}/api/clients/delete/${id}`;
@@ -28,15 +35,22 @@ function Clients() {
         return;
       })
       .catch((error) => error);
+      closeModal();
       saveClients(clients.filter((client) => client._id !== id));
   };
 
-  const addClient = () =>{
-    window.location.href = `/clients/form`;
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const handleIdClient = (id) => {
+    setSelectedId(id);
+    setShowModal(true);
   };
 
   return (
     <section className={styles.container}>
+      <ModalClient show={showModal} closeModal={closeModal} deleteClient={deleteClient} selectedId={selectedId}/>
       <h2>Clients</h2>
       <table>
         <thead>
@@ -59,7 +73,7 @@ function Clients() {
                 <td>{client.country}</td>
                 <td>{client.phone}</td>
                 <td>
-                  <button onClick={() => deleteClient(client._id)}>X</button>
+                  <button onClick={()=> handleIdClient(client._id)}>X</button>
                 </td>
               </tr>
             );
@@ -72,3 +86,5 @@ function Clients() {
 }
 
 export default Clients;
+
+{/* <button onClick={() => deleteClient(client._id)}>X</button> */}
