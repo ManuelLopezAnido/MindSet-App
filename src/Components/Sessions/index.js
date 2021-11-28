@@ -11,6 +11,10 @@ function Sessions() {
     });
   }, []);
 
+  const addSession = () => {
+    window.location.href = `/sessions/form`;
+  };
+
   return (
     <section className={styles.container}>
       <h2>Clients</h2>
@@ -41,7 +45,7 @@ function Sessions() {
           })}
         </tbody>
       </table>
-      <button className={styles.addButton}>ADD SESSION</button>
+      <button className={styles.addButton} onClick={addSession}>ADD SESSION</button>
     </section>
   );
 }
