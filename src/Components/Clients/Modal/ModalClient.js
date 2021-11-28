@@ -1,6 +1,7 @@
 import styles from './modalClient.module.css';
 
 const ModalClient = (props) => {
+
   if (!props.show){
     return null;
   }

@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import styles from './clients.module.css';
 import ModalClient from './Modal/ModalClient';
+import deleteIcon from '../../assets/deleteIcon.png';
 
 function Clients() {
   const [showModal, setShowModal] = useState(false);
   const [clients, saveClients] = useState([]);
   const [selectedId, setSelectedId] = useState('');
+
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/api/clients`)
       .then((response) => response.json())
@@ -43,7 +45,8 @@ function Clients() {
     setShowModal(false);
   };
 
-  const handleIdClient = (id) => {
+  const handleIdClient = (event, id) => {
+    event.stopPropagation();
     setSelectedId(id);
     setShowModal(true);
   };
@@ -64,17 +67,15 @@ function Clients() {
         <tbody>
           {clients.map((client) => {
             return (
-              <tr key={client._id}>
-                <td>
-                  <a className={styles.clientLink} href={`clients/form?id=${client._id}`}>{client.companyName}</a>
-                </td>
+              <tr className={styles.clientRow} key={client._id} onClick={()=> window.location.href = `clients/form?id=${client._id}`}>
+                <td>{client.companyName}</td>
                 <td>{client.companyType}</td>
                 <td>{client.email}</td>
                 <td>{client.country}</td>
                 <td>{client.phone}</td>
-                <td>
-                  <button onClick={()=> handleIdClient(client._id)}>
-                    <img src={'../../assets/deleteIcon.png'} alt=""/>
+                <td className={styles.deleteButtonTD}>
+                  <button className={styles.deleteIcon} onClick={(event) => handleIdClient(event, client._id)}>
+                    <img src={deleteIcon}/>
                   </button>
                 </td>
               </tr>

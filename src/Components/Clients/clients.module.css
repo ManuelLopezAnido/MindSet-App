@@ -17,10 +17,6 @@ tbody {
   margin: 40px;
 }
 
-.tr-table {
-  border: 2px solid black;
-}
-
 .addButton {
   width: 100px;
   height: 50px;
@@ -31,4 +27,19 @@ tbody {
   background-color: #002147;
   color: white;
   font-weight: bold;
+}
+
+.clients_clientRow{
+  border: 3px solid red;
+}
+
+.clientRow:hover :not(.deleteButtonTD, .deleteIcon, img){
+  background: lightgrey;
+  cursor: pointer;
+}
+
+.deleteIcon{
+  background: none;
+  border: none;
+  cursor: pointer;
 }
