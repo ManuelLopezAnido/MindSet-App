@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
 
 const FormClient = () => {
@@ -32,10 +32,34 @@ const FormClient = () => {
     setOpenPositionsValue(event.target.value);
   };
 
+  const params = new URLSearchParams(window.location.search);
+  const clientId = params.get('id');
+
+  useEffect(()=> {
+    if(clientId){
+      fetch(`${process.env.REACT_APP_API}/api/clients/id/${clientId}`)
+        .then((response) => {
+          if (response.status !== 200) {
+            return response.json().then(({ message }) => {
+              throw new Error(message);
+            });
+          }
+          return response.json();
+        })
+        .then((response) => {
+          setCompanyNameValue(response.companyName);
+          setCompanyTypeValue(response.companyType);
+          setCityValue(response.city);
+          setCountryValue(response.country);
+          setEmailValue(response.email);
+          setPhoneValue(response.phone);
+          setOpenPositionsValue(response.openPositions);
+        });
+    }
+  }, []);
+
   const onSubmit = (event) => {
     event.preventDefault();
-    const params = new URLSearchParams(window.location.search);
-    const clientId = params.get('id');
     let url;
 
     const options = {
@@ -84,10 +108,10 @@ const FormClient = () => {
         <input id="companyType" name="companyType" required value={companyTypeValue} onChange={onChangeCompanyType} placeholder="Company Type"></input>
         <input id="city" name="city" value={cityValue} onChange={onChangeCity} placeholder="City"></input>
         <input id="country" name="country" value={countryValue} onChange={onChangeCountry} placeholder="Country"></input>
-        <input id="email" name="email" required value={emailValue} onChange={onChangeEmail} placeholder="Email"></input>
-        <input id="phone" name="phone" required value={phoneValue} onChange={onChangePhone} placeholder="Phone"></input>
+        <input id="email" name="email" type="email" required value={emailValue} onChange={onChangeEmail} placeholder="Email" pattern="^[^@]+@[^@]+\.[a-zA-Z]{2,}$" title="Type a correct email"></input>
+        <input id="phone" name="phone" type="number" required value={phoneValue} onChange={onChangePhone} placeholder="Phone" pattern="^[0-9]*$" title="Type a correct phone number"></input>
         <input id="openPositions" name="openPositions" value={openPositionsValue} onChange={onChangeOpenPositions} placeholder="Open Positions"></input>
-        <button type="submit">SEND</button>
+        <button className={styles.sendFormButton} type="submit">SEND</button>
       </form>
     </div>
   );

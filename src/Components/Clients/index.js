@@ -73,14 +73,16 @@ function Clients() {
                 <td>{client.country}</td>
                 <td>{client.phone}</td>
                 <td>
-                  <button onClick={()=> handleIdClient(client._id)}>X</button>
+                  <button onClick={()=> handleIdClient(client._id)}>
+                    <img src={'../../assets/deleteIcon.png'} alt=""/>
+                  </button>
                 </td>
               </tr>
             );
           })}
         </tbody>
       </table>
-      <button onClick={addClient}>ADD CLIENT</button>
+      <button className={styles.addButton} onClick={addClient}>ADD CLIENT</button>
     </section>
   );
 }

@@ -9,8 +9,10 @@ const ModalClient = (props) => {
     <div className={styles.container}>
       <div className={styles.modal}>
         <h3>Do you want to delete?</h3>
-        <button onClick={props.closeModal}>CANCEL</button>
-        <button onClick={()=> props.deleteClient(props.selectedId)}>CONFIRM</button>
+        <div>
+          <button onClick={()=> props.deleteClient(props.selectedId)}>CONFIRM</button>
+          <button onClick={props.closeModal}>CANCEL</button>
+        </div>
       </div>
     </div>
   );
