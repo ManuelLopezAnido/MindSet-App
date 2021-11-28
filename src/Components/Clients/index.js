@@ -89,5 +89,3 @@ function Clients() {
 }
 
 export default Clients;
-
-{/* <button onClick={() => deleteClient(client._id)}>X</button> */}
