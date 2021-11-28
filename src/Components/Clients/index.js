@@ -4,7 +4,7 @@ import styles from './clients.module.css';
 function Clients() {
   const [clients, saveClients] = useState([]);
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/clients`)
+    fetch(`${process.env.REACT_APP_API}/api/clients`)
       .then((response) => response.json())
       .then((response) => {
         saveClients(response.data);
