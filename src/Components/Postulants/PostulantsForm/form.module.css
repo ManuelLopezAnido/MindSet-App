@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  border: 5px solid lightblue;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  background-color: blanchedalmond;
+  padding: 10px;
+}
+
+.form > * input,
+.form > * label {
+  margin-top: 7px;
+}
+
+.studies > div {
+  display: flex;
+  flex-direction: column;
+}

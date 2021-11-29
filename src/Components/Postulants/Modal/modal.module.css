@@ -3,7 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 292vh;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.5);
 }
@@ -12,17 +12,22 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  width: 400px;
-  height: 200px;
+  min-width: 400px;
+  min-height: 200px;
   background-color: lightgray;
-  border: 3px solid lightgoldenrodyellow;
 }
 
-.modal h2 {
+
+.modal h3, p {
   align-self: center;
 }
 
 .modal button {
   cursor: pointer;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
