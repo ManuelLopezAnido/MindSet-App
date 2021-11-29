@@ -7,7 +7,8 @@ import Interviews from '../Interviews/index';
 import Positions from '../Positions/index';
 import Postulants from '../Postulants/index';
 import Profiles from '../Profiles/index';
-import Psychologists from '../Psychologists/index';
+import Councelors from '../Councelors/index';
+import CouncelorsForm from '../Councelors/Form';
 import Sessions from '../Sessions/index';
 import Home from '../Home/index';
 import styles from './layout.module.css';
@@ -36,8 +37,11 @@ function Layout() {
     case '/profiles':
       currentScreen = <Profiles />;
       break;
-    case '/psychologists':
-      currentScreen = <Psychologists />;
+    case '/councelors':
+      currentScreen = <Councelors />;
+      break;
+    case '/councelors/form':
+      currentScreen = <CouncelorsForm />;
       break;
     case '/sessions':
       currentScreen = <Sessions />;
