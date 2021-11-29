@@ -5,6 +5,7 @@ import Applications from '../Applications/index';
 import Clients from '../Clients/index';
 import Interviews from '../Interviews/index';
 import Positions from '../Positions/index';
+import FormPositions from '../Positions/Form/FormPositions.js';
 import Postulants from '../Postulants/index';
 import Profiles from '../Profiles/index';
 import Psychologists from '../Psychologists/index';
@@ -29,6 +30,9 @@ function Layout() {
       break;
     case '/positions':
       currentScreen = <Positions />;
+      break;
+    case '/positions/form':
+      currentScreen = <FormPositions />;
       break;
     case '/postulants':
       currentScreen = <Postulants />;
