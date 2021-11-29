@@ -88,7 +88,7 @@ function Admins() {
           })}
         </tbody>
       </table>
-      <button className={styles.buttonAdd} onClick={() => addAdmin()}>
+      <button className={styles.buttonAdd} disabled={showModal} onClick={() => addAdmin()}>
         Add Admin
       </button>
     </section>
