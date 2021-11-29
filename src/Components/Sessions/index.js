@@ -1,5 +1,6 @@
 import styles from './sessions.module.css';
 import { useState, useEffect } from 'react';
+import deleteIcon from '../../assets/deleteIcon.png';
 
 function Sessions() {
   const [sessions, saveSessions] = useState([]);
@@ -14,6 +15,30 @@ function Sessions() {
   const addSession = () => {
     window.location.href = `/sessions/form`;
   };
+
+  const deleteSession = (event, id) => {
+    event.stopPropagation();
+    const url = `${process.env.REACT_APP_API}/api/sessions/${id}`;
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    })
+      .then((res) => {
+        if (res.status !== 204) {
+          return res.json().then((message) => {
+            throw new Error(message);
+          });
+        }
+        return;
+      })
+      .catch((error) => error);
+      saveSessions(sessions.filter((session) => session._id !== id));
+  };
+
+  // const handleIdSession = (event, id) => {
+  // };
 
   return (
     <section className={styles.container}>
@@ -37,7 +62,7 @@ function Sessions() {
                 <td>{session.accomplished}</td>
                 <td>
                   <button >
-                    X
+                    <img src={deleteIcon} onClick={(event) => deleteSession(event, session._id)} />
                   </button>
                 </td>
               </tr>
