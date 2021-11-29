@@ -2,6 +2,7 @@ import Header from '../Header/index';
 import Footer from '../Footer/index';
 import Admins from '../Admins/index';
 import Applications from '../Applications/index';
+import FormApplication from '../Applications/Form/FormApplication';
 import Clients from '../Clients/index';
 import Interviews from '../Interviews/index';
 import Positions from '../Positions/index';
@@ -21,6 +22,9 @@ function Layout() {
     case '/applications':
       currentScreen = <Applications />;
       break;
+    case '/applications/form':
+      currentScreen = <FormApplication />;
+      break;    
     case '/clients':
       currentScreen = <Clients />;
       break;
