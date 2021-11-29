@@ -29,12 +29,12 @@ function Sessions() {
         <tbody>
           {sessions.map((session) => {
             return (
-              <tr key={session._id}>
+              <tr key={session._id} onClick={()=> window.location.href = `sessions/form?id=${session._id}`}>
                 <td>{session.postulantId}</td>
                 <td>{session.counselorId}</td>
                 <td>{session.date}</td>
                 <td>{session.time}</td>
-                <td>{session.accomplished.toString()}</td>
+                <td>{session.accomplished}</td>
                 <td>
                   <button >
                     X
