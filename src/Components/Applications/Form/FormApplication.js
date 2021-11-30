@@ -38,7 +38,7 @@ const FormApplication = () => {
         .then((response) => {
           setPositionName(response.positionId);
           setCompany(response.companyId);
-          setPostulant(response.postulantId);
+          setPostulant(response.postulantId ? response.postulantId :"No id"); // Bad DB. Applications with no postulantID exist
           setAppState(response.applicationState);
         });
     }
@@ -47,7 +47,6 @@ const FormApplication = () => {
   const onSubmit = (event) => {
     event.preventDefault();
     let url;
-
     const options = {
       headers: {
         'Content-Type': 'application/json'
@@ -65,17 +64,17 @@ const FormApplication = () => {
       url = `${process.env.REACT_APP_API}/api/applications/add`;
     } else {
       options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/api/applications/${AppId}`;
+      url = `${process.env.REACT_APP_API}/api/applications/update/${AppId}`;
     }
     console.log(url); 
     console.log(options);
     fetch(url, options).then((response) => {
-      if (response.status !== 200){
+      if (response.status !== 200 && response.status !== 201){
         return response.json().then(({ErrMessage}) => {
           throw new Error(ErrMessage);
         });
       }
-      return response.json();
+      response.json();
     })
     .then(()=>{
     window.location.href = `/applications`;
@@ -84,7 +83,6 @@ const FormApplication = () => {
       return error;
     });
   };
-
   return (
     <div>
       <h1>Form</h1>

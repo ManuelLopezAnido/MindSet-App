@@ -5,6 +5,15 @@
   justify-content: center;
   align-items: center;
 }
+.container, h2{
+  display: none;
+  align-items: center;  
+  justify-content: center;
+  color: red;
+}
+.container, form{
+  display: flex;
+}
 
 input {
   width: 250px;
@@ -21,4 +30,7 @@ input {
   background-color: #002147;
   color: white;
   font-weight: bold;
+}
+.Visible{
+  display: flex;
 }
