@@ -1,9 +1,12 @@
 import styles from './sessions.module.css';
 import { useState, useEffect } from 'react';
 import deleteIcon from '../../assets/deleteIcon.png';
+import ModalSession from './Modal/ModalSession';
 
 function Sessions() {
+  const [showModal, setShowModal] = useState(false);
   const [sessions, saveSessions] = useState([]);
+  const [selectedId, setSelectedId] = useState('');
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/api/sessions/`)
     .then((response) => response.json())
@@ -16,8 +19,7 @@ function Sessions() {
     window.location.href = `/sessions/form`;
   };
 
-  const deleteSession = (event, id) => {
-    event.stopPropagation();
+  const deleteSession = (id) => {
     const url = `${process.env.REACT_APP_API}/api/sessions/${id}`;
     fetch(url, {
       method: 'DELETE',
@@ -34,14 +36,23 @@ function Sessions() {
         return;
       })
       .catch((error) => error);
+      closeModal();
       saveSessions(sessions.filter((session) => session._id !== id));
   };
 
-  // const handleIdSession = (event, id) => {
-  // };
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const handleIdSession = (event, id) => {
+    event.stopPropagation();
+    setSelectedId(id);
+    setShowModal(true);
+  };
 
   return (
     <section className={styles.container}>
+      <ModalSession show={showModal} closeModal={closeModal} deleteSession={deleteSession} selectedId={selectedId}/>
       <h2>Clients</h2>
       <table>
         <thead>
@@ -54,15 +65,15 @@ function Sessions() {
         <tbody>
           {sessions.map((session) => {
             return (
-              <tr key={session._id} onClick={()=> window.location.href = `sessions/form?id=${session._id}`}>
-                <td>{session.postulantId}</td>
+              <tr key={session._id} onClick={()=> window.location.href = `sessions/form?id=${session._id}`} className={styles.sessionRow}>
+                <td>{`${session.postulantId?.firstName} ${session.postulantId?.lastName}`}</td>
                 <td>{session.counselorId}</td>
                 <td>{session.date}</td>
                 <td>{session.time}</td>
-                <td>{session.accomplished}</td>
-                <td>
-                  <button >
-                    <img src={deleteIcon} onClick={(event) => deleteSession(event, session._id)} />
+                <td>{session.accomplished.toString()}</td>
+                <td className={styles.deleteButtonTD}>
+                  <button className={styles.deleteIcon} onClick={(event) => handleIdSession(event, session._id)} >
+                    <img src={deleteIcon}/>
                   </button>
                 </td>
               </tr>

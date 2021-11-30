@@ -9,3 +9,26 @@
 tbody {
   text-align: center;
 }
+
+.addButton {
+  width: 100px;
+  height: 50px;
+  padding: 5px 15px;
+  margin: 20px 0px;
+  border: none;
+  border-radius: 7px;
+  background-color: #002147;
+  color: white;
+  font-weight: bold;
+}
+
+.sessionRow:hover :not(.deleteButtonTD, .deleteIcon, img){
+  background: lightgrey;
+  cursor: pointer;
+}
+
+.deleteIcon{
+  background: none;
+  border: none;
+  cursor: pointer;
+}

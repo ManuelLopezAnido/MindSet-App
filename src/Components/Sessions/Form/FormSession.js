@@ -24,10 +24,6 @@ const FormSession = () => {
     setTimeValue(event.target.value);
   };
 
-  const onChangeAccomplishedValue = (event) => {
-    setAccomplishedValue(event.target.value);
-  };
-
   const params = new URLSearchParams(window.location.search);
   const sessionId = params.get('id');
 
@@ -43,7 +39,6 @@ const FormSession = () => {
           return response.json();
         })
         .then((response) => {
-          console.log('la response data', response.data);
           setPostulantIdValue(response.data.postulantId);
           setCounselorIdValue(response.data.counselorId);
           setDateValue(response.data.date);
@@ -92,6 +87,11 @@ const FormSession = () => {
     .catch((error) => {
       return error;
     });
+    console.log(options.body);
+  };
+
+  const onChangeAccomplishedValue = (event) => {
+    setAccomplishedValue(event.target.value);
   };
 
   return (
@@ -102,7 +102,7 @@ const FormSession = () => {
         <input id="counselorId" name="counselorId" required value={counselorIdValue} placeholder="Counselor ID" onChange={onChangeCounselorIdValue}></input>
         <input id="date" name="date" placeholder="Date" value={dateValue} onChange={onChangeDateValue}></input>
         <input id="time" name="time" placeholder="Time" value={timeValue} onChange={onChangeTimeValue}></input>
-        <input id="accomplished" name="accomplished" value={accomplishedValue} required placeholder="Accomplished" onChange={onChangeAccomplishedValue}></input>
+        <input type="checkbox" name="accomplished" value={true} onChange={onChangeAccomplishedValue}  checked={accomplishedValue}></input>OK
         <button className={styles.sendFormButton} type="submit">SEND</button>
       </form>
     </div>
