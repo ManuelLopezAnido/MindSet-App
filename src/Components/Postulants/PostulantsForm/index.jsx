@@ -58,20 +58,47 @@ const PostulantsForm = () => {
   const [familyMember4NameValue, setFamilyMember4NameValue] = useState('');
   const [familyMember4bondValue, setFamilyMember4bondValue] = useState('');
 
-  const [availabilityFromValue, setAvailabilityFromValue] = useState('-');
-  const [availabilityToValue, setAvailabilityToValue] = useState('-');
+  const [availabilityCheckMondayValue, setAvailabilityCheckMondayValue] = useState('-');
+  const [availabilityFromMondayValue, setAvailabilityFromMondayValue] = useState('-');
+  const [availabilityToMondayValue, setAvailabilityToMondayValue] = useState('-');
+
+  const [availabilityCheckTuesdayValue, setAvailabilityCheckTuesdayValue] = useState('-');
+  const [availabilityFromTuesdayValue, setAvailabilityFromTuesdayValue] = useState('-');
+  const [availabilityToTuesdayValue, setAvailabilityToTuesdayValue] = useState('-');
+
+  const [availabilityCheckWednesdayValue, setAvailabilityCheckWednesdayValue] = useState('-');
+  const [availabilityFromWednesdayValue, setAvailabilityFromWednesdayValue] = useState('-');
+  const [availabilityToWednesdayValue, setAvailabilityToWednesdayValue] = useState('-');
+
+  const [availabilityCheckThursdayValue, setAvailabilityCheckThursdayValue] = useState('-');
+  const [availabilityFromThursdayValue, setAvailabilityFromThursdayValue] = useState('-');
+  const [availabilityToThursdayValue, setAvailabilityToThursdayValue] = useState('-');
+
+  const [availabilityCheckFridayValue, setAvailabilityCheckFridayValue] = useState('-');
+  const [availabilityFromFridayValue, setAvailabilityFromFridayValue] = useState('-');
+  const [availabilityToFridayValue, setAvailabilityToFridayValue] = useState('-');
+
+  const [availabilityCheckSaturdayValue, setAvailabilityCheckSaturdayValue] = useState('-');
+  const [availabilityFromSaturdayValue, setAvailabilityFromSaturdayValue] = useState('-');
+  const [availabilityToSaturdayValue, setAvailabilityToSaturdayValue] = useState('-');
+
+  const [availabilityCheckSundayValue, setAvailabilityCheckSundayValue] = useState('-');
+  const [availabilityFromSundayValue, setAvailabilityFromSundayValue] = useState('-');
+  const [availabilityToSundayValue, setAvailabilityToSundayValue] = useState('-');
 
   if (postulantId) {
     useEffect(() => {
       fetch(`${process.env.REACT_APP_API}/api/postulants/${postulantId}`)
         .then((response) => response.json())
         .then((response) => {
+          console.log('on loading fetch resp: ', response);
           onLoading(response);
         });
     }, []);
   }
 
   const onLoading = (data) => {
+    console.log('data.availability[0]?.available: ', data.availability[0]?.available);
     setFirstNameValue(data.firstName || '-');
     setLastNameValue(data.lastName || '-');
     setEmailValue(data.email || '-');
@@ -124,8 +151,33 @@ const PostulantsForm = () => {
     setFamilyMember4NameValue(data.familyMembers[3]?.name || '-');
     setFamilyMember4bondValue(data.familyMembers[3]?.bond || '-');
 
-    setAvailabilityFromValue(data.from || '');
-    setAvailabilityToValue(data.to || '');
+    setAvailabilityCheckMondayValue(data.availability[0]?.available);
+    setAvailabilityFromMondayValue(data.availability[0]?.from || '-');
+    setAvailabilityToMondayValue(data.availability[0]?.to || '-');
+
+    setAvailabilityCheckTuesdayValue(data.availability[1]?.available);
+    setAvailabilityFromTuesdayValue(data.availability[1]?.from || '-');
+    setAvailabilityToTuesdayValue(data.availability[1]?.to || '-');
+
+    setAvailabilityCheckWednesdayValue(data.availability[2]?.available);
+    setAvailabilityFromWednesdayValue(data.availability[2]?.from || '-');
+    setAvailabilityToWednesdayValue(data.availability[2]?.to || '-');
+
+    setAvailabilityCheckThursdayValue(data.availability[3]?.available);
+    setAvailabilityFromThursdayValue(data.availability[3]?.from || '-');
+    setAvailabilityToThursdayValue(data.availability[3]?.to || '-');
+
+    setAvailabilityCheckFridayValue(data.availability[4]?.available);
+    setAvailabilityFromFridayValue(data.availability[4]?.from || '-');
+    setAvailabilityToFridayValue(data.availability[4]?.to || '-');
+
+    setAvailabilityCheckSaturdayValue(data.availability[5]?.available);
+    setAvailabilityFromSaturdayValue(data.availability[5]?.from || '-');
+    setAvailabilityToSaturdayValue(data.availability[5]?.to || '-');
+
+    setAvailabilityCheckSundayValue(data.availability[6]?.available);
+    setAvailabilityFromSundayValue(data.availability[6]?.from || '-');
+    setAvailabilityToSundayValue(data.availability[6]?.to || '-');
   };
 
   const onSubmit = (event) => {
@@ -198,10 +250,50 @@ const PostulantsForm = () => {
           bond: familyMember4bondValue
         }
       ],
-      availability: {
-        from: availabilityFromValue,
-        to: availabilityToValue
-      }
+      availability: [
+        {
+          monday: 'Monday',
+          available: availabilityCheckMondayValue,
+          from: availabilityFromMondayValue,
+          to: availabilityToMondayValue
+        },
+        {
+          Tuesday: 'Tuesday',
+          available: availabilityCheckTuesdayValue,
+          from: availabilityFromTuesdayValue,
+          to: availabilityToTuesdayValue
+        },
+        {
+          Wednesday: 'Wednesday',
+          available: availabilityCheckWednesdayValue,
+          from: availabilityFromWednesdayValue,
+          to: availabilityToWednesdayValue
+        },
+        {
+          Thursday: 'Thursday',
+          available: availabilityCheckThursdayValue,
+          from: availabilityFromThursdayValue,
+          to: availabilityToThursdayValue
+        },
+        {
+          Friday: 'Friday',
+          available: availabilityCheckFridayValue,
+          from: availabilityFromFridayValue,
+          to: availabilityToFridayValue
+        },
+        {
+          Saturday: 'Saturday',
+          available: availabilityCheckSaturdayValue,
+          from: availabilityFromSaturdayValue,
+          to: availabilityToSaturdayValue
+        },
+        {
+          Sunday: 'Sunday',
+          available: availabilityCheckSundayValue,
+          from: availabilityFromSundayValue,
+          to: availabilityToSundayValue
+        }
+      ]
     };
 
     let url;
@@ -424,7 +516,7 @@ const PostulantsForm = () => {
           <Input
             label="Ended"
             id="WorkExpEnded"
-            type="date"
+            type="date" //HERE
             value={workExperienceEndValue}
             setValue={setWorkExperienceEndValue}
           />
@@ -543,20 +635,167 @@ const PostulantsForm = () => {
         </div>
         <div>
           <h3>Availability</h3>
-          <Input
-            label="from"
-            id="from"
-            type="text"
-            value={availabilityFromValue}
-            setValue={setAvailabilityFromValue}
-          />
-          <Input
-            label="To"
-            id="To"
-            type="text"
-            value={availabilityToValue}
-            setValue={setAvailabilityToValue}
-          />
+          <div>
+            <label htmlFor="mondayDay1" /> Mondays
+            <input
+              type="checkbox"
+              id="mondayDay1"
+              checked={availabilityCheckMondayValue}
+              onChange={(event) => setAvailabilityCheckMondayValue(event.target.checked)}
+            />
+            <Input
+              label="from"
+              id="fromDay1"
+              type="text"
+              value={availabilityFromMondayValue}
+              setValue={setAvailabilityFromMondayValue}
+            />
+            <Input
+              label="To"
+              id="ToDay1"
+              type="text"
+              value={availabilityToMondayValue}
+              setValue={setAvailabilityToMondayValue}
+            />
+          </div>
+          <div>
+            <label htmlFor="tuesdayDay2" /> Tuesdays
+            <input
+              type="checkbox"
+              id="tuesdayDay2"
+              checked={availabilityCheckTuesdayValue}
+              onChange={(event) => setAvailabilityCheckTuesdayValue(event.target.checked)}
+            />
+            <Input
+              label="from"
+              id="fromDay2"
+              type="text"
+              value={availabilityFromTuesdayValue}
+              setValue={setAvailabilityFromTuesdayValue}
+            />
+            <Input
+              label="To"
+              id="ToDay2"
+              type="text"
+              value={availabilityToTuesdayValue}
+              setValue={setAvailabilityToTuesdayValue}
+            />
+          </div>
+          <div>
+            <label htmlFor="WednesdayDay3" /> Wednesdays
+            <input
+              type="checkbox"
+              id="WednesdayDay3"
+              checked={availabilityCheckWednesdayValue}
+              onChange={(event) => setAvailabilityCheckWednesdayValue(event.target.checked)}
+            />
+            <Input
+              label="from"
+              id="fromDay3"
+              type="text"
+              value={availabilityFromWednesdayValue}
+              setValue={setAvailabilityFromWednesdayValue}
+            />
+            <Input
+              label="To"
+              id="ToDay3"
+              type="text"
+              value={availabilityToWednesdayValue}
+              setValue={setAvailabilityToWednesdayValue}
+            />
+          </div>
+          <div>
+            <label htmlFor="ThursdayDay4" /> Thursdays
+            <input
+              type="checkbox"
+              id="ThursdayDay4"
+              checked={availabilityCheckThursdayValue}
+              onChange={(event) => setAvailabilityCheckThursdayValue(event.target.checked)}
+            />
+            <Input
+              label="from"
+              id="fromDay4"
+              type="text"
+              value={availabilityFromThursdayValue}
+              setValue={setAvailabilityFromThursdayValue}
+            />
+            <Input
+              label="To"
+              id="ToDay4"
+              type="text"
+              value={availabilityToThursdayValue}
+              setValue={setAvailabilityToThursdayValue}
+            />
+          </div>
+          <div>
+            <label htmlFor="FridayDay5" /> Fridays
+            <input
+              type="checkbox"
+              id="FridayDay5"
+              checked={availabilityCheckFridayValue}
+              onChange={(event) => setAvailabilityCheckFridayValue(event.target.checked)}
+            />
+            <Input
+              label="from"
+              id="fromDay5"
+              type="text"
+              value={availabilityFromFridayValue}
+              setValue={setAvailabilityFromFridayValue}
+            />
+            <Input
+              label="To"
+              id="ToDay5"
+              type="text"
+              value={availabilityToFridayValue}
+              setValue={setAvailabilityToFridayValue}
+            />
+          </div>
+          <div>
+            <label htmlFor="SaturdayDay6" /> Saturdays
+            <input
+              type="checkbox"
+              id="SaturdayDay6"
+              checked={availabilityCheckSaturdayValue}
+              onChange={(event) => setAvailabilityCheckSaturdayValue(event.target.checked)}
+            />
+            <Input
+              label="from"
+              id="fromDay6"
+              type="text"
+              value={availabilityFromSaturdayValue}
+              setValue={setAvailabilityFromSaturdayValue}
+            />
+            <Input
+              label="To"
+              id="ToDay6"
+              type="text"
+              value={availabilityToSaturdayValue}
+              setValue={setAvailabilityToSaturdayValue}
+            />
+          </div>
+          <div>
+            <label htmlFor="SundayDay7" /> Sundays
+            <input
+              type="checkbox"
+              id="SundayDay7"
+              checked={availabilityCheckSundayValue}
+              onChange={(event) => setAvailabilityCheckSundayValue(event.target.checked)}
+            />
+            <Input
+              label="from"
+              id="fromDay7"
+              type="text"
+              value={availabilityFromSundayValue}
+              setValue={setAvailabilityFromSundayValue}
+            />
+            <Input
+              label="To"
+              id="ToDay7"
+              type="text"
+              value={availabilityToSundayValue}
+              setValue={setAvailabilityToSundayValue}
+            />
+          </div>
         </div>
         {postulantId ? (
           <button className={styles.formButton} type="submit">

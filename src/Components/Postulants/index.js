@@ -28,9 +28,12 @@ const Postulants = () => {
       .then((res) => {
         if (res.status !== 204) {
           return res.json().then((message) => {
+            console.log('toy en el error del then');
+            console.log(message);
             throw new Error(message);
           });
         }
+        console.log('toy en el then');
         setPostulants(postulants.filter((postulants) => postulants._id !== id));
       })
       .catch((error) => error);
