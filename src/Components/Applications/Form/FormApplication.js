@@ -5,7 +5,7 @@ const FormApplication = () => {
   const [position, setPositionName] = useState('');
   const [company, setCompany] = useState('');
   const [postulant, setPostulant] = useState('');
-  const [applicationState, setAppState] = useState(true);
+  const [applicationState, setAppState] = useState("");
 
    const onChangePosition = (event) => {
     setPositionName(event.target.value);
@@ -18,6 +18,7 @@ const FormApplication = () => {
   };
   const onChangeAppState = (event) => {
     setAppState(event.target.value);
+    console.log(event.target.value);
   };
 
   const params = new URLSearchParams(window.location.search);
@@ -62,11 +63,9 @@ const FormApplication = () => {
     if (AppId === null) {
       options.method = 'POST';
       url = `${process.env.REACT_APP_API}/api/applications/add`;
-      //window.location.href = `/applications`;
     } else {
       options.method = 'PUT';
       url = `${process.env.REACT_APP_API}/api/applications/${AppId}`;
-      //window.location.href = `/applications`;
     }
     console.log(url); 
     console.log(options);
@@ -79,7 +78,7 @@ const FormApplication = () => {
       return response.json();
     })
     .then(()=>{
-      window.location.href = `/applications`;
+    window.location.href = `/applications`;
     })
     .catch((error) => {
       return error;

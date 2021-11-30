@@ -13,7 +13,7 @@ function Applications() {
       .then((response) => response.json())
       .then((response) => {
         setApplications(response.data);
-      });
+    });
   }, []);
   console.log("datass: ", applications);
 
@@ -35,11 +35,10 @@ function Applications() {
             throw new Error(ErrMessage);
           });
         }
-        return;
+        closeModal();
+        setApplications(applications.filter((a) => a._id !== idApp));
       })
       .catch((error) => error);
-      closeModal();
-      setApplications(applications.filter((a) => a._id !== idApp));
   };
 
   const closeModal = () => {
@@ -72,20 +71,18 @@ function Applications() {
         </thead>
         <tbody>
           {
-            applications.map((a) => { 
-              return( 
+            applications.map((a) =>  
                 <tr className={styles.applicationRow} key={a._id} onClick={()=> window.location.href = `applications/form?id=${a._id}`}>
-                  <td>{a.positionId}</td>
-                  <td>{a.companyId}</td>
-                  <td>{a.postulantId}</td>
+                  <td>{a.positionId ? a.positionId.jobTitle: "Not found position"}</td>
+                  <td>{a.companyId ? a.companyId.companyName: "Not found company"}</td>
+                  <td>{a.postulantId? a.postulantId.firstName + " " + a.postulantId.lastName : "Not found postulant"}</td>
                   <td>{a.applicationState}</td>
                   <td className={styles.deleteButtonTD}>
                     <button className={styles.deleteIcon} onClick={(e) => handleIdApplication(e, a._id)}>
                       <img src={deleteIcon}/>
                     </button>
                   </td>
-                </tr>);
-            })
+                </tr>)
           }
         </tbody>
       </table>
