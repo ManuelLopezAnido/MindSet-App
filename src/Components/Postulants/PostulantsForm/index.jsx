@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import styles from './form.module.css';
-import Modal from '../Modal';
 import Input from '../Input';
 
 const params = new URLSearchParams(window.location.search);
@@ -62,11 +61,6 @@ const PostulantsForm = () => {
 
   const [availabilityFromValue, setAvailabilityFromValue] = useState('-');
   const [availabilityToValue, setAvailabilityToValue] = useState('-');
-  // const [availabilityDay1Value, setAvailabilityDay1Value] = useState('-');
-  // const [availabilityDay2Value, setAvailabilityDay2Value] = useState('-');
-  // const [availabilityDay3Value, setAvailabilityDay3Value] = useState('-');
-  // const [availabilityDay4Value, setAvailabilityDay4Value] = useState('-');
-  // const [availabilityDay5Value, setAvailabilityDay5Value] = useState('-');
 
   if (postulantId) {
     useEffect(() => {
@@ -133,11 +127,6 @@ const PostulantsForm = () => {
 
     setAvailabilityFromValue(data.from || '');
     setAvailabilityToValue(data.to || '');
-    // setAvailabilityDay1Value(data.availability?.day[0] || '-');
-    // setAvailabilityDay2Value(data.availability?.day[1] || '-');
-    // setAvailabilityDay3Value(data.availability?.day[2] || '-');
-    // setAvailabilityDay4Value(data.availability?.day[3] || '-');
-    // setAvailabilityDay5Value(data.availability?.day[4] || '-');
   };
 
   const onSubmit = (event) => {
@@ -213,13 +202,6 @@ const PostulantsForm = () => {
       availability: {
         from: availabilityFromValue,
         to: availabilityToValue
-        // day: [
-        //   availabilityDay1Value,
-        //   availabilityDay2Value,
-        //   availabilityDay3Value,
-        //   availabilityDay4Value,
-        //   availabilityDay5Value
-        // ]
       }
     };
 
@@ -243,32 +225,9 @@ const PostulantsForm = () => {
         console.log('error catch: ', error);
       });
   };
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const onShowModal = (event, id, firstName, lastName) => {
-    event.stopPropagation();
-    setShowModal(true);
-    // setIdToDelete(id);
-    // setFirstNameToDelete(firstName);
-    // setLastNameToDelete(lastName);
-  };
 
   return (
     <div className={styles.container}>
-      <Modal
-        showModal={showModal}
-        closeModal={closeModal}
-        // actionPostulant={deletePostulant}
-        // idToUse={idToDelete}
-        titleText="Warning"
-        warningText="you are about to delete a postulant"
-        buttonText="delete"
-        text="Are you sure you want to delete"
-        // firstName={firstNameToDelete}
-        // lastName={lastNameToDelete}
-      />
       <h2>
         {firstNameValue} {lastNameValue}
       </h2>
@@ -599,80 +558,19 @@ const PostulantsForm = () => {
             value={availabilityToValue}
             setValue={setAvailabilityToValue}
           />
-          {/* <label htmlFor="availability1" /> Monday
-          <input
-            type="radio"
-            id="availability1"
-            checked={availabilityDay1Value === 'Mondays'}
-            value="Mondays"
-            onChange={(event) => setAvailabilityDay1Value(event.target.value)}
-          />
-          <label htmlFor="availability2" /> Tuesday
-          <input
-            type="radio"
-            id="availability2"
-            checked={availabilityDay2Value === 'Tuesdays'}
-            value="Tuesdays"
-            onChange={(event) => setAvailabilityDay2Value(event.target.value)}
-          />
-          <label htmlFor="availability3" /> Wednesday
-          <input
-            type="radio"
-            id="availability3"
-            checked={availabilityDay3Value === 'Wednesdays'}
-            value="Wednesdays"
-            onChange={(event) => setAvailabilityDay3Value(event.target.value)}
-          />
-          <label htmlFor="availability4" /> Thursday
-          <input
-            type="radio"
-            id="availability4"
-            checked={availabilityDay4Value === 'Thursdays'}
-            value="Thursdays"
-            onChange={(event) => setAvailabilityDay4Value(event.target.value)}
-          />
-          <label htmlFor="availability5" /> Friday
-          <input
-            type="radio"
-            id="availability5"
-            checked={availabilityDay5Value === 'Fridays'}
-            value="Fridays"
-            onChange={(event) => setAvailabilityDay5Value(event.target.value)}
-          /> */}
         </div>
         {postulantId ? (
-          <button type="submit" onClick={(event) => onShowModal(event)}>
+          <button className={styles.formButton} type="submit">
             Edit
           </button>
         ) : (
-          <button type="submit">Add postulant</button>
+          <button className={styles.formButton} type="submit">
+            Add postulant
+          </button>
         )}
       </form>
     </div>
   );
 };
-
-// onShowModal(event, postulant._id, postulant.firstName, postulant.lastName)
-// firstName: "Lolita flor"
-// lastName: "Pepe"
-// openToWork: true
-// country: "Argentina"
-// state: "Entre rios"
-// city: "concordia"
-// dateOfBirth: "726352346"
-// gender: ""
-// phone: 23435643
-// email: "lolipepe@gmail.com"
-// availability: {from: "", to: "", day: [""]}
-// elementarySchool: {name: "undefined", graduateYear: null}
-// highSchool: {name: "undefined", graduateYear: null}
-// juniorCollege: {name: "undefined", graduateYear: null}
-// university: [{name: "undefined", degree: "undefined", graduateYear: null, _id: "619d537966f57a527a596ca4"}]
-// professionalTraining: [{description: "undefined", year: null, _id: "619d537966f57a527a596ca6"}]
-// workExperience: [{title: "", start: "", end: "", company: "undefined", description: "undefined",…}]
-// languages: ["sadsad", "asdas"]
-// familyMembers: [{name: "", bond: "", _id: "619d537966f57a527a596ca7"},…]
-// hobbies: [""]
-// __v: 0
 
 export default PostulantsForm;

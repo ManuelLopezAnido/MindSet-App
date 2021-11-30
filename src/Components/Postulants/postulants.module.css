@@ -8,7 +8,6 @@ h2 {
   flex: 1;
   justify-content: center;
   align-items: center;
-  border: 5px solid lightblue;
 }
 
 .header {
@@ -66,6 +65,8 @@ h2 {
 }
 
 .content {
+	display: flex;
+	flex-direction: column;
 	max-width: 400px;
 	margin: 10px auto;
 	padding: 16px;
@@ -76,9 +77,10 @@ h2 {
 .header {
 	background: #FDC800;
 	padding: 20px 0;
-	font-size: 140%;
-	font-weight: 300;
-	text-align: center;
+	font-size: 3rem;
+	font-weight: 700;
+	align-self: stretch;
+	padding-left: 16px;
 	color: #fff;
 	margin: -16px -16px 16px -16px;
 }
@@ -104,7 +106,7 @@ h2 {
 	border: 1px solid #FDC800;
 }
 
-button, .container input[type="submit"] {
+button {
 	box-sizing: border-box;
 	width: 100%;
 	max-width: 400px;
@@ -115,15 +117,4 @@ button, .container input[type="submit"] {
 	border-right-style: none;
 	border-left-style: none;
 	color: #fff;
-}
-
-
-.button:hover, .container input[type="submit"]:hover {
-	background: #b18b01;
-}
-
-.button:disabled, .container input[type="submit"]:disabled {
-	background: #555;
-	border-bottom: 2px solid #555;
-	cursor: not-allowed;
 }

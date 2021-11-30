@@ -4,14 +4,14 @@
   flex: 1;
   justify-content: center;
   align-items: center;
-  border: 5px solid lightblue;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  background-color: blanchedalmond;
   padding: 10px;
+  box-shadow: 0px 2px 9px 0px rgba(0,0,0,0.75);
+  margin-bottom: 10px;
 }
 
 .form > * input,
@@ -22,4 +22,10 @@
 .studies > div {
   display: flex;
   flex-direction: column;
+}
+
+.formButton {
+  margin-top: 50px;
+  position: relative;
+  align-self: center;
 }

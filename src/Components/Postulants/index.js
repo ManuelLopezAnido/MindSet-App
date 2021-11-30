@@ -31,13 +31,9 @@ const Postulants = () => {
             throw new Error(message);
           });
         }
-        return;
+        setPostulants(postulants.filter((postulants) => postulants._id !== id));
       })
       .catch((error) => error);
-    //Here im changing the front end with filter.
-    setPostulants(postulants.filter((postulants) => postulants._id !== id));
-    //but there should be way of telling react im changing the state thus re-rendering the list. The following line does not work, but I think im onto something
-    // setPostulants([...postulants]);
   };
 
   const redirectToForm = (postulantId) => {
@@ -83,30 +79,28 @@ const Postulants = () => {
             </tr>
           </thead>
           <tbody className={styles.tableContent}>
-            {postulants.map((postulant) => {
-              return (
-                <tr key={postulant._id} onClick={() => redirectToForm(postulant._id)}>
-                  <td>
-                    <div>
-                      {postulant?.firstName || '-'} {postulant?.lastName || '-'}
-                    </div>
-                  </td>
-                  <td>
-                    <div>{postulant?.country || '-'}</div>
-                  </td>
-                  <td>
-                    <button
-                      type="button"
-                      onClick={(event) =>
-                        onShowModal(event, postulant._id, postulant.firstName, postulant.lastName)
-                      }
-                    >
-                      <img src={deleteImage} alt="delete"></img>
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
+            {postulants.map((postulant) => (
+              <tr key={postulant._id} onClick={() => redirectToForm(postulant._id)}>
+                <td>
+                  <div>
+                    {postulant?.firstName || '-'} {postulant?.lastName || '-'}
+                  </div>
+                </td>
+                <td>
+                  <div>{postulant?.country || '-'}</div>
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    onClick={(event) =>
+                      onShowModal(event, postulant._id, postulant.firstName, postulant.lastName)
+                    }
+                  >
+                    <img src={deleteImage} alt="delete"></img>
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
         <button
