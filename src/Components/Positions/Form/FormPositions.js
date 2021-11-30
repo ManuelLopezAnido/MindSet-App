@@ -41,7 +41,7 @@ const FormPositions = () => {
 
   useEffect(()=> {
     if(PosId){
-      fetch(`${process.env.REACT_APP_API}/api/applications/id/${PosId}`)
+      fetch(`${process.env.REACT_APP_API}/api/positions/id/${PosId}`)
         .then((response) => {
           if (response.status !== 200) {
             return response.json().then(({ ErrMessage }) => {
@@ -85,10 +85,10 @@ const FormPositions = () => {
 
     if (PosId === null) {
       options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/api/positions/add`;
+      url = `${process.env.REACT_APP_API}/api/positions/create`;
     } else {
       options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/api/applications/${PosId}`;
+      url = `${process.env.REACT_APP_API}/api/positions/update/${PosId}`;
     }
     console.log("La url es: ", url); 
     console.log("El curepo es: ", options);
@@ -113,7 +113,7 @@ const FormPositions = () => {
       <h1>Form</h1>
       <form className={styles.container} onSubmit={onSubmit}>
         <input id="jobTitle" name="jobTitleName" required value={jobTitle} onChange={onChangeJobTitle} placeholder="Job"></input>
-        <input id="clientId" name="clientIdName" required value={clientId} onChange={onChangeClientId} placeholder="Company ID"></input>
+        <input id="clientId" name="clientIdName" required value={clientId ? clientId._id : "not found" } onChange={onChangeClientId} placeholder="Company ID"></input>
         <input id="companyName" name="compantNameName" value={companyName} onChange={onChangeCompanyName} placeholder="Company Name"></input>
         <input id="jobDescription" name="jobDescriptionName" value={jobDescription} onChange={onChangeJobDescription} placeholder="Description"></input>
         <input id="city" name="cityName" value={city} onChange={onChangeCity} placeholder="City"></input>

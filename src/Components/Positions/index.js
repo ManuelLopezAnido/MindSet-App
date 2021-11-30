@@ -37,11 +37,10 @@ function Positions() {
             throw new Error(ErrMessage);
           });
         }
-      //  return;
+        closeModal();
+        setPositions(positions.filter((a) => a._id !== idPos));
       })
       .catch((error) => error);
-      closeModal();
-      setPositions(positions.filter((a) => a._id !== idPos));
   };
   const closeModal = () => {
     setShowModal(false);
@@ -71,8 +70,7 @@ function Positions() {
         </thead>
         <tbody>
           {
-            positions.map((a) => { 
-              return( 
+            positions.map((a) =>
                 <tr className={styles.positionRow} key={a._id} onClick={()=> window.location.href = `positions/form?id=${a._id}`}>
                   <td>{a.jobTitle}</td>
                   <td>{a.companyName}</td>
@@ -82,8 +80,7 @@ function Positions() {
                       <img src={deleteIcon}/>
                     </button>
                   </td>
-                </tr>);
-            })
+                </tr>)
           }
         </tbody>
       </table>
