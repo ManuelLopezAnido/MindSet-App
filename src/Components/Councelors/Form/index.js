@@ -71,7 +71,7 @@ function Form() {
   };
 
   const onChangeAvailabilityMonday = (event) => {
-    setMondayValue(event.target.value);
+    String(setMondayValue(event.target.value)) === true;
     console.log(mondayValue);
   };
 
@@ -189,6 +189,8 @@ function Form() {
       url = `${process.env.REACT_APP_API}/api/counselors/add`;
     }
 
+    console.log(options);
+
     fetch(url, options)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201) {
@@ -273,7 +275,6 @@ function Form() {
       validateBirthday(birthdayValue);
       validatePhone(phoneValue);
     } else if (emailValue.length > 0 && birthdayValue.length > 0 && phoneValue.length > 0) {
-      console.log('entro');
       validateBirthday(birthdayValue);
       validatePhone(phoneValue);
       validateEmail(emailValue);
@@ -392,10 +393,7 @@ function Form() {
           <div className={styles.day}>
             <div onChange={onChangeAvailabilityMonday} className={styles.eachDay}>
               <p>Monday</p>
-              <label>Yes</label>
-              <Input type="radio" value={true} name="monday" tittle="Yes" />
-              <label>No</label>
-              <Input type="radio" value={false} name="monday" />
+              <Input type="checkbox" value={true} name="monday" />
             </div>
             <div className={styles.fromTo}>
               <label>From</label>
@@ -423,10 +421,7 @@ function Form() {
           <div className={styles.day}>
             <div onChange={onChangeAvailabilityTuesday} className={styles.eachDay}>
               <p>Tuesday</p>
-              <label>Yes</label>
-              <Input type="radio" value={true} name="tuesday" />
-              <label>No</label>
-              <Input type="radio" value={false} name="tuesday" />
+              <Input type="checkbox" value={true} name="tuesday" />
             </div>
             <div className={styles.fromTo}>
               <label>From</label>
@@ -454,10 +449,7 @@ function Form() {
           <div className={styles.day}>
             <div onChange={onChangeAvailabilityWednesday} className={styles.eachDay}>
               <p>Wednesday</p>
-              <label>Yes</label>
-              <Input type="radio" value={true} name="wednesday" />
-              <label>No</label>
-              <Input type="radio" value={false} name="wednesday" />
+              <Input type="checkbox" value={true} name="wednesday" />
             </div>
             <div className={styles.fromTo}>
               <label>From</label>
@@ -485,10 +477,7 @@ function Form() {
           <div className={styles.day}>
             <div onChange={onChangeAvailabilityThursday} className={styles.eachDay}>
               <p>Thursday</p>
-              <label>Yes</label>
-              <Input type="radio" value={true} name="thursday" />
-              <label>No</label>
-              <Input type="radio" value={false} name="thursday" />
+              <Input type="checkbox" value={true} name="thursday" />
             </div>
             <div className={styles.fromTo}>
               <label>From</label>
@@ -516,10 +505,7 @@ function Form() {
           <div className={styles.day}>
             <div onChange={onChangeAvailabilityFriday} className={styles.eachDay}>
               <p>Friday</p>
-              <label>Yes</label>
-              <Input type="radio" value={true} name="friday" />
-              <label>No</label>
-              <Input type="radio" value={false} name="friday" />
+              <Input type="checkbox" value={true} name="thursday" />
             </div>
             <div className={styles.fromTo}>
               <label>From</label>

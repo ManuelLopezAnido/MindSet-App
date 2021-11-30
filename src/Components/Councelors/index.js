@@ -35,12 +35,12 @@ function Councelor() {
             throw new Error(message);
           });
         }
+        saveCouncelors(councelors.filter((councelor) => councelor._id !== id));
+        setShowModal(false);
       })
       .catch((error) => {
         console.log(error.message);
       });
-    saveCouncelors(councelors.filter((councelor) => councelor._id !== id));
-    setShowModal(false);
   };
 
   const onShowModal = (id, event) => {
