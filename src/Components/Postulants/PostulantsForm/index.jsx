@@ -32,7 +32,7 @@ const PostulantsForm = () => {
   const [universityDegreeValue, setUniversityDegreeValue] = useState('');
   const [universityGraduateYearValue, setUniversityGraduateYearValue] = useState(0);
 
-  const [openToWork, setOpenToWork] = useState('');
+  const [openToWork, setOpenToWork] = useState(false);
 
   const [workExperienceTitleValue, setWorkExperienceTitleValue] = useState('');
   const [workExperienceStartValue, setWorkExperienceStartValue] = useState('');
@@ -58,31 +58,31 @@ const PostulantsForm = () => {
   const [familyMember4NameValue, setFamilyMember4NameValue] = useState('');
   const [familyMember4bondValue, setFamilyMember4bondValue] = useState('');
 
-  const [availabilityCheckMondayValue, setAvailabilityCheckMondayValue] = useState('-');
+  const [availabilityCheckMondayValue, setAvailabilityCheckMondayValue] = useState(false);
   const [availabilityFromMondayValue, setAvailabilityFromMondayValue] = useState('-');
   const [availabilityToMondayValue, setAvailabilityToMondayValue] = useState('-');
 
-  const [availabilityCheckTuesdayValue, setAvailabilityCheckTuesdayValue] = useState('-');
+  const [availabilityCheckTuesdayValue, setAvailabilityCheckTuesdayValue] = useState(false);
   const [availabilityFromTuesdayValue, setAvailabilityFromTuesdayValue] = useState('-');
   const [availabilityToTuesdayValue, setAvailabilityToTuesdayValue] = useState('-');
 
-  const [availabilityCheckWednesdayValue, setAvailabilityCheckWednesdayValue] = useState('-');
+  const [availabilityCheckWednesdayValue, setAvailabilityCheckWednesdayValue] = useState(false);
   const [availabilityFromWednesdayValue, setAvailabilityFromWednesdayValue] = useState('-');
   const [availabilityToWednesdayValue, setAvailabilityToWednesdayValue] = useState('-');
 
-  const [availabilityCheckThursdayValue, setAvailabilityCheckThursdayValue] = useState('-');
+  const [availabilityCheckThursdayValue, setAvailabilityCheckThursdayValue] = useState(false);
   const [availabilityFromThursdayValue, setAvailabilityFromThursdayValue] = useState('-');
   const [availabilityToThursdayValue, setAvailabilityToThursdayValue] = useState('-');
 
-  const [availabilityCheckFridayValue, setAvailabilityCheckFridayValue] = useState('-');
+  const [availabilityCheckFridayValue, setAvailabilityCheckFridayValue] = useState(false);
   const [availabilityFromFridayValue, setAvailabilityFromFridayValue] = useState('-');
   const [availabilityToFridayValue, setAvailabilityToFridayValue] = useState('-');
 
-  const [availabilityCheckSaturdayValue, setAvailabilityCheckSaturdayValue] = useState('-');
+  const [availabilityCheckSaturdayValue, setAvailabilityCheckSaturdayValue] = useState(false);
   const [availabilityFromSaturdayValue, setAvailabilityFromSaturdayValue] = useState('-');
   const [availabilityToSaturdayValue, setAvailabilityToSaturdayValue] = useState('-');
 
-  const [availabilityCheckSundayValue, setAvailabilityCheckSundayValue] = useState('-');
+  const [availabilityCheckSundayValue, setAvailabilityCheckSundayValue] = useState(false);
   const [availabilityFromSundayValue, setAvailabilityFromSundayValue] = useState('-');
   const [availabilityToSundayValue, setAvailabilityToSundayValue] = useState('-');
 
@@ -109,21 +109,21 @@ const PostulantsForm = () => {
     setStateValue(data.state || '-');
     setCountryValue(data.country || '-');
 
-    setElementarySchoolNameValue(data.elementarySchool?.name || '-');
-    setElementarySchoolDegreeValue(data.elementarySchool?.degree || '-');
-    setElementarySchoolGraduateYearValue(data.elementarySchool?.graduateYear || 0);
+    setElementarySchoolNameValue(data.elementarySchool[0]?.name || '-');
+    setElementarySchoolDegreeValue(data.elementarySchool[0]?.degree || '-');
+    setElementarySchoolGraduateYearValue(data.elementarySchool[0]?.graduateYear || 0);
 
-    setHighSchoolNameValue(data.highSchool?.name || '-');
-    setHighSchoolDegreeValue(data.highSchool?.degree || '-');
-    setHighSchoolGraduateYearValue(data.highSchool?.graduateYear || 0);
+    setHighSchoolNameValue(data.highSchool[0]?.name || '-');
+    setHighSchoolDegreeValue(data.highSchool[0]?.degree || '-');
+    setHighSchoolGraduateYearValue(data.highSchool[0]?.graduateYear || 0);
 
-    setJuniorCollegeNameValue(data.juniorCollege?.name || '-');
-    setJuniorCollegeDegreeValue(data.juniorCollege?.degree || '-');
-    setJuniorCollegeGraduateYearValue(data.juniorCollege?.graduateYear || 0);
+    setJuniorCollegeNameValue(data.juniorCollege[0]?.name || '-');
+    setJuniorCollegeDegreeValue(data.juniorCollege[0]?.degree || '-');
+    setJuniorCollegeGraduateYearValue(data.juniorCollege[0]?.graduateYear || 0);
 
-    setUniversityNameValue(data.university?.name || '-');
-    setUniversityDegreeValue(data.university?.degree || '-');
-    setUniversityGraduateYearValue(data.university?.graduateYear || 0);
+    setUniversityNameValue(data.university[0]?.name || '-');
+    setUniversityDegreeValue(data.university[0]?.degree || '-');
+    setUniversityGraduateYearValue(data.university[0]?.graduateYear || 0);
 
     setOpenToWork(data.openToWork);
 
@@ -192,21 +192,27 @@ const PostulantsForm = () => {
       city: cityValue,
       state: stateValue,
       country: countryValue,
-      elementarySchool: {
-        name: elementarySchoolNameValue,
-        degree: elementarySchoolDegreeValue,
-        graduateYear: elementarySchoolGraduateYearValue
-      },
-      highSchool: {
-        name: highSchoolNameValue,
-        degree: highSchoolDegreeValue,
-        graduateYear: HighSchoolGraduateYearValue
-      },
-      juniorCollege: {
-        name: juniorCollegeNameValue,
-        degree: juniorCollegeDegreeValue,
-        graduateYear: juniorCollegeGraduateYearValue
-      },
+      elementarySchool: [
+        {
+          name: elementarySchoolNameValue,
+          degree: elementarySchoolDegreeValue,
+          graduateYear: elementarySchoolGraduateYearValue
+        }
+      ],
+      highSchool: [
+        {
+          name: highSchoolNameValue,
+          degree: highSchoolDegreeValue,
+          graduateYear: HighSchoolGraduateYearValue
+        }
+      ],
+      juniorCollege: [
+        {
+          name: juniorCollegeNameValue,
+          degree: juniorCollegeDegreeValue,
+          graduateYear: juniorCollegeGraduateYearValue
+        }
+      ],
       university: [
         {
           name: universityNameValue,
@@ -319,185 +325,182 @@ const PostulantsForm = () => {
 
   return (
     <div className={styles.container}>
-      <h2>
-        {firstNameValue} {lastNameValue}
-      </h2>
       <form action="" className={styles.form} onSubmit={onSubmit}>
-        <Input
-          label="firstName"
-          id="firstName"
-          type="text"
-          value={firstNameValue}
-          setValue={setFirstNameValue}
-          required
-        />
-        <Input
-          label="lastName"
-          id="lastName"
-          type="text"
-          value={lastNameValue}
-          setValue={setLastNameValue}
-          required
-        />
-        <Input
-          label="email"
-          id="email"
-          type="email"
-          value={emailValue}
-          setValue={setEmailValue}
-          required
-        />
-        <Input label="phone" id="phone" type="tel" value={phoneValue} setValue={setPhoneValue} />
-        <Input
-          label="dateOfBirth"
-          id="dateOfBirth"
-          type="date"
-          value={dateOfBirthValue}
-          setValue={setDateOfBirthValue}
-          required
-        />
-        <Input
-          label="gender"
-          id="gender"
-          type="text"
-          value={genderValue}
-          setValue={setGenderValue}
-          required
-        />
-        <Input
-          label="city"
-          id="city"
-          type="text"
-          value={cityValue}
-          setValue={setCityValue}
-          required
-        />
-        <Input
-          label="state"
-          id="state"
-          type="text"
-          value={stateValue}
-          setValue={setStateValue}
-          required
-        />
-        <Input
-          label="country"
-          id="country"
-          type="text"
-          value={countryValue}
-          setValue={setCountryValue}
-          required
-        />
-        <div className={styles.studies}>
-          <h3>Studies</h3>
-          <div>
-            <h4>Elementary School</h4>
-            <Input
-              label="Name"
-              id="elementarySchool"
-              type="text"
-              value={elementarySchoolNameValue}
-              setValue={setElementarySchoolNameValue}
-            />
-            <Input
-              label="Degree"
-              id="elementarySchoolDegree"
-              type="text"
-              value={elementarySchoolDegreeValue}
-              setValue={setElementarySchoolDegreeValue}
-            />
-            <Input
-              label="Graduate Year"
-              id="elementarySchoolGraduateYear"
-              type="text"
-              value={elementarySchoolGraduateYearValue}
-              setValue={setElementarySchoolGraduateYearValue}
-            />
-          </div>
-          <div>
-            <h4>High School</h4>
-            <Input
-              label="Name"
-              id="highSchool"
-              type="text"
-              value={highSchoolNameValue}
-              setValue={setHighSchoolNameValue}
-            />
-            <Input
-              label="Degree"
-              id="highSchoolDegree"
-              type="text"
-              value={highSchoolDegreeValue}
-              setValue={setHighSchoolDegreeValue}
-            />
-            <Input
-              label="Graduate Year"
-              id="highSchoolGraduateYear"
-              type="text"
-              value={HighSchoolGraduateYearValue}
-              setValue={setHighSchoolGraduateYearValue}
-            />
-          </div>
-          <div>
-            <h4>Junior College</h4>
-            <Input
-              label="Name"
-              id="juniorCollege"
-              type="text"
-              value={juniorCollegeNameValue}
-              setValue={setJuniorCollegeNameValue}
-            />
-            <Input
-              label="Degree"
-              id="juniorCollegeDegree"
-              type="text"
-              value={juniorCollegeDegreeValue}
-              setValue={setJuniorCollegeDegreeValue}
-            />
-            <Input
-              label="Graduate Year"
-              id="juniorCollegeGraduateYear"
-              type="text"
-              value={juniorCollegeGraduateYearValue}
-              setValue={setJuniorCollegeGraduateYearValue}
-            />
-          </div>
-          <div>
-            <h4>University</h4>
-            <Input
-              label="Name"
-              id="University"
-              type="text"
-              value={universityNameValue}
-              setValue={setUniversityNameValue}
-            />
-            <Input
-              label="Degree"
-              id="UniversityDegree"
-              type="text"
-              value={universityDegreeValue}
-              setValue={setUniversityDegreeValue}
-            />
-            <Input
-              label="Graduate Year"
-              id="UniversityGraduateYear"
-              type="text"
-              value={universityGraduateYearValue}
-              setValue={setUniversityGraduateYearValue}
-            />
-          </div>
-        </div>
-        <div>
-          <h3>Open for Work</h3>
-          <label htmlFor="openToWork" />
-          <input
-            type="checkbox"
-            id="openToWork"
-            checked={openToWork}
-            onChange={(event) => setOpenToWork(event.target.checked)}
+        <h2>
+          {firstNameValue} {lastNameValue}
+        </h2>
+        <div className={styles.generalInformation}>
+          <h3>General Information</h3>
+          <Input
+            label="firstName"
+            id="firstName"
+            type="text"
+            value={firstNameValue}
+            setValue={setFirstNameValue}
+            required
+          />
+          <Input
+            label="lastName"
+            id="lastName"
+            type="text"
+            value={lastNameValue}
+            setValue={setLastNameValue}
+            required
+          />
+          <Input
+            label="email"
+            id="email"
+            type="email"
+            value={emailValue}
+            setValue={setEmailValue}
+            required
+          />
+          <Input label="phone" id="phone" type="tel" value={phoneValue} setValue={setPhoneValue} />
+          <Input
+            label="dateOfBirth"
+            id="dateOfBirth"
+            type="date"
+            value={dateOfBirthValue}
+            setValue={setDateOfBirthValue}
+            required
+          />
+          <Input
+            label="gender"
+            id="gender"
+            type="text"
+            value={genderValue}
+            setValue={setGenderValue}
+            required
+          />
+          <Input
+            label="city"
+            id="city"
+            type="text"
+            value={cityValue}
+            setValue={setCityValue}
+            required
+          />
+          <Input
+            label="state"
+            id="state"
+            type="text"
+            value={stateValue}
+            setValue={setStateValue}
+            required
+          />
+          <Input
+            label="country"
+            id="country"
+            type="text"
+            value={countryValue}
+            setValue={setCountryValue}
+            required
           />
         </div>
-        <div>
+        <div className={styles.studies}>
+          <h3>Studies</h3>
+          <h4>Elementary School</h4>
+          <Input
+            label="Name"
+            id="elementarySchool"
+            type="text"
+            value={elementarySchoolNameValue}
+            setValue={setElementarySchoolNameValue}
+          />
+          <Input
+            label="Degree"
+            id="elementarySchoolDegree"
+            type="text"
+            value={elementarySchoolDegreeValue}
+            setValue={setElementarySchoolDegreeValue}
+          />
+          <Input
+            label="Graduate Year"
+            id="elementarySchoolGraduateYear"
+            type="text"
+            value={elementarySchoolGraduateYearValue}
+            setValue={setElementarySchoolGraduateYearValue}
+          />
+          <h4>High School</h4>
+          <Input
+            label="Name"
+            id="highSchool"
+            type="text"
+            value={highSchoolNameValue}
+            setValue={setHighSchoolNameValue}
+          />
+          <Input
+            label="Degree"
+            id="highSchoolDegree"
+            type="text"
+            value={highSchoolDegreeValue}
+            setValue={setHighSchoolDegreeValue}
+          />
+          <Input
+            label="Graduate Year"
+            id="highSchoolGraduateYear"
+            type="text"
+            value={HighSchoolGraduateYearValue}
+            setValue={setHighSchoolGraduateYearValue}
+          />
+          <h4>Junior College</h4>
+          <Input
+            label="Name"
+            id="juniorCollege"
+            type="text"
+            value={juniorCollegeNameValue}
+            setValue={setJuniorCollegeNameValue}
+          />
+          <Input
+            label="Degree"
+            id="juniorCollegeDegree"
+            type="text"
+            value={juniorCollegeDegreeValue}
+            setValue={setJuniorCollegeDegreeValue}
+          />
+          <Input
+            label="Graduate Year"
+            id="juniorCollegeGraduateYear"
+            type="text"
+            value={juniorCollegeGraduateYearValue}
+            setValue={setJuniorCollegeGraduateYearValue}
+          />
+          <h4>University</h4>
+          <Input
+            label="Name"
+            id="University"
+            type="text"
+            value={universityNameValue}
+            setValue={setUniversityNameValue}
+          />
+          <Input
+            label="Degree"
+            id="UniversityDegree"
+            type="text"
+            value={universityDegreeValue}
+            setValue={setUniversityDegreeValue}
+          />
+          <Input
+            label="Graduate Year"
+            id="UniversityGraduateYear"
+            type="text"
+            value={universityGraduateYearValue}
+            setValue={setUniversityGraduateYearValue}
+          />
+        </div>
+        <div className={styles.openForWork}>
+          <h3>
+            Open for Work
+            <input
+              type="checkbox"
+              id="openToWork"
+              checked={openToWork}
+              onChange={(event) => setOpenToWork(event.target.checked)}
+            />
+          </h3>
+          <label htmlFor="openToWork" />
+        </div>
+        <div className={styles.workExperience}>
           <h3>Work Experience</h3>
           <Input
             label="Title"
@@ -535,7 +538,7 @@ const PostulantsForm = () => {
             setValue={setWorkExperienceDescriptionValue}
           />
         </div>
-        <div>
+        <div className={styles.professionalTraining}>
           <h3>Professional Training</h3>
           <Input
             label="Description"
@@ -566,7 +569,7 @@ const PostulantsForm = () => {
           value={hobbiesValue}
           setValue={setHobbiesValue}
         />
-        <div>
+        <div className={styles.family}>
           <h3>Family</h3>
           <div>
             <Input
@@ -633,7 +636,7 @@ const PostulantsForm = () => {
             />
           </div>
         </div>
-        <div>
+        <div className={styles.availability}>
           <h3>Availability</h3>
           <div>
             <label htmlFor="mondayDay1" /> Mondays
@@ -797,15 +800,13 @@ const PostulantsForm = () => {
             />
           </div>
         </div>
-        {postulantId ? (
-          <button className={styles.formButton} type="submit">
-            Edit
-          </button>
-        ) : (
-          <button className={styles.formButton} type="submit">
-            Add postulant
-          </button>
-        )}
+        <div className={styles.formButton}>
+          {postulantId ? (
+            <button type="submit">Edit</button>
+          ) : (
+            <button type="submit">Add postulant</button>
+          )}
+        </div>
       </form>
     </div>
   );

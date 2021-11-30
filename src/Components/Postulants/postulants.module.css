@@ -2,6 +2,10 @@ h2 {
   align-self: center;
 }
 
+h3, h4 {
+	margin-bottom: 0;
+}
+
 .container {
   display: flex;
   flex-direction: column;

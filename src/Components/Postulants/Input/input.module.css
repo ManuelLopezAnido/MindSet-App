@@ -1,3 +1,18 @@
 .input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-height: 3rem;
+}
 
+.input label {
+
+}
+
+.input input {
+  border: 0;
+  background-color: rgb(212, 212, 212);
+  padding: 0.5rem;
+  min-width: 50ch;
+  height: 1.5rem;
 }
