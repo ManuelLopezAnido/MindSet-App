@@ -14,6 +14,21 @@ function Form() {
   const [cityValue, setCityValue] = useState([]);
   const [countryValue, setCountryValue] = useState([]);
   const [phoneValue, setPhoneValue] = useState([]);
+  const [mondayValue, setMondayValue] = useState(false);
+  const [mondayFromValue, setMondayFromValue] = useState([]);
+  const [mondayToValue, setMondayToValue] = useState([]);
+  const [tuesdayValue, setTuesdayValue] = useState(false);
+  const [tuesdayFromValue, setTuesdayFromValue] = useState([]);
+  const [tuesdayToValue, setTuesdayToValue] = useState([]);
+  const [wednesdayValue, setWednesdayValue] = useState(false);
+  const [wednesdayFromValue, setWednesdayFromValue] = useState([]);
+  const [wednesdayToValue, setWednesdayToValue] = useState([]);
+  const [thursdayValue, setThursdayValue] = useState(false);
+  const [thursdayFromValue, setThursdayFromValue] = useState([]);
+  const [thursdayToValue, setThursdayToValue] = useState([]);
+  const [fridayValue, setFridayValue] = useState(false);
+  const [fridayFromValue, setFridayFromValue] = useState([]);
+  const [fridayToValue, setFridayToValue] = useState([]);
   const [emailError, setEmailError] = useState(false);
   const [birthdayError, setBirthdayError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
@@ -55,6 +70,67 @@ function Form() {
     setPhoneValue(event.target.value);
   };
 
+  const onChangeAvailabilityMonday = (event) => {
+    setMondayValue(event.target.value);
+    console.log(mondayValue);
+  };
+
+  const onChangeFromMonday = (event) => {
+    setMondayFromValue(event.target.value);
+  };
+
+  const onChangeToMonday = (event) => {
+    setMondayToValue(event.target.value);
+  };
+
+  const onChangeAvailabilityTuesday = (event) => {
+    setTuesdayValue(event.target.value);
+  };
+
+  const onChangeFromTuesday = (event) => {
+    setTuesdayFromValue(event.target.value);
+  };
+
+  const onChangeToTuesday = (event) => {
+    setTuesdayToValue(event.target.value);
+  };
+
+  const onChangeAvailabilityWednesday = (event) => {
+    setWednesdayValue(event.target.value);
+  };
+
+  const onChangeFromWednesday = (event) => {
+    setWednesdayFromValue(event.target.value);
+  };
+
+  const onChangeToWednesday = (event) => {
+    setWednesdayToValue(event.target.value);
+  };
+
+  const onChangeAvailabilityThursday = (event) => {
+    setThursdayValue(event.target.value);
+  };
+
+  const onChangeFromThursday = (event) => {
+    setThursdayFromValue(event.target.value);
+  };
+
+  const onChangeToThursday = (event) => {
+    setThursdayToValue(event.target.value);
+  };
+
+  const onChangeAvailabilityFriday = (event) => {
+    setFridayValue(event.target.value);
+  };
+
+  const onChangeFromFriday = (event) => {
+    setFridayFromValue(event.target.value);
+  };
+
+  const onChangeToFriday = (event) => {
+    setFridayToValue(event.target.value);
+  };
+
   const onSubmit = (event) => {
     event.preventDefault();
     const params = new URLSearchParams(window.location.search);
@@ -74,7 +150,34 @@ function Form() {
         birthday: birthdayValue,
         city: cityValue,
         country: countryValue,
-        phone: phoneValue
+        phone: phoneValue,
+        availability: {
+          monday: {
+            availability: mondayValue,
+            from: mondayFromValue,
+            to: mondayToValue
+          },
+          tuesday: {
+            availability: tuesdayValue,
+            from: tuesdayFromValue,
+            to: tuesdayToValue
+          },
+          wednesday: {
+            availability: wednesdayValue,
+            from: wednesdayFromValue,
+            to: wednesdayToValue
+          },
+          thursday: {
+            availability: thursdayValue,
+            from: thursdayFromValue,
+            to: thursdayToValue
+          },
+          friday: {
+            availability: fridayValue,
+            from: fridayFromValue,
+            to: fridayToValue
+          }
+        }
       })
     };
 
@@ -271,7 +374,6 @@ function Form() {
           type="string"
           placeholder="Country"
           required
-          className={styles.input}
           value={countryValue}
           onChange={onChangeCountryInput}
         />
@@ -280,13 +382,169 @@ function Form() {
           type="number"
           placeholder="Phone"
           required
-          className={styles.input}
           value={phoneValue}
           onChange={onChangePhoneInput}
           onBlur={validateSave}
           onFocus={hidePhone}
         />
         <Error showError={phoneError} text={'Telephones with # () and blanks are not valid'} />
+        <div className={styles.availabilityContainer}>
+          <div className={styles.day}>
+            <div onChange={onChangeAvailabilityMonday} className={styles.eachDay}>
+              <p>Monday</p>
+              <label>Yes</label>
+              <Input type="radio" value={true} name="monday" tittle="Yes" />
+              <label>No</label>
+              <Input type="radio" value={false} name="monday" />
+            </div>
+            <div className={styles.fromTo}>
+              <label>From</label>
+              <Input
+                name="fromMonday"
+                type="string"
+                placeholder="00:00"
+                value={mondayFromValue}
+                onChange={onChangeFromMonday}
+                disabled={!mondayValue}
+              />
+            </div>
+            <div className={styles.fromTo}>
+              <label>To</label>
+              <Input
+                name="toMonday"
+                type="string"
+                placeholder="00:00"
+                value={mondayToValue}
+                onChange={onChangeToMonday}
+                disabled={!mondayValue}
+              />
+            </div>
+          </div>
+          <div className={styles.day}>
+            <div onChange={onChangeAvailabilityTuesday} className={styles.eachDay}>
+              <p>Tuesday</p>
+              <label>Yes</label>
+              <Input type="radio" value={true} name="tuesday" />
+              <label>No</label>
+              <Input type="radio" value={false} name="tuesday" />
+            </div>
+            <div className={styles.fromTo}>
+              <label>From</label>
+              <Input
+                name="fromTuesday"
+                type="string"
+                placeholder="00:00"
+                value={tuesdayFromValue}
+                onChange={onChangeFromTuesday}
+                disabled={!tuesdayValue}
+              />
+            </div>
+            <div className={styles.fromTo}>
+              <label>To</label>
+              <Input
+                name="toTuesday"
+                type="string"
+                placeholder="00:00"
+                value={tuesdayToValue}
+                onChange={onChangeToTuesday}
+                disabled={!tuesdayValue}
+              />
+            </div>
+          </div>
+          <div className={styles.day}>
+            <div onChange={onChangeAvailabilityWednesday} className={styles.eachDay}>
+              <p>Wednesday</p>
+              <label>Yes</label>
+              <Input type="radio" value={true} name="wednesday" />
+              <label>No</label>
+              <Input type="radio" value={false} name="wednesday" />
+            </div>
+            <div className={styles.fromTo}>
+              <label>From</label>
+              <Input
+                name="fromWednesday"
+                type="string"
+                placeholder="00:00"
+                value={wednesdayFromValue}
+                onChange={onChangeFromWednesday}
+                disabled={!wednesdayValue}
+              />
+            </div>
+            <div className={styles.fromTo}>
+              <label>To</label>
+              <Input
+                name="toWednesday"
+                type="string"
+                placeholder="00:00"
+                value={wednesdayToValue}
+                onChange={onChangeToWednesday}
+                disabled={!wednesdayValue}
+              />
+            </div>
+          </div>
+          <div className={styles.day}>
+            <div onChange={onChangeAvailabilityThursday} className={styles.eachDay}>
+              <p>Thursday</p>
+              <label>Yes</label>
+              <Input type="radio" value={true} name="thursday" />
+              <label>No</label>
+              <Input type="radio" value={false} name="thursday" />
+            </div>
+            <div className={styles.fromTo}>
+              <label>From</label>
+              <Input
+                name="fromThursday"
+                type="string"
+                placeholder="00:00"
+                value={thursdayFromValue}
+                onChange={onChangeFromThursday}
+                disabled={!thursdayValue}
+              />
+            </div>
+            <div className={styles.fromTo}>
+              <label>To</label>
+              <Input
+                name="toThursday"
+                type="string"
+                placeholder="00:00"
+                value={thursdayToValue}
+                onChange={onChangeToThursday}
+                disabled={!thursdayValue}
+              />
+            </div>
+          </div>
+          <div className={styles.day}>
+            <div onChange={onChangeAvailabilityFriday} className={styles.eachDay}>
+              <p>Friday</p>
+              <label>Yes</label>
+              <Input type="radio" value={true} name="friday" />
+              <label>No</label>
+              <Input type="radio" value={false} name="friday" />
+            </div>
+            <div className={styles.fromTo}>
+              <label>From</label>
+              <Input
+                name="fromFriday"
+                type="string"
+                placeholder="00:00"
+                value={fridayFromValue}
+                onChange={onChangeFromFriday}
+                disabled={!fridayValue}
+              />
+            </div>
+            <div className={styles.fromTo}>
+              <label>To</label>
+              <Input
+                name="toFriday"
+                type="string"
+                placeholder="00:00"
+                value={fridayToValue}
+                onChange={onChangeToFriday}
+                disabled={!fridayValue}
+              />
+            </div>
+          </div>
+        </div>
         <Button type="Submit" disabled={save} />
       </form>
     </div>

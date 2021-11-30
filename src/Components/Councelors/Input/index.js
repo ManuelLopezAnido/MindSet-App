@@ -3,6 +3,7 @@ import styles from './input.module.css';
 function Input(props) {
   return (
     <input
+      title={props.tittle}
       name={props.name}
       type={props.type}
       placeholder={props.placeholder}
@@ -12,6 +13,7 @@ function Input(props) {
       onChange={props.onChange}
       onBlur={props.onBlur}
       onFocus={props.onFocus}
+      disabled={props.disabled}
     ></input>
   );
 }

@@ -27,3 +27,60 @@ body {
   width: 100%;
   text-align: center;
 }
+
+.availabilityContainer{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.day{
+  display: flex;
+  justify-content: space-around;
+  width:80%;
+}
+
+.eachDay{
+  display: flex;
+  flex-wrap: wrap;
+  width:120px;
+}
+
+.eachDay>p{
+  margin:0;
+  width:100%;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.eachDay>label{
+  margin-top: 2px;
+  width:40%;
+  font-size: 14px;
+}
+
+.eachDay>input{
+  width:40%;
+  height:1.4em;
+}
+
+.fromTo{
+  display: flex;
+  flex-wrap: wrap;
+  height: 40px;
+}
+
+.fromTo>label{
+  margin:0px 0px 8px 6px;
+  width:80%;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.fromTo>Input{
+  margin: 6px;
+  width: 80px;
+  height: 20px;
+}
