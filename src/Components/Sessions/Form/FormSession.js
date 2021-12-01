@@ -87,7 +87,6 @@ const FormSession = () => {
     .catch((error) => {
       return error;
     });
-    console.log(options.body);
   };
 
   return (
