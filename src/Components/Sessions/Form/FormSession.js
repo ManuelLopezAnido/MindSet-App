@@ -6,7 +6,7 @@ const FormSession = () => {
   const [counselorIdValue, setCounselorIdValue] = useState('');
   const [dateValue, setDateValue] = useState('');
   const [timeValue, setTimeValue] = useState('');
-  const [accomplishedValue, setAccomplishedValue] = useState('');
+  const [accomplishedValue, setAccomplishedValue] = useState(false);
 
   const onChangePostulantIdValue = (event) => {
     setPostulantIdValue(event.target.value);
@@ -90,10 +90,6 @@ const FormSession = () => {
     console.log(options.body);
   };
 
-  const onChangeAccomplishedValue = (event) => {
-    setAccomplishedValue(event.target.value);
-  };
-
   return (
     <div>
       <h1>Form</h1>
@@ -102,7 +98,8 @@ const FormSession = () => {
         <input id="counselorId" name="counselorId" required value={counselorIdValue} placeholder="Counselor ID" onChange={onChangeCounselorIdValue}></input>
         <input id="date" name="date" placeholder="Date" value={dateValue} onChange={onChangeDateValue}></input>
         <input id="time" name="time" placeholder="Time" value={timeValue} onChange={onChangeTimeValue}></input>
-        <input type="checkbox" name="accomplished" value={true} onChange={onChangeAccomplishedValue}  checked={accomplishedValue}></input>OK
+        <label>Accomplished</label>
+        <input type="checkbox" name="accomplished" onChange={(event) => setAccomplishedValue(event.target.checked)} checked={accomplishedValue}></input>
         <button className={styles.sendFormButton} type="submit">SEND</button>
       </form>
     </div>

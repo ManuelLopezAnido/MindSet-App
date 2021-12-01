@@ -61,13 +61,14 @@ function Sessions() {
           <th>Date</th>
           <th>Time</th>
           <th>Accomplished</th>
+          <th>Actions</th>
         </thead>
         <tbody>
           {sessions.map((session) => {
             return (
               <tr key={session._id} onClick={()=> window.location.href = `sessions/form?id=${session._id}`} className={styles.sessionRow}>
                 <td>{`${session.postulantId?.firstName} ${session.postulantId?.lastName}`}</td>
-                <td>{session.counselorId}</td>
+                <td>{session.counselorId?.firstName}</td>
                 <td>{session.date}</td>
                 <td>{session.time}</td>
                 <td>{session.accomplished.toString()}</td>
