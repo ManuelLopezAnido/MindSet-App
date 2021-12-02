@@ -1,4 +1,4 @@
-.modal{
+.error{
   position: fixed;
   display: flex;
   flex-wrap: wrap;
@@ -10,21 +10,23 @@
   max-width: 200px;
   border-collapse: collapse;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  background-color: #fdc800;
-  color: #f3f3f3;
+  background-color: #f3f3f3;
+  color: #000000;
   font-weight: bold;
   font-size: 1rem;
   font-size: 16px;
 }
 
-.modal>h2{
+.error>h2{
   margin: auto;
   padding-bottom: 10px;
   width: 80%;
   text-align: center;
+  color: red;
 }
 
-.modal>button{
+.error>button{
+  margin: auto;
   background-color: #002147;
   color: #f3f3f3;
   font-size: 0,5rem;

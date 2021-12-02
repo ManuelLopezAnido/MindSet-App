@@ -2,20 +2,24 @@ import { useEffect, useState } from 'react';
 import styles from './councelors.module.css';
 import Modal from '../Councelors/Modal';
 import Error from '../Councelors/Error';
+import ErrorMessage from '../Councelors/ErrorMessage';
 
-function Councelor() {
+const Councelor = () => {
   const [councelors, saveCouncelors] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [selectId, setSelectId] = useState('');
+  const [selectedId, setSelectedId] = useState('');
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [errorMessageText, setErrorMessageText] = useState('');
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/api/counselors`)
+    fetch(`${process.env.REACT_APP_API}/counselors`)
       .then((response) => response.json())
       .then((response) => {
         saveCouncelors(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        setShowErrorMessage(true);
+        setErrorMessageText(JSON.stringify(error.message));
       });
   }, []);
 
@@ -27,7 +31,7 @@ function Councelor() {
     const options = {
       method: 'DELETE'
     };
-    const url = `${process.env.REACT_APP_API}/api/counselors/delete/${id}`;
+    const url = `${process.env.REACT_APP_API}/counselors/delete/${id}`;
     fetch(url, options)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201) {
@@ -39,18 +43,23 @@ function Councelor() {
         setShowModal(false);
       })
       .catch((error) => {
-        console.log(error.message);
+        setShowErrorMessage(true);
+        setErrorMessageText(JSON.stringify(error.message));
       });
   };
 
   const onShowModal = (id, event) => {
     event.stopPropagation();
     setShowModal(true);
-    setSelectId(id);
+    setSelectedId(id);
   };
 
   const closeModal = () => {
     setShowModal(false);
+  };
+
+  const closeError = () => {
+    setShowErrorMessage(false);
   };
 
   return (
@@ -58,10 +67,11 @@ function Councelor() {
       <Modal
         showModal={showModal}
         closeModal={closeModal}
-        id={selectId}
+        id={selectedId}
         delete={deleteCouncelor}
         text="Are you sure you want to delete the counselor selected?"
       ></Modal>
+      <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
       <h2 className={styles.header}>Counselors</h2>
       <table className={styles.list}>
         <thead>
@@ -95,6 +105,6 @@ function Councelor() {
       </button>
     </section>
   );
-}
+};
 
 export default Councelor;

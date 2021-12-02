@@ -46,26 +46,26 @@ body {
 .eachDay{
   display: flex;
   flex-wrap: wrap;
-  width:120px;
+  width: 120px;
 }
 
 .eachDay>p{
-  margin:0;
-  width:100%;
+  margin: 0;
+  width: 100%;
   font-size: 15px;
   font-weight: bold;
 }
 
 .eachDay>label{
   margin-top: 2px;
-  width:40%;
+  width: 40%;
   font-size: 14px;
 }
 
 .eachDay>input{
   margin-top: 18px;
-  width:40%;
-  height:1.4em;
+  width: 40%;
+  height: 1.4em;
 }
 
 .fromTo{
@@ -75,8 +75,8 @@ body {
 }
 
 .fromTo>label{
-  margin:0px 0px 8px 6px;
-  width:80%;
+  margin: 0px 0px 8px 6px;
+  width: 80%;
   font-size: 15px;
   font-weight: bold;
 }

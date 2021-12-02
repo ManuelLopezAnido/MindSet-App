@@ -3,8 +3,9 @@ import styles from './form.module.css';
 import Input from '../Input';
 import Error from '../Error';
 import Button from '../Button';
+import ErrorMessage from '../ErrorMessage';
 
-function Form() {
+const Form = () => {
   const [firstNameValue, setFirstNameValue] = useState([]);
   const [lastNameValue, setLastNameValue] = useState([]);
   const [emailValue, setEmailValue] = useState([]);
@@ -32,7 +33,9 @@ function Form() {
   const [emailError, setEmailError] = useState(false);
   const [birthdayError, setBirthdayError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
-  const [save, setSave] = useState(true);
+  const [canSave, setCanSave] = useState(true);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [errorMessageText, setErrorMessageText] = useState('');
 
   const onChangeFirstNameInput = (event) => {
     setFirstNameValue(event.target.value);
@@ -183,10 +186,10 @@ function Form() {
 
     if (councelorId !== null) {
       options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/api/counselors/update/${councelorId}`;
+      url = `${process.env.REACT_APP_API}/counselors/update/${councelorId}`;
     } else {
       options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/api/counselors/add`;
+      url = `${process.env.REACT_APP_API}/counselors/add`;
     }
 
     console.log(options);
@@ -203,14 +206,15 @@ function Form() {
         window.location.replace(`http://localhost:3000/councelors`);
       })
       .catch((error) => {
-        console.log(error.message);
+        setShowErrorMessage(true);
+        setErrorMessageText(JSON.stringify(error.message));
       });
   };
 
   const hideEmail = () => {
     setEmailError(false);
     if (!emailValue.includes('@')) {
-      setSave(true);
+      setCanSave(true);
     }
   };
 
@@ -219,7 +223,7 @@ function Form() {
     const exp =
       /^(?:(?:(?:0?[1-9]|1\d|2[0-8])[/](?:0?[1-9]|1[0-2])|(?:29|30)[/](?:0?[13-9]|1[0-2])|31[/](?:0?[13578]|1[02]))[/](?:0{2,3}[1-9]|0{1,2}[1-9]\d|0?[1-9]\d{2}|[1-9]\d{3})|29[/]0?2[/](?:\d{1,2}(?:0[48]|[2468][048]|[13579][26])|(?:0?[48]|[13579][26]|[2468][048])00))$/;
     if (!exp.test(birthdayValue)) {
-      setSave(true);
+      setCanSave(true);
     }
   };
 
@@ -231,14 +235,14 @@ function Form() {
       phoneValue.includes(')') ||
       phoneValue.includes('#')
     ) {
-      setSave(true);
+      setCanSave(true);
     }
   };
 
   const validateEmail = (email) => {
     if (!email.includes('@')) {
       setEmailError(true);
-      setSave(true);
+      setCanSave(true);
     }
   };
 
@@ -247,14 +251,14 @@ function Form() {
       /^(?:(?:(?:0?[1-9]|1\d|2[0-8])[/](?:0?[1-9]|1[0-2])|(?:29|30)[/](?:0?[13-9]|1[0-2])|31[/](?:0?[13578]|1[02]))[/](?:0{2,3}[1-9]|0{1,2}[1-9]\d|0?[1-9]\d{2}|[1-9]\d{3})|29[/]0?2[/](?:\d{1,2}(?:0[48]|[2468][048]|[13579][26])|(?:0?[48]|[13579][26]|[2468][048])00))$/;
     if (!exp.test(birthday)) {
       setBirthdayError(true);
-      setSave(true);
+      setCanSave(true);
     }
   };
 
   const validatePhone = (phone) => {
     if (phone.length < 8 || phone.includes('(') || phone.includes(')') || phone.includes('#')) {
       setPhoneError(true);
-      setSave(true);
+      setCanSave(true);
     }
   };
 
@@ -292,13 +296,18 @@ function Form() {
         cityValue.length > 0 &&
         countryValue.length > 0
       ) {
-        setSave(false);
+        setCanSave(false);
       }
     }
   };
 
+  const closeError = () => {
+    setShowErrorMessage(false);
+  };
+
   return (
     <div className={styles.container}>
+      <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
       <form className={styles.form} onSubmit={onSubmit}>
         <h2>Form</h2>
         <Input
@@ -531,10 +540,10 @@ function Form() {
             </div>
           </div>
         </div>
-        <Button type="Submit" disabled={save} />
+        <Button type="Submit" disabled={canSave} />
       </form>
     </div>
   );
-}
+};
 
 export default Form;

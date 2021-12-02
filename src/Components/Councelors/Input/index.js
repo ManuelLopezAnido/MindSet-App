@@ -1,6 +1,6 @@
 import styles from './input.module.css';
 
-function Input(props) {
+const Input = (props) => {
   return (
     <input
       title={props.tittle}
@@ -16,6 +16,6 @@ function Input(props) {
       disabled={props.disabled}
     ></input>
   );
-}
+};
 
 export default Input;
