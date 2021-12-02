@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
+import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
 
 const FormClient = () => {
   const [companyNameValue, setCompanyNameValue] = useState('');
@@ -9,6 +10,9 @@ const FormClient = () => {
   const [emailValue, setEmailValue] = useState('');
   const [phoneValue, setPhoneValue] = useState('');
   const [openPositionsValue, setOpenPositionsValue] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [showModalMessageError, setShowModalMessageError] = useState(false);
+  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
 
   const onChangeCompanyNameValue = (event) => {
     setCompanyNameValue(event.target.value);
@@ -54,6 +58,10 @@ const FormClient = () => {
           setEmailValue(response.email);
           setPhoneValue(response.phone);
           setOpenPositionsValue(response.openPositions);
+        })
+        .catch((error) => {
+          setShowModalMessageError(true);
+          setShowModalMessageErrorMessage(JSON.stringify(error.message));
         });
     }
   }, []);
@@ -97,12 +105,23 @@ const FormClient = () => {
         return response.json();
       })
       .catch((error) => {
-        return error;
+        setShowModalMessageError(true);
+        setShowModalMessageErrorMessage(JSON.stringify(error.message));
       });
+  };
+
+  const closeModalMessageError = () => {
+    setShowModalMessageError(false);
   };
 
   return (
     <div>
+      <ErrorMessageModal
+        show={showModalMessageError}
+        closeModalMessageError={closeModalMessageError}
+        setShowModalMessageError={setShowModalMessageError}
+        showModalMessageErrorMessage={showModalMessageErrorMessage}
+      />
       <h1>Form</h1>
       <form className={styles.container} onSubmit={onSubmit}>
         <input

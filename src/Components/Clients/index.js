@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import styles from './clients.module.css';
 import ModalClient from './Modal/ModalClient';
+import ErrorMessageModal from './ErrorMessageModal/ErrorMessageModal';
 import deleteIcon from '../../assets/deleteIcon.png';
 
 function Clients() {
   const [showModal, setShowModal] = useState(false);
+  const [showModalMessageError, setShowModalMessageError] = useState(false);
+  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
   const [clients, saveClients] = useState([]);
   const [selectedId, setSelectedId] = useState('');
 
@@ -13,6 +16,10 @@ function Clients() {
       .then((response) => response.json())
       .then((response) => {
         saveClients(response.data);
+      })
+      .catch((error) => {
+        setShowModalMessageError(true);
+        setShowModalMessageErrorMessage(JSON.stringify(error.message));
       });
   }, []);
 
@@ -36,13 +43,20 @@ function Clients() {
         }
         return;
       })
-      .catch((error) => error);
+      .catch((error) => {
+        setShowModalMessageError(true);
+        setShowModalMessageErrorMessage(JSON.stringify(error.message));
+      });
     closeModal();
     saveClients(clients.filter((client) => client._id !== id));
   };
 
   const closeModal = () => {
     setShowModal(false);
+  };
+
+  const closeModalMessageError = () => {
+    setShowModalMessageErrorMessage(false);
   };
 
   const handleIdClient = (event, id) => {
@@ -58,6 +72,12 @@ function Clients() {
         closeModal={closeModal}
         deleteClient={deleteClient}
         selectedId={selectedId}
+      />
+      <ErrorMessageModal
+        show={showModalMessageError}
+        closeModalMessageError={closeModalMessageError}
+        setShowModalMessageError={setShowModalMessageError}
+        showModalMessageErrorMessage={showModalMessageErrorMessage}
       />
       <h2>Clients</h2>
       <table>
