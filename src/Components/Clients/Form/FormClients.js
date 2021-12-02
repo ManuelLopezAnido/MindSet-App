@@ -37,7 +37,7 @@ const FormClient = () => {
 
   useEffect(() => {
     if (clientId) {
-      fetch(`${process.env.REACT_APP_API}/api/clients/id/${clientId}`)
+      fetch(`${process.env.REACT_APP_API}/clients/id/${clientId}`)
         .then((response) => {
           if (response.status !== 200) {
             return response.json().then(({ message }) => {
@@ -79,11 +79,11 @@ const FormClient = () => {
 
     if (clientId === null) {
       options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/api/clients/add`;
+      url = `${process.env.REACT_APP_API}/clients/add`;
       window.location.href = `/clients`;
     } else {
       options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/api/clients/update/${clientId}`;
+      url = `${process.env.REACT_APP_API}/clients/update/${clientId}`;
       window.location.href = `/clients`;
     }
 

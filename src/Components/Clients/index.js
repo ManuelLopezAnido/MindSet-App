@@ -9,7 +9,7 @@ function Clients() {
   const [selectedId, setSelectedId] = useState('');
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/api/clients`)
+    fetch(`${process.env.REACT_APP_API}/clients`)
       .then((response) => response.json())
       .then((response) => {
         saveClients(response.data);
@@ -21,7 +21,7 @@ function Clients() {
   };
 
   const deleteClient = (id) => {
-    const url = `${process.env.REACT_APP_API}/api/clients/delete/${id}`;
+    const url = `${process.env.REACT_APP_API}/clients/delete/${id}`;
     fetch(url, {
       method: 'DELETE',
       headers: {
