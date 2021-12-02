@@ -16,7 +16,7 @@ function Clients() {
       });
   }, []);
 
-  const addClient = () =>{
+  const addClient = () => {
     window.location.href = `/clients/form`;
   };
 
@@ -25,8 +25,8 @@ function Clients() {
     fetch(url, {
       method: 'DELETE',
       headers: {
-        'Content-type': 'application/json',
-      },
+        'Content-type': 'application/json'
+      }
     })
       .then((res) => {
         if (res.status !== 204) {
@@ -37,8 +37,8 @@ function Clients() {
         return;
       })
       .catch((error) => error);
-      closeModal();
-      saveClients(clients.filter((client) => client._id !== id));
+    closeModal();
+    saveClients(clients.filter((client) => client._id !== id));
   };
 
   const closeModal = () => {
@@ -53,7 +53,12 @@ function Clients() {
 
   return (
     <section className={styles.container}>
-      <ModalClient show={showModal} closeModal={closeModal} deleteClient={deleteClient} selectedId={selectedId}/>
+      <ModalClient
+        show={showModal}
+        closeModal={closeModal}
+        deleteClient={deleteClient}
+        selectedId={selectedId}
+      />
       <h2>Clients</h2>
       <table>
         <thead>
@@ -67,15 +72,22 @@ function Clients() {
         <tbody>
           {clients.map((client) => {
             return (
-              <tr className={styles.clientRow} key={client._id} onClick={()=> window.location.href = `clients/form?id=${client._id}`}>
+              <tr
+                className={styles.clientRow}
+                key={client._id}
+                onClick={() => (window.location.href = `clients/form?id=${client._id}`)}
+              >
                 <td>{client.companyName}</td>
                 <td>{client.companyType}</td>
                 <td>{client.email}</td>
                 <td>{client.country}</td>
                 <td>{client.phone}</td>
                 <td className={styles.deleteButtonTD}>
-                  <button className={styles.deleteIcon} onClick={(event) => handleIdClient(event, client._id)}>
-                    <img src={deleteIcon}/>
+                  <button
+                    className={styles.deleteIcon}
+                    onClick={(event) => handleIdClient(event, client._id)}
+                  >
+                    <img src={deleteIcon} />
                   </button>
                 </td>
               </tr>
@@ -83,7 +95,9 @@ function Clients() {
           })}
         </tbody>
       </table>
-      <button className={styles.addButton} onClick={addClient}>ADD CLIENT</button>
+      <button className={styles.addButton} onClick={addClient}>
+        ADD CLIENT
+      </button>
     </section>
   );
 }

@@ -35,8 +35,8 @@ const FormClient = () => {
   const params = new URLSearchParams(window.location.search);
   const clientId = params.get('id');
 
-  useEffect(()=> {
-    if(clientId){
+  useEffect(() => {
+    if (clientId) {
       fetch(`${process.env.REACT_APP_API}/api/clients/id/${clientId}`)
         .then((response) => {
           if (response.status !== 200) {
@@ -70,10 +70,10 @@ const FormClient = () => {
         companyName: companyNameValue,
         companyType: companyTypeValue,
         city: cityValue,
-        country:countryValue ,
+        country: countryValue,
         email: emailValue,
         phone: phoneValue,
-        openPositions: openPositionsValue,
+        openPositions: openPositionsValue
       })
     };
 
@@ -87,31 +87,80 @@ const FormClient = () => {
       window.location.href = `/clients`;
     }
 
-    fetch(url, options).then((response) => {
-      if (response.status !== 200 && response.status !== 201){
-        return response.json().then(({message}) => {
-          throw new Error(message);
-        });
-      }
-      return response.json();
-    })
-    .catch((error) => {
-      return error;
-    });
+    fetch(url, options)
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201) {
+          return response.json().then(({ message }) => {
+            throw new Error(message);
+          });
+        }
+        return response.json();
+      })
+      .catch((error) => {
+        return error;
+      });
   };
 
   return (
     <div>
       <h1>Form</h1>
       <form className={styles.container} onSubmit={onSubmit}>
-        <input id="companyName" name="companyName" required value={companyNameValue} onChange={onChangeCompanyNameValue} placeholder="Company Name"></input>
-        <input id="companyType" name="companyType" required value={companyTypeValue} onChange={onChangeCompanyType} placeholder="Company Type"></input>
-        <input id="city" name="city" value={cityValue} onChange={onChangeCity} placeholder="City"></input>
-        <input id="country" name="country" value={countryValue} onChange={onChangeCountry} placeholder="Country"></input>
-        <input id="email" name="email" type="email" required value={emailValue} onChange={onChangeEmail} placeholder="Email" pattern="^[^@]+@[^@]+\.[a-zA-Z]{2,}$" title="Type a correct email"></input>
-        <input id="phone" name="phone" type="number" required value={phoneValue} onChange={onChangePhone} placeholder="Phone" pattern="^[0-9]*$" title="Type a correct phone number"></input>
-        <input id="openPositions" name="openPositions" value={openPositionsValue} onChange={onChangeOpenPositions} placeholder="Open Positions"></input>
-        <button className={styles.sendFormButton} type="submit">SEND</button>
+        <input
+          id="companyName"
+          name="companyName"
+          required
+          value={companyNameValue}
+          onChange={onChangeCompanyNameValue}
+          placeholder="Company Name"
+        />
+        <input
+          id="companyType"
+          name="companyType"
+          required
+          value={companyTypeValue}
+          onChange={onChangeCompanyType}
+          placeholder="Company Type"
+        />
+        <input id="city" name="city" value={cityValue} onChange={onChangeCity} placeholder="City" />
+        <input
+          id="country"
+          name="country"
+          value={countryValue}
+          onChange={onChangeCountry}
+          placeholder="Country"
+        />
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          value={emailValue}
+          onChange={onChangeEmail}
+          placeholder="Email"
+          pattern="^[^@]+@[^@]+\.[a-zA-Z]{2,}$"
+          title="Type a correct email"
+        />
+        <input
+          id="phone"
+          name="phone"
+          type="number"
+          required
+          value={phoneValue}
+          onChange={onChangePhone}
+          placeholder="Phone"
+          pattern="^[0-9]*$"
+          title="Type a correct phone number"
+        />
+        <input
+          id="openPositions"
+          name="openPositions"
+          value={openPositionsValue}
+          onChange={onChangeOpenPositions}
+          placeholder="Open Positions"
+        />
+        <button className={styles.sendFormButton} type="submit">
+          SEND
+        </button>
       </form>
     </div>
   );
