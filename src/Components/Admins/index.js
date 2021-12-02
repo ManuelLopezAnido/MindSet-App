@@ -2,20 +2,24 @@ import { useEffect, useState } from 'react';
 import styles from './admins.module.css';
 import Modal from '../Admins/Modal';
 import Error from '../Admins/Error';
+import ErrorMessage from '../Admins/ErrorMessage';
 
-function Admins() {
+const Admins = () => {
   const [admins, saveAdmins] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [selectId, setSelectId] = useState('');
+  const [selectedId, setSelectedId] = useState('');
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [errorMessageText, setErrorMessageText] = useState('');
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/api/admins`)
+    fetch(`${process.env.REACT_APP_API}/admins`)
       .then((response) => response.json())
       .then((response) => {
         saveAdmins(response.Admins);
       })
       .catch((error) => {
-        console.log(error);
+        setShowErrorMessage(true);
+        setErrorMessageText(JSON.stringify(error.message));
       });
   }, []);
 
@@ -27,7 +31,7 @@ function Admins() {
     const options = {
       method: 'DELETE'
     };
-    const url = `${process.env.REACT_APP_API}/api/admins/delete/${id}`;
+    const url = `${process.env.REACT_APP_API}/admins/delete/${id}`;
     fetch(url, options)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201) {
@@ -35,22 +39,27 @@ function Admins() {
             throw new Error(message);
           });
         }
+        saveAdmins(admins.filter((admin) => admin._id !== id));
+        setShowModal(false);
       })
       .catch((error) => {
-        console.log(error.message);
+        setShowErrorMessage(true);
+        setErrorMessageText(JSON.stringify(error.message));
       });
-    saveAdmins(admins.filter((admin) => admin._id !== id));
-    setShowModal(false);
   };
 
   const onShowModal = (id, event) => {
     event.stopPropagation();
     setShowModal(true);
-    setSelectId(id);
+    setSelectedId(id);
   };
 
   const closeModal = () => {
     setShowModal(false);
+  };
+
+  const closeError = () => {
+    setShowErrorMessage(false);
   };
 
   return (
@@ -58,10 +67,11 @@ function Admins() {
       <Modal
         showModal={showModal}
         closeModal={closeModal}
-        id={selectId}
+        id={selectedId}
         delete={deleteAdmin}
         text="Are you sure you want to delete the admin selected?"
       ></Modal>
+      <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
       <h2 className={styles.header}>Admins</h2>
       <table className={styles.list}>
         <thead>
@@ -93,6 +103,6 @@ function Admins() {
       </button>
     </section>
   );
-}
+};
 
 export default Admins;

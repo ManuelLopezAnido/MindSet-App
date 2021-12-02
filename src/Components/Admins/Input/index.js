@@ -1,6 +1,6 @@
 import styles from './input.module.css';
 
-function Input(props) {
+const Input = (props) => {
   return (
     <input
       name={props.email}
@@ -14,6 +14,6 @@ function Input(props) {
       onFocus={props.onFocus}
     ></input>
   );
-}
+};
 
 export default Input;

@@ -1,6 +1,6 @@
 import styles from './error.module.css';
 
-function Error(props) {
+const Error = (props) => {
   if (!props.showError) {
     return null;
   } else {
@@ -10,6 +10,6 @@ function Error(props) {
       </div>
     );
   }
-}
+};
 
 export default Error;

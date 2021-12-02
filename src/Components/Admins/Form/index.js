@@ -3,13 +3,16 @@ import styles from './form.module.css';
 import Input from '../Input';
 import Error from '../Error';
 import Button from '../Button';
+import ErrorMessage from '../ErrorMessage';
 
-function Form() {
+const Form = () => {
   const [emailValue, setEmailValue] = useState([]);
   const [passwordValue, setPasswordValue] = useState([]);
   const [passwordError, setPasswordError] = useState(false);
   const [emailError, setEmailError] = useState(false);
-  const [save, setSave] = useState(true);
+  const [canSave, setCanSave] = useState(true);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [errorMessageText, setErrorMessageText] = useState('');
 
   const onChangeEmailInput = (event) => {
     setEmailValue(event.target.value);
@@ -36,10 +39,10 @@ function Form() {
 
     if (adminId !== null) {
       options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/api/admins/update/${adminId}`;
+      url = `${process.env.REACT_APP_API}/admins/update/${adminId}`;
     } else {
       options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/api/admins/create`;
+      url = `${process.env.REACT_APP_API}/admins/create`;
     }
 
     fetch(url, options)
@@ -54,7 +57,8 @@ function Form() {
         window.location.replace(`http://localhost:3000/admins`);
       })
       .catch((error) => {
-        console.log(error.message);
+        setShowErrorMessage(true);
+        setErrorMessageText(JSON.stringify(error.message));
       });
   };
 
@@ -70,30 +74,35 @@ function Form() {
     if (emailValue.length > 0 && passwordValue.length === 0) {
       if (!emailValue.includes('@')) {
         setEmailError(true);
-        setSave(true);
+        setCanSave(true);
       }
     } else if (emailValue.length === 0 && passwordValue.length > 0) {
       if (passwordValue.length < 8) {
         setPasswordError(true);
-        setSave(true);
+        setCanSave(true);
       }
     } else if (emailValue.length === 0 && passwordValue.length === 0) {
-      setSave(true);
+      setCanSave(true);
     } else if (emailValue.length > 0 && passwordValue.length > 0) {
       if (passwordValue.length < 8) {
         setPasswordError(true);
-        setSave(true);
+        setCanSave(true);
       } else if (!emailValue.includes('@')) {
         setEmailError(true);
-        setSave(true);
+        setCanSave(true);
       } else if (!emailError && !passwordError) {
-        setSave(false);
+        setCanSave(false);
       }
     }
   };
 
+  const closeError = () => {
+    setShowErrorMessage(false);
+  };
+
   return (
     <div className={styles.container}>
+      <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
       <form className={styles.form} onSubmit={onSubmit}>
         <h2>Form</h2>
         <Input
@@ -123,10 +132,10 @@ function Form() {
           showError={passwordError}
           text={'Password is too short. It must have at least 8 characters.'}
         />
-        <Button type="Submit" disabled={save} />
+        <Button type="Submit" disabled={canSave} />
       </form>
     </div>
   );
-}
+};
 
 export default Form;
