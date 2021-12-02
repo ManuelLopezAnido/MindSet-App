@@ -1,33 +1,33 @@
 {
-    "settings": {
+  "settings": {
     "react": {
-        "version": "detect"
+      "version": "detect"
     }
-    },
-    "env": {
-        "browser": true,
-        "node": true,
-        "es2021": true
-    },
-    "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:prettier/recommended"],
-    "parserOptions": {
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2021": true
+  },
+  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:prettier/recommended"],
+  "parserOptions": {
     "ecmaFeatures": {
-        "jsx": true
+      "jsx": true
     },
     "ecmaVersion": 12,
     "sourceType": "module"
-    },
-    "plugins": ["react"],
-    "rules": {
-        "semi": [2, "always"],
-        "react/react-in-jsx-scope": "off",
-        "prettier/prettier": [
-        "error",
-        {
-            "endOfLine": "auto"
-        }
-        ],
-        "react/prop-types": 0,
-        "no-unused-vars": "warn"
-    }
+  },
+  "plugins": ["react"],
+  "rules": {
+    "semi": [2, "always"],
+    "react/react-in-jsx-scope": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "react/prop-types": 0,
+    "no-unused-vars": "warn"
+  }
 }

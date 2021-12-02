@@ -5,7 +5,7 @@ const Modal = (props) => {
     return null;
   }
 
-  const onClick = (id) => {
+  const deletePostulant = (id) => {
     props.actionPostulant(id);
     props.closeModal();
   };
@@ -19,7 +19,7 @@ const Modal = (props) => {
           {props.text} {props.firstName} {props.lastName}
         </p>
         <div className={styles.buttonContainer}>
-          <button onClick={() => onClick(props.idToUse)}>{props.buttonText}</button>
+          <button onClick={deletePostulant}>{props.buttonText}</button>
           <button onClick={() => props.closeModal()}>close</button>
         </div>
       </div>

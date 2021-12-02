@@ -22,7 +22,7 @@ const PostulantsForm = () => {
 
   const [highSchoolNameValue, setHighSchoolNameValue] = useState('');
   const [highSchoolDegreeValue, setHighSchoolDegreeValue] = useState('');
-  const [HighSchoolGraduateYearValue, setHighSchoolGraduateYearValue] = useState(0);
+  const [highSchoolGraduateYearValue, setHighSchoolGraduateYearValue] = useState(0);
 
   const [juniorCollegeNameValue, setJuniorCollegeNameValue] = useState('');
   const [juniorCollegeDegreeValue, setJuniorCollegeDegreeValue] = useState('');
@@ -203,7 +203,7 @@ const PostulantsForm = () => {
         {
           name: highSchoolNameValue,
           degree: highSchoolDegreeValue,
-          graduateYear: HighSchoolGraduateYearValue
+          graduateYear: highSchoolGraduateYearValue
         }
       ],
       juniorCollege: [
@@ -440,7 +440,7 @@ const PostulantsForm = () => {
             label="Graduate Year"
             id="highSchoolGraduateYear"
             type="text"
-            value={HighSchoolGraduateYearValue}
+            value={highSchoolGraduateYearValue}
             setValue={setHighSchoolGraduateYearValue}
           />
           <h4>Junior College</h4>

@@ -5,13 +5,9 @@
   max-height: 3rem;
 }
 
-.input label {
-
-}
-
 .input input {
   border: 0;
-  background-color: rgb(212, 212, 212);
+  background-color: #d4d4d4;
   padding: 0.5rem;
   min-width: 50ch;
   height: 1.5rem;
