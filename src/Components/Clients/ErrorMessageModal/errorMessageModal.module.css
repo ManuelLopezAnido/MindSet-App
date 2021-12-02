@@ -5,7 +5,7 @@
     align-items: center;
     height: 100vh;
     width: 100%;
-    background-color: rgba(0,0,0,0,5);
+    background-color: rgba(0,0,0,0,5)
   }
 
   .modal {
@@ -15,9 +15,9 @@
     align-items: center;
     width: 350px;
     height: 250px;
-    background-color: white;
+    background-color: #FFFFFF;
     border-radius: 30px;
-    border: 2px solid green;
+    border: 2px solid #008000;
   }
 
   .modal button {
@@ -28,7 +28,7 @@
     border: none;
     border-radius: 7px;
     background-color: #002147;
-    color: white;
+    color: #FFFFFF;
     font-weight: bold;
   }
   

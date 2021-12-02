@@ -90,29 +90,27 @@ function Clients() {
           <th>Actions</th>
         </thead>
         <tbody>
-          {clients.map((client) => {
-            return (
-              <tr
-                className={styles.clientRow}
-                key={client._id}
-                onClick={() => (window.location.href = `clients/form?id=${client._id}`)}
-              >
-                <td>{client.companyName}</td>
-                <td>{client.companyType}</td>
-                <td>{client.email}</td>
-                <td>{client.country}</td>
-                <td>{client.phone}</td>
-                <td className={styles.deleteButtonTD}>
-                  <button
-                    className={styles.deleteIcon}
-                    onClick={(event) => handleIdClient(event, client._id)}
-                  >
-                    <img src={deleteIcon} />
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
+          {clients.map((client) => (
+            <tr
+              className={styles.clientRow}
+              key={client._id}
+              onClick={() => (window.location.href = `clients/form?id=${client._id}`)}
+            >
+              <td>{client.companyName}</td>
+              <td>{client.companyType}</td>
+              <td>{client.email}</td>
+              <td>{client.country}</td>
+              <td>{client.phone}</td>
+              <td className={styles.deleteButtonTD}>
+                <button
+                  className={styles.deleteIcon}
+                  onClick={(event) => handleIdClient(event, client._id)}
+                >
+                  <img src={deleteIcon} />
+                </button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
       <button className={styles.addButton} onClick={addClient}>

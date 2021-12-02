@@ -88,11 +88,9 @@ const FormClient = () => {
     if (clientId === null) {
       options.method = 'POST';
       url = `${process.env.REACT_APP_API}/clients/add`;
-      window.location.href = `/clients`;
     } else {
       options.method = 'PUT';
       url = `${process.env.REACT_APP_API}/clients/update/${clientId}`;
-      window.location.href = `/clients`;
     }
 
     fetch(url, options)
@@ -102,11 +100,11 @@ const FormClient = () => {
             throw new Error(message);
           });
         }
-        return response.json();
+        return (window.location.href = `/clients`);
       })
       .catch((error) => {
+        setShowModalMessageErrorMessage('There was an error, please check the input');
         setShowModalMessageError(true);
-        setShowModalMessageErrorMessage(JSON.stringify(error.message));
       });
   };
 
