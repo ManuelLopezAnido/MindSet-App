@@ -84,14 +84,16 @@ const FormSession = () => {
     fetch(url, options)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201) {
-          return response.json().then(({ message }) => {
-            throw new Error(message);
+          return response.json().then(({ msg }) => {
+            console.log('message: ', msg);
+            throw new Error(msg);
           });
         }
         return (window.location.href = `/sessions`);
       })
       .catch((error) => {
-        setShowModalMessageErrorMessage('There was an error, please check the input');
+        console.log('error: ', error);
+        setShowModalMessageErrorMessage(error.toString());
         setShowModalMessageError(true);
       });
   };
