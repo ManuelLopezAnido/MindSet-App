@@ -5,8 +5,8 @@ const Modal = (props) => {
     return null;
   }
 
-  const deletePostulant = (id) => {
-    props.actionPostulant(id);
+  const deletePostulant = () => {
+    props.actionPostulant();
     props.closeModal();
   };
 

@@ -17,8 +17,9 @@ const Postulants = () => {
       .catch((error) => console.log(error));
   }, []);
 
-  const deletePostulant = (id) => {
-    const url = `${process.env.REACT_APP_API}/postulants/delete/${id}`;
+  const deletePostulant = () => {
+    const url = `${process.env.REACT_APP_API}/postulants/delete/${idToDelete}`;
+    console.log(url);
     fetch(url, {
       method: 'DELETE',
       headers: {
@@ -28,13 +29,11 @@ const Postulants = () => {
       .then((res) => {
         if (res.status !== 204) {
           return res.json().then((message) => {
-            console.log('toy en el error del then');
             console.log(message);
             throw new Error(message);
           });
         }
-        console.log('toy en el then');
-        setPostulants(postulants.filter((postulants) => postulants._id !== id));
+        setPostulants(postulants.filter((postulants) => postulants._id !== idToDelete));
       })
       .catch((error) => error);
   };
@@ -50,6 +49,7 @@ const Postulants = () => {
   };
 
   const onShowModal = (event, id, firstName, lastName) => {
+    console.log(id);
     event.stopPropagation();
     setShowModal(true);
     setIdToDelete(id);
