@@ -43,7 +43,7 @@ function Layout() {
     case '/sessions':
       currentScreen = <Sessions />;
       break;
-      case '/sessions/form':
+    case '/sessions/form':
       currentScreen = <FormSession />;
       break;
     default:

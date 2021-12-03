@@ -8,11 +8,11 @@ function Sessions() {
   const [sessions, saveSessions] = useState([]);
   const [selectedId, setSelectedId] = useState('');
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/api/sessions/`)
-    .then((response) => response.json())
-    .then((response) => {
-      saveSessions(response.Sessions);
-    });
+    fetch(`${process.env.REACT_APP_API}/sessions/`)
+      .then((response) => response.json())
+      .then((response) => {
+        saveSessions(response.Sessions);
+      });
   }, []);
 
   const addSession = () => {
@@ -20,12 +20,12 @@ function Sessions() {
   };
 
   const deleteSession = (id) => {
-    const url = `${process.env.REACT_APP_API}/api/sessions/${id}`;
+    const url = `${process.env.REACT_APP_API}/sessions/${id}`;
     fetch(url, {
       method: 'DELETE',
       headers: {
-        'Content-type': 'application/json',
-      },
+        'Content-type': 'application/json'
+      }
     })
       .then((res) => {
         if (res.status !== 204) {
@@ -36,8 +36,8 @@ function Sessions() {
         return;
       })
       .catch((error) => error);
-      closeModal();
-      saveSessions(sessions.filter((session) => session._id !== id));
+    closeModal();
+    saveSessions(sessions.filter((session) => session._id !== id));
   };
 
   const closeModal = () => {
@@ -52,7 +52,12 @@ function Sessions() {
 
   return (
     <section className={styles.container}>
-      <ModalSession show={showModal} closeModal={closeModal} deleteSession={deleteSession} selectedId={selectedId}/>
+      <ModalSession
+        show={showModal}
+        closeModal={closeModal}
+        deleteSession={deleteSession}
+        selectedId={selectedId}
+      />
       <h2>Clients</h2>
       <table>
         <thead>
@@ -64,25 +69,32 @@ function Sessions() {
           <th>Actions</th>
         </thead>
         <tbody>
-          {sessions.map((session) => {
-            return (
-              <tr key={session._id} onClick={()=> window.location.href = `sessions/form?id=${session._id}`} className={styles.sessionRow}>
-                <td>{`${session.postulantId?.firstName} ${session.postulantId?.lastName}`}</td>
-                <td>{session.counselorId?.firstName}</td>
-                <td>{session.date}</td>
-                <td>{session.time}</td>
-                <td>{session.accomplished.toString()}</td>
-                <td className={styles.deleteButtonTD}>
-                  <button className={styles.deleteIcon} onClick={(event) => handleIdSession(event, session._id)} >
-                    <img src={deleteIcon}/>
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
+          {sessions.map((session) => (
+            <tr
+              key={session._id}
+              onClick={() => (window.location.href = `sessions/form?id=${session._id}`)}
+              className={styles.sessionRow}
+            >
+              <td>{`${session.postulantId?.firstName} ${session.postulantId?.lastName}`}</td>
+              <td>{session.counselorId?.firstName}</td>
+              <td>{session.date}</td>
+              <td>{session.time}</td>
+              <td>{session.accomplished.toString()}</td>
+              <td className={styles.deleteButtonTD}>
+                <button
+                  className={styles.deleteIcon}
+                  onClick={(event) => handleIdSession(event, session._id)}
+                >
+                  <img src={deleteIcon} />
+                </button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
-      <button className={styles.addButton} onClick={addSession}>ADD SESSION</button>
+      <button className={styles.addButton} onClick={addSession}>
+        ADD SESSION
+      </button>
     </section>
   );
 }
