@@ -2,16 +2,23 @@ import styles from './sessions.module.css';
 import { useState, useEffect } from 'react';
 import deleteIcon from '../../assets/deleteIcon.png';
 import ModalSession from './Modal/ModalSession';
+import ErrorMessageModal from './ErrorMessageModal/ErrorMessageModal';
 
 function Sessions() {
   const [showModal, setShowModal] = useState(false);
   const [sessions, saveSessions] = useState([]);
   const [selectedId, setSelectedId] = useState('');
+  const [showModalMessageError, setShowModalMessageError] = useState(false);
+  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/sessions/`)
       .then((response) => response.json())
       .then((response) => {
         saveSessions(response.Sessions);
+      })
+      .catch((error) => {
+        setShowModalMessageError(true);
+        setShowModalMessageErrorMessage(JSON.stringify(error.message));
       });
   }, []);
 
@@ -44,6 +51,10 @@ function Sessions() {
     setShowModal(false);
   };
 
+  const closeModalMessageError = () => {
+    setShowModalMessageErrorMessage(false);
+  };
+
   const handleIdSession = (event, id) => {
     event.stopPropagation();
     setSelectedId(id);
@@ -57,6 +68,12 @@ function Sessions() {
         closeModal={closeModal}
         deleteSession={deleteSession}
         selectedId={selectedId}
+      />
+      <ErrorMessageModal
+        show={showModalMessageError}
+        closeModalMessageError={closeModalMessageError}
+        setShowModalMessageError={setShowModalMessageError}
+        showModalMessageErrorMessage={showModalMessageErrorMessage}
       />
       <h2>Clients</h2>
       <table>

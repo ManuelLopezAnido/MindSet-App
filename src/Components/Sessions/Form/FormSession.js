@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './form.module.css';
+import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
 
 const FormSession = () => {
   const [postulantIdValue, setPostulantIdValue] = useState('');
@@ -7,6 +8,8 @@ const FormSession = () => {
   const [dateValue, setDateValue] = useState('');
   const [timeValue, setTimeValue] = useState('');
   const [accomplishedValue, setAccomplishedValue] = useState(false);
+  const [showModalMessageError, setShowModalMessageError] = useState(false);
+  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
 
   const onChangePostulantIdValue = (event) => {
     setPostulantIdValue(event.target.value);
@@ -44,6 +47,10 @@ const FormSession = () => {
           setDateValue(response.data.date);
           setTimeValue(response.data.time);
           setAccomplishedValue(response.data.accomplished);
+        })
+        .catch((error) => {
+          setShowModalMessageError(true);
+          setShowModalMessageErrorMessage(JSON.stringify(error.message));
         });
     }
   }, []);
@@ -69,11 +76,9 @@ const FormSession = () => {
     if (sessionId === null) {
       options.method = 'POST';
       url = `${process.env.REACT_APP_API}/sessions`;
-      window.location.href = `/sessions`;
     } else {
       options.method = 'PUT';
       url = `${process.env.REACT_APP_API}/sessions/${sessionId}`;
-      window.location.href = `/sessions`;
     }
 
     fetch(url, options)
@@ -83,15 +88,26 @@ const FormSession = () => {
             throw new Error(message);
           });
         }
-        return response.json();
+        return (window.location.href = `/sessions`);
       })
       .catch((error) => {
-        return error;
+        setShowModalMessageErrorMessage('There was an error, please check the input');
+        setShowModalMessageError(true);
       });
+  };
+
+  const closeModalMessageError = () => {
+    setShowModalMessageError(false);
   };
 
   return (
     <div>
+      <ErrorMessageModal
+        show={showModalMessageError}
+        closeModalMessageError={closeModalMessageError}
+        setShowModalMessageError={setShowModalMessageError}
+        showModalMessageErrorMessage={showModalMessageErrorMessage}
+      />
       <h1>Form</h1>
       <form className={styles.container} onSubmit={onSubmit}>
         <input
