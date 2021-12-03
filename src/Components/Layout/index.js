@@ -12,6 +12,8 @@ import CouncelorsForm from '../Councelors/Form';
 import Sessions from '../Sessions/index';
 import Home from '../Home/index';
 import styles from './layout.module.css';
+import FormSession from '../Sessions/Form/FormSession';
+import FormClient from '../Clients/Form/FormClients';
 
 function Layout() {
   let currentScreen = <Home />;
@@ -24,6 +26,9 @@ function Layout() {
       break;
     case '/clients':
       currentScreen = <Clients />;
+      break;
+    case '/clients/form':
+      currentScreen = <FormClient />;
       break;
     case '/interviews':
       currentScreen = <Interviews />;
@@ -45,6 +50,9 @@ function Layout() {
       break;
     case '/sessions':
       currentScreen = <Sessions />;
+      break;
+    case '/sessions/form':
+      currentScreen = <FormSession />;
       break;
     default:
       break;

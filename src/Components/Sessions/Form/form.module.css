@@ -1,4 +1,4 @@
-.container {
+.container, h1{
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -6,11 +6,12 @@
   align-items: center;
 }
 
-tbody {
-  text-align: center;
+input {
+  width: 250px;
+  margin: 10px 0px;
 }
 
-.addButton {
+.sendFormButton {
   width: 100px;
   height: 50px;
   padding: 5px 15px;
@@ -20,15 +21,4 @@ tbody {
   background-color: #002147;
   color: white;
   font-weight: bold;
-}
-
-.sessionRow:hover :not(.deleteButtonTD, .deleteIcon, img){
-  background: lightgrey;
-  cursor: pointer;
-}
-
-.deleteIcon{
-  background: none;
-  border: none;
-  cursor: pointer;
 }
