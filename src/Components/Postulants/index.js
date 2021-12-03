@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './postulants.module.css';
 import deleteImage from '../../assets/images/deleteIcon.png';
 import Modal from '../Postulants/Modal';
+import ErrorMessageModal from '../Postulants/ErrorMessageModal';
 
 const Postulants = () => {
   const [showModal, setShowModal] = useState(false);
@@ -9,17 +10,21 @@ const Postulants = () => {
   const [idToDelete, setIdToDelete] = useState('');
   const [firstNameToDelete, setFirstNameToDelete] = useState('');
   const [lastNameToDelete, setLastNameToDelete] = useState('');
+  const [showModalMessageError, setShowModalMessageError] = useState(false);
+  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/postulants`)
       .then((response) => response.json())
       .then((response) => setPostulants(response))
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        setShowModalMessageError(true);
+        setShowModalMessageErrorMessage(JSON.stringify(error.message));
+      });
   }, []);
 
   const deletePostulant = () => {
     const url = `${process.env.REACT_APP_API}/postulants/delete/${idToDelete}`;
-    console.log(url);
     fetch(url, {
       method: 'DELETE',
       headers: {
@@ -29,13 +34,15 @@ const Postulants = () => {
       .then((res) => {
         if (res.status !== 204) {
           return res.json().then((message) => {
-            console.log(message);
             throw new Error(message);
           });
         }
         setPostulants(postulants.filter((postulants) => postulants._id !== idToDelete));
       })
-      .catch((error) => error);
+      .catch((error) => {
+        setShowModalMessageError(true);
+        setShowModalMessageErrorMessage(JSON.stringify(error.message));
+      });
   };
 
   const redirectToForm = (postulantId) => {
@@ -48,8 +55,11 @@ const Postulants = () => {
     setShowModal(false);
   };
 
+  const closeModalMessageError = () => {
+    setShowModalMessageErrorMessage(false);
+  };
+
   const onShowModal = (event, id, firstName, lastName) => {
-    console.log(id);
     event.stopPropagation();
     setShowModal(true);
     setIdToDelete(id);
@@ -70,6 +80,12 @@ const Postulants = () => {
         text="Are you sure you want to delete"
         firstName={firstNameToDelete}
         lastName={lastNameToDelete}
+      />
+      <ErrorMessageModal
+        show={showModalMessageError}
+        closeModalMessageError={closeModalMessageError}
+        setShowModalMessageError={setShowModalMessageError}
+        showModalMessageErrorMessage={showModalMessageErrorMessage}
       />
       <div className={styles.content}>
         <h2 className={styles.header}>Postulants</h2>
