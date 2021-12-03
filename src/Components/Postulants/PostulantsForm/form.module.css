@@ -1,14 +1,14 @@
-h2 {
+.container > * h2 {
   background-color: #FDC800;
   padding: 1rem;
 }
 
-h3 {
+.container > * h3 {
   background-color: #FDC800;
   padding: 0.5rem;
 }
 
-h4 {
+.container > * h4 {
   background-color: bisque;
   padding: 0.3rem;
   margin-left: 2ch;

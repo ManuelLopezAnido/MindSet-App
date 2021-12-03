@@ -88,7 +88,7 @@ const PostulantsForm = () => {
 
   if (postulantId) {
     useEffect(() => {
-      fetch(`${process.env.REACT_APP_API}/api/postulants/${postulantId}`)
+      fetch(`${process.env.REACT_APP_API}/postulants/${postulantId}`)
         .then((response) => response.json())
         .then((response) => {
           console.log('on loading fetch resp: ', response);
@@ -304,8 +304,8 @@ const PostulantsForm = () => {
 
     let url;
     postulantId
-      ? (url = `${process.env.REACT_APP_API}/api/postulants/update/${postulantId}`)
-      : (url = `${process.env.REACT_APP_API}/api/postulants/add`);
+      ? (url = `${process.env.REACT_APP_API}/postulants/update/${postulantId}`)
+      : (url = `${process.env.REACT_APP_API}/postulants/add`);
 
     return fetch(url, {
       method: postulantId ? 'PUT' : 'POST',

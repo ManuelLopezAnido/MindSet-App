@@ -11,14 +11,14 @@ const Postulants = () => {
   const [lastNameToDelete, setLastNameToDelete] = useState('');
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/api/postulants`)
+    fetch(`${process.env.REACT_APP_API}/postulants`)
       .then((response) => response.json())
       .then((response) => setPostulants(response))
       .catch((error) => console.log(error));
   }, []);
 
   const deletePostulant = (id) => {
-    const url = `${process.env.REACT_APP_API}/api/postulants/delete/${id}`;
+    const url = `${process.env.REACT_APP_API}/postulants/delete/${id}`;
     fetch(url, {
       method: 'DELETE',
       headers: {
