@@ -33,7 +33,7 @@ function Layout() {
       break;
     case '/applications/form':
       currentScreen = <FormApplication />;
-      break;    
+      break;
     case '/clients':
       currentScreen = <Clients />;
       break;
