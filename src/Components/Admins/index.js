@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './admins.module.css';
-import Modal from '../Admins/Modal';
+import Modal from '../Shared/Modal';
 import Error from '../Admins/Error';
 import ErrorMessage from '../Admins/ErrorMessage';
 
@@ -27,11 +27,11 @@ const Admins = () => {
     window.location.replace(`admins/form`);
   };
 
-  const deleteAdmin = (id) => {
+  const deleteAdmin = () => {
     const options = {
       method: 'DELETE'
     };
-    const url = `${process.env.REACT_APP_API}/api/admins/delete/${id}`;
+    const url = `${process.env.REACT_APP_API}/api/admins/delete/${selectedId}`;
     fetch(url, options)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201) {
@@ -39,7 +39,7 @@ const Admins = () => {
             throw new Error(message);
           });
         }
-        saveAdmins(admins.filter((admin) => admin._id !== id));
+        saveAdmins(admins.filter((admin) => admin._id !== selectedId));
         setShowModal(false);
       })
       .catch((error) => {
@@ -48,10 +48,10 @@ const Admins = () => {
       });
   };
 
-  const onShowModal = (id, event) => {
+  const handleIdPostulant = (event, id) => {
     event.stopPropagation();
-    setShowModal(true);
     setSelectedId(id);
+    setShowModal(true);
   };
 
   const closeModal = () => {
@@ -63,14 +63,17 @@ const Admins = () => {
   };
 
   return (
-    <section className={styles.container}>
+    <div className={styles.container}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
-        id={selectedId}
-        delete={deleteAdmin}
-        text="Are you sure you want to delete the admin selected?"
-      ></Modal>
+        actionEntity={deleteAdmin}
+        selectedId={selectedId}
+        titleText="Delete an Admin"
+        middleText="are you sure you want to delete this admin?"
+        leftButtonText="delete"
+        rightButtonText="cancel"
+      />
       <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
       <h2 className={styles.header}>Admins</h2>
       <table className={styles.list}>
@@ -91,7 +94,7 @@ const Admins = () => {
               >
                 <td>{admin.email}</td>
                 <td>
-                  <button onClick={(event) => onShowModal(admin._id, event)}>Delete</button>
+                  <button onClick={(event) => handleIdPostulant(event, admin._id)}>Delete</button>
                 </td>
               </tr>
             );
@@ -101,7 +104,7 @@ const Admins = () => {
       <button className={styles.buttonAdd} disabled={showModal} onClick={() => addAdmin()}>
         Add Admin
       </button>
-    </section>
+    </div>
   );
 };
 
