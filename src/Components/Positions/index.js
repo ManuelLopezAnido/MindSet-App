@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import styles from './positions.module.css';
 import ModalPositons from './Modal/modalPositions.js';
+import Button from '../Shared/Button/Button';
+import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 
 function Positions() {
   const [showModal, setShowModal] = useState(false);
@@ -56,7 +58,10 @@ function Positions() {
         delete={deletePosition}
         selectedId={selectedId}
       />
-      <h2>Applications</h2>
+      <div className={styles.titleAndButton}>
+        <h3>Positions</h3>
+        <Button onClick={addPositions} value="Positions" />
+      </div>
       <table>
         <thead>
           <tr>
@@ -76,17 +81,12 @@ function Positions() {
               <td>{a.companyName}</td>
               <td>{a.jobDescription}</td>
               <td className={styles.deleteButtonTD}>
-                <button className={styles.deleteIcon} onClick={(e) => handleIdPosition(e, a._id)}>
-                  asd
-                </button>
+                <DeleteButton onClick={(e) => handleIdPosition(e, a._id)} />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <button className={styles.addButton} onClick={addPositions}>
-        ADD APPLLICATION
-      </button>
     </section>
   );
 }

@@ -39,10 +39,10 @@ const Form = () => {
 
     if (adminId !== null) {
       options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/api/admins/update/${adminId}`;
+      url = `${process.env.REACT_APP_API}/admins/update/${adminId}`;
     } else {
       options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/api/admins/create`;
+      url = `${process.env.REACT_APP_API}/admins/create`;
     }
 
     fetch(url, options)
