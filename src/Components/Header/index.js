@@ -53,7 +53,7 @@ function Header() {
             <a href="/profiles">profiles</a>
           </li>
           <li>
-            <a href="/psychologists">psychologists</a>
+            <a href="/councelors">counselors</a>
           </li>
           <li>
             <a href="/sessions">sessions</a>
