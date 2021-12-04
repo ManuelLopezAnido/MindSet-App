@@ -1,16 +1,26 @@
-.container {
+.container, h1{
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-
-tbody {
-  text-align: center;
+.container, h2{
+  display: none;
+  align-items: center;  
+  justify-content: center;
+  color: red;
+}
+.container, form{
+  display: flex;
 }
 
-.addButton {
+input {
+  width: 250px;
+  margin: 10px 0px;
+}
+
+.sendFormButton {
   width: 100px;
   height: 50px;
   padding: 5px 15px;
@@ -21,14 +31,6 @@ tbody {
   color: white;
   font-weight: bold;
 }
-
-.sessionRow:hover :not(.deleteButtonTD, .deleteIcon, img){
-  background: lightgrey;
-  cursor: pointer;
-}
-
-.deleteIcon{
-  background: none;
-  border: none;
-  cursor: pointer;
+.visible{
+  display: flex;
 }
