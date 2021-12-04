@@ -90,7 +90,7 @@ const Postulants = () => {
       />
       <div className={styles.content}>
         <div className={styles.titleAndButton}>
-          <h2>Postulants</h2>
+          <h3>Postulants</h3>
           <Button value="Postulant" onClick={() => redirectToForm(null)} />
         </div>
         <table className={styles.list}>

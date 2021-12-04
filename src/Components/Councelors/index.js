@@ -1,23 +1,21 @@
 import { useEffect, useState } from 'react';
-import styles from './admins.module.css';
-import Modal from '../Admins/Modal';
-import Error from '../Admins/Error';
-import ErrorMessage from '../Admins/ErrorMessage';
-import Button from '../Shared/Button/Button';
-import DeleteButton from '../Shared/DeleteButton/DeleteButton';
+import styles from './councelors.module.css';
+import Modal from '../Councelors/Modal';
+import Error from '../Councelors/Error';
+import ErrorMessage from '../Councelors/ErrorMessage';
 
-const Admins = () => {
-  const [admins, saveAdmins] = useState([]);
+const Councelor = () => {
+  const [councelors, saveCouncelors] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [errorMessageText, setErrorMessageText] = useState('');
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/admins`)
+    fetch(`${process.env.REACT_APP_API}/counselors`)
       .then((response) => response.json())
       .then((response) => {
-        saveAdmins(response.Admins);
+        saveCouncelors(response.data);
       })
       .catch((error) => {
         setShowErrorMessage(true);
@@ -25,15 +23,15 @@ const Admins = () => {
       });
   }, []);
 
-  const addAdmin = () => {
-    window.location.replace(`admins/form`);
+  const addCouncelor = () => {
+    window.location.replace(`councelors/form`);
   };
 
-  const deleteAdmin = (id) => {
+  const deleteCouncelor = (id) => {
     const options = {
       method: 'DELETE'
     };
-    const url = `${process.env.REACT_APP_API}/admins/delete/${id}`;
+    const url = `${process.env.REACT_APP_API}/counselors/delete/${id}`;
     fetch(url, options)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201) {
@@ -41,7 +39,7 @@ const Admins = () => {
             throw new Error(message);
           });
         }
-        saveAdmins(admins.filter((admin) => admin._id !== id));
+        saveCouncelors(councelors.filter((councelor) => councelor._id !== id));
         setShowModal(false);
       })
       .catch((error) => {
@@ -70,41 +68,43 @@ const Admins = () => {
         showModal={showModal}
         closeModal={closeModal}
         id={selectedId}
-        delete={deleteAdmin}
-        text="Are you sure you want to delete the admin selected?"
+        delete={deleteCouncelor}
+        text="Are you sure you want to delete the counselor selected?"
       ></Modal>
       <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
-      <div className={styles.titleAndButton}>
-        <h3>Admin</h3>
-        <Button onClick={() => addAdmin()} value="Admin" />
-      </div>
+      <h2 className={styles.header}>Counselors</h2>
       <table className={styles.list}>
         <thead>
           <tr>
-            <th> Email </th>
+            <th> First Name </th>
+            <th> Last Name </th>
             <th> Actions </th>
           </tr>
         </thead>
         <tbody>
-          {admins.map((admin) => {
+          {councelors.map((councelor) => {
             return (
               <tr
-                key={admin._id}
+                key={councelor._id}
                 onClick={() => {
-                  window.location.replace(`admins/form?id=${admin._id}`);
+                  window.location.replace(`councelors/form?id=${councelor._id}`);
                 }}
               >
-                <td>{admin.email}</td>
+                <td>{councelor.firstName}</td>
+                <td>{councelor.lastName}</td>
                 <td>
-                  <DeleteButton onClick={(event) => onShowModal(admin._id, event)} />
+                  <button onClick={(event) => onShowModal(councelor._id, event)}>Delete</button>
                 </td>
               </tr>
             );
           })}
         </tbody>
       </table>
+      <button className={styles.buttonAdd} disabled={showModal} onClick={() => addCouncelor()}>
+        Add Counselor
+      </button>
     </section>
   );
 };
 
-export default Admins;
+export default Councelor;

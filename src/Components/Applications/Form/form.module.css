@@ -1,0 +1,36 @@
+.container, h1{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.container, h2{
+  display: none;
+  align-items: center;  
+  justify-content: center;
+  color: red;
+}
+.container, form{
+  display: flex;
+}
+
+input {
+  width: 250px;
+  margin: 10px 0px;
+}
+
+.sendFormButton {
+  width: 100px;
+  height: 50px;
+  padding: 5px 15px;
+  margin: 20px 0px;
+  border: none;
+  border-radius: 7px;
+  background-color: #002147;
+  color: white;
+  font-weight: bold;
+}
+.visible{
+  display: flex;
+}

@@ -77,7 +77,7 @@ function Sessions() {
         showModalMessageErrorMessage={showModalMessageErrorMessage}
       />
       <div className={styles.titleAndButton}>
-        <h2>Sessions</h2>
+        <h3>Sessions</h3>
         <Button onClick={addSession} value="Session" />
       </div>
       <table>

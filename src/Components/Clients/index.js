@@ -81,7 +81,7 @@ function Clients() {
         showModalMessageErrorMessage={showModalMessageErrorMessage}
       />
       <div className={styles.titleAndButton}>
-        <h2>Clients</h2>
+        <h3>Clients</h3>
         <Button onClick={addClient} value="Client" />
       </div>
       <table>
