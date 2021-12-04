@@ -1,23 +1,31 @@
 import Header from '../Header/index';
 import Footer from '../Footer/index';
 import Admins from '../Admins/index';
+import AdminsForm from '../Admins/Form';
 import Applications from '../Applications/index';
 import FormApplication from '../Applications/Form/FormApplication';
 import Clients from '../Clients/index';
 import Interviews from '../Interviews/index';
 import Positions from '../Positions/index';
 import Postulants from '../Postulants/index';
+import PostulantsForm from '../Postulants/PostulantsForm';
 import Profiles from '../Profiles/index';
-import Psychologists from '../Psychologists/index';
+import Councelors from '../Councelors/index';
+import CouncelorsForm from '../Councelors/Form';
 import Sessions from '../Sessions/index';
 import Home from '../Home/index';
 import styles from './layout.module.css';
+import FormSession from '../Sessions/Form/FormSession';
+import FormClient from '../Clients/Form/FormClients';
 
 function Layout() {
   let currentScreen = <Home />;
   switch (window.location.pathname) {
     case '/admins':
       currentScreen = <Admins />;
+      break;
+    case '/admins/form':
+      currentScreen = <AdminsForm />;
       break;
     case '/applications':
       currentScreen = <Applications />;
@@ -28,6 +36,9 @@ function Layout() {
     case '/clients':
       currentScreen = <Clients />;
       break;
+    case '/clients/form':
+      currentScreen = <FormClient />;
+      break;
     case '/interviews':
       currentScreen = <Interviews />;
       break;
@@ -37,14 +48,23 @@ function Layout() {
     case '/postulants':
       currentScreen = <Postulants />;
       break;
+    case '/postulants/form':
+      currentScreen = <PostulantsForm />;
+      break;
     case '/profiles':
       currentScreen = <Profiles />;
       break;
-    case '/psychologists':
-      currentScreen = <Psychologists />;
+    case '/councelors':
+      currentScreen = <Councelors />;
+      break;
+    case '/councelors/form':
+      currentScreen = <CouncelorsForm />;
       break;
     case '/sessions':
       currentScreen = <Sessions />;
+      break;
+    case '/sessions/form':
+      currentScreen = <FormSession />;
       break;
     default:
       break;

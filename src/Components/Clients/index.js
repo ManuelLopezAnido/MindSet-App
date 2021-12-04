@@ -1,24 +1,121 @@
 import { useEffect, useState } from 'react';
 import styles from './clients.module.css';
+import ModalClient from './Modal/ModalClient';
+import ErrorMessageModal from './ErrorMessageModal/ErrorMessageModal';
+import deleteIcon from '../../assets/deleteIcon.png';
 
 function Clients() {
+  const [showModal, setShowModal] = useState(false);
+  const [showModalMessageError, setShowModalMessageError] = useState(false);
+  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
   const [clients, saveClients] = useState([]);
+  const [selectedId, setSelectedId] = useState('');
+
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/clients`)
+    fetch(`${process.env.REACT_APP_API}/api/clients`)
       .then((response) => response.json())
       .then((response) => {
         saveClients(response.data);
+      })
+      .catch((error) => {
+        setShowModalMessageError(true);
+        setShowModalMessageErrorMessage(JSON.stringify(error.message));
       });
   }, []);
 
+  const addClient = () => {
+    window.location.href = `/clients/form`;
+  };
+
+  const deleteClient = (id) => {
+    const url = `${process.env.REACT_APP_API}/clients/delete/${id}`;
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json'
+      }
+    })
+      .then((res) => {
+        if (res.status !== 204) {
+          return res.json().then((message) => {
+            throw new Error(message);
+          });
+        }
+        return;
+      })
+      .catch((error) => {
+        setShowModalMessageError(true);
+        setShowModalMessageErrorMessage(JSON.stringify(error.message));
+      });
+    closeModal();
+    saveClients(clients.filter((client) => client._id !== id));
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const closeModalMessageError = () => {
+    setShowModalMessageErrorMessage(false);
+  };
+
+  const handleIdClient = (event, id) => {
+    event.stopPropagation();
+    setSelectedId(id);
+    setShowModal(true);
+  };
+
   return (
     <section className={styles.container}>
+      <ModalClient
+        show={showModal}
+        closeModal={closeModal}
+        deleteClient={deleteClient}
+        selectedId={selectedId}
+      />
+      <ErrorMessageModal
+        show={showModalMessageError}
+        closeModalMessageError={closeModalMessageError}
+        setShowModalMessageError={setShowModalMessageError}
+        showModalMessageErrorMessage={showModalMessageErrorMessage}
+      />
       <h2>Clients</h2>
-      <div>
-        {clients.map((client) => {
-          return <div key={client._id}>{client.email}</div>;
-        })}
-      </div>
+      <table>
+        <thead>
+          <th>Name</th>
+          <th>Company Type</th>
+          <th>Email</th>
+          <th>Country</th>
+          <th>Phone</th>
+          <th>Actions</th>
+        </thead>
+        <tbody>
+          {clients.map((client) => (
+            <tr
+              className={styles.clientRow}
+              key={client._id}
+              onClick={() => (window.location.href = `clients/form?id=${client._id}`)}
+            >
+              <td>{client.companyName}</td>
+              <td>{client.companyType}</td>
+              <td>{client.email}</td>
+              <td>{client.country}</td>
+              <td>{client.phone}</td>
+              <td className={styles.deleteButtonTD}>
+                <button
+                  className={styles.deleteIcon}
+                  onClick={(event) => handleIdClient(event, client._id)}
+                >
+                  <img src={deleteIcon} />
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <button className={styles.addButton} onClick={addClient}>
+        ADD CLIENT
+      </button>
     </section>
   );
 }

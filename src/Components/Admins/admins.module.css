@@ -1,6 +1,66 @@
-.container {
-  flex: 1;
+body {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
   align-items: center;
+}
+
+.buttonAdd {
+  margin-bottom: 15px;
+  width: 20%;
+  height: 30px;
+  background-color: #fdc800;
+  color: #f3f3f3;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.list {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 16px;
+  min-width: 400px;
+  max-width: 800px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.list thead tr {
+  background-color: #002147;
+  color: #ffffff;
+  text-align: left;
+}
+
+.list th,
+.list td {
+  padding: 12px 15px;
+  cursor: pointer;
+}
+
+.list tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.list tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.list tbody tr:last-of-type {
+  border-bottom: 2px solid #fdc800;
+}
+
+.list tbody tr.active-row {
+  font-weight: bold;
+  color: #002147;
+}
+
+.list button {
+  background-color: #fdc800;
+  color: #f3f3f3;
+  font-weight: bold;
 }
