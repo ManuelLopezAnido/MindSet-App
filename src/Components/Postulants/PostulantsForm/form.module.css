@@ -1,0 +1,66 @@
+.container > * h2 {
+  background-color: #FDC800;
+  padding: 1rem;
+}
+
+.container > * h3 {
+  background-color: #FDC800;
+  padding: 0.5rem;
+}
+
+.container > * h4 {
+  background-color: bisque;
+  padding: 0.3rem;
+  margin-left: 2ch;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 40px 25px;
+  box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5);
+  margin: 50px 0px 20px;
+  width: 600px;
+}
+
+.form > * input,
+.form > * label {
+  margin-top: 7px;
+}
+
+.studies {
+  display: flex;
+  flex-direction: column;
+}
+
+.studies > div {
+  margin-left: 4ch;
+}
+
+.availability {
+  display: flex;
+  flex-direction: column;
+}
+
+.availability > div {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(241, 241, 241);
+  margin: 5px 0px;
+  padding: 10px;
+}
+
+
+.formButton {
+  margin-top: 20px;
+  align-self: center;
+  width: 400px;
+}
