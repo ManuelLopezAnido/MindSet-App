@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import styles from './clients.module.css';
 import ModalClient from './Modal/ModalClient';
 import ErrorMessageModal from './ErrorMessageModal/ErrorMessageModal';
-import deleteIcon from '../../assets/deleteIcon.png';
+import Button from '../Shared/Button/Button';
+import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 
 function Clients() {
   const [showModal, setShowModal] = useState(false);
@@ -79,7 +80,10 @@ function Clients() {
         setShowModalMessageError={setShowModalMessageError}
         showModalMessageErrorMessage={showModalMessageErrorMessage}
       />
-      <h2>Clients</h2>
+      <div className={styles.titleAndButton}>
+        <h2>Clients</h2>
+        <Button onClick={addClient} value="Client" />
+      </div>
       <table>
         <thead>
           <th>Name</th>
@@ -101,21 +105,13 @@ function Clients() {
               <td>{client.email}</td>
               <td>{client.country}</td>
               <td>{client.phone}</td>
-              <td className={styles.deleteButtonTD}>
-                <button
-                  className={styles.deleteIcon}
-                  onClick={(event) => handleIdClient(event, client._id)}
-                >
-                  <img src={deleteIcon} />
-                </button>
+              <td>
+                <DeleteButton onClick={(event) => handleIdClient(event, client._id)} />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <button className={styles.addButton} onClick={addClient}>
-        ADD CLIENT
-      </button>
     </section>
   );
 }
