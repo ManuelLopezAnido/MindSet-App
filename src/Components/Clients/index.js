@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './clients.module.css';
-import ModalClient from './Modal/ModalClient';
+import Modal from '../Shared/Modal';
 import ErrorMessageModal from './ErrorMessageModal/ErrorMessageModal';
 import deleteIcon from '../../assets/deleteIcon.png';
 
@@ -27,8 +27,8 @@ function Clients() {
     window.location.href = `/clients/form`;
   };
 
-  const deleteClient = (id) => {
-    const url = `${process.env.REACT_APP_API}/clients/delete/${id}`;
+  const deleteClient = () => {
+    const url = `${process.env.REACT_APP_API}/clients/delete/${selectedId}`;
     fetch(url, {
       method: 'DELETE',
       headers: {
@@ -48,7 +48,7 @@ function Clients() {
         setShowModalMessageErrorMessage(JSON.stringify(error.message));
       });
     closeModal();
-    saveClients(clients.filter((client) => client._id !== id));
+    saveClients(clients.filter((client) => client._id !== selectedId));
   };
 
   const closeModal = () => {
@@ -67,11 +67,15 @@ function Clients() {
 
   return (
     <section className={styles.container}>
-      <ModalClient
-        show={showModal}
+      <Modal
+        showModal={showModal}
         closeModal={closeModal}
-        deleteClient={deleteClient}
+        actionEntity={deleteClient}
         selectedId={selectedId}
+        titleText="Delete a client"
+        middleText="are you sure you want to delete this client?"
+        leftButtonText="delete"
+        rightButtonText="cancel"
       />
       <ErrorMessageModal
         show={showModalMessageError}

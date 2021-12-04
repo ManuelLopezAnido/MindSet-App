@@ -1,7 +1,7 @@
 import styles from './sessions.module.css';
 import { useState, useEffect } from 'react';
 import deleteIcon from '../../assets/deleteIcon.png';
-import ModalSession from './Modal/ModalSession';
+import Modal from '../Shared/Modal';
 import ErrorMessageModal from './ErrorMessageModal/ErrorMessageModal';
 
 function Sessions() {
@@ -26,8 +26,8 @@ function Sessions() {
     window.location.href = `/sessions/form`;
   };
 
-  const deleteSession = (id) => {
-    const url = `${process.env.REACT_APP_API}/sessions/${id}`;
+  const deleteSession = () => {
+    const url = `${process.env.REACT_APP_API}/sessions/${selectedId}`;
     fetch(url, {
       method: 'DELETE',
       headers: {
@@ -44,7 +44,7 @@ function Sessions() {
       })
       .catch((error) => error);
     closeModal();
-    saveSessions(sessions.filter((session) => session._id !== id));
+    saveSessions(sessions.filter((session) => session._id !== selectedId));
   };
 
   const closeModal = () => {
@@ -63,11 +63,15 @@ function Sessions() {
 
   return (
     <section className={styles.container}>
-      <ModalSession
-        show={showModal}
+      <Modal
+        showModal={showModal}
         closeModal={closeModal}
-        deleteSession={deleteSession}
+        actionEntity={deleteSession}
         selectedId={selectedId}
+        titleText="Delete a session"
+        middleText="are you sure you want to delete this session?"
+        leftButtonText="delete"
+        rightButtonText="cancel"
       />
       <ErrorMessageModal
         show={showModalMessageError}

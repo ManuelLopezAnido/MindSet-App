@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './applications.module.css';
-import ModalApplications from './Modal/ModalApplications.js';
+import Modal from '../Shared/Modal';
 import deleteIcon from '../../assets/deleteIcon.png';
 
 function Applications() {
@@ -20,8 +20,8 @@ function Applications() {
     window.location.href = `/applications/form`;
   };
 
-  const deleteApplication = (idApp) => {
-    const url = `${process.env.REACT_APP_API}/applications/delete/${idApp}`;
+  const deleteApplication = () => {
+    const url = `${process.env.REACT_APP_API}/applications/delete/${selectedId}`;
     fetch(url, {
       method: 'DELETE',
       headers: {
@@ -35,7 +35,7 @@ function Applications() {
           });
         }
         closeModal();
-        setApplications(applications.filter((a) => a._id !== idApp));
+        setApplications(applications.filter((a) => a._id !== selectedId));
       })
       .catch((error) => error);
   };
@@ -52,11 +52,15 @@ function Applications() {
 
   return (
     <section className={styles.container}>
-      <ModalApplications
-        show={showModal}
+      <Modal
+        showModal={showModal}
         closeModal={closeModal}
-        delete={deleteApplication}
+        actionEntity={deleteApplication}
         selectedId={selectedId}
+        titleText="Delete an application"
+        middleText="are you sure you want to delete this application?"
+        leftButtonText="delete"
+        rightButtonText="cancel"
       />
       <h2>Applications</h2>
       <table>
