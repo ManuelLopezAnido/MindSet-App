@@ -39,10 +39,10 @@ const Form = () => {
 
     if (adminId !== null) {
       options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/admins/update/${adminId}`;
+      url = `${process.env.REACT_APP_API}/api/admins/update/${adminId}`;
     } else {
       options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/admins/create`;
+      url = `${process.env.REACT_APP_API}/api/admins/create`;
     }
 
     fetch(url, options)
@@ -54,7 +54,7 @@ const Form = () => {
         }
       })
       .then(() => {
-        window.location.replace(`http://localhost:3000/admins`);
+        window.location.replace(`/admins`);
       })
       .catch((error) => {
         setShowErrorMessage(true);
