@@ -16,8 +16,8 @@ function Positions() {
         setPositions(response);
       });
   }, []);
- 
-  const addPositions = () =>{
+
+  const addPositions = () => {
     window.location.href = `/positions/form`;
   };
 
@@ -26,8 +26,8 @@ function Positions() {
     fetch(url, {
       method: 'DELETE',
       headers: {
-        'Content-type': 'application/json',
-      },
+        'Content-type': 'application/json'
+      }
     })
       .then((res) => {
         if (res.status !== 204 && res.status !== 200) {
@@ -51,38 +51,43 @@ function Positions() {
 
   return (
     <section className={styles.container}>
-      <ModalPositons 
-        show={showModal} 
-        closeModal={closeModal} 
-        delete={deletePosition} 
+      <ModalPositons
+        show={showModal}
+        closeModal={closeModal}
+        delete={deletePosition}
         selectedId={selectedId}
       />
       <h2>Applications</h2>
       <table>
         <thead>
-          <tr>  
+          <tr>
             <th>Job</th>
             <th>Company </th>
             <th>Description</th>
           </tr>
         </thead>
         <tbody>
-          {
-            positions.map((a) =>
-                <tr className={styles.positionRow} key={a._id} onClick={()=> window.location.href = `positions/form?id=${a._id}`}>
-                  <td>{a.jobTitle}</td>
-                  <td>{a.companyName}</td>
-                  <td>{a.jobDescription}</td>
-                  <td className={styles.deleteButtonTD}>
-                    <button className={styles.deleteIcon} onClick={(e) => handleIdPosition(e, a._id)}>
-                      <img src={deleteIcon}/>
-                    </button>
-                  </td>
-                </tr>)
-          }
+          {positions.map((a) => (
+            <tr
+              className={styles.positionRow}
+              key={a._id}
+              onClick={() => (window.location.href = `positions/form?id=${a._id}`)}
+            >
+              <td>{a.jobTitle}</td>
+              <td>{a.companyName}</td>
+              <td>{a.jobDescription}</td>
+              <td className={styles.deleteButtonTD}>
+                <button className={styles.deleteIcon} onClick={(e) => handleIdPosition(e, a._id)}>
+                  <img src={deleteIcon} />
+                </button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
-      <button className={styles.addButton} onClick={addPositions}>ADD APPLLICATION</button>
+      <button className={styles.addButton} onClick={addPositions}>
+        ADD APPLLICATION
+      </button>
     </section>
   );
 }

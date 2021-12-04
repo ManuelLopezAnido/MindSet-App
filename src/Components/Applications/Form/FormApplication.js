@@ -5,9 +5,9 @@ const FormApplication = () => {
   const [position, setPositionName] = useState('');
   const [company, setCompany] = useState('');
   const [postulant, setPostulant] = useState('');
-  const [applicationState, setAppState] = useState("");
+  const [applicationState, setAppState] = useState('');
 
-   const onChangePosition = (event) => {
+  const onChangePosition = (event) => {
     setPositionName(event.target.value);
   };
   const onChangeCompany = (event) => {
@@ -23,8 +23,8 @@ const FormApplication = () => {
   const params = new URLSearchParams(window.location.search);
   const appId = params.get('id');
 
-  useEffect(()=> {
-    if(appId){
+  useEffect(() => {
+    if (appId) {
       fetch(`${process.env.REACT_APP_API}/applications/id/${appId}`)
         .then((response) => {
           if (response.status !== 200) {
@@ -37,7 +37,7 @@ const FormApplication = () => {
         .then((response) => {
           setPositionName(response.positionId);
           setCompany(response.companyId);
-          setPostulant(response.postulantId ? response.postulantId :"No id"); // Bad DB. Applications with no postulantID exist
+          setPostulant(response.postulantId ? response.postulantId : 'No id'); // Bad DB. Applications with no postulantID exist
           setAppState(response.applicationState);
         });
     }
@@ -64,27 +64,56 @@ const FormApplication = () => {
       options.method = 'PUT';
       url = `${process.env.REACT_APP_API}/applications/update/${appId}`;
     }
-    fetch(url, options).then((response) => {
-      if (response.status !== 200 && response.status !== 201){
-        return response.json().then(({ErrMessage}) => {
-          throw new Error(ErrMessage);
-        });
-      }
-      window.location.href = `/applications`;
-    })
-    .catch((error) => {
-      return error;
-    });
+    fetch(url, options)
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201) {
+          return response.json().then(({ ErrMessage }) => {
+            throw new Error(ErrMessage);
+          });
+        }
+        window.location.href = `/applications`;
+      })
+      .catch((error) => {
+        return error;
+      });
   };
   return (
     <div>
       <h1>Form</h1>
       <form className={styles.container} onSubmit={onSubmit}>
-        <input id="position" name="positionName" required value={position} onChange={onChangePosition} placeholder="Position"></input>
-        <input id="company" name="companyName" required value={company} onChange={onChangeCompany} placeholder="Company Name"></input>
-        <input id="postulant" name="postulantName" value={postulant} onChange={onChangePostulant} placeholder="Postulant Name"></input>
-        <input id="applicationState" name="applicationName" value={applicationState} onChange={onChangeAppState} placeholder="State"></input>
-        <button className={styles.sendFormButton} type="submit">SEND</button>
+        <input
+          id="position"
+          name="positionName"
+          required
+          value={position}
+          onChange={onChangePosition}
+          placeholder="Position"
+        />
+        <input
+          id="company"
+          name="companyName"
+          required
+          value={company}
+          onChange={onChangeCompany}
+          placeholder="Company Name"
+        />
+        <input
+          id="postulant"
+          name="postulantName"
+          value={postulant}
+          onChange={onChangePostulant}
+          placeholder="Postulant Name"
+        />
+        <input
+          id="applicationState"
+          name="applicationName"
+          value={applicationState}
+          onChange={onChangeAppState}
+          placeholder="State"
+        />
+        <button className={styles.sendFormButton} type="submit">
+          SEND
+        </button>
       </form>
     </div>
   );

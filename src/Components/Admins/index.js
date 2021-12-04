@@ -12,7 +12,7 @@ const Admins = () => {
   const [errorMessageText, setErrorMessageText] = useState('');
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/api/admins`)
+    fetch(`${process.env.REACT_APP_API}/admins`)
       .then((response) => response.json())
       .then((response) => {
         saveAdmins(response.Admins);
