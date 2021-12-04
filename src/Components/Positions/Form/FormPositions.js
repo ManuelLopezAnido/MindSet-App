@@ -41,7 +41,7 @@ const FormPositions = () => {
 
   useEffect(()=> {
     if(PosId){
-      fetch(`${process.env.REACT_APP_API}/api/positions/id/${PosId}`)
+      fetch(`${process.env.REACT_APP_API}/positions/id/${PosId}`)
         .then((response) => {
           if (response.status !== 200) {
             return response.json().then(({ ErrMessage }) => {
@@ -85,13 +85,12 @@ const FormPositions = () => {
 
     if (PosId === null) {
       options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/api/positions/create`;
+      url = `${process.env.REACT_APP_API}/positions/create`;
     } else {
       options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/api/positions/update/${PosId}`;
+      url = `${process.env.REACT_APP_API}/positions/update/${PosId}`;
     }
-    console.log("La url es: ", url); 
-    console.log("El curepo es: ", options);
+   
     fetch(url, options).then((response) => {
       if (response.status !== 200){
         return response.json().then(({ErrMessage}) => {
