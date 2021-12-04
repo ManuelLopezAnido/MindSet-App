@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import deleteIcon from '../../assets/deleteIcon.png';
 import ModalSession from './Modal/ModalSession';
 import ErrorMessageModal from './ErrorMessageModal/ErrorMessageModal';
+import IsLoading from '../Shared/IsLoading/IsLoading';
 
 function Sessions() {
   const [showModal, setShowModal] = useState(false);
@@ -10,7 +11,10 @@ function Sessions() {
   const [selectedId, setSelectedId] = useState('');
   const [showModalMessageError, setShowModalMessageError] = useState(false);
   const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${process.env.REACT_APP_API}/sessions/`)
       .then((response) => response.json())
       .then((response) => {
@@ -19,7 +23,8 @@ function Sessions() {
       .catch((error) => {
         setShowModalMessageError(true);
         setShowModalMessageErrorMessage(JSON.stringify(error.message));
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const addSession = () => {
@@ -27,6 +32,7 @@ function Sessions() {
   };
 
   const deleteSession = (id) => {
+    setIsLoading(true);
     const url = `${process.env.REACT_APP_API}/sessions/${id}`;
     fetch(url, {
       method: 'DELETE',
@@ -42,7 +48,8 @@ function Sessions() {
         }
         return;
       })
-      .catch((error) => error);
+      .catch((error) => error)
+      .finally(() => setIsLoading(false));
     closeModal();
     saveSessions(sessions.filter((session) => session._id !== id));
   };
@@ -60,6 +67,10 @@ function Sessions() {
     setSelectedId(id);
     setShowModal(true);
   };
+
+  if (isLoading) {
+    return <IsLoading />;
+  }
 
   return (
     <section className={styles.container}>

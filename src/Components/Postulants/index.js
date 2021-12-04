@@ -3,6 +3,7 @@ import styles from './postulants.module.css';
 import deleteImage from '../../assets/images/deleteIcon.png';
 import Modal from '../Postulants/Modal';
 import ErrorMessageModal from '../Postulants/ErrorMessageModal';
+import IsLoading from '../Shared/IsLoading/IsLoading';
 
 const Postulants = () => {
   const [showModal, setShowModal] = useState(false);
@@ -12,18 +13,22 @@ const Postulants = () => {
   const [lastNameToDelete, setLastNameToDelete] = useState('');
   const [showModalMessageError, setShowModalMessageError] = useState(false);
   const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${process.env.REACT_APP_API}/postulants`)
       .then((response) => response.json())
       .then((response) => setPostulants(response))
       .catch((error) => {
         setShowModalMessageError(true);
         setShowModalMessageErrorMessage(JSON.stringify(error.message));
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const deletePostulant = () => {
+    setIsLoading(true);
     const url = `${process.env.REACT_APP_API}/postulants/delete/${idToDelete}`;
     fetch(url, {
       method: 'DELETE',
@@ -42,7 +47,8 @@ const Postulants = () => {
       .catch((error) => {
         setShowModalMessageError(true);
         setShowModalMessageErrorMessage(JSON.stringify(error.message));
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const redirectToForm = (postulantId) => {
@@ -66,6 +72,10 @@ const Postulants = () => {
     setFirstNameToDelete(firstName);
     setLastNameToDelete(lastName);
   };
+
+  if (isLoading) {
+    return <IsLoading />;
+  }
 
   return (
     <div className={styles.container}>

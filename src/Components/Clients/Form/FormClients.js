@@ -41,8 +41,8 @@ const FormClient = () => {
   const clientId = params.get('id');
 
   useEffect(() => {
-    setIsLoading(true);
     if (clientId) {
+      setIsLoading(true);
       fetch(`${process.env.REACT_APP_API}/clients/id/${clientId}`)
         .then((response) => {
           if (response.status !== 200) {
@@ -53,7 +53,6 @@ const FormClient = () => {
           return response.json();
         })
         .then((response) => {
-          setIsLoading(false);
           setCompanyNameValue(response.companyName);
           setCompanyTypeValue(response.companyType);
           setCityValue(response.city);

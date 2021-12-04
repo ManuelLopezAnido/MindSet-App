@@ -3,6 +3,7 @@ import styles from './councelors.module.css';
 import Modal from '../Councelors/Modal';
 import Error from '../Councelors/Error';
 import ErrorMessage from '../Councelors/ErrorMessage';
+import IsLoading from '../Shared/IsLoading/IsLoading';
 
 const Councelor = () => {
   const [councelors, saveCouncelors] = useState([]);
@@ -10,8 +11,10 @@ const Councelor = () => {
   const [selectedId, setSelectedId] = useState('');
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [errorMessageText, setErrorMessageText] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${process.env.REACT_APP_API}/counselors`)
       .then((response) => response.json())
       .then((response) => {
@@ -20,7 +23,8 @@ const Councelor = () => {
       .catch((error) => {
         setShowErrorMessage(true);
         setErrorMessageText(JSON.stringify(error.message));
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const addCouncelor = () => {
@@ -28,6 +32,7 @@ const Councelor = () => {
   };
 
   const deleteCouncelor = (id) => {
+    setIsLoading(true);
     const options = {
       method: 'DELETE'
     };
@@ -45,7 +50,8 @@ const Councelor = () => {
       .catch((error) => {
         setShowErrorMessage(true);
         setErrorMessageText(JSON.stringify(error.message));
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const onShowModal = (id, event) => {
@@ -61,6 +67,10 @@ const Councelor = () => {
   const closeError = () => {
     setShowErrorMessage(false);
   };
+
+  if (isLoading) {
+    return <IsLoading />;
+  }
 
   return (
     <section className={styles.container}>

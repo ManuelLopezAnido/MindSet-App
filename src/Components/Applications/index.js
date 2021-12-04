@@ -2,18 +2,22 @@ import { useEffect, useState } from 'react';
 import styles from './applications.module.css';
 import ModalApplications from './Modal/ModalApplications.js';
 import deleteIcon from '../../assets/deleteIcon.png';
+import IsLoading from '../Shared/IsLoading/IsLoading';
 
 function Applications() {
   const [showModal, setShowModal] = useState(false);
   const [applications, setApplications] = useState([]);
   const [selectedId, setSelectedId] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${process.env.REACT_APP_API}/applications`)
       .then((response) => response.json())
       .then((response) => {
         setApplications(response.data);
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const addApplication = () => {
@@ -21,6 +25,7 @@ function Applications() {
   };
 
   const deleteApplication = (idApp) => {
+    setIsLoading(true);
     const url = `${process.env.REACT_APP_API}/applications/delete/${idApp}`;
     fetch(url, {
       method: 'DELETE',
@@ -37,7 +42,8 @@ function Applications() {
         closeModal();
         setApplications(applications.filter((a) => a._id !== idApp));
       })
-      .catch((error) => error);
+      .catch((error) => error)
+      .finally(() => setIsLoading(false));
   };
 
   const closeModal = () => {
@@ -49,6 +55,10 @@ function Applications() {
     setSelectedId(id);
     setShowModal(true);
   };
+
+  if (isLoading) {
+    return <IsLoading />;
+  }
 
   return (
     <section className={styles.container}>

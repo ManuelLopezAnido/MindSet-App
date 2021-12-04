@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
 const FormPositions = () => {
   const [jobTitle, setJobTitle] = useState('');
@@ -10,6 +11,7 @@ const FormPositions = () => {
   const [country, setCountry] = useState('');
   const [datePosted, setDatePosted] = useState('');
   const [closingDate, setClosingDate] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangeJobTitle = (event) => {
     setJobTitle(event.target.value);
@@ -41,6 +43,7 @@ const FormPositions = () => {
 
   useEffect(() => {
     if (PosId) {
+      setIsLoading(true);
       fetch(`${process.env.REACT_APP_API}/positions/id/${PosId}`)
         .then((response) => {
           if (response.status !== 200) {
@@ -59,11 +62,13 @@ const FormPositions = () => {
           setCountry(response.country);
           setDatePosted(response.datePosted);
           setClosingDate(response.closingDate);
-        });
+        })
+        .finally(() => setIsLoading(false));
     }
   }, []);
   const onSubmit = (event) => {
     event.preventDefault();
+    setIsLoading(true);
     let url;
 
     const options = {
@@ -103,8 +108,13 @@ const FormPositions = () => {
       })
       .catch((error) => {
         return error;
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
+
+  if (isLoading) {
+    return <IsLoading />;
+  }
 
   return (
     <div>

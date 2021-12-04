@@ -3,6 +3,7 @@ import styles from './admins.module.css';
 import Modal from '../Admins/Modal';
 import Error from '../Admins/Error';
 import ErrorMessage from '../Admins/ErrorMessage';
+import IsLoading from '../Shared/IsLoading/IsLoading';
 
 const Admins = () => {
   const [admins, saveAdmins] = useState([]);
@@ -10,8 +11,10 @@ const Admins = () => {
   const [selectedId, setSelectedId] = useState('');
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [errorMessageText, setErrorMessageText] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${process.env.REACT_APP_API}/admins`)
       .then((response) => response.json())
       .then((response) => {
@@ -20,7 +23,8 @@ const Admins = () => {
       .catch((error) => {
         setShowErrorMessage(true);
         setErrorMessageText(JSON.stringify(error.message));
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const addAdmin = () => {
@@ -28,10 +32,11 @@ const Admins = () => {
   };
 
   const deleteAdmin = (id) => {
+    setIsLoading(true);
     const options = {
       method: 'DELETE'
     };
-    const url = `${process.env.REACT_APP_API}/api/admins/delete/${id}`;
+    const url = `${process.env.REACT_APP_API}/admins/delete/${id}`;
     fetch(url, options)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201) {
@@ -45,7 +50,8 @@ const Admins = () => {
       .catch((error) => {
         setShowErrorMessage(true);
         setErrorMessageText(JSON.stringify(error.message));
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const onShowModal = (id, event) => {
@@ -61,6 +67,10 @@ const Admins = () => {
   const closeError = () => {
     setShowErrorMessage(false);
   };
+
+  if (isLoading) {
+    return <IsLoading />;
+  }
 
   return (
     <section className={styles.container}>
