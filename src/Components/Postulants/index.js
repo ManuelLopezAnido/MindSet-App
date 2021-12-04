@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react';
 import styles from './postulants.module.css';
 import deleteImage from '../../assets/images/deleteIcon.png';
-import Modal from '../Postulants/Modal';
+import Modal from '../Shared/Modal';
 import ErrorMessageModal from '../Postulants/ErrorMessageModal';
 
 const Postulants = () => {
   const [showModal, setShowModal] = useState(false);
   const [postulants, setPostulants] = useState([]);
-  const [idToDelete, setIdToDelete] = useState('');
-  const [firstNameToDelete, setFirstNameToDelete] = useState('');
-  const [lastNameToDelete, setLastNameToDelete] = useState('');
+  const [selectedId, setSelectedId] = useState('');
   const [showModalMessageError, setShowModalMessageError] = useState(false);
   const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
 
@@ -24,7 +22,7 @@ const Postulants = () => {
   }, []);
 
   const deletePostulant = () => {
-    const url = `${process.env.REACT_APP_API}/postulants/delete/${idToDelete}`;
+    const url = `${process.env.REACT_APP_API}/postulants/delete/${selectedId}`;
     fetch(url, {
       method: 'DELETE',
       headers: {
@@ -37,12 +35,13 @@ const Postulants = () => {
             throw new Error(message);
           });
         }
-        setPostulants(postulants.filter((postulants) => postulants._id !== idToDelete));
+        setPostulants(postulants.filter((postulants) => postulants._id !== selectedId));
       })
       .catch((error) => {
         setShowModalMessageError(true);
         setShowModalMessageErrorMessage(JSON.stringify(error.message));
       });
+    closeModal();
   };
 
   const redirectToForm = (postulantId) => {
@@ -55,16 +54,14 @@ const Postulants = () => {
     setShowModal(false);
   };
 
-  const closeModalMessageError = () => {
-    setShowModalMessageErrorMessage(false);
+  const handleIdPostulant = (event, id) => {
+    event.stopPropagation();
+    setSelectedId(id);
+    setShowModal(true);
   };
 
-  const onShowModal = (event, id, firstName, lastName) => {
-    event.stopPropagation();
-    setShowModal(true);
-    setIdToDelete(id);
-    setFirstNameToDelete(firstName);
-    setLastNameToDelete(lastName);
+  const closeModalMessageError = () => {
+    setShowModalMessageErrorMessage(false);
   };
 
   return (
@@ -72,14 +69,12 @@ const Postulants = () => {
       <Modal
         showModal={showModal}
         closeModal={closeModal}
-        actionPostulant={deletePostulant}
-        idToUse={idToDelete}
-        titleText="Warning"
-        warningText="you are about to delete a postulant"
-        buttonText="delete"
-        text="Are you sure you want to delete"
-        firstName={firstNameToDelete}
-        lastName={lastNameToDelete}
+        actionEntity={deletePostulant}
+        selectedId={selectedId}
+        titleText="Delete a postulant"
+        middleText="are you sure you want to delete this postulant?"
+        leftButtonText="delete"
+        rightButtonText="cancel"
       />
       <ErrorMessageModal
         show={showModalMessageError}
@@ -109,12 +104,7 @@ const Postulants = () => {
                   <div>{postulant?.country || '-'}</div>
                 </td>
                 <td>
-                  <button
-                    type="button"
-                    onClick={(event) =>
-                      onShowModal(event, postulant._id, postulant.firstName, postulant.lastName)
-                    }
-                  >
+                  <button onClick={(event) => handleIdPostulant(event, postulant._id)}>
                     <img src={deleteImage} alt="delete"></img>
                   </button>
                 </td>
