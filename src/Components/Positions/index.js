@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './positions.module.css';
-import ModalPositons from './Modal/modalPositions.js';
+import Modal from '../Shared/Modal';
 import deleteIcon from '../../assets/deleteIcon.png';
 
 function Positions() {
@@ -21,8 +21,8 @@ function Positions() {
     window.location.href = `/positions/form`;
   };
 
-  const deletePosition = (idPos) => {
-    const url = `${process.env.REACT_APP_API}/positions/delete/${idPos}`;
+  const deletePosition = () => {
+    const url = `${process.env.REACT_APP_API}/positions/delete/${selectedId}`;
     fetch(url, {
       method: 'DELETE',
       headers: {
@@ -36,7 +36,7 @@ function Positions() {
           });
         }
         closeModal();
-        setPositions(positions.filter((a) => a._id !== idPos));
+        setPositions(positions.filter((a) => a._id !== selectedId));
       })
       .catch((error) => error);
   };
@@ -51,11 +51,15 @@ function Positions() {
 
   return (
     <section className={styles.container}>
-      <ModalPositons
-        show={showModal}
+      <Modal
+        showModal={showModal}
         closeModal={closeModal}
-        delete={deletePosition}
+        actionEntity={deletePosition}
         selectedId={selectedId}
+        titleText="Delete a position"
+        middleText="are you sure you want to delete this position?"
+        leftButtonText="delete"
+        rightButtonText="cancel"
       />
       <h2>Applications</h2>
       <table>
