@@ -9,20 +9,19 @@ function Applications() {
   const [selectedId, setSelectedId] = useState('');
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/api/applications`)
+    fetch(`${process.env.REACT_APP_API}/applications`)
       .then((response) => response.json())
       .then((response) => {
         setApplications(response.data);
     });
   }, []);
-  console.log("datass: ", applications);
 
   const addApplication = () =>{
     window.location.href = `/applications/form`;
   };
 
   const deleteApplication = (idApp) => {
-    const url = `${process.env.REACT_APP_API}/api/applications/delete/${idApp}`;
+    const url = `${process.env.REACT_APP_API}/applications/delete/${idApp}`;
     fetch(url, {
       method: 'DELETE',
       headers: {

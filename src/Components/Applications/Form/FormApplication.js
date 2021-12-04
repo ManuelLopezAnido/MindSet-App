@@ -18,15 +18,14 @@ const FormApplication = () => {
   };
   const onChangeAppState = (event) => {
     setAppState(event.target.value);
-    console.log(event.target.value);
   };
 
   const params = new URLSearchParams(window.location.search);
-  const AppId = params.get('id');
+  const appId = params.get('id');
 
   useEffect(()=> {
-    if(AppId){
-      fetch(`${process.env.REACT_APP_API}/api/applications/id/${AppId}`)
+    if(appId){
+      fetch(`${process.env.REACT_APP_API}/applications/id/${appId}`)
         .then((response) => {
           if (response.status !== 200) {
             return response.json().then(({ ErrMessage }) => {
@@ -43,7 +42,6 @@ const FormApplication = () => {
         });
     }
   }, []);
-  console.log (position, company,postulant, applicationState );
   const onSubmit = (event) => {
     event.preventDefault();
     let url;
@@ -59,25 +57,20 @@ const FormApplication = () => {
       })
     };
 
-    if (AppId === null) {
+    if (appId === null) {
       options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/api/applications/add`;
+      url = `${process.env.REACT_APP_API}/applications/add`;
     } else {
       options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/api/applications/update/${AppId}`;
+      url = `${process.env.REACT_APP_API}/applications/update/${appId}`;
     }
-    console.log(url); 
-    console.log(options);
     fetch(url, options).then((response) => {
       if (response.status !== 200 && response.status !== 201){
         return response.json().then(({ErrMessage}) => {
           throw new Error(ErrMessage);
         });
       }
-      response.json();
-    })
-    .then(()=>{
-    window.location.href = `/applications`;
+      window.location.href = `/applications`;
     })
     .catch((error) => {
       return error;
