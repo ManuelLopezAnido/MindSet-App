@@ -9,7 +9,7 @@ function Positions() {
   const [selectedId, setSelectedId] = useState('');
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/api/positions`)
+    fetch(`${process.env.REACT_APP_API}/positions`)
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
@@ -22,7 +22,7 @@ function Positions() {
   };
 
   const deletePosition = (idPos) => {
-    const url = `${process.env.REACT_APP_API}/api/positions/delete/${idPos}`;
+    const url = `${process.env.REACT_APP_API}/positions/delete/${idPos}`;
     fetch(url, {
       method: 'DELETE',
       headers: {
