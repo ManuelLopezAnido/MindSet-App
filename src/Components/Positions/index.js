@@ -16,9 +16,7 @@ function Positions() {
         setPositions(response);
       });
   }, []);
-  console.log(`${process.env.REACT_APP_API}/api/positions`);
-  console.log("datass: ", positions);
-
+ 
   const addPositions = () =>{
     window.location.href = `/positions/form`;
   };
