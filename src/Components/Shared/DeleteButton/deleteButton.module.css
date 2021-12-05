@@ -1,4 +1,5 @@
 .deleteButton{
     background-color: #fff;
-    border: none
+    border: none;
+    cursor: pointer;
 }

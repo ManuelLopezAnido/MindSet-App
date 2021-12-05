@@ -5,4 +5,15 @@
     border: none;
     font-weight: bold;
     background-color: #1d3354;
+    cursor: pointer;
+}
+
+.addButton:hover {
+    margin: 5px;
+    width: fit-content;
+    height: fit-content;
+    border: none;
+    font-weight: bold;
+    background-color: #4e8deb;
+    cursor: pointer;
 }
