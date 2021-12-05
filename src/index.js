@@ -8,7 +8,7 @@ import './index.css';
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <Routes/>
+      <Routes />
     </Router>
   </React.StrictMode>,
   document.getElementById('root')
