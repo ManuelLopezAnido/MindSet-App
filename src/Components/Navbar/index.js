@@ -5,33 +5,33 @@ function Navbar() {
   return (
     <div className={styles.navbar}>
       <ul className={styles.items}>
-        <li className={styles.itemsbodycontent}>
-          <Link to="/admins"> Admins</Link>
-        </li>
-        <li className={styles.itemsbodycontent}>
-          <Link to="/applications"> Applications</Link>
-        </li>
-        <li className={styles.itemsbodycontent}>
-          <Link to="/clients"> Clients </Link>
-        </li>
-        <li className={styles.itemsbodycontent}>
-          <Link to="/interviews"> Interviews </Link>
-        </li>
-        <li className={styles.itemsbodycontent}>
-          <Link to="/positions"> Positions </Link>
-        </li>
-        <li className={styles.itemsbodycontent}>
-          <Link to="/postulants"> Postulants </Link>
-        </li>
-        <li className={styles.itemsbodycontent}>
-          <Link to="/profiles"> Profiles </Link>
-        </li>
-        <li className={styles.itemsbodycontent}>
-          <Link to="/counselors"> Counselors </Link>
-        </li>
-        <li className={styles.itemsbodycontent}>
-          <Link to="/sessions"> Sessions </Link>
-        </li>
+        <Link to="/admins">
+          <li className={styles.itemsbodycontent}>admins</li>
+        </Link>
+        <Link to="/applications">
+          <li className={styles.itemsbodycontent}>Applications</li>
+        </Link>
+        <Link to="/clients">
+          <li className={styles.itemsbodycontent}>Clients</li>
+        </Link>
+        <Link to="/interviews">
+          <li className={styles.itemsbodycontent}>Interviews</li>
+        </Link>
+        <Link to="/positions">
+          <li className={styles.itemsbodycontent}>Positions</li>
+        </Link>
+        <Link to="/postulants">
+          <li className={styles.itemsbodycontent}>Postulants</li>
+        </Link>
+        <Link to="/profiles">
+          <li className={styles.itemsbodycontent}>Profiles</li>
+        </Link>
+        <Link to="/counselors">
+          <li className={styles.itemsbodycontent}>Counselors</li>
+        </Link>
+        <Link to="/sessions">
+          <li className={styles.itemsbodycontent}>Sessions</li>
+        </Link>
       </ul>
     </div>
   );

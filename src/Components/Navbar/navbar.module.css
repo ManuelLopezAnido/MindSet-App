@@ -14,14 +14,20 @@
   background: #4A4848;
   box-shadow: 0 3px 6px rgba(black,0.16), 0 3px 6px rgba(black,0.23);
 }
-
+a, a:hover, a:active, a:visited, a:focus {
+  text-decoration:none;
+}
 .itemsbodycontent {
   padding: 10px;
   padding-right: 0px;
   background-color:#4A4848;
   font-size: 13px;
   border: 1px solid transparent;
-  cursor: pointer;  
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: capitalize;
+  color: white;
+
 }
 .itemsbodycontent:hover {
   border-radius: 15px;
@@ -29,9 +35,4 @@
   color: #9ED8D8;
 }
 
-.itemsbodycontent > a {
-  text-decoration: none;
-  text-transform: capitalize;
-  color: white;
-}
 
