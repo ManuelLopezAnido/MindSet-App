@@ -1,15 +1,11 @@
 import { useEffect, useState } from 'react';
 import styles from './form.module.css';
 import Input from '../Input';
-import ErrorMessageModal from '../ErrorMessageModal';
 
 const params = new URLSearchParams(window.location.search);
 const postulantId = params.get('_id');
 
 const PostulantsForm = () => {
-  const [showModalMessageError, setShowModalMessageError] = useState(false);
-  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
-
   const [firstNameValue, setFirstNameValue] = useState('');
   const [lastNameValue, setLastNameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
@@ -97,10 +93,7 @@ const PostulantsForm = () => {
         .then((response) => {
           onLoading(response);
         })
-        .catch((error) => {
-          setShowModalMessageError(true);
-          setShowModalMessageErrorMessage(JSON.stringify(error.message));
-        });
+        .catch((error) => error);
     }, []);
   }
 
@@ -324,24 +317,11 @@ const PostulantsForm = () => {
       .then((response) => {
         window.location.href = `${window.location.origin}/postulants`;
       })
-      .catch((error) => {
-        setShowModalMessageError(true);
-        setShowModalMessageErrorMessage(JSON.stringify(error.message));
-      });
-  };
-
-  const closeModalMessageError = () => {
-    setShowModalMessageError(false);
+      .catch((error) => error);
   };
 
   return (
     <div className={styles.container}>
-      <ErrorMessageModal
-        show={showModalMessageError}
-        closeModalMessageError={closeModalMessageError}
-        setShowModalMessageError={setShowModalMessageError}
-        showModalMessageErrorMessage={showModalMessageErrorMessage}
-      />
       <form action="" className={styles.form} onSubmit={onSubmit}>
         <h2>
           {firstNameValue} {lastNameValue}

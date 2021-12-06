@@ -1,4 +1,4 @@
-import styles from './error.message.module.css';
+import styles from './errorMessage.module.css';
 
 const ErrorMessage = (props) => {
   if (!props.show) {

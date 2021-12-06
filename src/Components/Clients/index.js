@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import styles from './clients.module.css';
 import Modal from '../Shared/Modal';
-import ErrorMessageModal from './ErrorMessageModal/ErrorMessageModal';
+import ErrorModal from '../Shared/ErrorModal';
 import deleteIcon from '../../assets/deleteIcon.png';
 
 function Clients() {
-  const [showModal, setShowModal] = useState(false);
-  const [showModalMessageError, setShowModalMessageError] = useState(false);
-  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
   const [clients, saveClients] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/clients`)
@@ -18,8 +18,8 @@ function Clients() {
         saveClients(response.data);
       })
       .catch((error) => {
-        setShowModalMessageError(true);
-        setShowModalMessageErrorMessage(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
       });
   }, []);
 
@@ -36,33 +36,32 @@ function Clients() {
       }
     })
       .then((res) => {
-        if (res.status !== 204) {
+        if (res.status !== 200) {
           return res.json().then((message) => {
             throw new Error(message);
           });
         }
-        return;
+        saveClients(clients.filter((client) => client._id !== selectedId));
       })
       .catch((error) => {
-        setShowModalMessageError(true);
-        setShowModalMessageErrorMessage(JSON.stringify(error.message));
-      });
-    closeModal();
-    saveClients(clients.filter((client) => client._id !== selectedId));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => setShowModal(false));
   };
 
   const closeModal = () => {
     setShowModal(false);
   };
 
-  const closeModalMessageError = () => {
-    setShowModalMessageErrorMessage(false);
-  };
-
   const handleIdClient = (event, id) => {
     event.stopPropagation();
     setSelectedId(id);
     setShowModal(true);
+  };
+
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
   };
 
   return (
@@ -77,21 +76,24 @@ function Clients() {
         leftButtonText="delete"
         rightButtonText="cancel"
       />
-      <ErrorMessageModal
-        show={showModalMessageError}
-        closeModalMessageError={closeModalMessageError}
-        setShowModalMessageError={setShowModalMessageError}
-        showModalMessageErrorMessage={showModalMessageErrorMessage}
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
       />
       <h2>Clients</h2>
       <table>
         <thead>
-          <th>Name</th>
-          <th>Company Type</th>
-          <th>Email</th>
-          <th>Country</th>
-          <th>Phone</th>
-          <th>Actions</th>
+          <tr>
+            <th>Name</th>
+            <th>Company Type</th>
+            <th>Email</th>
+            <th>Country</th>
+            <th>Phone</th>
+            <th>Actions</th>
+          </tr>
         </thead>
         <tbody>
           {clients.map((client) => (

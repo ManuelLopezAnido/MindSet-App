@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import styles from './councelors.module.css';
 import Modal from '../Shared/Modal';
 import Error from '../Councelors/Error';
-import ErrorMessage from '../Councelors/ErrorMessage';
+import ErrorModal from '../Shared/ErrorModal';
 
 const Councelor = () => {
   const [councelors, saveCouncelors] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [errorMessageText, setErrorMessageText] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/counselors`)
@@ -18,8 +18,8 @@ const Councelor = () => {
         saveCouncelors(response.data);
       })
       .catch((error) => {
-        setShowErrorMessage(true);
-        setErrorMessageText(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
       });
   }, []);
 
@@ -40,12 +40,12 @@ const Councelor = () => {
           });
         }
         saveCouncelors(councelors.filter((councelor) => councelor._id !== selectedId));
-        setShowModal(false);
       })
       .catch((error) => {
-        setShowErrorMessage(true);
-        setErrorMessageText(JSON.stringify(error.message));
-      });
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => setShowModal(false));
   };
 
   const handleIdCouncelor = (event, id) => {
@@ -58,8 +58,8 @@ const Councelor = () => {
     setShowModal(false);
   };
 
-  const closeError = () => {
-    setShowErrorMessage(false);
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
   };
 
   return (
@@ -74,7 +74,13 @@ const Councelor = () => {
         leftButtonText="delete"
         rightButtonText="cancel"
       />
-      <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
+      />
       <h2 className={styles.header}>Counselors</h2>
       <table className={styles.list}>
         <thead>

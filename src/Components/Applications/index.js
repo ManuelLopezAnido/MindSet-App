@@ -1,18 +1,25 @@
 import { useEffect, useState } from 'react';
 import styles from './applications.module.css';
 import Modal from '../Shared/Modal';
+import ErrorModal from '../Shared/ErrorModal';
 import deleteIcon from '../../assets/deleteIcon.png';
 
 function Applications() {
   const [showModal, setShowModal] = useState(false);
   const [applications, setApplications] = useState([]);
   const [selectedId, setSelectedId] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/applications`)
       .then((response) => response.json())
       .then((response) => {
         setApplications(response.data);
+      })
+      .catch((error) => {
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
       });
   }, []);
 
@@ -34,10 +41,12 @@ function Applications() {
             throw new Error(ErrMessage);
           });
         }
-        closeModal();
         setApplications(applications.filter((a) => a._id !== selectedId));
       })
-      .catch((error) => error);
+      .catch((error) => {
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      });
   };
 
   const closeModal = () => {
@@ -48,6 +57,10 @@ function Applications() {
     event.stopPropagation();
     setSelectedId(id);
     setShowModal(true);
+  };
+
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
   };
 
   return (
@@ -61,6 +74,13 @@ function Applications() {
         middleText="are you sure you want to delete this application?"
         leftButtonText="delete"
         rightButtonText="cancel"
+      />
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
       />
       <h2>Applications</h2>
       <table>

@@ -8,8 +8,8 @@ const FormSession = () => {
   const [dateValue, setDateValue] = useState('');
   const [timeValue, setTimeValue] = useState('');
   const [accomplishedValue, setAccomplishedValue] = useState(false);
-  const [showModalMessageError, setShowModalMessageError] = useState(false);
-  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
 
   const onChangePostulantIdValue = (event) => {
     setPostulantIdValue(event.target.value);
@@ -49,8 +49,8 @@ const FormSession = () => {
           setAccomplishedValue(response.data.accomplished);
         })
         .catch((error) => {
-          setShowModalMessageError(true);
-          setShowModalMessageErrorMessage(JSON.stringify(error.message));
+          setShowErrorModal(true);
+          setShowErrorModalMessage(JSON.stringify(error.message));
         });
     }
   }, []);
@@ -93,22 +93,22 @@ const FormSession = () => {
       })
       .catch((error) => {
         console.log('error: ', error);
-        setShowModalMessageErrorMessage(error.toString());
-        setShowModalMessageError(true);
+        setShowErrorModalMessage(error.toString());
+        setShowErrorModal(true);
       });
   };
 
-  const closeModalMessageError = () => {
-    setShowModalMessageError(false);
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
   };
 
   return (
     <div>
       <ErrorMessageModal
-        show={showModalMessageError}
-        closeModalMessageError={closeModalMessageError}
-        setShowModalMessageError={setShowModalMessageError}
-        showModalMessageErrorMessage={showModalMessageErrorMessage}
+        show={showErrorModal}
+        closeErrorMessage={closeErrorMessage}
+        setShowErrorModal={setShowErrorModal}
+        showErrorModalMessage={showErrorModalMessage}
       />
       <h1>Form</h1>
       <form className={styles.container} onSubmit={onSubmit}>

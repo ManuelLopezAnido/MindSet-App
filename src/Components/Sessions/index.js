@@ -2,14 +2,16 @@ import styles from './sessions.module.css';
 import { useState, useEffect } from 'react';
 import deleteIcon from '../../assets/deleteIcon.png';
 import Modal from '../Shared/Modal';
+import ErrorModal from '../Shared/ErrorModal';
 import ErrorMessageModal from './ErrorMessageModal/ErrorMessageModal';
 
 function Sessions() {
   const [showModal, setShowModal] = useState(false);
   const [sessions, saveSessions] = useState([]);
   const [selectedId, setSelectedId] = useState('');
-  const [showModalMessageError, setShowModalMessageError] = useState(false);
-  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
+
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/sessions/`)
       .then((response) => response.json())
@@ -17,8 +19,8 @@ function Sessions() {
         saveSessions(response.Sessions);
       })
       .catch((error) => {
-        setShowModalMessageError(true);
-        setShowModalMessageErrorMessage(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
       });
   }, []);
 
@@ -42,23 +44,25 @@ function Sessions() {
         }
         return;
       })
-      .catch((error) => error);
-    closeModal();
-    saveSessions(sessions.filter((session) => session._id !== selectedId));
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const closeModalMessageError = () => {
-    setShowModalMessageErrorMessage(false);
+      .catch((error) => {
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => setShowModal(false));
   };
 
   const handleIdSession = (event, id) => {
     event.stopPropagation();
     setSelectedId(id);
     setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const closeErrorMessage = () => {
+    setShowErrorModalMessage(false);
   };
 
   return (
@@ -73,11 +77,12 @@ function Sessions() {
         leftButtonText="delete"
         rightButtonText="cancel"
       />
-      <ErrorMessageModal
-        show={showModalMessageError}
-        closeModalMessageError={closeModalMessageError}
-        setShowModalMessageError={setShowModalMessageError}
-        showModalMessageErrorMessage={showModalMessageErrorMessage}
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
       />
       <h2>Clients</h2>
       <table>

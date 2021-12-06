@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import styles from './admins.module.css';
 import Modal from '../Shared/Modal';
 import Error from '../Admins/Error';
-import ErrorMessage from '../Admins/ErrorMessage';
+import ErrorModal from '../Shared/ErrorModal';
 
 const Admins = () => {
   const [admins, saveAdmins] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [errorMessageText, setErrorMessageText] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/admins`)
@@ -18,8 +18,8 @@ const Admins = () => {
         saveAdmins(response.Admins);
       })
       .catch((error) => {
-        setShowErrorMessage(true);
-        setErrorMessageText(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
       });
   }, []);
 
@@ -40,12 +40,16 @@ const Admins = () => {
           });
         }
         saveAdmins(admins.filter((admin) => admin._id !== selectedId));
-        setShowModal(false);
       })
       .catch((error) => {
-        setShowErrorMessage(true);
-        setErrorMessageText(JSON.stringify(error.message));
-      });
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => setShowModal(false));
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
   };
 
   const handleIdPostulant = (event, id) => {
@@ -54,12 +58,8 @@ const Admins = () => {
     setShowModal(true);
   };
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const closeError = () => {
-    setShowErrorMessage(false);
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
   };
 
   return (
@@ -74,7 +74,13 @@ const Admins = () => {
         leftButtonText="delete"
         rightButtonText="cancel"
       />
-      <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
+      />
       <h2 className={styles.header}>Admins</h2>
       <table className={styles.list}>
         <thead>

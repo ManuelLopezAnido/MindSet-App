@@ -1,14 +1,6 @@
-import styles from './modal.module.css';
+import styles from './errorModal.module.css';
 
-const Modal = ({
-  titleText,
-  closeModal,
-  showModal,
-  middleText,
-  actionEntity,
-  leftButtonText,
-  rightButtonText
-}) => {
+const ErrorModal = ({ showModal, titleText, closeModal, middleText, buttonText }) => {
   if (!showModal) {
     return null;
   }
@@ -24,12 +16,11 @@ const Modal = ({
           <span>{middleText}</span>
         </div>
         <div className={styles.buttonContainer}>
-          <button onClick={() => actionEntity()}>{leftButtonText.toUpperCase()}</button>
-          <button onClick={closeModal}>{rightButtonText.toUpperCase()}</button>
+          <button onClick={closeModal}>{buttonText.toUpperCase()}</button>
         </div>
       </div>
     </div>
   );
 };
 
-export default Modal;
+export default ErrorModal;

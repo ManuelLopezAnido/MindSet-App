@@ -2,24 +2,30 @@ import { useEffect, useState } from 'react';
 import styles from './postulants.module.css';
 import deleteImage from '../../assets/images/deleteIcon.png';
 import Modal from '../Shared/Modal';
-import ErrorMessageModal from '../Postulants/ErrorMessageModal';
+import ErrorModal from '../Shared/ErrorModal';
 
 const Postulants = () => {
   const [showModal, setShowModal] = useState(false);
   const [postulants, setPostulants] = useState([]);
   const [selectedId, setSelectedId] = useState('');
-  const [showModalMessageError, setShowModalMessageError] = useState(false);
-  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/postulants`)
       .then((response) => response.json())
       .then((response) => setPostulants(response))
       .catch((error) => {
-        setShowModalMessageError(true);
-        setShowModalMessageErrorMessage(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
       });
   }, []);
+
+  const redirectToForm = (postulantId) => {
+    postulantId
+      ? (window.location.href = `${window.location.pathname}/form?_id=${postulantId}`)
+      : (window.location.href = `${window.location.pathname}/form`);
+  };
 
   const deletePostulant = () => {
     const url = `${process.env.REACT_APP_API}/postulants/delete/${selectedId}`;
@@ -32,22 +38,19 @@ const Postulants = () => {
       .then((res) => {
         if (res.status !== 204) {
           return res.json().then((message) => {
+            // console.log('message del then: ', message);
+            // console.log('message del then: ', message);
             throw new Error(message);
           });
         }
         setPostulants(postulants.filter((postulants) => postulants._id !== selectedId));
       })
       .catch((error) => {
-        setShowModalMessageError(true);
-        setShowModalMessageErrorMessage(JSON.stringify(error.message));
-      });
-    closeModal();
-  };
-
-  const redirectToForm = (postulantId) => {
-    postulantId
-      ? (window.location.href = `${window.location.pathname}/form?_id=${postulantId}`)
-      : (window.location.href = `${window.location.pathname}/form`);
+        // console.log('message del catch: ', JSON.stringify(error));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => setShowModal(false));
   };
 
   const closeModal = () => {
@@ -60,8 +63,8 @@ const Postulants = () => {
     setShowModal(true);
   };
 
-  const closeModalMessageError = () => {
-    setShowModalMessageErrorMessage(false);
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
   };
 
   return (
@@ -76,11 +79,12 @@ const Postulants = () => {
         leftButtonText="delete"
         rightButtonText="cancel"
       />
-      <ErrorMessageModal
-        show={showModalMessageError}
-        closeModalMessageError={closeModalMessageError}
-        setShowModalMessageError={setShowModalMessageError}
-        showModalMessageErrorMessage={showModalMessageErrorMessage}
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
       />
       <div className={styles.content}>
         <h2 className={styles.header}>Postulants</h2>
