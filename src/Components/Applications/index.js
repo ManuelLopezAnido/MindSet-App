@@ -46,7 +46,8 @@ function Applications() {
       .catch((error) => {
         setShowErrorModal(true);
         setShowErrorModalMessage(JSON.stringify(error.message));
-      });
+      })
+      .finally(() => setShowModal(false));
   };
 
   const closeModal = () => {
