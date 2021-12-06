@@ -86,14 +86,12 @@ const FormSession = () => {
       .then((response) => {
         if (response.status !== 200 && response.status !== 201) {
           return response.json().then(({ msg }) => {
-            console.log('message: ', msg);
             throw new Error(msg);
           });
         }
         return (window.location.href = `/sessions`);
       })
       .catch((error) => {
-        console.log('error: ', error);
         setShowErrorModalMessage(error.toString());
         setShowErrorModal(true);
       })

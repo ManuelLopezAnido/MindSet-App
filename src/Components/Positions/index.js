@@ -15,7 +15,6 @@ function Positions() {
     fetch(`${process.env.REACT_APP_API}/positions`)
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         setPositions(response);
       })
       .catch((error) => {

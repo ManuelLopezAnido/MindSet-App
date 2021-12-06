@@ -77,7 +77,6 @@ const Form = () => {
 
   const onChangeAvailabilityMonday = (event) => {
     String(setMondayValue(event.target.value)) === true;
-    console.log(mondayValue);
   };
 
   const onChangeFromMonday = (event) => {
@@ -192,8 +191,6 @@ const Form = () => {
       options.method = 'POST';
       url = `${process.env.REACT_APP_API}/counselors/add`;
     }
-
-    console.log(options);
 
     fetch(url, options)
       .then((response) => {

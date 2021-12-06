@@ -38,15 +38,12 @@ const Postulants = () => {
       .then((res) => {
         if (res.status !== 204) {
           return res.json().then((message) => {
-            // console.log('message del then: ', message);
-            // console.log('message del then: ', message);
             throw new Error(message);
           });
         }
         setPostulants(postulants.filter((postulants) => postulants._id !== selectedId));
       })
       .catch((error) => {
-        // console.log('message del catch: ', JSON.stringify(error));
         setShowErrorModal(true);
         setShowErrorModalMessage(JSON.stringify(error.message));
       })

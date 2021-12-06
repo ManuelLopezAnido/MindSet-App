@@ -24,9 +24,6 @@ const Form = () => {
       fetch(`${process.env.REACT_APP_API}/admins/${adminId}`)
         .then((response) => response.json())
         .then((response) => {
-          console.log(response);
-          console.log('response.data', response.data);
-          console.log('response.data.email', response.data.email);
           onLoading(response);
         })
         .catch((error) => error);
