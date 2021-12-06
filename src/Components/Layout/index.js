@@ -6,8 +6,10 @@ const Layout = (props) => {
   return (
     <div className={styles.container}>
       <Header />
-      <Navbar />
-      {props.children}
+      <div className={styles.body}>
+        <Navbar />
+        <div className={styles.content}>{props.children}</div>
+      </div>
     </div>
   );
 };
