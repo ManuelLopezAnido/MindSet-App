@@ -52,7 +52,7 @@ const Admins = () => {
     setShowModal(false);
   };
 
-  const handleIdPostulant = (event, id) => {
+  const handleIdAdmin = (event, id) => {
     event.stopPropagation();
     setSelectedId(id);
     setShowModal(true);
@@ -104,7 +104,7 @@ const Admins = () => {
               >
                 <td>{admin.email}</td>
                 <td>
-                  <button onClick={(event) => handleIdPostulant(event, admin._id)}>Delete</button>
+                  <button onClick={(event) => handleIdAdmin(event, admin._id)}>Delete</button>
                 </td>
               </tr>
             );
