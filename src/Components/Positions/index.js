@@ -86,7 +86,7 @@ function Positions() {
         </tbody>
       </table>
       <button className={styles.addButton} onClick={addPositions}>
-        ADD APPLLICATION
+        ADD POSITION
       </button>
     </section>
   );

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './form.module.css';
-import Input from '../Input';
+import Input from '../../Shared/Input';
 import ErrorMessageModal from '../ErrorMessageModal';
 
 const params = new URLSearchParams(window.location.search);
@@ -349,7 +349,7 @@ const PostulantsForm = () => {
         <div className={styles.generalInformation}>
           <h3>General Information</h3>
           <Input
-            label="firstName"
+            label="First Name"
             id="firstName"
             type="text"
             value={firstNameValue}
@@ -357,7 +357,7 @@ const PostulantsForm = () => {
             required
           />
           <Input
-            label="lastName"
+            label="Last Name"
             id="lastName"
             type="text"
             value={lastNameValue}
@@ -365,7 +365,7 @@ const PostulantsForm = () => {
             required
           />
           <Input
-            label="email"
+            label="Email"
             id="email"
             type="email"
             value={emailValue}
@@ -373,7 +373,7 @@ const PostulantsForm = () => {
             required
           />
           <Input
-            label="phone"
+            label="Phone"
             id="phone"
             type="number"
             value={phoneValue}
@@ -381,7 +381,7 @@ const PostulantsForm = () => {
             required
           />
           <Input
-            label="dateOfBirth"
+            label="Date Of Birth"
             id="dateOfBirth"
             type="date"
             value={dateOfBirthValue}
@@ -389,7 +389,7 @@ const PostulantsForm = () => {
             required
           />
           <Input
-            label="gender"
+            label="Gender"
             id="gender"
             type="text"
             value={genderValue}
@@ -397,7 +397,7 @@ const PostulantsForm = () => {
             required
           />
           <Input
-            label="city"
+            label="City"
             id="city"
             type="text"
             value={cityValue}
@@ -405,7 +405,7 @@ const PostulantsForm = () => {
             required
           />
           <Input
-            label="state"
+            label="State"
             id="state"
             type="text"
             value={stateValue}
@@ -413,7 +413,7 @@ const PostulantsForm = () => {
             required
           />
           <Input
-            label="country"
+            label="Country"
             id="country"
             type="text"
             value={countryValue}

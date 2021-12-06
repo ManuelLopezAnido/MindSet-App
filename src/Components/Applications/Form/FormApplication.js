@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
+import Input from '../../Shared/Input';
 
 const FormApplication = () => {
   const [position, setPositionName] = useState('');
@@ -81,35 +82,41 @@ const FormApplication = () => {
     <div>
       <h1>Form</h1>
       <form className={styles.container} onSubmit={onSubmit}>
-        <input
+        <Input
+          label="Position"
           id="position"
           name="positionName"
+          type="string"
           required
           value={position}
           onChange={onChangePosition}
-          placeholder="Position"
         />
-        <input
+        <Input
+          label="Company Name"
           id="company"
           name="companyName"
+          type="string"
           required
           value={company}
           onChange={onChangeCompany}
-          placeholder="Company Name"
         />
-        <input
+        <Input
+          label="Postulant"
           id="postulant"
           name="postulantName"
+          type="string"
+          required
           value={postulant}
           onChange={onChangePostulant}
-          placeholder="Postulant Name"
         />
-        <input
+        <Input
+          label="State"
           id="applicationState"
           name="applicationName"
+          type="string"
+          required
           value={applicationState}
           onChange={onChangeAppState}
-          placeholder="State"
         />
         <button className={styles.sendFormButton} type="submit">
           SEND

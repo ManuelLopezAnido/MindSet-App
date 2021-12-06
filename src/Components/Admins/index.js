@@ -31,7 +31,7 @@ const Admins = () => {
     const options = {
       method: 'DELETE'
     };
-    const url = `${process.env.REACT_APP_API}/api/admins/delete/${id}`;
+    const url = `${process.env.REACT_APP_API}/admins/delete/${id}`;
     fetch(url, options)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201) {

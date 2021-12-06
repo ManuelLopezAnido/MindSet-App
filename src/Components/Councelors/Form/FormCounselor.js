@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from './form.module.css';
-import Input from '../Input';
+import Input from '../../Shared/Input';
 import Error from '../Error';
 import Button from '../Button';
 import ErrorMessage from '../ErrorMessage';
@@ -311,27 +311,27 @@ const Form = () => {
       <form className={styles.form} onSubmit={onSubmit}>
         <h2>Form</h2>
         <Input
+          label="First Name"
           name="firstName"
           type="string"
-          placeholder="First Name"
           required
           className={styles.input}
           value={firstNameValue}
           onChange={onChangeFirstNameInput}
         />
         <Input
+          label="Last Name"
           name="lastName"
           type="string"
-          placeholder="Last Name"
           required
           className={styles.input}
           value={lastNameValue}
           onChange={onChangeLastNameInput}
         />
         <Input
+          label="Email"
           name="email"
           type="email"
-          placeholder="Email"
           required
           className={styles.input}
           value={emailValue}
@@ -341,27 +341,27 @@ const Form = () => {
         />
         <Error showError={emailError} text={'Please enter a valid email'} />
         <Input
+          label="Gender"
           name="gender"
           type="string"
-          placeholder="Gender"
           required
           className={styles.input}
           value={genderValue}
           onChange={onChangeGenderInput}
         />
         <Input
+          label="Adress"
           name="adress"
           type="string"
-          placeholder="Adress"
           required
           className={styles.input}
           value={adressValue}
           onChange={onChangeAdressInput}
         />
         <Input
+          label="Birthday"
           name="birthday"
           type="string"
-          placeholder="Birthday"
           required
           className={styles.input}
           value={birthdayValue}
@@ -371,26 +371,26 @@ const Form = () => {
         />
         <Error showError={birthdayError} text={'Please enter a valid date (dd/mm/yyyy)'} />
         <Input
+          label="City"
           name="city"
           type="string"
-          placeholder="City"
           required
           className={styles.input}
           value={cityValue}
           onChange={onChangeCityInput}
         />
         <Input
+          label="Country"
           name="country"
           type="string"
-          placeholder="Country"
           required
           value={countryValue}
           onChange={onChangeCountryInput}
         />
         <Input
+          label="Phone"
           name="phone"
           type="number"
-          placeholder="Phone"
           required
           value={phoneValue}
           onChange={onChangePhoneInput}
@@ -401,26 +401,23 @@ const Form = () => {
         <div className={styles.availabilityContainer}>
           <div className={styles.day}>
             <div onChange={onChangeAvailabilityMonday} className={styles.eachDay}>
-              <p>Monday</p>
-              <Input type="checkbox" value={true} name="monday" />
+              <Input label="Monday" type="checkbox" value={true} name="monday" />
             </div>
-            <div className={styles.fromTo}>
-              <label>From</label>
+            <div>
               <Input
+                label="From"
                 name="fromMonday"
                 type="string"
-                placeholder="00:00"
                 value={mondayFromValue}
                 onChange={onChangeFromMonday}
                 disabled={!mondayValue}
               />
             </div>
-            <div className={styles.fromTo}>
-              <label>To</label>
+            <div>
               <Input
+                label="To"
                 name="toMonday"
                 type="string"
-                placeholder="00:00"
                 value={mondayToValue}
                 onChange={onChangeToMonday}
                 disabled={!mondayValue}
@@ -429,26 +426,23 @@ const Form = () => {
           </div>
           <div className={styles.day}>
             <div onChange={onChangeAvailabilityTuesday} className={styles.eachDay}>
-              <p>Tuesday</p>
-              <Input type="checkbox" value={true} name="tuesday" />
+              <Input label="Tuesday" type="checkbox" value={true} name="tuesday" />
             </div>
-            <div className={styles.fromTo}>
-              <label>From</label>
+            <div>
               <Input
+                label="From"
                 name="fromTuesday"
                 type="string"
-                placeholder="00:00"
                 value={tuesdayFromValue}
                 onChange={onChangeFromTuesday}
                 disabled={!tuesdayValue}
               />
             </div>
-            <div className={styles.fromTo}>
-              <label>To</label>
+            <div>
               <Input
+                label="To"
                 name="toTuesday"
                 type="string"
-                placeholder="00:00"
                 value={tuesdayToValue}
                 onChange={onChangeToTuesday}
                 disabled={!tuesdayValue}
@@ -457,26 +451,23 @@ const Form = () => {
           </div>
           <div className={styles.day}>
             <div onChange={onChangeAvailabilityWednesday} className={styles.eachDay}>
-              <p>Wednesday</p>
-              <Input type="checkbox" value={true} name="wednesday" />
+              <Input label="Wednesday" type="checkbox" value={true} name="wednesday" />
             </div>
-            <div className={styles.fromTo}>
-              <label>From</label>
+            <div>
               <Input
+                label="From"
                 name="fromWednesday"
                 type="string"
-                placeholder="00:00"
                 value={wednesdayFromValue}
                 onChange={onChangeFromWednesday}
                 disabled={!wednesdayValue}
               />
             </div>
-            <div className={styles.fromTo}>
-              <label>To</label>
+            <div>
               <Input
+                label="To"
                 name="toWednesday"
                 type="string"
-                placeholder="00:00"
                 value={wednesdayToValue}
                 onChange={onChangeToWednesday}
                 disabled={!wednesdayValue}
@@ -485,26 +476,23 @@ const Form = () => {
           </div>
           <div className={styles.day}>
             <div onChange={onChangeAvailabilityThursday} className={styles.eachDay}>
-              <p>Thursday</p>
-              <Input type="checkbox" value={true} name="thursday" />
+              <Input label="Thursday" type="checkbox" value={true} name="thursday" />
             </div>
-            <div className={styles.fromTo}>
-              <label>From</label>
+            <div>
               <Input
+                label="From"
                 name="fromThursday"
                 type="string"
-                placeholder="00:00"
                 value={thursdayFromValue}
                 onChange={onChangeFromThursday}
                 disabled={!thursdayValue}
               />
             </div>
-            <div className={styles.fromTo}>
-              <label>To</label>
+            <div>
               <Input
+                label="To"
                 name="toThursday"
                 type="string"
-                placeholder="00:00"
                 value={thursdayToValue}
                 onChange={onChangeToThursday}
                 disabled={!thursdayValue}
@@ -513,26 +501,23 @@ const Form = () => {
           </div>
           <div className={styles.day}>
             <div onChange={onChangeAvailabilityFriday} className={styles.eachDay}>
-              <p>Friday</p>
-              <Input type="checkbox" value={true} name="thursday" />
+              <Input label="Friday" type="checkbox" value={true} name="thursday" />
             </div>
-            <div className={styles.fromTo}>
-              <label>From</label>
+            <div>
               <Input
+                label="From"
                 name="fromFriday"
                 type="string"
-                placeholder="00:00"
                 value={fridayFromValue}
                 onChange={onChangeFromFriday}
                 disabled={!fridayValue}
               />
             </div>
-            <div className={styles.fromTo}>
-              <label>To</label>
+            <div>
               <Input
+                label="To"
                 name="toFriday"
                 type="string"
-                placeholder="00:00"
                 value={fridayToValue}
                 onChange={onChangeToFriday}
                 disabled={!fridayValue}

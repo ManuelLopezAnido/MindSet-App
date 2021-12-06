@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
+import Input from '../../Shared/Input';
 
 const FormPositions = () => {
   const [jobTitle, setJobTitle] = useState('');
@@ -110,57 +111,77 @@ const FormPositions = () => {
     <div>
       <h1>Form</h1>
       <form className={styles.container} onSubmit={onSubmit}>
-        <input
+        <Input
+          label="Job"
           id="jobTitle"
           name="jobTitleName"
+          type="string"
           required
           value={jobTitle}
           onChange={onChangeJobTitle}
-          placeholder="Job"
         />
-        <input
+        <Input
+          label="Company ID"
           id="clientId"
           name="clientIdName"
+          type="string"
           required
-          value={clientId ? clientId._id : 'not found'}
+          value={clientId}
           onChange={onChangeClientId}
-          placeholder="Company ID"
         />
-        <input
+        <Input
+          label="Company Name"
           id="companyName"
           name="compantNameName"
+          type="string"
+          required
           value={companyName}
           onChange={onChangeCompanyName}
-          placeholder="Company Name"
         />
-        <input
+        <Input
+          label="Job Description"
           id="jobDescription"
           name="jobDescriptionName"
+          type="string"
+          required
           value={jobDescription}
           onChange={onChangeJobDescription}
-          placeholder="Description"
         />
-        <input id="city" name="cityName" value={city} onChange={onChangeCity} placeholder="City" />
-        <input
+        <Input
+          label="City"
+          id="city"
+          name="cityName"
+          type="string"
+          required
+          value={city}
+          onChange={onChangeCity}
+        />
+        <Input
+          label="Country"
           id="country"
           name="countryName"
+          type="string"
+          required
           value={country}
           onChange={onChangeCountry}
-          placeholder="Country"
         />
-        <input
+        <Input
+          label="Date Posted"
           id="datePosted"
           name="datePostedName"
+          type="date"
+          required
           value={datePosted}
           onChange={onChangeDatePosted}
-          placeholder="Date Posted"
         />
-        <input
+        <Input
+          label="Closing Date"
           id="closingDate"
           name="closingDateName"
+          type="date"
+          required
           value={closingDate}
           onChange={onChangeClosingDate}
-          placeholder="Closing Date"
         />
         <button className={styles.sendFormButton} type="submit">
           SEND

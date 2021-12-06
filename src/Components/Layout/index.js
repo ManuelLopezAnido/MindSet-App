@@ -1,23 +1,23 @@
 import Header from '../Header/index';
 import Footer from '../Footer/index';
 import Admins from '../Admins/index';
-import AdminsForm from '../Admins/Form';
+import AdminsForm from '../Admins/Form/FormAdmin';
 import Applications from '../Applications/index';
 import FormApplication from '../Applications/Form/FormApplication';
 import Clients from '../Clients/index';
 import Interviews from '../Interviews/index';
 import Positions from '../Positions/index';
-import FormPositions from '../Positions/Form/FormPositions.js';
+import FormPositions from '../Positions/Form/FormPosition.js';
 import Postulants from '../Postulants/index';
-import PostulantsForm from '../Postulants/PostulantsForm';
+import PostulantsForm from '../Postulants/Form/FormPostulant';
 import Profiles from '../Profiles/index';
 import Councelors from '../Councelors/index';
-import CouncelorsForm from '../Councelors/Form';
+import CouncelorsForm from '../Councelors/Form/FormCounselor';
 import Sessions from '../Sessions/index';
 import Home from '../Home/index';
 import styles from './layout.module.css';
 import FormSession from '../Sessions/Form/FormSession';
-import FormClient from '../Clients/Form/FormClients';
+import FormClient from '../Clients/Form/FormClient';
 
 function Layout() {
   let currentScreen = <Home />;

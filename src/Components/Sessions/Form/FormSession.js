@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
+import Input from '../../Shared/Input';
 
 const FormSession = () => {
   const [postulantIdValue, setPostulantIdValue] = useState('');
@@ -112,42 +113,47 @@ const FormSession = () => {
       />
       <h1>Form</h1>
       <form className={styles.container} onSubmit={onSubmit}>
-        <input
+        <Input
+          label="Postulant Id"
           id="postulantId"
           name="postulantId"
+          type="string"
           required
           value={postulantIdValue}
-          placeholder="Postulant ID"
           onChange={onChangePostulantIdValue}
         />
-        <input
+        <Input
+          label="Counselor Id"
           id="counselorId"
           name="counselorId"
+          type="string"
           required
           value={counselorIdValue}
-          placeholder="Counselor ID"
           onChange={onChangeCounselorIdValue}
         />
-        <input
+        <Input
+          label="Date"
           id="date"
           name="date"
-          placeholder="Date"
+          required
           value={dateValue}
           onChange={onChangeDateValue}
         />
-        <input
+        <Input
+          label="Time"
           id="time"
           name="time"
-          placeholder="Time"
+          required
           value={timeValue}
           onChange={onChangeTimeValue}
         />
         <label>Accomplished</label>
-        <input
+        <Input
           type="checkbox"
           name="accomplished"
           onChange={(event) => setAccomplishedValue(event.target.checked)}
           checked={accomplishedValue}
+          required
         />
         <button className={styles.sendFormButton} type="submit">
           SEND
