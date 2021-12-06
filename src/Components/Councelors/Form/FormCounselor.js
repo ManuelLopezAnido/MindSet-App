@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import Input from '../../Shared/Input';
 import Error from '../Error';
@@ -36,6 +36,50 @@ const Form = () => {
   const [canSave, setCanSave] = useState(true);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [errorMessageText, setErrorMessageText] = useState('');
+  const params = new URLSearchParams(window.location.search);
+  const councelorId = params.get('id');
+
+  if (councelorId) {
+    useEffect(() => {
+      fetch(`${process.env.REACT_APP_API}/counselors/id/${councelorId}`)
+        .then((response) => response.json())
+        .then((response) => {
+          onLoading(response);
+          console.log(response);
+        })
+        .catch((error) => {
+          setShowErrorMessage(true);
+          setErrorMessageText(JSON.stringify(error.message));
+        });
+    }, []);
+  }
+
+  const onLoading = (data) => {
+    setFirstNameValue(data.firstName ?? '-');
+    setLastNameValue(data.lastName ?? '-');
+    setEmailValue(data.email ?? '-');
+    setGenderValue(data.gender ?? '-');
+    setAdressValue(data.address ?? '-');
+    setBirthdayValue(data.birthday ?? '-');
+    setCityValue(data.city ?? '-');
+    setCountryValue(data.country ?? '-');
+    setPhoneValue(data.phone ?? '-');
+    setMondayValue(data.availability?.day[0] ?? '-');
+    setMondayFromValue(data.lastName ?? '-');
+    setMondayToValue(data.lastName ?? '-');
+    setTuesdayValue(data.lastName ?? '-');
+    setTuesdayFromValue(data.lastName ?? '-');
+    setTuesdayToValue(data.lastName ?? '-');
+    setWednesdayValue(data.lastName ?? '-');
+    setWednesdayFromValue(data.lastName ?? '-');
+    setWednesdayToValue(data.lastName ?? '-');
+    setThursdayValue(data.lastName ?? '-');
+    setThursdayFromValue(data.lastName ?? '-');
+    setThursdayToValue(data.lastName ?? '-');
+    setFridayValue(data.lastName ?? '-');
+    setFridayFromValue(data.lastName ?? '-');
+    setFridayToValue(data.lastName ?? '-');
+  };
 
   const onChangeFirstNameInput = (event) => {
     setFirstNameValue(event.target.value);
@@ -192,8 +236,6 @@ const Form = () => {
       url = `${process.env.REACT_APP_API}/counselors/add`;
     }
 
-    console.log(options);
-
     fetch(url, options)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201) {
@@ -229,12 +271,8 @@ const Form = () => {
 
   const hidePhone = () => {
     setPhoneError(false);
-    if (
-      phoneValue.length < 8 ||
-      phoneValue.includes('(') ||
-      phoneValue.includes(')') ||
-      phoneValue.includes('#')
-    ) {
+    if (phoneValue.length < 8) {
+      console.log(phoneValue);
       setCanSave(true);
     }
   };
