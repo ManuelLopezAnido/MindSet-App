@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
 import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
+import Modal from '../../Shared/Modal';
 
 const FormClient = () => {
+  const [showModal, setShowModal] = useState(false);
   const [companyNameValue, setCompanyNameValue] = useState('');
   const [companyTypeValue, setCompanyTypeValue] = useState('');
   const [cityValue, setCityValue] = useState('');
@@ -10,7 +12,6 @@ const FormClient = () => {
   const [emailValue, setEmailValue] = useState('');
   const [phoneValue, setPhoneValue] = useState('');
   const [openPositionsValue, setOpenPositionsValue] = useState([]);
-  const [showModal, setShowModal] = useState(false);
   const [showModalMessageError, setShowModalMessageError] = useState(false);
   const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
 
@@ -66,8 +67,7 @@ const FormClient = () => {
     }
   }, []);
 
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const submit = () => {
     let url;
 
     const options = {
@@ -105,7 +105,15 @@ const FormClient = () => {
       .catch((error) => {
         setShowModalMessageErrorMessage(error.toString());
         setShowModalMessageError(true);
-      });
+      })
+      .finally(() => setShowModal(false));
+  };
+
+  const closeModal = () => setShowModal(false);
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setShowModal(true);
   };
 
   const closeModalMessageError = () => {
@@ -114,6 +122,15 @@ const FormClient = () => {
 
   return (
     <div>
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        actionEntity={submit}
+        titleText="Save"
+        middleText="are you sure you want to save these changes?"
+        leftButtonText="save"
+        rightButtonText="cancel"
+      />
       <ErrorMessageModal
         show={showModalMessageError}
         closeModalMessageError={closeModalMessageError}

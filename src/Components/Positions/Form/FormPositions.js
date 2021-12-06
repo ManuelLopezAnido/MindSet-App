@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
+import Modal from '../../Shared/Modal';
 
 const FormPositions = () => {
+  const [showModal, setShowModal] = useState(false);
   const [jobTitle, setJobTitle] = useState('');
   const [clientId, setClientId] = useState('');
   const [companyName, setCompanyName] = useState('');
@@ -62,8 +64,8 @@ const FormPositions = () => {
         });
     }
   }, []);
-  const onSubmit = (event) => {
-    event.preventDefault();
+
+  const submit = () => {
     let url;
 
     const options = {
@@ -103,11 +105,28 @@ const FormPositions = () => {
       })
       .catch((error) => {
         return error;
-      });
+      })
+      .finally(() => setShowModal(false));
+  };
+
+  const closeModal = () => setShowModal(false);
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setShowModal(true);
   };
 
   return (
     <div>
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        actionEntity={submit}
+        titleText="Save"
+        middleText="are you sure you want to save these changes?"
+        leftButtonText="save"
+        rightButtonText="cancel"
+      />
       <h1>Form</h1>
       <form className={styles.container} onSubmit={onSubmit}>
         <input

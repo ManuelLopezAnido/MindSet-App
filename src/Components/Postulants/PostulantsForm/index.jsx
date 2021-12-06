@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import styles from './form.module.css';
 import Input from '../Input';
+import Modal from '../../Shared/Modal';
 
 const params = new URLSearchParams(window.location.search);
 const postulantId = params.get('_id');
 
 const PostulantsForm = () => {
+  const [showModal, setShowModal] = useState(false);
   const [firstNameValue, setFirstNameValue] = useState('');
   const [lastNameValue, setLastNameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
@@ -179,8 +181,7 @@ const PostulantsForm = () => {
     setAvailabilityToSundayValue(data.availability[6]?.to || '-');
   };
 
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const submit = () => {
     const data = {
       firstName: firstNameValue,
       lastName: lastNameValue,
@@ -314,14 +315,31 @@ const PostulantsForm = () => {
       body: JSON.stringify(data)
     })
       .then((response) => response.json())
-      .then((response) => {
+      .then(() => {
         window.location.href = `${window.location.origin}/postulants`;
       })
-      .catch((error) => error);
+      .catch((error) => error)
+      .finally(() => setShowModal(false));
+  };
+
+  const closeModal = () => setShowModal(false);
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setShowModal(true);
   };
 
   return (
     <div className={styles.container}>
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        actionEntity={submit}
+        titleText="Save"
+        middleText="are you sure you want to save these changes?"
+        leftButtonText="save"
+        rightButtonText="cancel"
+      />
       <form action="" className={styles.form} onSubmit={onSubmit}>
         <h2>
           {firstNameValue} {lastNameValue}

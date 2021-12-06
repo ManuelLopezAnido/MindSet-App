@@ -4,8 +4,10 @@ import Input from '../Input';
 import Error from '../Error';
 import Button from '../Button';
 import ErrorMessage from '../ErrorMessage';
+import Modal from '../../Shared/Modal';
 
 const Form = () => {
+  const [showModal, setShowModal] = useState(false);
   const [firstNameValue, setFirstNameValue] = useState([]);
   const [lastNameValue, setLastNameValue] = useState([]);
   const [emailValue, setEmailValue] = useState([]);
@@ -134,8 +136,7 @@ const Form = () => {
     setFridayToValue(event.target.value);
   };
 
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const submit = () => {
     const params = new URLSearchParams(window.location.search);
     const councelorId = params.get('id');
     let url;
@@ -208,7 +209,15 @@ const Form = () => {
       .catch((error) => {
         setShowErrorMessage(true);
         setErrorMessageText(JSON.stringify(error.message));
-      });
+      })
+      .finally(() => setShowModal(false));
+  };
+
+  const closeModal = () => setShowModal(false);
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setShowModal(true);
   };
 
   const hideEmail = () => {
@@ -307,6 +316,15 @@ const Form = () => {
 
   return (
     <div className={styles.container}>
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        actionEntity={submit}
+        titleText="Save"
+        middleText="are you sure you want to save these changes?"
+        leftButtonText="save"
+        rightButtonText="cancel"
+      />
       <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
       <form className={styles.form} onSubmit={onSubmit}>
         <h2>Form</h2>

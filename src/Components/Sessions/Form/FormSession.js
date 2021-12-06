@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
+import Modal from '../../Shared/Modal';
 
 const FormSession = () => {
+  const [showModal, setShowModal] = useState(false);
   const [postulantIdValue, setPostulantIdValue] = useState('');
   const [counselorIdValue, setCounselorIdValue] = useState('');
   const [dateValue, setDateValue] = useState('');
@@ -55,8 +57,7 @@ const FormSession = () => {
     }
   }, []);
 
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const submit = () => {
     let url = `${process.env.REACT_APP_API}/sessions`;
 
     const options = {
@@ -95,15 +96,32 @@ const FormSession = () => {
         console.log('error: ', error);
         setShowErrorModalMessage(error.toString());
         setShowErrorModal(true);
-      });
+      })
+      .finally(() => setShowModal(false));
   };
 
   const closeErrorMessage = () => {
     setShowErrorModal(false);
   };
 
+  const closeModal = () => setShowModal(false);
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setShowModal(true);
+  };
+
   return (
     <div>
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        actionEntity={submit}
+        titleText="Save"
+        middleText="are you sure you want to save these changes?"
+        leftButtonText="save"
+        rightButtonText="cancel"
+      />
       <ErrorMessageModal
         show={showErrorModal}
         closeErrorMessage={closeErrorMessage}
