@@ -19,7 +19,7 @@ const Postulants = () => {
       .then((response) => setPostulants(response))
       .catch((error) => {
         setShowModalMessageError(true);
-        setShowModalMessageErrorMessage(JSON.stringify(error.message));
+        setShowModalMessageErrorMessage('Hola estoy aca');
       });
   }, []);
 
