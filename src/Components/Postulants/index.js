@@ -75,9 +75,13 @@ const Postulants = () => {
         actionEntity={deletePostulant}
         selectedId={selectedId}
         titleText="Delete a postulant"
-        middleText="are you sure you want to delete this postulant?"
         leftButtonText="delete"
         rightButtonText="cancel"
+        spanObjectArray={[
+          {
+            span: 'do you want to delete this postulant'
+          }
+        ]}
       />
       <ErrorModal
         showModal={showErrorModal}

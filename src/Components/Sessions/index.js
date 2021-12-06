@@ -73,7 +73,11 @@ function Sessions() {
         actionEntity={deleteSession}
         selectedId={selectedId}
         titleText="Delete a session"
-        middleText="are you sure you want to delete this session?"
+        spanObjectArray={[
+          {
+            span: 'are you sure you want to delete this session?'
+          }
+        ]}
         leftButtonText="delete"
         rightButtonText="cancel"
       />

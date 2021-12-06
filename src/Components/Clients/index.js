@@ -72,7 +72,11 @@ function Clients() {
         actionEntity={deleteClient}
         selectedId={selectedId}
         titleText="Delete a client"
-        middleText="are you sure you want to delete this client?"
+        spanObjectArray={[
+          {
+            span: 'are you sure you want to delete this client?'
+          }
+        ]}
         leftButtonText="delete"
         rightButtonText="cancel"
       />

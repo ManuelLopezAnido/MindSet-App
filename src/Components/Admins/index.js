@@ -70,7 +70,11 @@ const Admins = () => {
         actionEntity={deleteAdmin}
         selectedId={selectedId}
         titleText="Delete an Admin"
-        middleText="are you sure you want to delete this admin?"
+        spanObjectArray={[
+          {
+            span: 'do you want to delete this admin?'
+          }
+        ]}
         leftButtonText="delete"
         rightButtonText="cancel"
       />

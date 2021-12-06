@@ -127,7 +127,11 @@ const FormClient = () => {
         closeModal={closeModal}
         actionEntity={submit}
         titleText="Save"
-        middleText="are you sure you want to save these changes?"
+        spanObjectArray={[
+          {
+            span: 'are you sure you want to save these changes?'
+          }
+        ]}
         leftButtonText="save"
         rightButtonText="cancel"
       />

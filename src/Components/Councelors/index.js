@@ -70,7 +70,11 @@ const Councelor = () => {
         actionEntity={deleteCouncelor}
         selectedId={selectedId}
         titleText="Delete a counselor"
-        middleText="are you sure you want to delete this counselor?"
+        spanObjectArray={[
+          {
+            span: 'are you sure you want to delete this counselor?'
+          }
+        ]}
         leftButtonText="delete"
         rightButtonText="cancel"
       />

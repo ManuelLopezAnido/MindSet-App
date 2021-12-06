@@ -4,15 +4,15 @@ const Modal = ({
   titleText,
   closeModal,
   showModal,
-  middleText,
   actionEntity,
   leftButtonText,
-  rightButtonText
+  rightButtonText,
+  spanObjectArray
 }) => {
   if (!showModal) {
     return null;
   }
-
+  //TODO: change styles after reset
   return (
     <div className={styles.container}>
       <div className={styles.modal}>
@@ -21,7 +21,12 @@ const Modal = ({
           <span onClick={closeModal}>&times;</span>
         </div>
         <div className={styles.content}>
-          <span>{middleText}</span>
+          {spanObjectArray.map((span) => (
+            <>
+              {span.title ? <h4 key={span.title}>{span?.title}</h4> : null}
+              <span key={span.span}>{span?.span}</span>
+            </>
+          ))}
         </div>
         <div className={styles.buttonContainer}>
           <button onClick={() => actionEntity()}>{leftButtonText.toUpperCase()}</button>

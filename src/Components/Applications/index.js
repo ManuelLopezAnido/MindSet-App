@@ -71,7 +71,11 @@ function Applications() {
         actionEntity={deleteApplication}
         selectedId={selectedId}
         titleText="Delete an application"
-        middleText="are you sure you want to delete this application?"
+        spanObjectArray={[
+          {
+            span: 'do you want to delete this application?'
+          }
+        ]}
         leftButtonText="delete"
         rightButtonText="cancel"
       />

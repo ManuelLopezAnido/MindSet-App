@@ -73,7 +73,11 @@ function Positions() {
         actionEntity={deletePosition}
         selectedId={selectedId}
         titleText="Delete a position"
-        middleText="are you sure you want to delete this position?"
+        spanObjectArray={[
+          {
+            span: 'are you sure you want to delete this position?'
+          }
+        ]}
         leftButtonText="delete"
         rightButtonText="cancel"
       />
