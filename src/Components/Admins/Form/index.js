@@ -1,11 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import Input from '../Input';
 import Error from '../Error';
 import Button from '../Button';
 import ErrorMessage from '../ErrorMessage';
+import Modal from '../../Shared/Modal';
+
+const params = new URLSearchParams(window.location.search);
+const adminId = params.get('id');
 
 const Form = () => {
+  const [showModal, setShowModal] = useState(false);
   const [emailValue, setEmailValue] = useState([]);
   const [passwordValue, setPasswordValue] = useState([]);
   const [passwordError, setPasswordError] = useState(false);
@@ -14,6 +19,25 @@ const Form = () => {
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [errorMessageText, setErrorMessageText] = useState('');
 
+  if (adminId) {
+    useEffect(() => {
+      fetch(`${process.env.REACT_APP_API}/admins/${adminId}`)
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+          console.log('response.data', response.data);
+          console.log('response.data.email', response.data.email);
+          onLoading(response);
+        })
+        .catch((error) => error);
+    }, []);
+  }
+
+  const onLoading = (data) => {
+    setEmailValue(data.data.email ?? '-');
+    setPasswordValue(data.data.password ?? '-');
+  };
+
   const onChangeEmailInput = (event) => {
     setEmailValue(event.target.value);
   };
@@ -21,8 +45,8 @@ const Form = () => {
   const onChangePasswordInput = (event) => {
     setPasswordValue(event.target.value);
   };
-  const onSubmit = (event) => {
-    event.preventDefault();
+
+  const submit = () => {
     const params = new URLSearchParams(window.location.search);
     const adminId = params.get('id');
     let url;
@@ -39,10 +63,10 @@ const Form = () => {
 
     if (adminId !== null) {
       options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/api/admins/update/${adminId}`;
+      url = `${process.env.REACT_APP_API}/admins/update/${adminId}`;
     } else {
       options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/api/admins/create`;
+      url = `${process.env.REACT_APP_API}/admins/create`;
     }
 
     fetch(url, options)
@@ -59,7 +83,15 @@ const Form = () => {
       .catch((error) => {
         setShowErrorMessage(true);
         setErrorMessageText(JSON.stringify(error.message));
-      });
+      })
+      .finally(() => setShowModal(false));
+  };
+
+  const closeModal = () => setShowModal(false);
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setShowModal(true);
   };
 
   const hideEmail = () => {
@@ -102,6 +134,15 @@ const Form = () => {
 
   return (
     <div className={styles.container}>
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        actionEntity={submit}
+        titleText="Save"
+        middleText="are you sure you want to save these changes?"
+        leftButtonText="save"
+        rightButtonText="cancel"
+      />
       <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
       <form className={styles.form} onSubmit={onSubmit}>
         <h2>Form</h2>
