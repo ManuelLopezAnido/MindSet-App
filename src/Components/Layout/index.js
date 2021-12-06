@@ -11,6 +11,7 @@ import FormPositions from '../Positions/Form/FormPositions.js';
 import Postulants from '../Postulants/index';
 import PostulantsForm from '../Postulants/PostulantsForm';
 import Profiles from '../Profiles/index';
+import FormWorkProfiles from '../Profiles/Form/FormWorkProfiles';
 import Councelors from '../Councelors/index';
 import CouncelorsForm from '../Councelors/Form';
 import Sessions from '../Sessions/index';
@@ -55,8 +56,11 @@ function Layout() {
     case '/postulants/form':
       currentScreen = <PostulantsForm />;
       break;
-    case '/profiles':
+    case '/workprofiles':
       currentScreen = <Profiles />;
+      break;
+    case '/workprofiles/form':
+      currentScreen = <FormWorkProfiles />;
       break;
     case '/councelors':
       currentScreen = <Councelors />;

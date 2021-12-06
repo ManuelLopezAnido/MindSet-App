@@ -27,7 +27,7 @@ function Footer() {
             <a href="/postulants">postulants</a>
           </li>
           <li>
-            <a href="/profiles">profiles</a>
+            <a href="/workprofiles">profiles</a>
           </li>
           <li>
             <a href="/psychologists">psychologists</a>
