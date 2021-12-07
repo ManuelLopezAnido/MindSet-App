@@ -350,7 +350,7 @@ const PostulantsForm = () => {
         titleText="Save"
         spanObjectArray={[
           {
-            span: 'are you sure you want to save these changes?'
+            span: 'Are you sure you want to save these changes?'
           }
         ]}
         leftButtonText="save"

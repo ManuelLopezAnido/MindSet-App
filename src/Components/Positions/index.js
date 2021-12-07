@@ -74,7 +74,7 @@ function Positions() {
         titleText="Delete a position"
         spanObjectArray={[
           {
-            span: 'are you sure you want to delete this position?'
+            span: 'Are you sure you want to delete this position?'
           }
         ]}
         leftButtonText="delete"

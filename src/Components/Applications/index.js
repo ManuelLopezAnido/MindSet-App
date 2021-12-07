@@ -74,7 +74,7 @@ function Applications() {
         titleText="Delete an application"
         spanObjectArray={[
           {
-            span: 'do you want to delete this application?'
+            span: 'Are you sure you want to delete this application?'
           }
         ]}
         leftButtonText="delete"

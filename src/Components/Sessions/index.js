@@ -74,7 +74,7 @@ function Sessions() {
         titleText="Delete a session"
         spanObjectArray={[
           {
-            span: 'are you sure you want to delete this session?'
+            span: 'Are you sure you want to delete this session?'
           }
         ]}
         leftButtonText="delete"

@@ -72,7 +72,7 @@ const Councelor = () => {
         titleText="Delete a counselor"
         spanObjectArray={[
           {
-            span: 'are you sure you want to delete this counselor?'
+            span: 'Are you sure you want to delete this counselor?'
           }
         ]}
         leftButtonText="delete"

@@ -76,7 +76,7 @@ const Postulants = () => {
         rightButtonText="cancel"
         spanObjectArray={[
           {
-            span: 'do you want to delete this postulant'
+            span: 'Are you sure you want to delete this postulant'
           }
         ]}
       />

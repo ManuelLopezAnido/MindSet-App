@@ -74,7 +74,7 @@ function Clients() {
         titleText="Delete a client"
         spanObjectArray={[
           {
-            span: 'are you sure you want to delete this client?'
+            span: 'Are you sure you want to delete this client?'
           }
         ]}
         leftButtonText="delete"

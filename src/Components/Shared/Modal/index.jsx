@@ -12,7 +12,6 @@ const Modal = ({
   if (!showModal) {
     return null;
   }
-  //TODO: change styles after reset
   return (
     <div className={styles.container}>
       <div className={styles.modal}>
@@ -29,7 +28,7 @@ const Modal = ({
           ))}
         </div>
         <div className={styles.buttonContainer}>
-          <button onClick={() => actionEntity()}>{leftButtonText.toUpperCase()}</button>
+          <button onClick={actionEntity}>{leftButtonText.toUpperCase()}</button>
           <button onClick={closeModal}>{rightButtonText.toUpperCase()}</button>
         </div>
       </div>
