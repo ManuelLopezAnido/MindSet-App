@@ -18,9 +18,9 @@ const Postulants = () => {
     fetch(`${process.env.REACT_APP_API}/postulants`)
       .then((response) => response.json())
       .then((response) => setPostulants(response))
-      .catch((error) => {
+      .catch(() => {
         setShowModalMessageError(true);
-        setShowModalMessageErrorMessage(JSON.stringify(error.message));
+        setShowModalMessageErrorMessage('Hola estoy aca');
       });
   }, []);
 

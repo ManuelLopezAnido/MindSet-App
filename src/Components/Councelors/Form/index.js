@@ -5,7 +5,7 @@ import Error from '../Error';
 import Button from '../Button';
 import ErrorMessage from '../ErrorMessage';
 
-const Form = () => {
+const CouncelorsForm = () => {
   const [firstNameValue, setFirstNameValue] = useState([]);
   const [lastNameValue, setLastNameValue] = useState([]);
   const [emailValue, setEmailValue] = useState([]);
@@ -546,4 +546,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default CouncelorsForm;

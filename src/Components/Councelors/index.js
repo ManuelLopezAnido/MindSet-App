@@ -108,5 +108,4 @@ const Councelor = () => {
     </section>
   );
 };
-
 export default Councelor;
