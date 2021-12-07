@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
 
-const FormPositions = () => {
+const PositionsForm = () => {
   const [jobTitle, setJobTitle] = useState('');
   const [clientId, setClientId] = useState('');
   const [companyName, setCompanyName] = useState('');
@@ -37,11 +37,11 @@ const FormPositions = () => {
   };
 
   const params = new URLSearchParams(window.location.search);
-  const PosId = params.get('id');
+  const posId = params.get('id');
 
   useEffect(() => {
-    if (PosId) {
-      fetch(`${process.env.REACT_APP_API}/positions/id/${PosId}`)
+    if (posId) {
+      fetch(`${process.env.REACT_APP_API}/positions/id/${posId}`)
         .then((response) => {
           if (response.status !== 200) {
             return response.json().then(({ ErrMessage }) => {
@@ -62,6 +62,7 @@ const FormPositions = () => {
         });
     }
   }, []);
+
   const onSubmit = (event) => {
     event.preventDefault();
     let url;
@@ -82,13 +83,14 @@ const FormPositions = () => {
       })
     };
 
-    if (PosId === null) {
+    if (posId === null) {
       options.method = 'POST';
       url = `${process.env.REACT_APP_API}/positions/create`;
     } else {
       options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/positions/update/${PosId}`;
+      url = `${process.env.REACT_APP_API}/positions/update/${posId}`;
     }
+
     fetch(url, options)
       .then((response) => {
         if (response.status !== 200) {
@@ -96,7 +98,6 @@ const FormPositions = () => {
             throw new Error(ErrMessage);
           });
         }
-        return response.json();
       })
       .then(() => {
         window.location.href = `/positions`;
@@ -117,7 +118,7 @@ const FormPositions = () => {
           value={jobTitle}
           onChange={onChangeJobTitle}
           placeholder="Job"
-        />
+        ></input>
         <input
           id="clientId"
           name="clientIdName"
@@ -125,43 +126,49 @@ const FormPositions = () => {
           value={clientId ? clientId._id : 'not found'}
           onChange={onChangeClientId}
           placeholder="Company ID"
-        />
+        ></input>
         <input
           id="companyName"
           name="compantNameName"
           value={companyName}
           onChange={onChangeCompanyName}
           placeholder="Company Name"
-        />
+        ></input>
         <input
           id="jobDescription"
           name="jobDescriptionName"
           value={jobDescription}
           onChange={onChangeJobDescription}
           placeholder="Description"
-        />
-        <input id="city" name="cityName" value={city} onChange={onChangeCity} placeholder="City" />
+        ></input>
+        <input
+          id="city"
+          name="cityName"
+          value={city}
+          onChange={onChangeCity}
+          placeholder="City"
+        ></input>
         <input
           id="country"
           name="countryName"
           value={country}
           onChange={onChangeCountry}
           placeholder="Country"
-        />
+        ></input>
         <input
           id="datePosted"
           name="datePostedName"
           value={datePosted}
           onChange={onChangeDatePosted}
           placeholder="Date Posted"
-        />
+        ></input>
         <input
           id="closingDate"
           name="closingDateName"
           value={closingDate}
           onChange={onChangeClosingDate}
           placeholder="Closing Date"
-        />
+        ></input>
         <button className={styles.sendFormButton} type="submit">
           SEND
         </button>
@@ -170,4 +177,4 @@ const FormPositions = () => {
   );
 };
 
-export default FormPositions;
+export default PositionsForm;
