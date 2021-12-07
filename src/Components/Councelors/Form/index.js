@@ -3,11 +3,13 @@ import styles from './form.module.css';
 import Input from '../Input';
 import Error from '../Error';
 import Button from '../Button';
-import ErrorMessage from '../ErrorMessage';
 import Modal from '../../Shared/Modal';
+import ErrorModal from '../../Shared/ErrorModal';
 
 const Form = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
   const [firstNameValue, setFirstNameValue] = useState([]);
   const [lastNameValue, setLastNameValue] = useState([]);
   const [emailValue, setEmailValue] = useState([]);
@@ -204,10 +206,14 @@ const Form = () => {
         window.location.replace(`http://localhost:3000/councelors`);
       })
       .catch((error) => {
-        setShowErrorMessage(true);
-        setErrorMessageText(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
       })
       .finally(() => setShowModal(false));
+  };
+
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
   };
 
   const closeModal = () => setShowModal(false);
@@ -307,10 +313,6 @@ const Form = () => {
     }
   };
 
-  const closeError = () => {
-    setShowErrorMessage(false);
-  };
-
   return (
     <div className={styles.container}>
       <Modal
@@ -326,7 +328,13 @@ const Form = () => {
         leftButtonText="save"
         rightButtonText="cancel"
       />
-      <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
+      />
       <form className={styles.form} onSubmit={onSubmit}>
         <h2>Form</h2>
         <Input

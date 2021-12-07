@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
-import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
+import ErrorModal from '../../Shared/ErrorModal';
 import Modal from '../../Shared/Modal';
 
 const FormClient = () => {
@@ -12,8 +12,8 @@ const FormClient = () => {
   const [emailValue, setEmailValue] = useState('');
   const [phoneValue, setPhoneValue] = useState('');
   const [openPositionsValue, setOpenPositionsValue] = useState([]);
-  const [showModalMessageError, setShowModalMessageError] = useState(false);
-  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
 
   const onChangeCompanyNameValue = (event) => {
     setCompanyNameValue(event.target.value);
@@ -61,8 +61,8 @@ const FormClient = () => {
           setOpenPositionsValue(response.openPositions);
         })
         .catch((error) => {
-          setShowModalMessageError(true);
-          setShowModalMessageErrorMessage(JSON.stringify(error.message));
+          setShowErrorModal(true);
+          setShowErrorModalMessage(JSON.stringify(error.message));
         });
     }
   }, []);
@@ -103,8 +103,8 @@ const FormClient = () => {
         return (window.location.href = `/clients`);
       })
       .catch((error) => {
-        setShowModalMessageErrorMessage(error.toString());
-        setShowModalMessageError(true);
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
       })
       .finally(() => setShowModal(false));
   };
@@ -116,8 +116,8 @@ const FormClient = () => {
     setShowModal(true);
   };
 
-  const closeModalMessageError = () => {
-    setShowModalMessageError(false);
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
   };
 
   return (
@@ -135,11 +135,12 @@ const FormClient = () => {
         leftButtonText="save"
         rightButtonText="cancel"
       />
-      <ErrorMessageModal
-        show={showModalMessageError}
-        closeModalMessageError={closeModalMessageError}
-        setShowModalMessageError={setShowModalMessageError}
-        showModalMessageErrorMessage={showModalMessageErrorMessage}
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
       />
       <h1>Form</h1>
       <form className={styles.container} onSubmit={onSubmit}>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
 import Modal from '../../Shared/Modal';
+import ErrorModal from '../../Shared/ErrorModal';
 
 const FormPositions = () => {
   const [showModal, setShowModal] = useState(false);
@@ -12,6 +13,8 @@ const FormPositions = () => {
   const [country, setCountry] = useState('');
   const [datePosted, setDatePosted] = useState('');
   const [closingDate, setClosingDate] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
 
   const onChangeJobTitle = (event) => {
     setJobTitle(event.target.value);
@@ -61,6 +64,10 @@ const FormPositions = () => {
           setCountry(response.country);
           setDatePosted(response.datePosted);
           setClosingDate(response.closingDate);
+        })
+        .catch((error) => {
+          setShowErrorModal(true);
+          setShowErrorModalMessage(JSON.stringify(error.message));
         });
     }
   }, []);
@@ -104,9 +111,14 @@ const FormPositions = () => {
         window.location.href = `/positions`;
       })
       .catch((error) => {
-        return error;
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
       })
       .finally(() => setShowModal(false));
+  };
+
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
   };
 
   const closeModal = () => setShowModal(false);
@@ -130,6 +142,13 @@ const FormPositions = () => {
         ]}
         leftButtonText="save"
         rightButtonText="cancel"
+      />
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
       />
       <h1>Form</h1>
       <form className={styles.container} onSubmit={onSubmit}>
