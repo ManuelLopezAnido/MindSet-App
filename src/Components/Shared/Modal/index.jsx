@@ -12,7 +12,6 @@ const Modal = ({
   if (!showModal) {
     return null;
   }
-  console.log(spanObjectArray);
   //TODO: change styles after reset
   return (
     <div className={styles.container}>

@@ -75,7 +75,7 @@ const FormApplication = () => {
     }
     fetch(url, options)
       .then((response) => {
-        if (response.status !== 200 || response.status !== 201) {
+        if (response.status !== 200 && response.status !== 201) {
           return response.json().then(({ ErrMessage }) => {
             throw new Error(ErrMessage);
           });
