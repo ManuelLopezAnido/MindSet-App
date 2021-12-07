@@ -15,8 +15,7 @@ const Admins = () => {
     fetch(`${process.env.REACT_APP_API}/admins`)
       .then((response) => response.json())
       .then((response) => {
-        saveAdmins(response.Admins);
-        console.log(response);
+        saveAdmins(response.response);
       })
       .catch((error) => {
         setShowErrorModal(true);
