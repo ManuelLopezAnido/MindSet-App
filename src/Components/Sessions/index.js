@@ -41,7 +41,7 @@ function Sessions() {
             throw new Error(message);
           });
         }
-        return;
+        saveSessions(sessions.filter((session) => session._id !== selectedId));
       })
       .catch((error) => {
         setShowErrorModal(true);
