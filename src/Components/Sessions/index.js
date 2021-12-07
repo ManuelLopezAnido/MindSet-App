@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import deleteIcon from '../../assets/deleteIcon.png';
 import Modal from '../Shared/Modal';
 import ErrorModal from '../Shared/ErrorModal';
-import ErrorMessageModal from './ErrorMessageModal/ErrorMessageModal';
 
 function Sessions() {
   const [showModal, setShowModal] = useState(false);
@@ -62,7 +61,7 @@ function Sessions() {
   };
 
   const closeErrorMessage = () => {
-    setShowErrorModalMessage(false);
+    setShowErrorModal(false);
   };
 
   return (

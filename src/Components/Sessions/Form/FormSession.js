@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './form.module.css';
-import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
 import Modal from '../../Shared/Modal';
+import ErrorModal from '../../Shared/ErrorModal';
 
 const FormSession = () => {
   const [showModal, setShowModal] = useState(false);
@@ -102,7 +102,9 @@ const FormSession = () => {
     setShowErrorModal(false);
   };
 
-  const closeModal = () => setShowModal(false);
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -124,11 +126,12 @@ const FormSession = () => {
         leftButtonText="save"
         rightButtonText="cancel"
       />
-      <ErrorMessageModal
-        show={showErrorModal}
-        closeErrorMessage={closeErrorMessage}
-        setShowErrorModal={setShowErrorModal}
-        showErrorModalMessage={showErrorModalMessage}
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
       />
       <h1>Form</h1>
       <form className={styles.container} onSubmit={onSubmit}>
