@@ -1,26 +1,26 @@
-.container > * h2 {
+/* .container > * h2 {
   background-color: #FDC800;
   padding: 1rem;
 }
 
-/* .container > * h3 {
+ .container > * h3 {
   background-color: #FDC800;
   padding: 0.5rem;
-} */
+}
 
 .container > * h4 {
   background-color: bisque;
   padding: 0.3rem;
   margin-left: 2ch;
 }
-
-.container {
+*/
+.form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-
+/*
 .form {
   box-sizing: border-box;
   display: flex;
@@ -63,4 +63,4 @@
   margin-top: 20px;
   align-self: center;
   width: 400px;
-}
+} */

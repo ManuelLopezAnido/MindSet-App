@@ -5,19 +5,20 @@ import Error from '../Error';
 import Button from '../Button';
 import ErrorMessage from '../ErrorMessage';
 import Modal from '../../Shared/Modal';
+import ErrorModal from '../../Shared/ErrorModal';
 
 const params = new URLSearchParams(window.location.search);
 const adminId = params.get('id');
 
-const Form = () => {
+const AdminsForm = () => {
   const [showModal, setShowModal] = useState(false);
   const [emailValue, setEmailValue] = useState([]);
   const [passwordValue, setPasswordValue] = useState([]);
   const [passwordError, setPasswordError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [canSave, setCanSave] = useState(true);
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [errorMessageText, setErrorMessageText] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
 
   if (adminId) {
     useEffect(() => {
@@ -68,7 +69,7 @@ const Form = () => {
 
     fetch(url, options)
       .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
+        if (response.status !== 200 && response.status !== 201 && !canSave) {
           return response.json().then(({ message }) => {
             throw new Error(message);
           });
@@ -78,8 +79,8 @@ const Form = () => {
         window.location.replace(`/admins`);
       })
       .catch((error) => {
-        setShowErrorMessage(true);
-        setErrorMessageText(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
       })
       .finally(() => setShowModal(false));
   };
@@ -125,8 +126,8 @@ const Form = () => {
     }
   };
 
-  const closeError = () => {
-    setShowErrorMessage(false);
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
   };
 
   return (
@@ -144,7 +145,13 @@ const Form = () => {
         leftButtonText="save"
         rightButtonText="cancel"
       />
-      <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
+      />
       <form className={styles.form} onSubmit={onSubmit}>
         <h2>Form</h2>
         <Input
@@ -180,4 +187,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default AdminsForm;

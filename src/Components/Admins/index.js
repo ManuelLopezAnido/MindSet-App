@@ -16,6 +16,7 @@ const Admins = () => {
       .then((response) => response.json())
       .then((response) => {
         saveAdmins(response.Admins);
+        console.log(response);
       })
       .catch((error) => {
         setShowErrorModal(true);

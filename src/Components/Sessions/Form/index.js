@@ -3,7 +3,7 @@ import styles from './form.module.css';
 import Modal from '../../Shared/Modal';
 import ErrorModal from '../../Shared/ErrorModal';
 
-const FormSession = () => {
+const SessionsForm = () => {
   const [showModal, setShowModal] = useState(false);
   const [postulantIdValue, setPostulantIdValue] = useState('');
   const [counselorIdValue, setCounselorIdValue] = useState('');
@@ -180,4 +180,4 @@ const FormSession = () => {
   );
 };
 
-export default FormSession;
+export default SessionsForm;

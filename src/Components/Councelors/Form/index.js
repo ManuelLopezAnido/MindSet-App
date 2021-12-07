@@ -6,7 +6,7 @@ import Button from '../Button';
 import Modal from '../../Shared/Modal';
 import ErrorModal from '../../Shared/ErrorModal';
 
-const Form = () => {
+const CouncelorsForm = () => {
   const [showModal, setShowModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
@@ -38,8 +38,9 @@ const Form = () => {
   const [birthdayError, setBirthdayError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
   const [canSave, setCanSave] = useState(true);
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [errorMessageText, setErrorMessageText] = useState('');
+  //TODO: CHECK THIS
+  // const [showErrorModal, setShowErrorModal] = useState(false);
+  // const [errorModal, setErrorModal] = useState('');
 
   const onChangeFirstNameInput = (event) => {
     setFirstNameValue(event.target.value);
@@ -203,7 +204,7 @@ const Form = () => {
         }
       })
       .then(() => {
-        window.location.replace(`http://localhost:3000/councelors`);
+        window.location.replace(`http://localhost:3000/counselors`);
       })
       .catch((error) => {
         setShowErrorModal(true);
@@ -573,4 +574,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default CouncelorsForm;

@@ -36,7 +36,7 @@ function Clients() {
       }
     })
       .then((res) => {
-        if (res.status !== 200) {
+        if (res.status !== 204) {
           return res.json().then((message) => {
             throw new Error(message);
           });
@@ -45,7 +45,7 @@ function Clients() {
       })
       .catch((error) => {
         setShowErrorModal(true);
-        setShowErrorModalMessage(JSON.stringify(error.message));
+        setShowErrorModalMessage(JSON.stringify(error.msg));
       })
       .finally(() => setShowModal(false));
   };

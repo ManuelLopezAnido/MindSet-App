@@ -3,7 +3,7 @@ import styles from './form.module.css';
 import ErrorModal from '../../Shared/ErrorModal';
 import Modal from '../../Shared/Modal';
 
-const FormClient = () => {
+const ClientsForm = () => {
   const [showModal, setShowModal] = useState(false);
   const [companyNameValue, setCompanyNameValue] = useState('');
   const [companyTypeValue, setCompanyTypeValue] = useState('');
@@ -63,7 +63,8 @@ const FormClient = () => {
         .catch((error) => {
           setShowErrorModal(true);
           setShowErrorModalMessage(JSON.stringify(error.message));
-        });
+        })
+        .finally(() => setShowModal(false));
     }
   }, []);
 
@@ -205,4 +206,4 @@ const FormClient = () => {
   );
 };
 
-export default FormClient;
+export default ClientsForm;

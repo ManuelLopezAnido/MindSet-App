@@ -21,10 +21,10 @@ const Modal = ({
         </div>
         <div className={styles.content}>
           {spanObjectArray.map((span) => (
-            <>
+            <div key={span.span + 2}>
               {span.title ? <h4 key={span.span + 1}>{span?.title}</h4> : null}
               <span key={span.span}>{span?.span}</span>
-            </>
+            </div>
           ))}
         </div>
         <div className={styles.buttonContainer}>
