@@ -55,9 +55,7 @@ function Positions() {
     setShowModal(true);
   };
 
-  if (isLoading) {
-    return <IsLoading />;
-  }
+  if (isLoading) return <IsLoading />;
 
   return (
     <section className={styles.container}>

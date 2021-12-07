@@ -3,12 +3,15 @@ import styles from './applications.module.css';
 import ModalApplications from './Modal/ModalApplications.js';
 import deleteIcon from '../../assets/deleteIcon.png';
 import IsLoading from '../Shared/IsLoading/IsLoading';
+import ErrorMessage from '../Councelors/ErrorMessage';
 
 function Applications() {
   const [showModal, setShowModal] = useState(false);
   const [applications, setApplications] = useState([]);
   const [selectedId, setSelectedId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [errorMessageText, setErrorMessageText] = useState('');
 
   useEffect(() => {
     setIsLoading(true);
@@ -42,12 +45,19 @@ function Applications() {
         closeModal();
         setApplications(applications.filter((a) => a._id !== idApp));
       })
-      .catch((error) => error)
+      .catch((error) => {
+        setShowErrorMessage(true);
+        setErrorMessageText(JSON.stringify(error.message));
+      })
       .finally(() => setIsLoading(false));
   };
 
   const closeModal = () => {
     setShowModal(false);
+  };
+
+  const closeError = () => {
+    setShowErrorMessage(false);
   };
 
   const handleIdApplication = (event, id) => {
@@ -56,9 +66,7 @@ function Applications() {
     setShowModal(true);
   };
 
-  if (isLoading) {
-    return <IsLoading />;
-  }
+  if (isLoading) return <IsLoading />;
 
   return (
     <section className={styles.container}>
@@ -68,6 +76,7 @@ function Applications() {
         delete={deleteApplication}
         selectedId={selectedId}
       />
+      <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
       <h2>Applications</h2>
       <table>
         <thead>

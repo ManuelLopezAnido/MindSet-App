@@ -73,9 +73,7 @@ const Postulants = () => {
     setLastNameToDelete(lastName);
   };
 
-  if (isLoading) {
-    return <IsLoading />;
-  }
+  if (isLoading) return <IsLoading />;
 
   return (
     <div className={styles.container}>

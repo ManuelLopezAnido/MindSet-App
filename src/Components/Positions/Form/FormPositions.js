@@ -112,9 +112,7 @@ const FormPositions = () => {
       .finally(() => setIsLoading(false));
   };
 
-  if (isLoading) {
-    return <IsLoading />;
-  }
+  if (isLoading) return <IsLoading />;
 
   return (
     <div>

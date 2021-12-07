@@ -104,9 +104,7 @@ const Form = () => {
     setShowErrorMessage(false);
   };
 
-  if (isLoading) {
-    return <IsLoading />;
-  }
+  if (isLoading) return <IsLoading />;
 
   return (
     <div className={styles.container}>

@@ -68,9 +68,7 @@ const Councelor = () => {
     setShowErrorMessage(false);
   };
 
-  if (isLoading) {
-    return <IsLoading />;
-  }
+  if (isLoading) return <IsLoading />;
 
   return (
     <section className={styles.container}>

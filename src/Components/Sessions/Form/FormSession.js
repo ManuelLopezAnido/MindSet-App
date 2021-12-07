@@ -108,9 +108,7 @@ const FormSession = () => {
     setShowModalMessageError(false);
   };
 
-  if (isLoading) {
-    return <IsLoading />;
-  }
+  if (isLoading) return <IsLoading />;
 
   return (
     <div>

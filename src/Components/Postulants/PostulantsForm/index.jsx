@@ -340,9 +340,7 @@ const PostulantsForm = () => {
     setShowModalMessageError(false);
   };
 
-  if (isLoading) {
-    return <IsLoading />;
-  }
+  if (isLoading) return <IsLoading />;
 
   return (
     <div className={styles.container}>
