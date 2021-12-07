@@ -83,7 +83,6 @@ const FormApplication = () => {
         window.location.href = `/applications`;
       })
       .catch((error) => {
-        console.log('entre al catch');
         setShowErrorModal(true);
         setShowErrorModalMessage(JSON.stringify(error.message));
       })
