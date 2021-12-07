@@ -37,11 +37,11 @@ const PositionsForm = () => {
   };
 
   const params = new URLSearchParams(window.location.search);
-  const PosId = params.get('id');
+  const posId = params.get('id');
 
   useEffect(() => {
-    if (PosId) {
-      fetch(`${process.env.REACT_APP_API}/positions/id/${PosId}`)
+    if (posId) {
+      fetch(`${process.env.REACT_APP_API}/positions/id/${posId}`)
         .then((response) => {
           if (response.status !== 200) {
             return response.json().then(({ ErrMessage }) => {
@@ -83,12 +83,12 @@ const PositionsForm = () => {
       })
     };
 
-    if (PosId === null) {
+    if (posId === null) {
       options.method = 'POST';
       url = `${process.env.REACT_APP_API}/positions/create`;
     } else {
       options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/positions/update/${PosId}`;
+      url = `${process.env.REACT_APP_API}/positions/update/${posId}`;
     }
 
     fetch(url, options)
@@ -98,7 +98,6 @@ const PositionsForm = () => {
             throw new Error(ErrMessage);
           });
         }
-        return response.json();
       })
       .then(() => {
         window.location.href = `/positions`;

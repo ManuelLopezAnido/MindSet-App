@@ -320,7 +320,6 @@ const PostulantsForm = () => {
       },
       body: JSON.stringify(data)
     })
-      .then((response) => response.json())
       .then(() => {
         window.location.href = `${window.location.origin}/postulants`;
       })
