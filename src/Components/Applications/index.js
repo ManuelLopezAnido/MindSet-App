@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import styles from './applications.module.css';
 import ModalApplications from './Modal/ModalApplications.js';
-import deleteIcon from '../../assets/deleteIcon.png';
+import Button from '../Shared/Button/Button';
+import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 
 function Applications() {
   const [showModal, setShowModal] = useState(false);
@@ -58,7 +59,10 @@ function Applications() {
         delete={deleteApplication}
         selectedId={selectedId}
       />
-      <h2>Applications</h2>
+      <div className={styles.titleAndButton}>
+        <h3>Applications</h3>
+        <Button onClick={addApplication} value="Applications" />
+      </div>
       <table>
         <thead>
           <tr>
@@ -84,20 +88,12 @@ function Applications() {
               </td>
               <td>{a.applicationState}</td>
               <td className={styles.deleteButtonTD}>
-                <button
-                  className={styles.deleteIcon}
-                  onClick={(e) => handleIdApplication(e, a._id)}
-                >
-                  <img src={deleteIcon} />
-                </button>
+                <DeleteButton onClick={(e) => handleIdApplication(e, a._id)} />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <button className={styles.addButton} onClick={addApplication}>
-        ADD APPLLICATION
-      </button>
     </section>
   );
 }

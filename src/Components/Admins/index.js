@@ -3,6 +3,8 @@ import styles from './admins.module.css';
 import Modal from '../Admins/Modal';
 import Error from '../Admins/Error';
 import ErrorMessage from '../Admins/ErrorMessage';
+import Button from '../Shared/Button/Button';
+import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 
 const Admins = () => {
   const [admins, saveAdmins] = useState([]);
@@ -31,7 +33,7 @@ const Admins = () => {
     const options = {
       method: 'DELETE'
     };
-    const url = `${process.env.REACT_APP_API}/api/admins/delete/${id}`;
+    const url = `${process.env.REACT_APP_API}/admins/delete/${id}`;
     fetch(url, options)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201) {
@@ -72,7 +74,10 @@ const Admins = () => {
         text="Are you sure you want to delete the admin selected?"
       ></Modal>
       <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
-      <h2 className={styles.header}>Admins</h2>
+      <div className={styles.titleAndButton}>
+        <h3>Admin</h3>
+        <Button onClick={addAdmin} value="Admin" />
+      </div>
       <table className={styles.list}>
         <thead>
           <tr>
@@ -91,16 +96,13 @@ const Admins = () => {
               >
                 <td>{admin.email}</td>
                 <td>
-                  <button onClick={(event) => onShowModal(admin._id, event)}>Delete</button>
+                  <DeleteButton onClick={(event) => onShowModal(admin._id, event)} />
                 </td>
               </tr>
             );
           })}
         </tbody>
       </table>
-      <button className={styles.buttonAdd} disabled={showModal} onClick={() => addAdmin()}>
-        Add Admin
-      </button>
     </section>
   );
 };
