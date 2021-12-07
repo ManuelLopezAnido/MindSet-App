@@ -91,7 +91,7 @@ const Postulants = () => {
       <div className={styles.content}>
         <div className={styles.titleAndButton}>
           <h3>Postulants</h3>
-          <Button value="Postulant" onClick={() => redirectToForm(null)} />
+          <Button value="Postulant" onClick={redirectToForm(null)} />
         </div>
         <table className={styles.list}>
           <thead>

@@ -76,7 +76,7 @@ const Admins = () => {
       <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
       <div className={styles.titleAndButton}>
         <h3>Admin</h3>
-        <Button onClick={() => addAdmin()} value="Admin" />
+        <Button onClick={addAdmin} value="Admin" />
       </div>
       <table className={styles.list}>
         <thead>

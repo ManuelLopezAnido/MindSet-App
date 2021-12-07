@@ -76,7 +76,7 @@ const Councelor = () => {
       <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
       <div className={styles.titleAndButton}>
         <h3>Councelors</h3>
-        <Button onClick={() => addCouncelor()} value="Councelors" />
+        <Button onClick={addCouncelor} value="Councelors" />
       </div>
       <table className={styles.list}>
         <thead>
