@@ -1,7 +1,7 @@
 import Header from '../Header/index';
 import Footer from '../Footer/index';
 import Admins from '../Admins/index';
-import AdminsForm from '../Admins/Form/FormAdmin';
+import AdminsForm from '../Admins/Form';
 import Applications from '../Applications/index';
 import FormApplication from '../Applications/Form/FormApplication';
 import Clients from '../Clients/index';
@@ -12,7 +12,7 @@ import Postulants from '../Postulants/index';
 import PostulantsForm from '../Postulants/Form/FormPostulant';
 import Profiles from '../Profiles/index';
 import Councelors from '../Councelors/index';
-import CouncelorsForm from '../Councelors/Form/FormCounselor';
+import FormCounselor from '../Councelors/Form';
 import Sessions from '../Sessions/index';
 import Home from '../Home/index';
 import styles from './layout.module.css';
@@ -62,7 +62,7 @@ function Layout() {
       currentScreen = <Councelors />;
       break;
     case '/councelors/form':
-      currentScreen = <CouncelorsForm />;
+      currentScreen = <FormCounselor />;
       break;
     case '/sessions':
       currentScreen = <Sessions />;

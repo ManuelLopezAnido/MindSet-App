@@ -5,7 +5,7 @@ import Error from '../Error';
 import Button from '../Button';
 import ErrorMessage from '../ErrorMessage';
 
-const Form = () => {
+const FormCounselor = () => {
   const [firstNameValue, setFirstNameValue] = useState([]);
   const [lastNameValue, setLastNameValue] = useState([]);
   const [emailValue, setEmailValue] = useState([]);
@@ -45,7 +45,6 @@ const Form = () => {
         .then((response) => response.json())
         .then((response) => {
           onLoading(response);
-          console.log(response);
         })
         .catch((error) => {
           setShowErrorMessage(true);
@@ -272,7 +271,6 @@ const Form = () => {
   const hidePhone = () => {
     setPhoneError(false);
     if (phoneValue.length < 8) {
-      console.log(phoneValue);
       setCanSave(true);
     }
   };
@@ -569,4 +567,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default FormCounselor;

@@ -5,7 +5,7 @@ import Error from '../Error';
 import Button from '../Button';
 import ErrorMessage from '../ErrorMessage';
 
-const Form = () => {
+const FormAdmin = () => {
   const [emailValue, setEmailValue] = useState([]);
   const [passwordValue, setPasswordValue] = useState([]);
   const [passwordError, setPasswordError] = useState(false);
@@ -138,4 +138,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default FormAdmin;
