@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
-import IsLoading from '../../Shared/IsLoading/IsLoading';
 
-const FormApplication = () => {
+const ApplicationForm = () => {
   const [position, setPositionName] = useState('');
   const [company, setCompany] = useState('');
   const [postulant, setPostulant] = useState('');
   const [applicationState, setAppState] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   const onChangePosition = (event) => {
     setPositionName(event.target.value);
@@ -27,7 +25,6 @@ const FormApplication = () => {
 
   useEffect(() => {
     if (appId) {
-      setIsLoading(true);
       fetch(`${process.env.REACT_APP_API}/applications/id/${appId}`)
         .then((response) => {
           if (response.status !== 200) {
@@ -42,13 +39,11 @@ const FormApplication = () => {
           setCompany(response.companyId);
           setPostulant(response.postulantId ? response.postulantId : 'No id'); // Bad DB. Applications with no postulantID exist
           setAppState(response.applicationState);
-        })
-        .finally(() => setIsLoading(false));
+        });
     }
   }, []);
   const onSubmit = (event) => {
     event.preventDefault();
-    setIsLoading(true);
     let url;
     const options = {
       headers: {
@@ -80,12 +75,8 @@ const FormApplication = () => {
       })
       .catch((error) => {
         return error;
-      })
-      .finally(() => setIsLoading(false));
+      });
   };
-
-  if (isLoading) return <IsLoading />;
-
   return (
     <div>
       <h1>Form</h1>
@@ -97,7 +88,7 @@ const FormApplication = () => {
           value={position}
           onChange={onChangePosition}
           placeholder="Position"
-        />
+        ></input>
         <input
           id="company"
           name="companyName"
@@ -105,21 +96,21 @@ const FormApplication = () => {
           value={company}
           onChange={onChangeCompany}
           placeholder="Company Name"
-        />
+        ></input>
         <input
           id="postulant"
           name="postulantName"
           value={postulant}
           onChange={onChangePostulant}
           placeholder="Postulant Name"
-        />
+        ></input>
         <input
           id="applicationState"
           name="applicationName"
           value={applicationState}
           onChange={onChangeAppState}
           placeholder="State"
-        />
+        ></input>
         <button className={styles.sendFormButton} type="submit">
           SEND
         </button>
@@ -128,4 +119,4 @@ const FormApplication = () => {
   );
 };
 
-export default FormApplication;
+export default ApplicationForm;

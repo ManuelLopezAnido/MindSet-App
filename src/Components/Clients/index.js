@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import styles from './clients.module.css';
 import ModalClient from './Modal/ModalClient';
 import ErrorMessageModal from './ErrorMessageModal/ErrorMessageModal';
-import deleteIcon from '../../assets/deleteIcon.png';
+import IsLoading from '../Shared/IsLoading/IsLoading';
+import Button from '../Shared/Button/Button';
+import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 
 function Clients() {
   const [showModal, setShowModal] = useState(false);
@@ -10,8 +12,10 @@ function Clients() {
   const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
   const [clients, saveClients] = useState([]);
   const [selectedId, setSelectedId] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${process.env.REACT_APP_API}/clients`)
       .then((response) => response.json())
       .then((response) => {
@@ -20,7 +24,8 @@ function Clients() {
       .catch((error) => {
         setShowModalMessageError(true);
         setShowModalMessageErrorMessage(JSON.stringify(error.message));
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const addClient = () => {
@@ -28,6 +33,7 @@ function Clients() {
   };
 
   const deleteClient = (id) => {
+    setIsLoading(true);
     const url = `${process.env.REACT_APP_API}/clients/delete/${id}`;
     fetch(url, {
       method: 'DELETE',
@@ -46,7 +52,8 @@ function Clients() {
       .catch((error) => {
         setShowModalMessageError(true);
         setShowModalMessageErrorMessage(JSON.stringify(error.message));
-      });
+      })
+      .finally(() => setIsLoading(false));
     closeModal();
     saveClients(clients.filter((client) => client._id !== id));
   };
@@ -65,6 +72,8 @@ function Clients() {
     setShowModal(true);
   };
 
+  if (isLoading) return <IsLoading />;
+
   return (
     <section className={styles.container}>
       <ModalClient
@@ -79,7 +88,10 @@ function Clients() {
         setShowModalMessageError={setShowModalMessageError}
         showModalMessageErrorMessage={showModalMessageErrorMessage}
       />
-      <h2>Clients</h2>
+      <div className={styles.titleAndButton}>
+        <h3>Clients</h3>
+        <Button onClick={addClient} value="Client" />
+      </div>
       <table>
         <thead>
           <th>Name</th>
@@ -101,21 +113,13 @@ function Clients() {
               <td>{client.email}</td>
               <td>{client.country}</td>
               <td>{client.phone}</td>
-              <td className={styles.deleteButtonTD}>
-                <button
-                  className={styles.deleteIcon}
-                  onClick={(event) => handleIdClient(event, client._id)}
-                >
-                  <img src={deleteIcon} />
-                </button>
+              <td>
+                <DeleteButton onClick={(event) => handleIdClient(event, client._id)} />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <button className={styles.addButton} onClick={addClient}>
-        ADD CLIENT
-      </button>
     </section>
   );
 }

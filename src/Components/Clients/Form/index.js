@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
 import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
-const FormClient = () => {
+const ClientsForm = () => {
   const [companyNameValue, setCompanyNameValue] = useState('');
   const [companyTypeValue, setCompanyTypeValue] = useState('');
   const [cityValue, setCityValue] = useState('');
@@ -10,9 +11,9 @@ const FormClient = () => {
   const [emailValue, setEmailValue] = useState('');
   const [phoneValue, setPhoneValue] = useState('');
   const [openPositionsValue, setOpenPositionsValue] = useState([]);
-  const [showModal, setShowModal] = useState(false);
   const [showModalMessageError, setShowModalMessageError] = useState(false);
   const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangeCompanyNameValue = (event) => {
     setCompanyNameValue(event.target.value);
@@ -41,6 +42,7 @@ const FormClient = () => {
 
   useEffect(() => {
     if (clientId) {
+      setIsLoading(true);
       fetch(`${process.env.REACT_APP_API}/clients/id/${clientId}`)
         .then((response) => {
           if (response.status !== 200) {
@@ -62,12 +64,15 @@ const FormClient = () => {
         .catch((error) => {
           setShowModalMessageError(true);
           setShowModalMessageErrorMessage(JSON.stringify(error.message));
-        });
+          setIsLoading(false);
+        })
+        .finally(() => setIsLoading(false));
     }
   }, []);
 
   const onSubmit = (event) => {
     event.preventDefault();
+    setIsLoading(true);
     let url;
 
     const options = {
@@ -105,12 +110,15 @@ const FormClient = () => {
       .catch((error) => {
         setShowModalMessageErrorMessage(error.toString());
         setShowModalMessageError(true);
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const closeModalMessageError = () => {
     setShowModalMessageError(false);
   };
+
+  if (isLoading) return <IsLoading />;
 
   return (
     <div>
@@ -183,4 +191,4 @@ const FormClient = () => {
   );
 };
 
-export default FormClient;
+export default ClientsForm;

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './form.module.css';
 import Input from '../Input';
 import ErrorMessageModal from '../ErrorMessageModal';
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
 const params = new URLSearchParams(window.location.search);
 const postulantId = params.get('_id');
@@ -89,9 +90,11 @@ const PostulantsForm = () => {
   const [availabilityCheckSundayValue, setAvailabilityCheckSundayValue] = useState(false);
   const [availabilityFromSundayValue, setAvailabilityFromSundayValue] = useState('-');
   const [availabilityToSundayValue, setAvailabilityToSundayValue] = useState('-');
+  const [isLoading, setIsLoading] = useState(false);
 
   if (postulantId) {
     useEffect(() => {
+      setIsLoading(true);
       fetch(`${process.env.REACT_APP_API}/postulants/${postulantId}`)
         .then((response) => response.json())
         .then((response) => {
@@ -100,7 +103,8 @@ const PostulantsForm = () => {
         .catch((error) => {
           setShowModalMessageError(true);
           setShowModalMessageErrorMessage(JSON.stringify(error.message));
-        });
+        })
+        .finally(() => setIsLoading(false));
     }, []);
   }
 
@@ -188,6 +192,7 @@ const PostulantsForm = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
+    setIsLoading(true);
     const data = {
       firstName: firstNameValue,
       lastName: lastNameValue,
@@ -320,19 +325,21 @@ const PostulantsForm = () => {
       },
       body: JSON.stringify(data)
     })
-      .then((response) => response.json())
-      .then((response) => {
+      .then(() => {
         window.location.href = `${window.location.origin}/postulants`;
       })
       .catch((error) => {
         setShowModalMessageError(true);
         setShowModalMessageErrorMessage(JSON.stringify(error.message));
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const closeModalMessageError = () => {
     setShowModalMessageError(false);
   };
+
+  if (isLoading) return <IsLoading />;
 
   return (
     <div className={styles.container}>

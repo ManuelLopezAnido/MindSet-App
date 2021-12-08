@@ -2,56 +2,39 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 5%;
-  height: 50px;
-  background-color: #fdc800;
+  height: 15vh;
+  border:solid black 1px;
 }
 
 .brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 2.5rem;
+  width: 20vw;
+  height: 100%;
+  background-color: #9ED8D8;
 }
-
-.socialIcon {
-  margin-left: 15px;
+.entityname{
+  color:white;
+  font-size: 2rem ;
+  padding-left: 2vw;
 }
-
-.navbar {
+.mainhead{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: 80vw;
+  background-color: #325477;
+}
+.Icons{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 5%;
-  min-height: 100px;
-  background-color: #f0f4f9;
+  flex-direction: row;
+  width: 13vw;
+  padding-right: 2vw;
 }
 
-.appName {
-  font-size: 2rem;
-  font-weight: bold;
-}
-
-.rutes {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  list-style-type: none;
-}
-
-.rutes > li > a {
-  margin-left: 15px;
-  font-size: 1rem;
-  font-weight: 600;
-  text-decoration: none;
-  text-transform: capitalize;
-  color: black;
-}
-
-@media screen and (min-width: 750px) {
-  .container {
-    padding: 0 20%;
-  }
-
-  .navbar {
-    padding: 0 20%;
-  }
-}

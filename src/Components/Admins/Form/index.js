@@ -4,8 +4,9 @@ import Input from '../Input';
 import Error from '../Error';
 import Button from '../Button';
 import ErrorMessage from '../ErrorMessage';
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
-const Form = () => {
+const AdminsForm = () => {
   const [emailValue, setEmailValue] = useState([]);
   const [passwordValue, setPasswordValue] = useState([]);
   const [passwordError, setPasswordError] = useState(false);
@@ -13,6 +14,7 @@ const Form = () => {
   const [canSave, setCanSave] = useState(true);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [errorMessageText, setErrorMessageText] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangeEmailInput = (event) => {
     setEmailValue(event.target.value);
@@ -23,6 +25,7 @@ const Form = () => {
   };
   const onSubmit = (event) => {
     event.preventDefault();
+    setIsLoading(true);
     const params = new URLSearchParams(window.location.search);
     const adminId = params.get('id');
     let url;
@@ -39,10 +42,10 @@ const Form = () => {
 
     if (adminId !== null) {
       options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/api/admins/update/${adminId}`;
+      url = `${process.env.REACT_APP_API}/admins/update/${adminId}`;
     } else {
       options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/api/admins/create`;
+      url = `${process.env.REACT_APP_API}/admins/create`;
     }
 
     fetch(url, options)
@@ -59,7 +62,8 @@ const Form = () => {
       .catch((error) => {
         setShowErrorMessage(true);
         setErrorMessageText(JSON.stringify(error.message));
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const hideEmail = () => {
@@ -100,6 +104,8 @@ const Form = () => {
     setShowErrorMessage(false);
   };
 
+  if (isLoading) return <IsLoading />;
+
   return (
     <div className={styles.container}>
       <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
@@ -138,4 +144,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default AdminsForm;

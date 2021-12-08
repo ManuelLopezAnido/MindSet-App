@@ -4,8 +4,9 @@ import Input from '../Input';
 import Error from '../Error';
 import Button from '../Button';
 import ErrorMessage from '../ErrorMessage';
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
-const Form = () => {
+const CouncelorsForm = () => {
   const [firstNameValue, setFirstNameValue] = useState([]);
   const [lastNameValue, setLastNameValue] = useState([]);
   const [emailValue, setEmailValue] = useState([]);
@@ -36,6 +37,7 @@ const Form = () => {
   const [canSave, setCanSave] = useState(true);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [errorMessageText, setErrorMessageText] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangeFirstNameInput = (event) => {
     setFirstNameValue(event.target.value);
@@ -136,6 +138,7 @@ const Form = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
+    setIsLoading(true);
     const params = new URLSearchParams(window.location.search);
     const councelorId = params.get('id');
     let url;
@@ -208,7 +211,8 @@ const Form = () => {
       .catch((error) => {
         setShowErrorMessage(true);
         setErrorMessageText(JSON.stringify(error.message));
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const hideEmail = () => {
@@ -304,6 +308,8 @@ const Form = () => {
   const closeError = () => {
     setShowErrorMessage(false);
   };
+
+  if (isLoading) return <IsLoading />;
 
   return (
     <div className={styles.container}>
@@ -546,4 +552,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default CouncelorsForm;

@@ -3,6 +3,9 @@ import styles from './councelors.module.css';
 import Modal from '../Councelors/Modal';
 import Error from '../Councelors/Error';
 import ErrorMessage from '../Councelors/ErrorMessage';
+import IsLoading from '../Shared/IsLoading/IsLoading';
+import Button from '../Shared/Button/Button';
+import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 
 const Councelor = () => {
   const [councelors, saveCouncelors] = useState([]);
@@ -10,8 +13,10 @@ const Councelor = () => {
   const [selectedId, setSelectedId] = useState('');
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [errorMessageText, setErrorMessageText] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${process.env.REACT_APP_API}/counselors`)
       .then((response) => response.json())
       .then((response) => {
@@ -20,7 +25,8 @@ const Councelor = () => {
       .catch((error) => {
         setShowErrorMessage(true);
         setErrorMessageText(JSON.stringify(error.message));
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const addCouncelor = () => {
@@ -28,6 +34,7 @@ const Councelor = () => {
   };
 
   const deleteCouncelor = (id) => {
+    setIsLoading(true);
     const options = {
       method: 'DELETE'
     };
@@ -45,7 +52,8 @@ const Councelor = () => {
       .catch((error) => {
         setShowErrorMessage(true);
         setErrorMessageText(JSON.stringify(error.message));
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const onShowModal = (id, event) => {
@@ -62,6 +70,8 @@ const Councelor = () => {
     setShowErrorMessage(false);
   };
 
+  if (isLoading) return <IsLoading />;
+
   return (
     <section className={styles.container}>
       <Modal
@@ -72,7 +82,10 @@ const Councelor = () => {
         text="Are you sure you want to delete the counselor selected?"
       ></Modal>
       <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
-      <h2 className={styles.header}>Counselors</h2>
+      <div className={styles.titleAndButton}>
+        <h3>Councelors</h3>
+        <Button onClick={addCouncelor} value="Councelors" />
+      </div>
       <table className={styles.list}>
         <thead>
           <tr>
@@ -93,18 +106,14 @@ const Councelor = () => {
                 <td>{councelor.firstName}</td>
                 <td>{councelor.lastName}</td>
                 <td>
-                  <button onClick={(event) => onShowModal(councelor._id, event)}>Delete</button>
+                  <DeleteButton onClick={(event) => onShowModal(councelor._id, event)} />
                 </td>
               </tr>
             );
           })}
         </tbody>
       </table>
-      <button className={styles.buttonAdd} disabled={showModal} onClick={() => addCouncelor()}>
-        Add Counselor
-      </button>
     </section>
   );
 };
-
 export default Councelor;
