@@ -6,14 +6,14 @@ const ErrorMessageModal = (props) => {
   }
 
   const closeModal = () => {
-    props.setShowModalMessageError(false);
+    props.setShowErrorModal(false);
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.modal}>
         <h3>Message:</h3>
-        <div>{props.showModalMessageErrorMessage}</div>
+        <div>{props.showErrorModalMessage}</div>
         <button onClick={closeModal}>OK</button>
       </div>
     </div>

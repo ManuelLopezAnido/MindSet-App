@@ -1,7 +1,7 @@
 import styles from './sessions.module.css';
 import { useState, useEffect } from 'react';
-import ModalSession from './Modal/ModalSession';
-import ErrorMessageModal from './ErrorMessageModal/ErrorMessageModal';
+import Modal from '../Shared/Modal';
+import ErrorModal from '../Shared/ErrorModal';
 import IsLoading from '../Shared/IsLoading/IsLoading';
 import Button from '../Shared/Button/Button';
 import DeleteButton from '../Shared/DeleteButton/DeleteButton';
@@ -10,8 +10,8 @@ function Sessions() {
   const [showModal, setShowModal] = useState(false);
   const [sessions, saveSessions] = useState([]);
   const [selectedId, setSelectedId] = useState('');
-  const [showModalMessageError, setShowModalMessageError] = useState(false);
-  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -22,8 +22,8 @@ function Sessions() {
         saveSessions(response.Sessions);
       })
       .catch((error) => {
-        setShowModalMessageError(true);
-        setShowModalMessageErrorMessage(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
       })
       .finally(() => setIsLoading(false));
   }, []);
@@ -32,9 +32,9 @@ function Sessions() {
     window.location.href = `/sessions/form`;
   };
 
-  const deleteSession = (id) => {
+  const deleteSession = () => {
     setIsLoading(true);
-    const url = `${process.env.REACT_APP_API}/sessions/${id}`;
+    const url = `${process.env.REACT_APP_API}/sessions/${selectedId}`;
     fetch(url, {
       method: 'DELETE',
       headers: {
@@ -47,20 +47,16 @@ function Sessions() {
             throw new Error(message);
           });
         }
-        return;
+        saveSessions(sessions.filter((session) => session._id !== selectedId));
       })
-      .catch((error) => error)
-      .finally(() => setIsLoading(false));
-    closeModal();
-    saveSessions(sessions.filter((session) => session._id !== id));
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const closeModalMessageError = () => {
-    setShowModalMessageErrorMessage(false);
+      .catch((error) => {
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
+      });
   };
 
   const handleIdSession = (event, id) => {
@@ -69,21 +65,37 @@ function Sessions() {
     setShowModal(true);
   };
 
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
+  };
   if (isLoading) return <IsLoading />;
 
   return (
     <section className={styles.container}>
-      <ModalSession
-        show={showModal}
+      <Modal
+        showModal={showModal}
         closeModal={closeModal}
-        deleteSession={deleteSession}
+        actionEntity={deleteSession}
         selectedId={selectedId}
+        titleText="Delete a session"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to delete this session?'
+          }
+        ]}
+        leftButtonText="delete"
+        rightButtonText="cancel"
       />
-      <ErrorMessageModal
-        show={showModalMessageError}
-        closeModalMessageError={closeModalMessageError}
-        setShowModalMessageError={setShowModalMessageError}
-        showModalMessageErrorMessage={showModalMessageErrorMessage}
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
       />
       <div className={styles.titleAndButton}>
         <h3>Sessions</h3>

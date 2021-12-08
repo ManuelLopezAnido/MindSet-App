@@ -48,8 +48,8 @@ const Routes = () => {
         <Route path="/profiles/form" component={ProfilesForm} />
         <Route path="/profiles/form/:id" component={ProfilesForm} />
         <Route exact path="/counselors" component={Councelors} />
-        <Route path="/counselors/form" component={CouncelorsForm} />
-        <Route path="/counselors/form/:id" component={CouncelorsForm} />
+        <Route path="/councelors/form" component={CouncelorsForm} />
+        <Route path="/councelors/form/:id" component={CouncelorsForm} />
         <Route exact path="/sessions" component={Sessions} />
         <Route path="/sessions/form" component={SessionsForm} />
         <Route path="/sessions/form/:id" component={SessionsForm} />

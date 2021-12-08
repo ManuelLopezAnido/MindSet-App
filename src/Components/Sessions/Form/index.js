@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import styles from './form.module.css';
-import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
+import Modal from '../../Shared/Modal';
+import ErrorModal from '../../Shared/ErrorModal';
 import IsLoading from '../../Shared/IsLoading/IsLoading';
 
 const SessionsForm = () => {
+  const [showModal, setShowModal] = useState(false);
   const [postulantIdValue, setPostulantIdValue] = useState('');
   const [counselorIdValue, setCounselorIdValue] = useState('');
   const [dateValue, setDateValue] = useState('');
   const [timeValue, setTimeValue] = useState('');
   const [accomplishedValue, setAccomplishedValue] = useState(false);
-  const [showModalMessageError, setShowModalMessageError] = useState(false);
-  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const onChangePostulantIdValue = (event) => {
@@ -52,15 +54,14 @@ const SessionsForm = () => {
           setAccomplishedValue(response.data.accomplished);
         })
         .catch((error) => {
-          setShowModalMessageError(true);
-          setShowModalMessageErrorMessage(JSON.stringify(error.message));
+          setShowErrorModal(true);
+          setShowErrorModalMessage(JSON.stringify(error.message));
         })
         .finally(() => setIsLoading(false));
     }
   }, []);
 
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const submit = () => {
     setIsLoading(true);
     let url = `${process.env.REACT_APP_API}/sessions`;
 
@@ -90,33 +91,57 @@ const SessionsForm = () => {
       .then((response) => {
         if (response.status !== 200 && response.status !== 201) {
           return response.json().then(({ msg }) => {
-            console.log('message: ', msg);
             throw new Error(msg);
           });
         }
         return (window.location.href = `/sessions`);
       })
       .catch((error) => {
-        console.log('error: ', error);
-        setShowModalMessageErrorMessage(error.toString());
-        setShowModalMessageError(true);
+        setShowErrorModalMessage(error.toString());
+        setShowErrorModal(true);
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
+      });
   };
 
-  const closeModalMessageError = () => {
-    setShowModalMessageError(false);
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setShowModal(true);
   };
 
   if (isLoading) return <IsLoading />;
 
   return (
     <div>
-      <ErrorMessageModal
-        show={showModalMessageError}
-        closeModalMessageError={closeModalMessageError}
-        setShowModalMessageError={setShowModalMessageError}
-        showModalMessageErrorMessage={showModalMessageErrorMessage}
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        actionEntity={submit}
+        titleText="Save"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to save these changes?'
+          }
+        ]}
+        leftButtonText="save"
+        rightButtonText="cancel"
+      />
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
       />
       <h1>Form</h1>
       <form className={styles.container} onSubmit={onSubmit}>
