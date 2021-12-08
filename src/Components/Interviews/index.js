@@ -36,7 +36,7 @@ function Interviews() {
       }
     })
       .then((res) => {
-        if (res.status !== 204) {
+        if ((res.status !== 204) & (res.status !== 200)) {
           return res.json().then((message) => {
             throw new Error(message);
           });

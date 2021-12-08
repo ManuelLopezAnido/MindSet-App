@@ -24,11 +24,11 @@ const FormInterviews = () => {
   };
 
   const params = new URLSearchParams(window.location.search);
-  const InterviewId = params.get('id');
+  const interviewId = params.get('id');
 
   useEffect(() => {
-    if (InterviewId) {
-      fetch(`${process.env.REACT_APP_API}/interviews/${InterviewId}`)
+    if (interviewId) {
+      fetch(`${process.env.REACT_APP_API}/interviews/${interviewId}`)
         .then((response) => {
           if (response.status !== 200) {
             return response.json().then(({ message }) => {
@@ -66,12 +66,12 @@ const FormInterviews = () => {
       })
     };
 
-    if (InterviewId === null) {
+    if (interviewId === null) {
       options.method = 'POST';
       url = `${process.env.REACT_APP_API}/interviews/create`;
     } else {
       options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/interviews/update/${InterviewId}`;
+      url = `${process.env.REACT_APP_API}/interviews/update/${interviewId}`;
     }
 
     fetch(url, options)

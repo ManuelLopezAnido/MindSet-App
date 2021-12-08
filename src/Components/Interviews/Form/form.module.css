@@ -7,7 +7,7 @@ h1 {
   align-items: center;
 }
 
-input {
+.container > * input {
   width: 250px;
   margin: 10px 0px;
 }
