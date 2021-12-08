@@ -1,17 +1,10 @@
-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 100vh;
-}
-
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.buttonAdd {
+/* .buttonAdd {
   margin-bottom: 15px;
   width: 20%;
   height: 30px;
@@ -19,7 +12,7 @@ body {
   color: #f3f3f3;
   font-weight: bold;
   font-size: 1rem;
-}
+} */
 
 .list {
   border-collapse: collapse;
@@ -68,6 +61,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 50%;
+  width: 100%;
   border-bottom: 2px solid #dedede;
+  /* border: 3px solid green; */
 }

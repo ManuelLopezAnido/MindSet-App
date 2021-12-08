@@ -6,7 +6,7 @@
   align-items: center;
 }
 
-tbody {
+.container * > tbody {
   text-align: center;
 }
 

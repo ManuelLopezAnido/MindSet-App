@@ -14,9 +14,10 @@
   background: #4A4848;
   box-shadow: 0 3px 6px rgba(black,0.16), 0 3px 6px rgba(black,0.23);
 }
-a, a:hover, a:active, a:visited, a:focus {
+.navBar * > a, a:hover, a:active, a:visited, a:focus {
   text-decoration:none;
 }
+
 .itemsbodycontent {
   padding: 10px;
   padding-right: 0px;
