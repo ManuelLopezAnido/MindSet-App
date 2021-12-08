@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import styles from './postulants.module.css';
-import deleteImage from '../../assets/images/deleteIcon.png';
 import Modal from '../Postulants/Modal';
 import ErrorMessageModal from '../Postulants/ErrorMessageModal';
 import IsLoading from '../Shared/IsLoading/IsLoading';
+import Button from '../Shared/Button/Button';
+import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 
 const Postulants = () => {
   const [showModal, setShowModal] = useState(false);
@@ -96,7 +97,10 @@ const Postulants = () => {
         showModalMessageErrorMessage={showModalMessageErrorMessage}
       />
       <div className={styles.content}>
-        <h2 className={styles.header}>Postulants</h2>
+        <div className={styles.titleAndButton}>
+          <h3>Postulants</h3>
+          <Button value="Postulant" onClick={redirectToForm(null)} />
+        </div>
         <table className={styles.list}>
           <thead>
             <tr>
@@ -117,27 +121,16 @@ const Postulants = () => {
                   <div>{postulant?.country || '-'}</div>
                 </td>
                 <td>
-                  <button
-                    type="button"
+                  <DeleteButton
                     onClick={(event) =>
                       onShowModal(event, postulant._id, postulant.firstName, postulant.lastName)
                     }
-                  >
-                    <img src={deleteImage} alt="delete"></img>
-                  </button>
+                  />
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        <button
-          className={styles.button}
-          id="addClient"
-          type="button"
-          onClick={() => redirectToForm(null)}
-        >
-          Add Postulant
-        </button>
       </div>
     </div>
   );

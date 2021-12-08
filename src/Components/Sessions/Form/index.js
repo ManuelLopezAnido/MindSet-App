@@ -3,7 +3,7 @@ import styles from './form.module.css';
 import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
 import IsLoading from '../../Shared/IsLoading/IsLoading';
 
-const FormSession = () => {
+const SessionsForm = () => {
   const [postulantIdValue, setPostulantIdValue] = useState('');
   const [counselorIdValue, setCounselorIdValue] = useState('');
   const [dateValue, setDateValue] = useState('');
@@ -165,4 +165,4 @@ const FormSession = () => {
   );
 };
 
-export default FormSession;
+export default SessionsForm;

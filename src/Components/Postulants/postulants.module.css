@@ -122,3 +122,11 @@ button {
 	border-left-style: none;
 	color: #fff;
 }
+
+.titleAndButton{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 50%;
+	border-bottom: 2px solid #dedede;
+}

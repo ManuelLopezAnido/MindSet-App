@@ -6,7 +6,7 @@ import Button from '../Button';
 import ErrorMessage from '../ErrorMessage';
 import IsLoading from '../../Shared/IsLoading/IsLoading';
 
-const Form = () => {
+const AdminsForm = () => {
   const [emailValue, setEmailValue] = useState([]);
   const [passwordValue, setPasswordValue] = useState([]);
   const [passwordError, setPasswordError] = useState(false);
@@ -144,4 +144,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default AdminsForm;

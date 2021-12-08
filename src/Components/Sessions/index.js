@@ -1,9 +1,10 @@
 import styles from './sessions.module.css';
 import { useState, useEffect } from 'react';
-import deleteIcon from '../../assets/deleteIcon.png';
 import ModalSession from './Modal/ModalSession';
 import ErrorMessageModal from './ErrorMessageModal/ErrorMessageModal';
 import IsLoading from '../Shared/IsLoading/IsLoading';
+import Button from '../Shared/Button/Button';
+import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 
 function Sessions() {
   const [showModal, setShowModal] = useState(false);
@@ -84,7 +85,10 @@ function Sessions() {
         setShowModalMessageError={setShowModalMessageError}
         showModalMessageErrorMessage={showModalMessageErrorMessage}
       />
-      <h2>Clients</h2>
+      <div className={styles.titleAndButton}>
+        <h3>Sessions</h3>
+        <Button onClick={addSession} value="Session" />
+      </div>
       <table>
         <thead>
           <th>Postulant Id</th>
@@ -107,20 +111,12 @@ function Sessions() {
               <td>{session.time}</td>
               <td>{session.accomplished.toString()}</td>
               <td className={styles.deleteButtonTD}>
-                <button
-                  className={styles.deleteIcon}
-                  onClick={(event) => handleIdSession(event, session._id)}
-                >
-                  <img src={deleteIcon} />
-                </button>
+                <DeleteButton onClick={(event) => handleIdSession(event, session._id)} />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <button className={styles.addButton} onClick={addSession}>
-        ADD SESSION
-      </button>
     </section>
   );
 }

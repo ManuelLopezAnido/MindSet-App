@@ -3,7 +3,7 @@ import styles from './form.module.css';
 import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
 import IsLoading from '../../Shared/IsLoading/IsLoading';
 
-const FormClient = () => {
+const ClientsForm = () => {
   const [companyNameValue, setCompanyNameValue] = useState('');
   const [companyTypeValue, setCompanyTypeValue] = useState('');
   const [cityValue, setCityValue] = useState('');
@@ -191,4 +191,4 @@ const FormClient = () => {
   );
 };
 
-export default FormClient;
+export default ClientsForm;
