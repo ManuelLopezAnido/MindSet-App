@@ -4,16 +4,6 @@
   align-items: center;
 }
 
-/* .buttonAdd {
-  margin-bottom: 15px;
-  width: 20%;
-  height: 30px;
-  background-color: #fdc800;
-  color: #f3f3f3;
-  font-weight: bold;
-  font-size: 1rem;
-} */
-
 .list {
   border-collapse: collapse;
   margin: 25px 0;
@@ -57,11 +47,10 @@
   font-weight: bold;
 }
 
-.titleAndButton{
+.titleAndButton {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   border-bottom: 2px solid #dedede;
-  /* border: 3px solid green; */
 }
