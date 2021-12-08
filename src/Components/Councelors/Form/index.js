@@ -3,9 +3,14 @@ import styles from './form.module.css';
 import Input from '../Input';
 import Error from '../Error';
 import Button from '../Button';
-import ErrorMessage from '../ErrorMessage';
+import Modal from '../../Shared/Modal';
+import ErrorModal from '../../Shared/ErrorModal';
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
-const Form = () => {
+const CouncelorsForm = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
   const [firstNameValue, setFirstNameValue] = useState([]);
   const [lastNameValue, setLastNameValue] = useState([]);
   const [emailValue, setEmailValue] = useState([]);
@@ -34,8 +39,7 @@ const Form = () => {
   const [birthdayError, setBirthdayError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
   const [canSave, setCanSave] = useState(true);
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [errorMessageText, setErrorMessageText] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangeFirstNameInput = (event) => {
     setFirstNameValue(event.target.value);
@@ -75,7 +79,6 @@ const Form = () => {
 
   const onChangeAvailabilityMonday = (event) => {
     String(setMondayValue(event.target.value)) === true;
-    console.log(mondayValue);
   };
 
   const onChangeFromMonday = (event) => {
@@ -134,8 +137,8 @@ const Form = () => {
     setFridayToValue(event.target.value);
   };
 
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const submit = () => {
+    setIsLoading(true);
     const params = new URLSearchParams(window.location.search);
     const councelorId = params.get('id');
     let url;
@@ -192,8 +195,6 @@ const Form = () => {
       url = `${process.env.REACT_APP_API}/counselors/add`;
     }
 
-    console.log(options);
-
     fetch(url, options)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201) {
@@ -203,12 +204,27 @@ const Form = () => {
         }
       })
       .then(() => {
-        window.location.replace(`http://localhost:3000/councelors`);
+        window.location.replace(`http://localhost:3000/counselors`);
       })
       .catch((error) => {
-        setShowErrorMessage(true);
-        setErrorMessageText(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
       });
+  };
+
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
+  };
+
+  const closeModal = () => setShowModal(false);
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setShowModal(true);
   };
 
   const hideEmail = () => {
@@ -301,13 +317,30 @@ const Form = () => {
     }
   };
 
-  const closeError = () => {
-    setShowErrorMessage(false);
-  };
+  if (isLoading) return <IsLoading />;
 
   return (
     <div className={styles.container}>
-      <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        actionEntity={submit}
+        titleText="Save"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to save these changes?'
+          }
+        ]}
+        leftButtonText="save"
+        rightButtonText="cancel"
+      />
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
+      />
       <form className={styles.form} onSubmit={onSubmit}>
         <h2>Form</h2>
         <Input
@@ -546,4 +579,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default CouncelorsForm;
