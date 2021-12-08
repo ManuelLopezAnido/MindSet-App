@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './applications.module.css';
 import Modal from '../Shared/Modal';
 import ErrorModal from '../Shared/ErrorModal';
+import IsLoading from '../Shared/IsLoading/IsLoading';
 import Button from '../Shared/Button/Button';
 import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 
@@ -12,7 +13,10 @@ function Applications() {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
 
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${process.env.REACT_APP_API}/applications`)
       .then((response) => response.json())
       .then((response) => {
@@ -21,7 +25,8 @@ function Applications() {
       .catch((error) => {
         setShowErrorModal(true);
         setShowErrorModalMessage(JSON.stringify(error.message));
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const addApplication = () => {
@@ -29,6 +34,7 @@ function Applications() {
   };
 
   const deleteApplication = () => {
+    setIsLoading(true);
     const url = `${process.env.REACT_APP_API}/applications/delete/${selectedId}`;
     fetch(url, {
       method: 'DELETE',
@@ -48,7 +54,10 @@ function Applications() {
         setShowErrorModal(true);
         setShowErrorModalMessage(JSON.stringify(error.message));
       })
-      .finally(() => setShowModal(false));
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
+      });
   };
 
   const closeModal = () => {
@@ -64,6 +73,8 @@ function Applications() {
   const closeErrorMessage = () => {
     setShowErrorModal(false);
   };
+
+  if (isLoading) return <IsLoading />;
 
   return (
     <section className={styles.container}>

@@ -3,6 +3,7 @@ import styles from './form.module.css';
 import Input from '../Input';
 import Modal from '../../Shared/Modal';
 import ErrorModal from '../../Shared/ErrorModal';
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
 const params = new URLSearchParams(window.location.search);
 const postulantId = params.get('_id');
@@ -90,9 +91,11 @@ const PostulantsForm = () => {
   const [availabilityCheckSundayValue, setAvailabilityCheckSundayValue] = useState(false);
   const [availabilityFromSundayValue, setAvailabilityFromSundayValue] = useState('-');
   const [availabilityToSundayValue, setAvailabilityToSundayValue] = useState('-');
+  const [isLoading, setIsLoading] = useState(false);
 
   if (postulantId) {
     useEffect(() => {
+      setIsLoading(true);
       fetch(`${process.env.REACT_APP_API}/postulants/${postulantId}`)
         .then((response) => response.json())
         .then((response) => {
@@ -101,7 +104,8 @@ const PostulantsForm = () => {
         .catch((error) => {
           setShowErrorModal(true);
           setShowErrorModalMessage(JSON.stringify(error.message));
-        });
+        })
+        .finally(() => setIsLoading(false));
     }, []);
   }
 
@@ -188,6 +192,7 @@ const PostulantsForm = () => {
   };
 
   const submit = () => {
+    setIsLoading(true);
     const data = {
       firstName: firstNameValue,
       lastName: lastNameValue,
@@ -327,7 +332,10 @@ const PostulantsForm = () => {
         setShowErrorModal(true);
         setShowErrorModalMessage(JSON.stringify(error.message));
       })
-      .finally(() => setShowModal(false));
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
+      });
   };
 
   const closeErrorMessage = () => {
@@ -340,6 +348,8 @@ const PostulantsForm = () => {
     event.preventDefault();
     setShowModal(true);
   };
+
+  if (isLoading) return <IsLoading />;
 
   return (
     <div className={styles.container}>

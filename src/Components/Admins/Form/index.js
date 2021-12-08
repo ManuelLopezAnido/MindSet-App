@@ -5,9 +5,7 @@ import Error from '../Error';
 import Button from '../Button';
 import Modal from '../../Shared/Modal';
 import ErrorModal from '../../Shared/ErrorModal';
-
-const params = new URLSearchParams(window.location.search);
-const adminId = params.get('id');
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
 const AdminsForm = () => {
   const [showModal, setShowModal] = useState(false);
@@ -18,6 +16,10 @@ const AdminsForm = () => {
   const [canSave, setCanSave] = useState(true);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const params = new URLSearchParams(window.location.search);
+  const adminId = params.get('id');
 
   if (adminId) {
     useEffect(() => {
@@ -44,8 +46,7 @@ const AdminsForm = () => {
   };
 
   const submit = () => {
-    const params = new URLSearchParams(window.location.search);
-    const adminId = params.get('id');
+    setIsLoading(true);
     let url;
 
     const options = {
@@ -81,7 +82,10 @@ const AdminsForm = () => {
         setShowErrorModal(true);
         setShowErrorModalMessage(JSON.stringify(error.message));
       })
-      .finally(() => setShowModal(false));
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
+      });
   };
 
   const closeModal = () => setShowModal(false);
@@ -128,6 +132,8 @@ const AdminsForm = () => {
   const closeErrorMessage = () => {
     setShowErrorModal(false);
   };
+
+  if (isLoading) return <IsLoading />;
 
   return (
     <div className={styles.container}>

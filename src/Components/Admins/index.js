@@ -3,6 +3,7 @@ import styles from './admins.module.css';
 import Modal from '../Shared/Modal';
 import Error from '../Admins/Error';
 import ErrorModal from '../Shared/ErrorModal';
+import IsLoading from '../Shared/IsLoading/IsLoading';
 import Button from '../Shared/Button/Button';
 import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 
@@ -12,8 +13,10 @@ const Admins = () => {
   const [selectedId, setSelectedId] = useState('');
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${process.env.REACT_APP_API}/admins`)
       .then((response) => response.json())
       .then((response) => {
@@ -22,6 +25,9 @@ const Admins = () => {
       .catch((error) => {
         setShowErrorModal(true);
         setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, []);
 
@@ -30,6 +36,7 @@ const Admins = () => {
   };
 
   const deleteAdmin = () => {
+    setIsLoading(true);
     const options = {
       method: 'DELETE'
     };
@@ -47,7 +54,10 @@ const Admins = () => {
         setShowErrorModal(true);
         setShowErrorModalMessage(JSON.stringify(error.message));
       })
-      .finally(() => setShowModal(false));
+      .finally(() => {
+        setIsLoading(false);
+        setShowModal(false);
+      });
   };
 
   const closeModal = () => {
@@ -63,6 +73,8 @@ const Admins = () => {
   const closeErrorMessage = () => {
     setShowErrorModal(false);
   };
+
+  if (isLoading) return <IsLoading />;
 
   return (
     <div className={styles.container}>

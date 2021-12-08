@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './positions.module.css';
 import Modal from '../Shared/Modal';
 import ErrorModal from '../Shared/ErrorModal';
+import IsLoading from '../Shared/IsLoading/IsLoading';
 import Button from '../Shared/Button/Button';
 import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 
@@ -11,8 +12,10 @@ function Positions() {
   const [selectedId, setSelectedId] = useState('');
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${process.env.REACT_APP_API}/positions`)
       .then((response) => response.json())
       .then((response) => {
@@ -21,7 +24,8 @@ function Positions() {
       .catch((error) => {
         setShowErrorModal(true);
         setShowErrorModalMessage(JSON.stringify(error.message));
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const addPositions = () => {
@@ -30,6 +34,7 @@ function Positions() {
 
   const deletePosition = () => {
     const url = `${process.env.REACT_APP_API}/positions/delete/${selectedId}`;
+    setIsLoading(true);
     fetch(url, {
       method: 'DELETE',
       headers: {
@@ -48,7 +53,10 @@ function Positions() {
         setShowErrorModal(true);
         setShowErrorModalMessage(JSON.stringify(error.message));
       })
-      .finally(() => setShowModal(false));
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
+      });
   };
 
   const handleIdPosition = (event, id) => {
@@ -64,6 +72,8 @@ function Positions() {
   const closeErrorMessage = () => {
     setShowErrorModal(false);
   };
+
+  if (isLoading) return <IsLoading />;
 
   return (
     <section className={styles.container}>

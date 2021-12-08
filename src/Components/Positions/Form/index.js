@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
 import Modal from '../../Shared/Modal';
 import ErrorModal from '../../Shared/ErrorModal';
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
 const PositionsForm = () => {
   const [showModal, setShowModal] = useState(false);
@@ -15,6 +16,7 @@ const PositionsForm = () => {
   const [closingDate, setClosingDate] = useState('');
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangeJobTitle = (event) => {
     setJobTitle(event.target.value);
@@ -68,13 +70,13 @@ const PositionsForm = () => {
         .catch((error) => {
           setShowErrorModal(true);
           setShowErrorModalMessage(JSON.stringify(error.message));
-        });
+        })
+        .finally(() => setIsLoading(false));
     }
   }, []);
 
   const submit = () => {
     let url;
-
     const options = {
       headers: {
         'Content-Type': 'application/json'
@@ -114,7 +116,10 @@ const PositionsForm = () => {
         setShowErrorModal(true);
         setShowErrorModalMessage(JSON.stringify(error.message));
       })
-      .finally(() => setShowModal(false));
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
+      });
   };
 
   const closeErrorMessage = () => {
@@ -127,6 +132,8 @@ const PositionsForm = () => {
     event.preventDefault();
     setShowModal(true);
   };
+
+  if (isLoading) return <IsLoading />;
 
   return (
     <div>
@@ -164,7 +171,7 @@ const PositionsForm = () => {
           id="clientId"
           name="clientIdName"
           required
-          value={clientId ? clientId._id : 'not found'}
+          value={clientId}
           onChange={onChangeClientId}
           placeholder="Company ID"
         ></input>

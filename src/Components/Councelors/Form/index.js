@@ -5,6 +5,7 @@ import Error from '../Error';
 import Button from '../Button';
 import Modal from '../../Shared/Modal';
 import ErrorModal from '../../Shared/ErrorModal';
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
 const CouncelorsForm = () => {
   const [showModal, setShowModal] = useState(false);
@@ -38,9 +39,7 @@ const CouncelorsForm = () => {
   const [birthdayError, setBirthdayError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
   const [canSave, setCanSave] = useState(true);
-  //TODO: CHECK THIS
-  // const [showErrorModal, setShowErrorModal] = useState(false);
-  // const [errorModal, setErrorModal] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangeFirstNameInput = (event) => {
     setFirstNameValue(event.target.value);
@@ -139,6 +138,7 @@ const CouncelorsForm = () => {
   };
 
   const submit = () => {
+    setIsLoading(true);
     const params = new URLSearchParams(window.location.search);
     const councelorId = params.get('id');
     let url;
@@ -210,7 +210,10 @@ const CouncelorsForm = () => {
         setShowErrorModal(true);
         setShowErrorModalMessage(JSON.stringify(error.message));
       })
-      .finally(() => setShowModal(false));
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
+      });
   };
 
   const closeErrorMessage = () => {
@@ -313,6 +316,8 @@ const CouncelorsForm = () => {
       }
     }
   };
+
+  if (isLoading) return <IsLoading />;
 
   return (
     <div className={styles.container}>

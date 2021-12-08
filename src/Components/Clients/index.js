@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './clients.module.css';
 import Modal from '../Shared/Modal';
 import ErrorModal from '../Shared/ErrorModal';
+import IsLoading from '../Shared/IsLoading/IsLoading';
 import Button from '../Shared/Button/Button';
 import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 
@@ -11,8 +12,10 @@ function Clients() {
   const [selectedId, setSelectedId] = useState('');
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${process.env.REACT_APP_API}/clients`)
       .then((response) => response.json())
       .then((response) => {
@@ -21,7 +24,8 @@ function Clients() {
       .catch((error) => {
         setShowErrorModal(true);
         setShowErrorModalMessage(JSON.stringify(error.message));
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const addClient = () => {
@@ -29,6 +33,7 @@ function Clients() {
   };
 
   const deleteClient = () => {
+    setIsLoading(true);
     const url = `${process.env.REACT_APP_API}/clients/delete/${selectedId}`;
     fetch(url, {
       method: 'DELETE',
@@ -48,7 +53,10 @@ function Clients() {
         setShowErrorModal(true);
         setShowErrorModalMessage(JSON.stringify(error.msg));
       })
-      .finally(() => setShowModal(false));
+      .finally(() => {
+        setIsLoading(false);
+        setShowModal(false);
+      });
   };
 
   const closeModal = () => {
@@ -64,6 +72,7 @@ function Clients() {
   const closeErrorMessage = () => {
     setShowErrorModal(false);
   };
+  if (isLoading) return <IsLoading />;
 
   return (
     <section className={styles.container}>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
 import Modal from '../../Shared/Modal';
 import ErrorModal from '../../Shared/ErrorModal';
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
 const FormApplication = () => {
   const [showModal, setShowModal] = useState(false);
@@ -11,6 +12,7 @@ const FormApplication = () => {
   const [applicationState, setAppState] = useState('');
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangePosition = (event) => {
     setPositionName(event.target.value);
@@ -48,7 +50,8 @@ const FormApplication = () => {
         .catch((error) => {
           setShowErrorModal(true);
           setShowErrorModalMessage(JSON.stringify(error.message));
-        });
+        })
+        .finally(() => setIsLoading(false));
     }
   }, []);
 
@@ -86,8 +89,13 @@ const FormApplication = () => {
         setShowErrorModal(true);
         setShowErrorModalMessage(JSON.stringify(error.message));
       })
-      .finally(() => setShowModal(false));
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
+      });
   };
+
+  if (isLoading) return <IsLoading />;
 
   const closeErrorMessage = () => {
     setShowErrorModal(false);
