@@ -28,7 +28,7 @@ const FormInterviews = () => {
 
   useEffect(() => {
     if (InterviewId) {
-      fetch(`${process.env.REACT_APP_API}/interviews/id/${InterviewId}`)
+      fetch(`${process.env.REACT_APP_API}/interviews/${InterviewId}`)
         .then((response) => {
           if (response.status !== 200) {
             return response.json().then(({ message }) => {
@@ -121,9 +121,9 @@ const FormInterviews = () => {
         <input
           id="date"
           name="date"
-          value={dateValue}
+          value={dateValue.substring(0, 10)}
           onChange={onChangeDate}
-          placeholder="Type a date"
+          placeholder="E.G. 07/12/2021"
         />
         <input
           id="time"

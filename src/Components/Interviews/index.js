@@ -96,7 +96,7 @@ function Interviews() {
             >
               <td>{interview.jobTitle}</td>
               <td>{interview.companyName}</td>
-              <td>{interview.date}</td>
+              <td>{interview.date.substring(0, 10)}</td>
               <td>{interview.time}</td>
               <td className={styles.deleteButtonTD}>
                 <button
