@@ -3,6 +3,8 @@ import styles from './admins.module.css';
 import Modal from '../Shared/Modal';
 import Error from '../Admins/Error';
 import ErrorModal from '../Shared/ErrorModal';
+import Button from '../Shared/Button/Button';
+import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 
 const Admins = () => {
   const [admins, saveAdmins] = useState([]);
@@ -15,7 +17,7 @@ const Admins = () => {
     fetch(`${process.env.REACT_APP_API}/admins`)
       .then((response) => response.json())
       .then((response) => {
-        saveAdmins(response.response);
+        saveAdmins(response.Admins);
       })
       .catch((error) => {
         setShowErrorModal(true);
@@ -85,7 +87,10 @@ const Admins = () => {
         middleText={showErrorModalMessage}
         buttonText="ok"
       />
-      <h2 className={styles.header}>Admins</h2>
+      <div className={styles.titleAndButton}>
+        <h3>Admin</h3>
+        <Button onClick={addAdmin} value="Admin" />
+      </div>
       <table className={styles.list}>
         <thead>
           <tr>
@@ -104,16 +109,13 @@ const Admins = () => {
               >
                 <td>{admin.email}</td>
                 <td>
-                  <button onClick={(event) => handleIdAdmin(event, admin._id)}>Delete</button>
+                  <DeleteButton onClick={(event) => handleIdAdmin(event, admin._id)} />
                 </td>
               </tr>
             );
           })}
         </tbody>
       </table>
-      <button className={styles.buttonAdd} disabled={showModal} onClick={() => addAdmin()}>
-        Add Admin
-      </button>
     </div>
   );
 };

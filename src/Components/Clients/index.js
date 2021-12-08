@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import styles from './clients.module.css';
 import Modal from '../Shared/Modal';
 import ErrorModal from '../Shared/ErrorModal';
-import deleteIcon from '../../assets/deleteIcon.png';
+import Button from '../Shared/Button/Button';
+import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 
 function Clients() {
   const [clients, saveClients] = useState([]);
@@ -87,7 +88,10 @@ function Clients() {
         middleText={showErrorModalMessage}
         buttonText="ok"
       />
-      <h2>Clients</h2>
+      <div className={styles.titleAndButton}>
+        <h3>Clients</h3>
+        <Button onClick={addClient} value="Client" />
+      </div>
       <table>
         <thead>
           <tr>
@@ -111,21 +115,13 @@ function Clients() {
               <td>{client.email}</td>
               <td>{client.country}</td>
               <td>{client.phone}</td>
-              <td className={styles.deleteButtonTD}>
-                <button
-                  className={styles.deleteIcon}
-                  onClick={(event) => handleIdClient(event, client._id)}
-                >
-                  <img src={deleteIcon} />
-                </button>
+              <td>
+                <DeleteButton onClick={(event) => handleIdClient(event, client._id)} />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <button className={styles.addButton} onClick={addClient}>
-        ADD CLIENT
-      </button>
     </section>
   );
 }

@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import styles from './postulants.module.css';
-import deleteImage from '../../assets/images/deleteIcon.png';
 import Modal from '../Shared/Modal';
 import ErrorModal from '../Shared/ErrorModal';
+import Button from '../Shared/Button/Button';
+import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 
 const Postulants = () => {
   const [showModal, setShowModal] = useState(false);
@@ -88,7 +89,10 @@ const Postulants = () => {
         buttonText="ok"
       />
       <div className={styles.content}>
-        <h2 className={styles.header}>Postulants</h2>
+        <div className={styles.titleAndButton}>
+          <h3>Postulants</h3>
+          <Button value="Postulant" onClick={() => redirectToForm(null)} />
+        </div>
         <table className={styles.list}>
           <thead>
             <tr>
@@ -109,22 +113,12 @@ const Postulants = () => {
                   <div>{postulant?.country || '-'}</div>
                 </td>
                 <td>
-                  <button onClick={(event) => handleIdPostulant(event, postulant._id)}>
-                    <img src={deleteImage} alt="delete"></img>
-                  </button>
+                  <DeleteButton onClick={(event) => handleIdPostulant(event, postulant._id)} />
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        <button
-          className={styles.button}
-          id="addClient"
-          type="button"
-          onClick={() => redirectToForm(null)}
-        >
-          Add Postulant
-        </button>
       </div>
     </div>
   );

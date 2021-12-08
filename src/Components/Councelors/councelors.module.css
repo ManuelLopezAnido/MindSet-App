@@ -60,7 +60,14 @@ body {
 }
 
 .list button {
-  background-color: #fdc800;
   color: #f3f3f3;
   font-weight: bold;
+}
+
+.titleAndButton{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 50%;
+  border-bottom: 2px solid #dedede;
 }
