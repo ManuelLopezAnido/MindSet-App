@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './positions.module.css';
 import ModalPositons from './Modal/modalPositions.js';
+import IsLoading from '../Shared/IsLoading/IsLoading';
 import Button from '../Shared/Button/Button';
 import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 
@@ -8,14 +9,17 @@ function Positions() {
   const [showModal, setShowModal] = useState(false);
   const [positions, setPositions] = useState([]);
   const [selectedId, setSelectedId] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${process.env.REACT_APP_API}/positions`)
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
         setPositions(response);
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const addPositions = () => {
@@ -23,6 +27,7 @@ function Positions() {
   };
 
   const deletePosition = (idPos) => {
+    setIsLoading(true);
     const url = `${process.env.REACT_APP_API}/positions/delete/${idPos}`;
     fetch(url, {
       method: 'DELETE',
@@ -39,7 +44,8 @@ function Positions() {
         closeModal();
         setPositions(positions.filter((a) => a._id !== idPos));
       })
-      .catch((error) => error);
+      .catch((error) => error)
+      .finally(() => setIsLoading(false));
   };
   const closeModal = () => {
     setShowModal(false);
@@ -49,6 +55,8 @@ function Positions() {
     setSelectedId(id);
     setShowModal(true);
   };
+
+  if (isLoading) return <IsLoading />;
 
   return (
     <section className={styles.container}>

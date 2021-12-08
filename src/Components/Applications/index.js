@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import styles from './applications.module.css';
 import ModalApplications from './Modal/ModalApplications.js';
+import IsLoading from '../Shared/IsLoading/IsLoading';
+import ErrorMessage from '../Councelors/ErrorMessage';
 import Button from '../Shared/Button/Button';
 import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 
@@ -8,13 +10,18 @@ function Applications() {
   const [showModal, setShowModal] = useState(false);
   const [applications, setApplications] = useState([]);
   const [selectedId, setSelectedId] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [errorMessageText, setErrorMessageText] = useState('');
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${process.env.REACT_APP_API}/applications`)
       .then((response) => response.json())
       .then((response) => {
         setApplications(response.data);
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const addApplication = () => {
@@ -22,6 +29,7 @@ function Applications() {
   };
 
   const deleteApplication = (idApp) => {
+    setIsLoading(true);
     const url = `${process.env.REACT_APP_API}/applications/delete/${idApp}`;
     fetch(url, {
       method: 'DELETE',
@@ -38,11 +46,19 @@ function Applications() {
         closeModal();
         setApplications(applications.filter((a) => a._id !== idApp));
       })
-      .catch((error) => error);
+      .catch((error) => {
+        setShowErrorMessage(true);
+        setErrorMessageText(JSON.stringify(error.message));
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const closeModal = () => {
     setShowModal(false);
+  };
+
+  const closeError = () => {
+    setShowErrorMessage(false);
   };
 
   const handleIdApplication = (event, id) => {
@@ -50,6 +66,8 @@ function Applications() {
     setSelectedId(id);
     setShowModal(true);
   };
+
+  if (isLoading) return <IsLoading />;
 
   return (
     <section className={styles.container}>
@@ -59,6 +77,7 @@ function Applications() {
         delete={deleteApplication}
         selectedId={selectedId}
       />
+      <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
       <div className={styles.titleAndButton}>
         <h3>Applications</h3>
         <Button onClick={addApplication} value="Applications" />

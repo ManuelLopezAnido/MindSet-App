@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
 const SessionsForm = () => {
   const [postulantIdValue, setPostulantIdValue] = useState('');
@@ -10,6 +11,7 @@ const SessionsForm = () => {
   const [accomplishedValue, setAccomplishedValue] = useState(false);
   const [showModalMessageError, setShowModalMessageError] = useState(false);
   const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangePostulantIdValue = (event) => {
     setPostulantIdValue(event.target.value);
@@ -32,6 +34,7 @@ const SessionsForm = () => {
 
   useEffect(() => {
     if (sessionId) {
+      setIsLoading(true);
       fetch(`${process.env.REACT_APP_API}/sessions/${sessionId}`)
         .then((response) => {
           if (response.status !== 200) {
@@ -51,12 +54,14 @@ const SessionsForm = () => {
         .catch((error) => {
           setShowModalMessageError(true);
           setShowModalMessageErrorMessage(JSON.stringify(error.message));
-        });
+        })
+        .finally(() => setIsLoading(false));
     }
   }, []);
 
   const onSubmit = (event) => {
     event.preventDefault();
+    setIsLoading(true);
     let url = `${process.env.REACT_APP_API}/sessions`;
 
     const options = {
@@ -95,12 +100,15 @@ const SessionsForm = () => {
         console.log('error: ', error);
         setShowModalMessageErrorMessage(error.toString());
         setShowModalMessageError(true);
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const closeModalMessageError = () => {
     setShowModalMessageError(false);
   };
+
+  if (isLoading) return <IsLoading />;
 
   return (
     <div>

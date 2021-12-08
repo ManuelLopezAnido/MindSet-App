@@ -4,6 +4,7 @@ import Input from '../Input';
 import Error from '../Error';
 import Button from '../Button';
 import ErrorMessage from '../ErrorMessage';
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
 const AdminsForm = () => {
   const [emailValue, setEmailValue] = useState([]);
@@ -13,6 +14,7 @@ const AdminsForm = () => {
   const [canSave, setCanSave] = useState(true);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [errorMessageText, setErrorMessageText] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangeEmailInput = (event) => {
     setEmailValue(event.target.value);
@@ -23,6 +25,7 @@ const AdminsForm = () => {
   };
   const onSubmit = (event) => {
     event.preventDefault();
+    setIsLoading(true);
     const params = new URLSearchParams(window.location.search);
     const adminId = params.get('id');
     let url;
@@ -59,7 +62,8 @@ const AdminsForm = () => {
       .catch((error) => {
         setShowErrorMessage(true);
         setErrorMessageText(JSON.stringify(error.message));
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const hideEmail = () => {
@@ -99,6 +103,8 @@ const AdminsForm = () => {
   const closeError = () => {
     setShowErrorMessage(false);
   };
+
+  if (isLoading) return <IsLoading />;
 
   return (
     <div className={styles.container}>

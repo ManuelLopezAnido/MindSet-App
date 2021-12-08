@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
 import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
 const ClientsForm = () => {
   const [companyNameValue, setCompanyNameValue] = useState('');
@@ -12,6 +13,7 @@ const ClientsForm = () => {
   const [openPositionsValue, setOpenPositionsValue] = useState([]);
   const [showModalMessageError, setShowModalMessageError] = useState(false);
   const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangeCompanyNameValue = (event) => {
     setCompanyNameValue(event.target.value);
@@ -40,6 +42,7 @@ const ClientsForm = () => {
 
   useEffect(() => {
     if (clientId) {
+      setIsLoading(true);
       fetch(`${process.env.REACT_APP_API}/clients/id/${clientId}`)
         .then((response) => {
           if (response.status !== 200) {
@@ -61,12 +64,15 @@ const ClientsForm = () => {
         .catch((error) => {
           setShowModalMessageError(true);
           setShowModalMessageErrorMessage(JSON.stringify(error.message));
-        });
+          setIsLoading(false);
+        })
+        .finally(() => setIsLoading(false));
     }
   }, []);
 
   const onSubmit = (event) => {
     event.preventDefault();
+    setIsLoading(true);
     let url;
 
     const options = {
@@ -104,12 +110,15 @@ const ClientsForm = () => {
       .catch((error) => {
         setShowModalMessageErrorMessage(error.toString());
         setShowModalMessageError(true);
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const closeModalMessageError = () => {
     setShowModalMessageError(false);
   };
+
+  if (isLoading) return <IsLoading />;
 
   return (
     <div>

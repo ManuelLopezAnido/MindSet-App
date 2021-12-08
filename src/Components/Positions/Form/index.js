@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
 const PositionsForm = () => {
   const [jobTitle, setJobTitle] = useState('');
@@ -10,6 +11,7 @@ const PositionsForm = () => {
   const [country, setCountry] = useState('');
   const [datePosted, setDatePosted] = useState('');
   const [closingDate, setClosingDate] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangeJobTitle = (event) => {
     setJobTitle(event.target.value);
@@ -59,12 +61,14 @@ const PositionsForm = () => {
           setCountry(response.country);
           setDatePosted(response.datePosted);
           setClosingDate(response.closingDate);
-        });
+        })
+        .finally(() => setIsLoading(false));
     }
   }, []);
 
   const onSubmit = (event) => {
     event.preventDefault();
+    setIsLoading(true);
     let url;
 
     const options = {
@@ -104,8 +108,11 @@ const PositionsForm = () => {
       })
       .catch((error) => {
         return error;
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
+
+  if (isLoading) return <IsLoading />;
 
   return (
     <div>
