@@ -16,12 +16,12 @@ const FormWorkProfiles = () => {
   };
 
   const params = new URLSearchParams(window.location.search);
-  const WorkProfileId = params.get('id');
+  const workProfileId = params.get('id');
 
   useEffect(() => {
-    console.log(WorkProfileId);
-    if (WorkProfileId) {
-      fetch(`${process.env.REACT_APP_API}/workprofiles/id/${WorkProfileId}`)
+    console.log(workProfileId);
+    if (workProfileId) {
+      fetch(`${process.env.REACT_APP_API}/workprofiles/${workProfileId}`)
         .then((response) => {
           if (response.status !== 200) {
             return response.json().then(({ message }) => {
@@ -56,12 +56,12 @@ const FormWorkProfiles = () => {
       })
     };
 
-    if (WorkProfileId === null) {
+    if (workProfileId === null) {
       options.method = 'POST';
       url = `${process.env.REACT_APP_API}/workprofiles/create`;
     } else {
       options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/workprofiles/update/${WorkProfileId}`;
+      url = `${process.env.REACT_APP_API}/workprofiles/update/${workProfileId}`;
     }
 
     fetch(url, options)
