@@ -3,9 +3,14 @@ import styles from './form.module.css';
 import Input from '../../Shared/Input';
 import Error from '../Error';
 import Button from '../Button';
-import ErrorMessage from '../ErrorMessage';
+import Modal from '../../Shared/Modal';
+import ErrorModal from '../../Shared/ErrorModal';
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
-const FormCounselor = () => {
+const CouncelorsForm = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
   const [firstNameValue, setFirstNameValue] = useState([]);
   const [lastNameValue, setLastNameValue] = useState([]);
   const [emailValue, setEmailValue] = useState([]);
@@ -34,8 +39,6 @@ const FormCounselor = () => {
   const [birthdayError, setBirthdayError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
   const [canSave, setCanSave] = useState(true);
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [errorMessageText, setErrorMessageText] = useState('');
   const params = new URLSearchParams(window.location.search);
   const councelorId = params.get('id');
 
@@ -47,8 +50,8 @@ const FormCounselor = () => {
           onLoading(response);
         })
         .catch((error) => {
-          setShowErrorMessage(true);
-          setErrorMessageText(JSON.stringify(error.message));
+          setShowErrorModal(true);
+          setShowErrorModalMessage(JSON.stringify(error.message));
         });
     }, []);
   }
@@ -79,6 +82,7 @@ const FormCounselor = () => {
     setFridayFromValue(data.lastName ?? '-');
     setFridayToValue(data.lastName ?? '-');
   };
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangeFirstNameInput = (event) => {
     setFirstNameValue(event.target.value);
@@ -118,7 +122,6 @@ const FormCounselor = () => {
 
   const onChangeAvailabilityMonday = (event) => {
     String(setMondayValue(event.target.value)) === true;
-    console.log(mondayValue);
   };
 
   const onChangeFromMonday = (event) => {
@@ -177,8 +180,8 @@ const FormCounselor = () => {
     setFridayToValue(event.target.value);
   };
 
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const submit = () => {
+    setIsLoading(true);
     const params = new URLSearchParams(window.location.search);
     const councelorId = params.get('id');
     let url;
@@ -244,12 +247,27 @@ const FormCounselor = () => {
         }
       })
       .then(() => {
-        window.location.replace(`http://localhost:3000/councelors`);
+        window.location.replace(`http://localhost:3000/counselors`);
       })
       .catch((error) => {
-        setShowErrorMessage(true);
-        setErrorMessageText(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
       });
+  };
+
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
+  };
+
+  const closeModal = () => setShowModal(false);
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setShowModal(true);
   };
 
   const hideEmail = () => {
@@ -337,13 +355,30 @@ const FormCounselor = () => {
     }
   };
 
-  const closeError = () => {
-    setShowErrorMessage(false);
-  };
+  if (isLoading) return <IsLoading />;
 
   return (
     <div className={styles.container}>
-      <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        actionEntity={submit}
+        titleText="Save"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to save these changes?'
+          }
+        ]}
+        leftButtonText="save"
+        rightButtonText="cancel"
+      />
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
+      />
       <form className={styles.form} onSubmit={onSubmit}>
         <h2>Form</h2>
         <Input
@@ -567,4 +602,4 @@ const FormCounselor = () => {
   );
 };
 
-export default FormCounselor;
+export default CouncelorsForm;

@@ -1,27 +1,41 @@
 import { useEffect, useState } from 'react';
 import styles from './applications.module.css';
-import ModalApplications from './Modal/ModalApplications.js';
-import deleteIcon from '../../assets/deleteIcon.png';
+import Modal from '../Shared/Modal';
+import ErrorModal from '../Shared/ErrorModal';
+import IsLoading from '../Shared/IsLoading/IsLoading';
+import Button from '../Shared/Button/Button';
+import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 
 function Applications() {
   const [showModal, setShowModal] = useState(false);
   const [applications, setApplications] = useState([]);
   const [selectedId, setSelectedId] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
+
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${process.env.REACT_APP_API}/applications`)
       .then((response) => response.json())
       .then((response) => {
         setApplications(response.data);
-      });
+      })
+      .catch((error) => {
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const addApplication = () => {
     window.location.href = `/applications/form`;
   };
 
-  const deleteApplication = (idApp) => {
-    const url = `${process.env.REACT_APP_API}/applications/delete/${idApp}`;
+  const deleteApplication = () => {
+    setIsLoading(true);
+    const url = `${process.env.REACT_APP_API}/applications/delete/${selectedId}`;
     fetch(url, {
       method: 'DELETE',
       headers: {
@@ -34,10 +48,16 @@ function Applications() {
             throw new Error(ErrMessage);
           });
         }
-        closeModal();
-        setApplications(applications.filter((a) => a._id !== idApp));
+        setApplications(applications.filter((a) => a._id !== selectedId));
       })
-      .catch((error) => error);
+      .catch((error) => {
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
+      });
   };
 
   const closeModal = () => {
@@ -50,15 +70,39 @@ function Applications() {
     setShowModal(true);
   };
 
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
+  };
+
+  if (isLoading) return <IsLoading />;
+
   return (
     <section className={styles.container}>
-      <ModalApplications
-        show={showModal}
+      <Modal
+        showModal={showModal}
         closeModal={closeModal}
-        delete={deleteApplication}
+        actionEntity={deleteApplication}
         selectedId={selectedId}
+        titleText="Delete an application"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to delete this application?'
+          }
+        ]}
+        leftButtonText="delete"
+        rightButtonText="cancel"
       />
-      <h2>Applications</h2>
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
+      />
+      <div className={styles.titleAndButton}>
+        <h3>Applications</h3>
+        <Button onClick={addApplication} value="Applications" />
+      </div>
       <table>
         <thead>
           <tr>
@@ -84,20 +128,12 @@ function Applications() {
               </td>
               <td>{a.applicationState}</td>
               <td className={styles.deleteButtonTD}>
-                <button
-                  className={styles.deleteIcon}
-                  onClick={(e) => handleIdApplication(e, a._id)}
-                >
-                  <img src={deleteIcon} />
-                </button>
+                <DeleteButton onClick={(e) => handleIdApplication(e, a._id)} />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <button className={styles.addButton} onClick={addApplication}>
-        ADD APPLLICATION
-      </button>
     </section>
   );
 }

@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
-import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
 import Input from '../../Shared/Input';
+import ErrorModal from '../../Shared/ErrorModal';
+import Modal from '../../Shared/Modal';
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
-const FormClient = () => {
+const ClientsForm = () => {
+  const [showModal, setShowModal] = useState(false);
   const [companyNameValue, setCompanyNameValue] = useState('');
   const [companyTypeValue, setCompanyTypeValue] = useState('');
   const [cityValue, setCityValue] = useState('');
@@ -11,9 +14,9 @@ const FormClient = () => {
   const [emailValue, setEmailValue] = useState('');
   const [phoneValue, setPhoneValue] = useState('');
   const [openPositionsValue, setOpenPositionsValue] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [showModalMessageError, setShowModalMessageError] = useState(false);
-  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangeCompanyNameValue = (event) => {
     setCompanyNameValue(event.target.value);
@@ -42,6 +45,7 @@ const FormClient = () => {
 
   useEffect(() => {
     if (clientId) {
+      setIsLoading(true);
       fetch(`${process.env.REACT_APP_API}/clients/id/${clientId}`)
         .then((response) => {
           if (response.status !== 200) {
@@ -61,14 +65,18 @@ const FormClient = () => {
           setOpenPositionsValue(response.openPositions);
         })
         .catch((error) => {
-          setShowModalMessageError(true);
-          setShowModalMessageErrorMessage(JSON.stringify(error.message));
+          setShowErrorModal(true);
+          setShowErrorModalMessage(JSON.stringify(error.message));
+        })
+        .finally(() => {
+          setIsLoading(false);
+          setShowModal(false);
         });
     }
   }, []);
 
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const submit = () => {
+    setIsLoading(true);
     let url;
 
     const options = {
@@ -104,22 +112,49 @@ const FormClient = () => {
         return (window.location.href = `/clients`);
       })
       .catch((error) => {
-        setShowModalMessageErrorMessage(error.toString());
-        setShowModalMessageError(true);
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
       });
   };
 
-  const closeModalMessageError = () => {
-    setShowModalMessageError(false);
+  const closeModal = () => setShowModal(false);
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setShowModal(true);
   };
+
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
+  };
+
+  if (isLoading) return <IsLoading />;
 
   return (
     <div>
-      <ErrorMessageModal
-        show={showModalMessageError}
-        closeModalMessageError={closeModalMessageError}
-        setShowModalMessageError={setShowModalMessageError}
-        showModalMessageErrorMessage={showModalMessageErrorMessage}
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        actionEntity={submit}
+        titleText="Save"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to save these changes?'
+          }
+        ]}
+        leftButtonText="save"
+        rightButtonText="cancel"
+      />
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
       />
       <h1>Form</h1>
       <form className={styles.container} onSubmit={onSubmit}>
@@ -195,4 +230,4 @@ const FormClient = () => {
   );
 };
 
-export default FormClient;
+export default ClientsForm;

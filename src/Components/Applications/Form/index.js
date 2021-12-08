@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
 import Input from '../../Shared/Input';
+import Modal from '../../Shared/Modal';
+import ErrorModal from '../../Shared/ErrorModal';
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
 const FormApplication = () => {
+  const [showModal, setShowModal] = useState(false);
   const [position, setPositionName] = useState('');
   const [company, setCompany] = useState('');
   const [postulant, setPostulant] = useState('');
   const [applicationState, setAppState] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangePosition = (event) => {
     setPositionName(event.target.value);
@@ -40,11 +47,16 @@ const FormApplication = () => {
           setCompany(response.companyId);
           setPostulant(response.postulantId ? response.postulantId : 'No id'); // Bad DB. Applications with no postulantID exist
           setAppState(response.applicationState);
-        });
+        })
+        .catch((error) => {
+          setShowErrorModal(true);
+          setShowErrorModalMessage(JSON.stringify(error.message));
+        })
+        .finally(() => setIsLoading(false));
     }
   }, []);
-  const onSubmit = (event) => {
-    event.preventDefault();
+
+  const submit = () => {
     let url;
     const options = {
       headers: {
@@ -75,11 +87,50 @@ const FormApplication = () => {
         window.location.href = `/applications`;
       })
       .catch((error) => {
-        return error;
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
       });
   };
+
+  if (isLoading) return <IsLoading />;
+
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
+  };
+
+  const closeModal = () => setShowModal(false);
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setShowModal(true);
+  };
+
   return (
     <div>
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        actionEntity={submit}
+        titleText="Save"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to save these changes?'
+          }
+        ]}
+        leftButtonText="save"
+        rightButtonText="cancel"
+      />
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
+      />
       <h1>Form</h1>
       <form className={styles.container} onSubmit={onSubmit}>
         <Input

@@ -1,18 +1,41 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import Input from '../../Shared/Input';
 import Error from '../Error';
 import Button from '../Button';
-import ErrorMessage from '../ErrorMessage';
+import Modal from '../../Shared/Modal';
+import ErrorModal from '../../Shared/ErrorModal';
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
-const FormAdmin = () => {
+const AdminsForm = () => {
+  const [showModal, setShowModal] = useState(false);
   const [emailValue, setEmailValue] = useState([]);
   const [passwordValue, setPasswordValue] = useState([]);
   const [passwordError, setPasswordError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [canSave, setCanSave] = useState(true);
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [errorMessageText, setErrorMessageText] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const params = new URLSearchParams(window.location.search);
+  const adminId = params.get('id');
+
+  if (adminId) {
+    useEffect(() => {
+      fetch(`${process.env.REACT_APP_API}/admins/${adminId}`)
+        .then((response) => response.json())
+        .then((response) => {
+          onLoading(response);
+        })
+        .catch((error) => error);
+    }, []);
+  }
+
+  const onLoading = (data) => {
+    setEmailValue(data.data.email ?? '-');
+    setPasswordValue(data.data.password ?? '-');
+  };
 
   const onChangeEmailInput = (event) => {
     setEmailValue(event.target.value);
@@ -21,10 +44,9 @@ const FormAdmin = () => {
   const onChangePasswordInput = (event) => {
     setPasswordValue(event.target.value);
   };
-  const onSubmit = (event) => {
-    event.preventDefault();
-    const params = new URLSearchParams(window.location.search);
-    const adminId = params.get('id');
+
+  const submit = () => {
+    setIsLoading(true);
     let url;
 
     const options = {
@@ -47,7 +69,7 @@ const FormAdmin = () => {
 
     fetch(url, options)
       .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
+        if (response.status !== 200 && response.status !== 201 && !canSave) {
           return response.json().then(({ message }) => {
             throw new Error(message);
           });
@@ -57,9 +79,20 @@ const FormAdmin = () => {
         window.location.replace(`/admins`);
       })
       .catch((error) => {
-        setShowErrorMessage(true);
-        setErrorMessageText(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
       });
+  };
+
+  const closeModal = () => setShowModal(false);
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setShowModal(true);
   };
 
   const hideEmail = () => {
@@ -96,13 +129,34 @@ const FormAdmin = () => {
     }
   };
 
-  const closeError = () => {
-    setShowErrorMessage(false);
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
   };
+
+  if (isLoading) return <IsLoading />;
 
   return (
     <div className={styles.container}>
-      <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        actionEntity={submit}
+        titleText="Save"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to save these changes?'
+          }
+        ]}
+        leftButtonText="save"
+        rightButtonText="cancel"
+      />
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
+      />
       <form className={styles.form} onSubmit={onSubmit}>
         <h2>Form</h2>
         <Input
@@ -138,4 +192,4 @@ const FormAdmin = () => {
   );
 };
 
-export default FormAdmin;
+export default AdminsForm;

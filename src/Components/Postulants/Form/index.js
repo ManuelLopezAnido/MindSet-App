@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
 import styles from './form.module.css';
 import Input from '../../Shared/Input';
-import ErrorMessageModal from '../ErrorMessageModal';
+import Modal from '../../Shared/Modal';
+import ErrorModal from '../../Shared/ErrorModal';
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
 const params = new URLSearchParams(window.location.search);
 const postulantId = params.get('_id');
 
 const PostulantsForm = () => {
-  const [showModalMessageError, setShowModalMessageError] = useState(false);
-  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
-
+  const [showModal, setShowModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
   const [firstNameValue, setFirstNameValue] = useState('');
   const [lastNameValue, setLastNameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
@@ -89,18 +91,21 @@ const PostulantsForm = () => {
   const [availabilityCheckSundayValue, setAvailabilityCheckSundayValue] = useState(false);
   const [availabilityFromSundayValue, setAvailabilityFromSundayValue] = useState('-');
   const [availabilityToSundayValue, setAvailabilityToSundayValue] = useState('-');
+  const [isLoading, setIsLoading] = useState(false);
 
   if (postulantId) {
     useEffect(() => {
+      setIsLoading(true);
       fetch(`${process.env.REACT_APP_API}/postulants/${postulantId}`)
         .then((response) => response.json())
         .then((response) => {
           onLoading(response);
         })
         .catch((error) => {
-          setShowModalMessageError(true);
-          setShowModalMessageErrorMessage(JSON.stringify(error.message));
-        });
+          setShowErrorModal(true);
+          setShowErrorModalMessage(JSON.stringify(error.message));
+        })
+        .finally(() => setIsLoading(false));
     }, []);
   }
 
@@ -186,8 +191,8 @@ const PostulantsForm = () => {
     setAvailabilityToSundayValue(data.availability[6]?.to || '-');
   };
 
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const submit = () => {
+    setIsLoading(true);
     const data = {
       firstName: firstNameValue,
       lastName: lastNameValue,
@@ -320,27 +325,53 @@ const PostulantsForm = () => {
       },
       body: JSON.stringify(data)
     })
-      .then((response) => response.json())
-      .then((response) => {
+      .then(() => {
         window.location.href = `${window.location.origin}/postulants`;
       })
       .catch((error) => {
-        setShowModalMessageError(true);
-        setShowModalMessageErrorMessage(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
       });
   };
 
-  const closeModalMessageError = () => {
-    setShowModalMessageError(false);
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
   };
+
+  const closeModal = () => setShowModal(false);
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setShowModal(true);
+  };
+
+  if (isLoading) return <IsLoading />;
 
   return (
     <div className={styles.container}>
-      <ErrorMessageModal
-        show={showModalMessageError}
-        closeModalMessageError={closeModalMessageError}
-        setShowModalMessageError={setShowModalMessageError}
-        showModalMessageErrorMessage={showModalMessageErrorMessage}
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        actionEntity={submit}
+        titleText="Save"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to save these changes?'
+          }
+        ]}
+        leftButtonText="save"
+        rightButtonText="cancel"
+      />
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
       />
       <form action="" className={styles.form} onSubmit={onSubmit}>
         <h2>

@@ -43,3 +43,11 @@ tbody {
   border: none;
   cursor: pointer;
 }
+
+.titleAndButton{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 50%;
+  border-bottom: 2px solid #dedede;
+}
