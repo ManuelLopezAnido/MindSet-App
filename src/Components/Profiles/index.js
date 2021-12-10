@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './workProfiles.module.css';
 import ModalWorkProfiles from './Modal/ModalWorkProfiles';
 import ErrorMessage from './ErrorMessage/ErrorMessage';
-import deleteIcon from '../../assets/deleteIcon.png';
+import deleteIcon from '../../assets/images/delete-icon.png';
 
 function WorkProfiles() {
   const [showModal, setShowModal] = useState(false);
