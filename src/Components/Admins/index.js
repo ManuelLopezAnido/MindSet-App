@@ -6,58 +6,35 @@ import ErrorModal from '../Shared/ErrorModal';
 import IsLoading from '../Shared/IsLoading/IsLoading';
 import Button from '../Shared/Button/Button';
 import DeleteButton from '../Shared/DeleteButton/DeleteButton';
+import { useSelector, useDispatch } from 'react-redux';
+import { getAdmins, deleteAdmin } from '../../redux/admins/thunks';
 
 const Admins = () => {
-  const [admins, saveAdmins] = useState([]);
+  const dispatch = useDispatch();
+  // const [admins, saveAdmins] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+
+  const admins = useSelector((store) => store.admins.list);
+  const isLoading = useSelector((store) => store.admins.isLoading);
+  const error = useSelector((store) => store.admins.error);
+  const selectedAdmin = useSelector((store) => store.admins.selected);
 
   useEffect(() => {
-    setIsLoading(true);
-    fetch(`${process.env.REACT_APP_API}/admins`)
-      .then((response) => response.json())
-      .then((response) => {
-        saveAdmins(response.Admins);
-      })
-      .catch((error) => {
-        setShowErrorModal(true);
-        setShowErrorModalMessage(JSON.stringify(error.message));
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
+    dispatch(getAdmins());
+  }, [dispatch]);
 
   const addAdmin = () => {
     window.location.replace(`admins/form`);
   };
 
-  const deleteAdmin = () => {
-    setIsLoading(true);
-    const options = {
-      method: 'DELETE'
-    };
-    const url = `${process.env.REACT_APP_API}/admins/delete/${selectedId}`;
-    fetch(url, options)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
-          return response.json().then(({ message }) => {
-            throw new Error(message);
-          });
-        }
-        saveAdmins(admins.filter((admin) => admin._id !== selectedId));
-      })
-      .catch((error) => {
-        setShowErrorModal(true);
-        setShowErrorModalMessage(JSON.stringify(error.message));
-      })
-      .finally(() => {
-        setIsLoading(false);
-        setShowModal(false);
-      });
+  const onClickDelete = () => {
+    console.log(selectedId);
+    dispatch(deleteAdmin(selectedId - 1));
+    setShowModal(false);
   };
 
   const closeModal = () => {
@@ -81,7 +58,7 @@ const Admins = () => {
       <Modal
         showModal={showModal}
         closeModal={closeModal}
-        actionEntity={deleteAdmin}
+        actionEntity={onClickDelete}
         selectedId={selectedId}
         titleText="Delete an Admin"
         spanObjectArray={[
