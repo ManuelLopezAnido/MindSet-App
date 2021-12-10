@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './interviews.module.css';
 import ModalInterview from './Modal/ModalInterview';
 import ErrorMessage from './ErrorMessage/ErrorMessage';
-import deleteIcon from '../../assets/deleteIcon.png';
+import deleteIcon from '../../assets/images/delete-icon.png';
 
 function Interviews() {
   const [showModal, setShowModal] = useState(false);
