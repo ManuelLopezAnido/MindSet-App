@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
-import Input from '../Input';
+import Input from '../../Shared/Input';
 import Error from '../Error';
 import Button from '../Button';
 import Modal from '../../Shared/Modal';
@@ -146,9 +146,9 @@ const AdminsForm = () => {
       <form className={styles.form} onSubmit={onSubmit}>
         <h2>Form</h2>
         <Input
+          label="Email"
           name="email"
           type="string"
-          placeholder="Email"
           required
           className={styles.input}
           value={emailValue}
@@ -158,9 +158,9 @@ const AdminsForm = () => {
         />
         <Error showError={emailError} text={'Please fill with a valid email address'} />
         <Input
+          label="Password"
           name="password"
           type="password"
-          placeholder="Password"
           required
           className={styles.input}
           value={passwordValue}
