@@ -6,6 +6,10 @@ import Button from '../Button';
 import Modal from '../../Shared/Modal';
 import ErrorModal from '../../Shared/ErrorModal';
 import IsLoading from '../../Shared/IsLoading/IsLoading';
+import { getOneAdmin, addAdmin, updateAdmin } from '../../../redux/admins/thunks';
+import { useSelector, useDispatch } from 'react-redux';
+import { errorToDefault } from '../../../redux/admins/actions';
+import { useHistory } from 'react-router-dom';
 
 const AdminsForm = () => {
   const [showModal, setShowModal] = useState(false);
@@ -14,28 +18,29 @@ const AdminsForm = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [canSave, setCanSave] = useState(true);
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const history = useHistory();
+
+  const isLoading = useSelector((store) => store.admins.isLoading);
+  const error = useSelector((store) => store.admins.error);
+  const errorMessage = useSelector((store) => store.admins.errorMessage);
 
   const params = new URLSearchParams(window.location.search);
   const adminId = params.get('id');
 
   if (adminId) {
     useEffect(() => {
-      fetch(`${process.env.REACT_APP_API}/admins/${adminId}`)
-        .then((response) => response.json())
-        .then((response) => {
-          onLoading(response);
-        })
-        .catch((error) => error);
+      console.log('entre al useEffect de form');
+      dispatch(getOneAdmin(adminId)).then((selected) => {
+        console.log('selected', selected);
+        console.log('entre al then del orto de form');
+        setEmailValue(selected.data.email ?? '-');
+        setPasswordValue(selected.data.password ?? '-');
+      });
     }, []);
   }
-
-  const onLoading = (data) => {
-    setEmailValue(data.data.email ?? '-');
-    setPasswordValue(data.data.password ?? '-');
-  };
 
   const onChangeEmailInput = (event) => {
     setEmailValue(event.target.value);
@@ -46,49 +51,34 @@ const AdminsForm = () => {
   };
 
   const submit = () => {
-    setIsLoading(true);
-    let url;
-
-    const options = {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: emailValue,
-        password: passwordValue
-      })
-    };
-
-    if (adminId !== null) {
-      options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/admins/update/${adminId}`;
-    } else {
-      options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/admins/create`;
-    }
-
-    fetch(url, options)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && !canSave) {
-          return response.json().then(({ message }) => {
-            throw new Error(message);
-          });
+    if (adminId) {
+      dispatch(
+        updateAdmin(adminId, {
+          email: emailValue,
+          password: passwordValue
+        })
+      ).then((response) => {
+        if (response) {
+          history.push('/admins');
         }
-      })
-      .then(() => {
-        window.location.replace(`/admins`);
-      })
-      .catch((error) => {
-        setShowErrorModal(true);
-        setShowErrorModalMessage(JSON.stringify(error.message));
-      })
-      .finally(() => {
-        setShowModal(false);
-        setIsLoading(false);
       });
+    } else {
+      dispatch(
+        addAdmin({
+          email: emailValue,
+          password: passwordValue
+        })
+      ).then((response) => {
+        if (response) {
+          history.push('/admins');
+        }
+      });
+    }
   };
 
-  const closeModal = () => setShowModal(false);
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -129,10 +119,6 @@ const AdminsForm = () => {
     }
   };
 
-  const closeErrorMessage = () => {
-    setShowErrorModal(false);
-  };
-
   if (isLoading) return <IsLoading />;
 
   return (
@@ -151,10 +137,10 @@ const AdminsForm = () => {
         rightButtonText="cancel"
       />
       <ErrorModal
-        showModal={showErrorModal}
-        closeModal={closeErrorMessage}
+        showModal={error}
+        closeModal={() => errorToDefault()}
         titleText="Error"
-        middleText={showErrorModalMessage}
+        middleText={errorMessage}
         buttonText="ok"
       />
       <form className={styles.form} onSubmit={onSubmit}>

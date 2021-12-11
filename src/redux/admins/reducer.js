@@ -13,62 +13,64 @@ import {
   UPDATE_ADMIN_REJECTED,
   DELETE_ADMIN_FETCHING,
   DELETE_ADMIN_FULFILLED,
-  DELETE_ADMIN_REJECTED
+  DELETE_ADMIN_REJECTED,
+  ERROR_TO_DEFAULT
 } from './constants';
 
 const initialState = {
   isLoading: false,
   list: [],
-  error: '',
+  error: false,
+  errorMessage: '',
   selected: {}
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_ADMINS_FETCHING: {
+    case GET_ADMINS_FETCHING:
       return {
         ...state,
+        error: false,
         isLoading: true
       };
-    }
-    case GET_ADMINS_FULFILLED: {
-      console.log(action);
+    case GET_ADMINS_FULFILLED:
       return {
         ...state,
         isLoading: false,
+        error: false,
         list: action.payload.Admins
       };
-    }
-    case GET_ADMINS_REJECTED: {
-      console.log(action.error);
+    case GET_ADMINS_REJECTED:
       return {
         ...state,
         isLoading: false,
         error: true //TODO: CHANGE THIS
       };
-    }
 
     case GET_ONE_ADMIN_FETCHING:
       return {
         ...state,
+        error: false,
         isLoading: true
       };
     case GET_ONE_ADMIN_FULFILLED:
       return {
         ...state,
-        selected: action.payload,
+        selected: action.payload.data,
         isLoading: false
       };
     case GET_ONE_ADMIN_REJECTED:
       return {
         ...state,
         isLoading: false,
-        error: true //TODO: CHANGE THIS
+        error: true,
+        errorMessage: action.payload
       };
 
     case ADD_ADMIN_FETCHING:
       return {
         ...state,
+        error: false,
         isLoading: true
       };
     case ADD_ADMIN_FULFILLED:
@@ -81,12 +83,13 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: true //TODO: CHANGE THIS
+        error: true
       };
 
     case UPDATE_ADMIN_FETCHING:
       return {
         ...state,
+        error: false,
         isLoading: true
       };
     case UPDATE_ADMIN_FULFILLED:
@@ -99,27 +102,34 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: true //TODO: CHANGE THIS
+        error: true,
+        errorMessage: action.payload
       };
 
     case DELETE_ADMIN_FETCHING:
       return {
         ...state,
+        error: false,
         isLoading: true
       };
-    case DELETE_ADMIN_FULFILLED: {
+    case DELETE_ADMIN_FULFILLED:
       return {
         ...state,
         isLoading: false,
         list: state.list.filter((admin) => admin._id !== action.payload)
       };
-    }
-    case DELETE_ADMIN_REJECTED: {
-      console.log('entre al DELETE_ADMIN_REJECTED REDUCER');
+    case DELETE_ADMIN_REJECTED:
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: true,
+        errorMessage: action.payload
+      };
+
+    case ERROR_TO_DEFAULT: {
+      return {
+        ...state,
+        error: false
       };
     }
     default:

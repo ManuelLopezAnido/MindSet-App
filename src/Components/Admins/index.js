@@ -1,39 +1,37 @@
 import { useEffect, useState } from 'react';
 import styles from './admins.module.css';
 import Modal from '../Shared/Modal';
-import Error from '../Admins/Error';
 import ErrorModal from '../Shared/ErrorModal';
 import IsLoading from '../Shared/IsLoading/IsLoading';
 import Button from '../Shared/Button/Button';
 import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAdmins, deleteAdmin } from '../../redux/admins/thunks';
+import { useHistory } from 'react-router-dom';
+import { errorToDefault } from '../../redux/admins/actions';
 
 const Admins = () => {
-  const dispatch = useDispatch();
-  // const [admins, saveAdmins] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
-  // const [isLoading, setIsLoading] = useState(false);
+
+  const history = useHistory();
+
+  const dispatch = useDispatch();
 
   const admins = useSelector((store) => store.admins.list);
   const isLoading = useSelector((store) => store.admins.isLoading);
   const error = useSelector((store) => store.admins.error);
-  const selectedAdmin = useSelector((store) => store.admins.selected);
+  const errorMessage = useSelector((store) => store.admins.errorMessage);
 
   useEffect(() => {
-    dispatch(getAdmins());
-  }, [dispatch]);
-
-  const addAdmin = () => {
-    window.location.replace(`admins/form`);
-  };
+    if (!admins.length) {
+      dispatch(getAdmins());
+    }
+  }, [admins]);
 
   const onClickDelete = () => {
     console.log(selectedId);
-    dispatch(deleteAdmin(selectedId - 1));
+    dispatch(deleteAdmin(selectedId));
     setShowModal(false);
   };
 
@@ -47,11 +45,9 @@ const Admins = () => {
     setShowModal(true);
   };
 
-  const closeErrorMessage = () => {
-    setShowErrorModal(false);
-  };
-
-  if (isLoading) return <IsLoading />;
+  if (isLoading) {
+    return <IsLoading />;
+  }
 
   return (
     <div className={styles.container}>
@@ -70,15 +66,15 @@ const Admins = () => {
         rightButtonText="cancel"
       />
       <ErrorModal
-        showModal={showErrorModal}
-        closeModal={closeErrorMessage}
+        showModal={error}
+        closeModal={() => dispatch(errorToDefault())}
         titleText="Error"
-        middleText={showErrorModalMessage}
+        middleText={errorMessage}
         buttonText="ok"
       />
       <div className={styles.titleAndButton}>
         <h3>Admin</h3>
-        <Button onClick={addAdmin} value="Admin" />
+        <Button onClick={() => history.push('/admins/form')} value="Admin" />
       </div>
       <table className={styles.list}>
         <thead>
@@ -93,6 +89,8 @@ const Admins = () => {
               <tr
                 key={admin._id}
                 onClick={() => {
+                  // () => history.push(`/admins/form?_id=${admin._id}`);
+                  // console.log(admin);
                   window.location.replace(`admins/form?id=${admin._id}`);
                 }}
               >

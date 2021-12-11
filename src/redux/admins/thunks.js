@@ -28,43 +28,76 @@ export const getAdmins = () => (dispatch) => {
 
 export const getOneAdmin = (id) => (dispatch) => {
   dispatch(getOneAdminFetching());
-  fetch(`${URL}/admins/id/${id}`)
-    .then((data) => data.json())
-    .then((response) => dispatch(getOneAdminFulfilled(response)))
-    .catch((error) => dispatch(getOneAdminRejected(error)));
+  return fetch(`${URL}/admins/${id}`)
+    .then((response) => {
+      if (response.status != 200) throw response.message;
+      return response.json();
+    })
+    .then((response) => {
+      dispatch(getOneAdminFulfilled(response));
+      return response;
+    })
+    .catch((error) => {
+      dispatch(getOneAdminRejected(error));
+      return error;
+    });
 };
 
 export const addAdmin = (data) => (dispatch) => {
-  dispatch(addAdminFetching());
-  fetch(`${URL}/admins/create`, {
+  const options = {
     method: 'POST',
     headers: {
       'Content-type': 'application/json'
     },
     body: JSON.stringify({
-      email: data.emailValue,
-      password: data.passwordValue
+      email: data.email,
+      password: data.password
     })
-  })
-    .then((data) => data.json())
-    .then((response) => dispatch(addAdminFulfilled(response)))
-    .catch((error) => dispatch(addAdminRejected(error)));
+  };
+
+  console.log('options', options);
+
+  dispatch(addAdminFetching());
+
+  return fetch(`${URL}/admins/create`, options)
+    .then((data) => {
+      if (data.status !== 201) {
+        return data.json().then(({ message }) => {
+          throw message;
+        });
+      }
+      return data.json();
+    })
+    .then((response) => {
+      dispatch(addAdminFulfilled(response));
+      return response;
+    })
+    .catch((error) => {
+      dispatch(addAdminRejected(error));
+      return error;
+    });
 };
 
 export const updateAdmin = (id, data) => (dispatch) => {
   dispatch(updateAdminFetching());
-  fetch(`${URL}/admins/update${id}`, {
+  return fetch(`${URL}/admins/update/${id}`, {
     method: 'PUT',
     headers: {
       'Content-type': 'application/json'
     },
     body: JSON.stringify({
-      email: data.emailValue,
-      password: data.passwordValue
+      email: data.email,
+      password: data.password
     })
   })
-    .then((data) => data.json())
-    .then((response) => dispatch(updateAdminFulfilled(response)))
+    .then((data) => {
+      if (data.status != 200) throw data.statusText;
+      return data.json();
+    })
+    .then((response) => {
+      dispatch(updateAdminFulfilled(response));
+      return response;
+    })
     .catch((error) => dispatch(updateAdminRejected(error)));
 };
 
@@ -76,12 +109,9 @@ export const deleteAdmin = (id) => (dispatch) => {
       'Content-type': 'application/json'
     }
   })
-    .then((data) => data.json())
-    .then(() => {
+    .then((response) => {
+      if (response.status != 200) throw response;
       dispatch(deleteAdminFulfilled(id));
     })
-    .catch((error) => {
-      console.log('entre al catch del thunk delete');
-      dispatch(deleteAdminRejected(error));
-    });
+    .catch((error) => dispatch(deleteAdminRejected(error.statusText)));
 };
