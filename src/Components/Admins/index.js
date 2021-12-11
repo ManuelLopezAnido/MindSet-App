@@ -30,7 +30,6 @@ const Admins = () => {
   }, [admins]);
 
   const onClickDelete = () => {
-    console.log(selectedId);
     dispatch(deleteAdmin(selectedId));
     setShowModal(false);
   };

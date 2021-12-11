@@ -32,10 +32,7 @@ const AdminsForm = () => {
 
   if (adminId) {
     useEffect(() => {
-      console.log('entre al useEffect de form');
       dispatch(getOneAdmin(adminId)).then((selected) => {
-        console.log('selected', selected);
-        console.log('entre al then del orto de form');
         setEmailValue(selected.data.email ?? '-');
         setPasswordValue(selected.data.password ?? '-');
       });

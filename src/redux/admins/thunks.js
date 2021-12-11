@@ -55,8 +55,6 @@ export const addAdmin = (data) => (dispatch) => {
     })
   };
 
-  console.log('options', options);
-
   dispatch(addAdminFetching());
 
   return fetch(`${URL}/admins/create`, options)
