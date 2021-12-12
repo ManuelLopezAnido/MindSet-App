@@ -6,6 +6,8 @@
     font-weight: bold;
     background-color: #1d3354;
     cursor: pointer;
+    color: white;
+    padding: 0.5em 3em;
 }
 
 .addButton:hover {
