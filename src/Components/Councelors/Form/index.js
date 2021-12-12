@@ -6,11 +6,13 @@ import Button from '../Button';
 import Modal from '../../Shared/Modal';
 import ErrorModal from '../../Shared/ErrorModal';
 import IsLoading from '../../Shared/IsLoading/IsLoading';
+import { getOneCounselor, addCounselor, updateCounselor } from '../../../redux/counselors/thunks';
+import { useSelector, useDispatch } from 'react-redux';
+import { errorToDefault } from '../../../redux/counselors/actions';
+import { useHistory } from 'react-router-dom';
 
 const CouncelorsForm = () => {
   const [showModal, setShowModal] = useState(false);
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
   const [firstNameValue, setFirstNameValue] = useState([]);
   const [lastNameValue, setLastNameValue] = useState([]);
   const [emailValue, setEmailValue] = useState([]);
@@ -39,50 +41,45 @@ const CouncelorsForm = () => {
   const [birthdayError, setBirthdayError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
   const [canSave, setCanSave] = useState(true);
-  const params = new URLSearchParams(window.location.search);
-  const councelorId = params.get('id');
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const isLoading = useSelector((store) => store.counselors.isLoading);
+  const error = useSelector((store) => store.counselors.error);
+  const errorMessage = useSelector((store) => store.counselors.errorMessage);
 
-  if (councelorId) {
+  const params = new URLSearchParams(window.location.search);
+  const counselorId = params.get('id');
+
+  if (counselorId) {
     useEffect(() => {
-      fetch(`${process.env.REACT_APP_API}/counselors/id/${councelorId}`)
-        .then((response) => response.json())
-        .then((response) => {
-          onLoading(response);
-        })
-        .catch((error) => {
-          setShowErrorModal(true);
-          setShowErrorModalMessage(JSON.stringify(error.message));
-        });
+      dispatch(getOneCounselor(counselorId)).then((selected) => {
+        setFirstNameValue(selected.firstName ?? '-');
+        setLastNameValue(selected.lastName ?? '-');
+        setEmailValue(selected.email ?? '-');
+        setGenderValue(selected.gender ?? '-');
+        setAdressValue(selected.address ?? '-');
+        setBirthdayValue(selected.birthday ?? '-');
+        setCityValue(selected.city ?? '-');
+        setCountryValue(selected.country ?? '-');
+        setPhoneValue(selected.phone ?? '-');
+        setMondayValue(selected.availability?.day[0] ?? '-');
+        setMondayFromValue(selected.lastName ?? '-');
+        setMondayToValue(selected.lastName ?? '-');
+        setTuesdayValue(selected.lastName ?? '-');
+        setTuesdayFromValue(selected.lastName ?? '-');
+        setTuesdayToValue(selected.lastName ?? '-');
+        setWednesdayValue(selected.lastName ?? '-');
+        setWednesdayFromValue(selected.lastName ?? '-');
+        setWednesdayToValue(selected.lastName ?? '-');
+        setThursdayValue(selected.lastName ?? '-');
+        setThursdayFromValue(selected.lastName ?? '-');
+        setThursdayToValue(selected.lastName ?? '-');
+        setFridayValue(selected.lastName ?? '-');
+        setFridayFromValue(selected.lastName ?? '-');
+        setFridayToValue(selected.lastName ?? '-');
+      });
     }, []);
   }
-
-  const onLoading = (data) => {
-    setFirstNameValue(data.firstName ?? '-');
-    setLastNameValue(data.lastName ?? '-');
-    setEmailValue(data.email ?? '-');
-    setGenderValue(data.gender ?? '-');
-    setAdressValue(data.address ?? '-');
-    setBirthdayValue(data.birthday ?? '-');
-    setCityValue(data.city ?? '-');
-    setCountryValue(data.country ?? '-');
-    setPhoneValue(data.phone ?? '-');
-    setMondayValue(data.availability?.day[0] ?? '-');
-    setMondayFromValue(data.lastName ?? '-');
-    setMondayToValue(data.lastName ?? '-');
-    setTuesdayValue(data.lastName ?? '-');
-    setTuesdayFromValue(data.lastName ?? '-');
-    setTuesdayToValue(data.lastName ?? '-');
-    setWednesdayValue(data.lastName ?? '-');
-    setWednesdayFromValue(data.lastName ?? '-');
-    setWednesdayToValue(data.lastName ?? '-');
-    setThursdayValue(data.lastName ?? '-');
-    setThursdayFromValue(data.lastName ?? '-');
-    setThursdayToValue(data.lastName ?? '-');
-    setFridayValue(data.lastName ?? '-');
-    setFridayFromValue(data.lastName ?? '-');
-    setFridayToValue(data.lastName ?? '-');
-  };
-  const [isLoading, setIsLoading] = useState(false);
 
   const onChangeFirstNameInput = (event) => {
     setFirstNameValue(event.target.value);
@@ -181,89 +178,77 @@ const CouncelorsForm = () => {
   };
 
   const submit = () => {
-    setIsLoading(true);
-    const params = new URLSearchParams(window.location.search);
-    const councelorId = params.get('id');
-    let url;
-
-    const options = {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName: firstNameValue,
-        lastName: lastNameValue,
-        email: emailValue,
-        gender: genderValue,
-        adress: adressValue,
-        birthday: birthdayValue,
-        city: cityValue,
-        country: countryValue,
-        phone: phoneValue,
-        availability: {
-          monday: {
-            availability: mondayValue,
-            from: mondayFromValue,
-            to: mondayToValue
-          },
-          tuesday: {
-            availability: tuesdayValue,
-            from: tuesdayFromValue,
-            to: tuesdayToValue
-          },
-          wednesday: {
-            availability: wednesdayValue,
-            from: wednesdayFromValue,
-            to: wednesdayToValue
-          },
-          thursday: {
-            availability: thursdayValue,
-            from: thursdayFromValue,
-            to: thursdayToValue
-          },
-          friday: {
-            availability: fridayValue,
-            from: fridayFromValue,
-            to: fridayToValue
-          }
+    if (counselorId) {
+      dispatch(
+        updateCounselor(counselorId, {
+          firstName: firstNameValue,
+          lastName: lastNameValue,
+          email: emailValue,
+          gender: genderValue,
+          adress: adressValue,
+          birthday: birthdayValue,
+          city: cityValue,
+          country: countryValue,
+          phone: phoneValue,
+          monday: mondayValue,
+          mondayFrom: mondayFromValue,
+          mondayTo: mondayToValue,
+          tuesday: tuesdayValue,
+          tuesdayFrom: tuesdayFromValue,
+          tuesdayTo: tuesdayToValue,
+          wednesday: wednesdayValue,
+          wednesdayFrom: wednesdayFromValue,
+          wednesdayTo: wednesdayToValue,
+          thursday: thursdayValue,
+          thursdayFrom: thursdayFromValue,
+          thursdayTo: thursdayToValue,
+          friday: fridayValue,
+          fridayFrom: fridayFromValue,
+          fridayTo: fridayToValue
+        })
+      ).then((response) => {
+        if (response) {
+          history.push('/counselors');
         }
-      })
-    };
-
-    if (councelorId !== null) {
-      options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/counselors/update/${councelorId}`;
-    } else {
-      options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/counselors/add`;
-    }
-
-    fetch(url, options)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
-          return response.json().then(({ message }) => {
-            throw new Error(message);
-          });
-        }
-      })
-      .then(() => {
-        window.location.replace(`http://localhost:3000/counselors`);
-      })
-      .catch((error) => {
-        setShowErrorModal(true);
-        setShowErrorModalMessage(JSON.stringify(error.message));
-      })
-      .finally(() => {
-        setShowModal(false);
-        setIsLoading(false);
       });
+    } else {
+      dispatch(
+        addCounselor({
+          firstName: firstNameValue,
+          lastName: lastNameValue,
+          email: emailValue,
+          gender: genderValue,
+          adress: adressValue,
+          birthday: birthdayValue,
+          city: cityValue,
+          country: countryValue,
+          phone: phoneValue,
+          monday: mondayValue,
+          mondayFrom: mondayFromValue,
+          mondayTo: mondayToValue,
+          tuesday: tuesdayValue,
+          tuesdayFrom: tuesdayFromValue,
+          tuesdayTo: tuesdayToValue,
+          wednesday: wednesdayValue,
+          wednesdayFrom: wednesdayFromValue,
+          wednesdayTo: wednesdayToValue,
+          thursday: thursdayValue,
+          thursdayFrom: thursdayFromValue,
+          thursdayTo: thursdayToValue,
+          friday: fridayValue,
+          fridayFrom: fridayFromValue
+        })
+      ).then((response) => {
+        if (response) {
+          history.push('/counselors');
+        }
+      });
+    }
   };
 
-  const closeErrorMessage = () => {
-    setShowErrorModal(false);
+  const closeModal = () => {
+    setShowModal(false);
   };
-
-  const closeModal = () => setShowModal(false);
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -373,10 +358,10 @@ const CouncelorsForm = () => {
         rightButtonText="cancel"
       />
       <ErrorModal
-        showModal={showErrorModal}
-        closeModal={closeErrorMessage}
+        showModal={error}
+        closeModal={() => errorToDefault()}
         titleText="Error"
-        middleText={showErrorModalMessage}
+        middleText={errorMessage}
         buttonText="ok"
       />
       <form className={styles.form} onSubmit={onSubmit}>
