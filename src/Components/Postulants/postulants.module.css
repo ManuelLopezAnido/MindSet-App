@@ -9,7 +9,6 @@
 .container {
   display: flex;
   flex-direction: column;
-  flex: 1;
   justify-content: center;
   align-items: center;
 }
@@ -110,10 +109,10 @@
 	border: 1px solid #FDC800;
 }
 
-.titleAndButton{
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	width: 50%;
-	border-bottom: 2px solid #dedede;
+.titleAndButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-bottom: 2px solid #dedede;
 }
