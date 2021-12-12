@@ -88,8 +88,6 @@ const Admins = () => {
               <tr
                 key={admin._id}
                 onClick={() => {
-                  // () => history.push(`/admins/form?_id=${admin._id}`);
-                  // console.log(admin);
                   window.location.replace(`admins/form?id=${admin._id}`);
                 }}
               >
