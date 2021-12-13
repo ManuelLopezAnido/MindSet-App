@@ -38,8 +38,8 @@ const AdminsForm = () => {
   }
 
   useEffect(() => {
-    setEmailValue(selectedAdmin.email ?? '-');
-    setPasswordValue(selectedAdmin.password ?? '-');
+    setEmailValue(selectedAdmin.email ?? '');
+    setPasswordValue(selectedAdmin.password ?? '');
   }, [selectedAdmin]);
 
   const onChangeEmailInput = (event) => {
