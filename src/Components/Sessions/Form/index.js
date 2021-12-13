@@ -4,6 +4,10 @@ import Input from '../../Shared/Input';
 import Modal from '../../Shared/Modal';
 import ErrorModal from '../../Shared/ErrorModal';
 import IsLoading from '../../Shared/IsLoading/IsLoading';
+import { getOneSession, addSession, updateSession } from '../../../redux/sessions/thunks';
+import { useSelector, useDispatch } from 'react-redux';
+import { errorToDefault } from '../../../redux/sessions/actions';
+import { useHistory } from 'react-router-dom';
 
 const SessionsForm = () => {
   const [showModal, setShowModal] = useState(false);
@@ -12,9 +16,15 @@ const SessionsForm = () => {
   const [dateValue, setDateValue] = useState('');
   const [timeValue, setTimeValue] = useState('');
   const [accomplishedValue, setAccomplishedValue] = useState(false);
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const history = useHistory();
+
+  const isLoading = useSelector((store) => store.sessions.isLoading);
+  const error = useSelector((store) => store.sessions.error);
+  const errorMessage = useSelector((store) => store.sessions.errorMessage);
+  const selectedSession = useSelector((store) => store.sessions.selected);
 
   const onChangePostulantIdValue = (event) => {
     setPostulantIdValue(event.target.value);
@@ -35,80 +45,57 @@ const SessionsForm = () => {
   const params = new URLSearchParams(window.location.search);
   const sessionId = params.get('id');
 
+  if (sessionId) {
+    useEffect(() => {
+      dispatch(getOneSession(sessionId));
+    }, []);
+  }
+
   useEffect(() => {
-    if (sessionId) {
-      setIsLoading(true);
-      fetch(`${process.env.REACT_APP_API}/sessions/${sessionId}`)
-        .then((response) => {
-          if (response.status !== 200) {
-            return response.json().then(({ message }) => {
-              throw new Error(message);
-            });
-          }
-          return response.json();
-        })
-        .then((response) => {
-          setPostulantIdValue(response.data.postulantId);
-          setCounselorIdValue(response.data.counselorId);
-          setDateValue(response.data.date);
-          setTimeValue(response.data.time);
-          setAccomplishedValue(response.data.accomplished);
-        })
-        .catch((error) => {
-          setShowErrorModal(true);
-          setShowErrorModalMessage(JSON.stringify(error.message));
-        })
-        .finally(() => setIsLoading(false));
+    setPostulantIdValue(selectedSession.postulantId ?? '');
+    setCounselorIdValue(selectedSession.counselorId ?? '');
+    setDateValue(selectedSession.createdAt ?? '');
+    setTimeValue(selectedSession.time ?? '');
+    setAccomplishedValue(selectedSession.accomplished ?? '');
+    if (!sessionId) {
+      setPostulantIdValue('');
+      setCounselorIdValue('');
+      setDateValue('');
+      setTimeValue('');
+      setAccomplishedValue('');
     }
-  }, []);
+  }, [selectedSession]);
 
   const submit = () => {
-    setIsLoading(true);
-    let url = `${process.env.REACT_APP_API}/sessions`;
-
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        postulantId: postulantIdValue,
-        counselorId: counselorIdValue,
-        date: dateValue,
-        time: timeValue,
-        accomplished: accomplishedValue
-      })
-    };
-
-    if (sessionId === null) {
-      options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/sessions`;
-    } else {
-      options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/sessions/${sessionId}`;
-    }
-
-    fetch(url, options)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
-          return response.json().then(({ msg }) => {
-            throw new Error(msg);
-          });
+    if (sessionId) {
+      dispatch(
+        updateSession(sessionId, {
+          postulant: postulantIdValue,
+          counselorId: counselorIdValue,
+          date: dateValue,
+          time: timeValue,
+          accomplished: accomplishedValue
+        })
+      ).then((response) => {
+        if (response) {
+          history.push('/sessions');
         }
-        return (window.location.href = `/sessions`);
-      })
-      .catch((error) => {
-        setShowErrorModalMessage(error.toString());
-        setShowErrorModal(true);
-      })
-      .finally(() => {
-        setShowModal(false);
-        setIsLoading(false);
       });
-  };
-
-  const closeErrorMessage = () => {
-    setShowErrorModal(false);
+    } else {
+      dispatch(
+        addSession({
+          postulant: postulantIdValue,
+          counselor: counselorIdValue,
+          date: dateValue,
+          time: timeValue,
+          accomplished: accomplishedValue
+        })
+      ).then((response) => {
+        if (response) {
+          history.push('/sessions');
+        }
+      });
+    }
   };
 
   const closeModal = () => {
@@ -138,10 +125,10 @@ const SessionsForm = () => {
         rightButtonText="cancel"
       />
       <ErrorModal
-        showModal={showErrorModal}
-        closeModal={closeErrorMessage}
+        showModal={error}
+        closeModal={() => errorToDefault()}
         titleText="Error"
-        middleText={showErrorModalMessage}
+        middleText={errorMessage}
         buttonText="ok"
       />
       <h1>Form</h1>

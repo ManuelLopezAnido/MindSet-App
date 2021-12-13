@@ -5,73 +5,45 @@ import ErrorModal from '../Shared/ErrorModal';
 import IsLoading from '../Shared/IsLoading/IsLoading';
 import Button from '../Shared/Button/Button';
 import DeleteButton from '../Shared/DeleteButton/DeleteButton';
+import { useSelector, useDispatch } from 'react-redux';
+import { getSessions, deleteSession } from '../../redux/sessions/thunks';
+import { useHistory } from 'react-router-dom';
+import { errorToDefault } from '../../redux/sessions/actions';
 
 function Sessions() {
   const [showModal, setShowModal] = useState(false);
-  const [sessions, saveSessions] = useState([]);
   const [selectedId, setSelectedId] = useState('');
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+
+  const history = useHistory();
+
+  const dispatch = useDispatch();
+
+  const sessions = useSelector((store) => store.sessions.list);
+  const isLoading = useSelector((store) => store.sessions.isLoading);
+  const error = useSelector((store) => store.sessions.error);
+  const errorMessage = useSelector((store) => store.sessions.errorMessage);
 
   useEffect(() => {
-    setIsLoading(true);
-    fetch(`${process.env.REACT_APP_API}/sessions/`)
-      .then((response) => response.json())
-      .then((response) => {
-        saveSessions(response.Sessions);
-      })
-      .catch((error) => {
-        setShowErrorModal(true);
-        setShowErrorModalMessage(JSON.stringify(error.message));
-      })
-      .finally(() => setIsLoading(false));
-  }, []);
+    if (!sessions.length) {
+      dispatch(getSessions());
+    }
+  }, [sessions]);
 
-  const addSession = () => {
-    window.location.href = `/sessions/form`;
-  };
-
-  const deleteSession = () => {
-    setIsLoading(true);
-    const url = `${process.env.REACT_APP_API}/sessions/${selectedId}`;
-    fetch(url, {
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json'
-      }
-    })
-      .then((res) => {
-        if (res.status !== 204) {
-          return res.json().then((message) => {
-            throw new Error(message);
-          });
-        }
-        saveSessions(sessions.filter((session) => session._id !== selectedId));
-      })
-      .catch((error) => {
-        setShowErrorModal(true);
-        setShowErrorModalMessage(JSON.stringify(error.message));
-      })
-      .finally(() => {
-        setShowModal(false);
-        setIsLoading(false);
-      });
-  };
-
-  const handleIdSession = (event, id) => {
-    event.stopPropagation();
-    setSelectedId(id);
-    setShowModal(true);
+  const onClickDelete = () => {
+    dispatch(deleteSession(selectedId));
+    setShowModal(false);
   };
 
   const closeModal = () => {
     setShowModal(false);
   };
 
-  const closeErrorMessage = () => {
-    setShowErrorModal(false);
+  const handleSession = (event, id) => {
+    event.stopPropagation();
+    setSelectedId(id);
+    setShowModal(true);
   };
+
   if (isLoading) return <IsLoading />;
 
   return (
@@ -79,7 +51,7 @@ function Sessions() {
       <Modal
         showModal={showModal}
         closeModal={closeModal}
-        actionEntity={deleteSession}
+        actionEntity={onClickDelete}
         selectedId={selectedId}
         titleText="Delete a session"
         spanObjectArray={[
@@ -91,15 +63,15 @@ function Sessions() {
         rightButtonText="cancel"
       />
       <ErrorModal
-        showModal={showErrorModal}
-        closeModal={closeErrorMessage}
+        showModal={error}
+        closeModal={() => dispatch(errorToDefault())}
         titleText="Error"
-        middleText={showErrorModalMessage}
+        middleText={errorMessage}
         buttonText="ok"
       />
       <div className={styles.titleAndButton}>
         <h3>Sessions</h3>
-        <Button onClick={addSession} value="Session" />
+        <Button onClick={() => history.push('/sessions/form')} />
       </div>
       <table>
         <thead>
@@ -117,13 +89,13 @@ function Sessions() {
               onClick={() => (window.location.href = `sessions/form?id=${session._id}`)}
               className={styles.sessionRow}
             >
-              <td>{`${session.postulantId?.firstName} ${session.postulantId?.lastName}`}</td>
-              <td>{session.counselorId?.firstName}</td>
-              <td>{session.date}</td>
+              <td>{`${session.postulantId}`}</td>
+              <td>{session.counselorId}</td>
+              <td>{session.createdAt}</td>
               <td>{session.time}</td>
               <td>{session.accomplished.toString()}</td>
               <td className={styles.deleteButtonTD}>
-                <DeleteButton onClick={(event) => handleIdSession(event, session._id)} />
+                <DeleteButton onClick={(event) => handleSession(event, session._id)} />
               </td>
             </tr>
           ))}
