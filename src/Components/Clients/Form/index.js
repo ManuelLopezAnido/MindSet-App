@@ -4,6 +4,10 @@ import Input from '../../Shared/Input';
 import ErrorModal from '../../Shared/ErrorModal';
 import Modal from '../../Shared/Modal';
 import IsLoading from '../../Shared/IsLoading/IsLoading';
+import { getOneClient, addClient, updateClient } from '../../../redux/clients/thunks';
+import { useSelector, useDispatch } from 'react-redux';
+import { errorToDefault } from '../../../redux/clients/actions';
+import { useHistory } from 'react-router-dom';
 
 const ClientsForm = () => {
   const [showModal, setShowModal] = useState(false);
@@ -14,9 +18,44 @@ const ClientsForm = () => {
   const [emailValue, setEmailValue] = useState('');
   const [phoneValue, setPhoneValue] = useState('');
   const [openPositionsValue, setOpenPositionsValue] = useState([]);
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const history = useHistory();
+
+  const isLoading = useSelector((store) => store.admins.isLoading);
+  const error = useSelector((store) => store.admins.error);
+  const errorMessage = useSelector((store) => store.admins.errorMessage);
+  const selectedClient = useSelector((store) => store.admins.selected);
+
+  const params = new URLSearchParams(window.location.search);
+  const clientId = params.get('id');
+
+  if (clientId) {
+    useEffect(() => {
+      dispatch(getOneClient(clientId));
+    }, []);
+  }
+
+  useEffect(() => {
+    setCompanyNameValue(selectedClient.companyName ?? '');
+    setCompanyTypeValue(selectedClient.companyType ?? '');
+    setCityValue(selectedClient.city ?? '');
+    setCountryValue(selectedClient.country ?? '');
+    setEmailValue(selectedClient.email ?? '');
+    setPhoneValue(selectedClient.phone ?? '');
+    setOpenPositionsValue(selectedClient.openPositions ?? '');
+
+    if (!clientId) {
+      setCompanyNameValue('');
+      setCompanyTypeValue('');
+      setCityValue('');
+      setCountryValue('');
+      setEmailValue('');
+      setPhoneValue('');
+      setOpenPositionsValue('');
+    }
+  }, [selectedClient]);
 
   const onChangeCompanyNameValue = (event) => {
     setCompanyNameValue(event.target.value);
@@ -40,85 +79,40 @@ const ClientsForm = () => {
     setOpenPositionsValue(event.target.value);
   };
 
-  const params = new URLSearchParams(window.location.search);
-  const clientId = params.get('id');
-
-  useEffect(() => {
-    if (clientId) {
-      setIsLoading(true);
-      fetch(`${process.env.REACT_APP_API}/clients/id/${clientId}`)
-        .then((response) => {
-          if (response.status !== 200) {
-            return response.json().then(({ message }) => {
-              throw new Error(message);
-            });
-          }
-          return response.json();
-        })
-        .then((response) => {
-          setCompanyNameValue(response.companyName);
-          setCompanyTypeValue(response.companyType);
-          setCityValue(response.city);
-          setCountryValue(response.country);
-          setEmailValue(response.email);
-          setPhoneValue(response.phone);
-          setOpenPositionsValue(response.openPositions);
-        })
-        .catch((error) => {
-          setShowErrorModal(true);
-          setShowErrorModalMessage(JSON.stringify(error.message));
-        })
-        .finally(() => {
-          setIsLoading(false);
-          setShowModal(false);
-        });
-    }
-  }, []);
-
   const submit = () => {
-    setIsLoading(true);
-    let url;
-
-    const options = {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        companyName: companyNameValue,
-        companyType: companyTypeValue,
-        city: cityValue,
-        country: countryValue,
-        email: emailValue,
-        phone: phoneValue,
-        openPositions: openPositionsValue
-      })
-    };
-
-    if (clientId === null) {
-      options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/clients/add`;
-    } else {
-      options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/clients/update/${clientId}`;
-    }
-
-    fetch(url, options)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
-          return response.json().then(({ msg }) => {
-            throw new Error(msg);
-          });
+    if (clientId) {
+      dispatch(
+        updateClient(clientId, {
+          companyName: companyNameValue,
+          companyType: companyTypeValue,
+          city: cityValue,
+          country: countryValue,
+          email: emailValue,
+          phone: phoneValue,
+          openPositions: openPositionsValue
+        })
+      ).then((response) => {
+        if (response) {
+          history.push('/clients');
         }
-        return (window.location.href = `/clients`);
-      })
-      .catch((error) => {
-        setShowErrorModal(true);
-        setShowErrorModalMessage(JSON.stringify(error.message));
-      })
-      .finally(() => {
-        setShowModal(false);
-        setIsLoading(false);
       });
+    } else {
+      dispatch(
+        addClient({
+          companyName: companyNameValue,
+          companyType: companyTypeValue,
+          city: cityValue,
+          country: countryValue,
+          email: emailValue,
+          phone: phoneValue,
+          openPositions: openPositionsValue
+        })
+      ).then((response) => {
+        if (response) {
+          history.push('/clients');
+        }
+      });
+    }
   };
 
   const closeModal = () => setShowModal(false);
@@ -128,9 +122,9 @@ const ClientsForm = () => {
     setShowModal(true);
   };
 
-  const closeErrorMessage = () => {
-    setShowErrorModal(false);
-  };
+  // const closeErrorMessage = () => {
+  //   setShowErrorModal(false);
+  // };
 
   if (isLoading) return <IsLoading />;
 
@@ -150,10 +144,10 @@ const ClientsForm = () => {
         rightButtonText="cancel"
       />
       <ErrorModal
-        showModal={showErrorModal}
-        closeModal={closeErrorMessage}
+        showModal={error}
+        closeModal={() => errorToDefault()}
         titleText="Error"
-        middleText={showErrorModalMessage}
+        middleText={errorMessage}
         buttonText="ok"
       />
       <h1>Form</h1>
