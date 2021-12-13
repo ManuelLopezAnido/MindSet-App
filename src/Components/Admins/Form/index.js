@@ -40,6 +40,10 @@ const AdminsForm = () => {
   useEffect(() => {
     setEmailValue(selectedAdmin.email ?? '');
     setPasswordValue(selectedAdmin.password ?? '');
+    if (!adminId) {
+      setEmailValue('');
+      setPasswordValue('');
+    }
   }, [selectedAdmin]);
 
   const onChangeEmailInput = (event) => {
