@@ -4,6 +4,12 @@ import Input from '../../Shared/Input';
 import Modal from '../../Shared/Modal';
 import ErrorModal from '../../Shared/ErrorModal';
 import IsLoading from '../../Shared/IsLoading/IsLoading';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  getOneApplication,
+  addApplication,
+  updateApplication
+} from '../../../redux/applications/thunks';
 
 const FormApplication = () => {
   const [showModal, setShowModal] = useState(false);
@@ -12,8 +18,13 @@ const FormApplication = () => {
   const [postulant, setPostulant] = useState('');
   const [applicationState, setAppState] = useState('');
   const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+
+  const dispatch = useDispatch();
+  const error = useSelector((store) => store.applications.error);
+  const isLoading = useSelector((store) => store.applications.isLoading);
+  const selectedApp = useSelector((store) => store.applications.selected);
+  console.log('la application is: ', selectedApp);
+  console.log('store Error is: ', error);
 
   const onChangePosition = (event) => {
     setPositionName(event.target.value);
@@ -33,71 +44,35 @@ const FormApplication = () => {
 
   useEffect(() => {
     if (appId) {
-      fetch(`${process.env.REACT_APP_API}/applications/id/${appId}`)
-        .then((response) => {
-          if (response.status !== 200) {
-            return response.json().then(({ ErrMessage }) => {
-              throw new Error(ErrMessage);
-            });
-          }
-          return response.json();
-        })
-        .then((response) => {
-          setPositionName(response.positionId);
-          setCompany(response.companyId);
-          setPostulant(response.postulantId ? response.postulantId : 'No id'); // Bad DB. Applications with no postulantID exist
-          setAppState(response.applicationState);
-        })
-        .catch((error) => {
-          setShowErrorModal(true);
-          setShowErrorModalMessage(JSON.stringify(error.message));
-        })
-        .finally(() => setIsLoading(false));
+      dispatch(getOneApplication(appId));
     }
   }, []);
 
+  useEffect(() => {
+    setPositionName(selectedApp.positionId);
+    setCompany(selectedApp.companyId);
+    setPostulant(selectedApp.postulantId);
+    setAppState(selectedApp.applicationState);
+  }, []);
+
+  useEffect(() => {
+    setShowErrorModal(error);
+  }, [error]);
+
   const submit = () => {
-    let url;
-    const options = {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        positionId: position,
-        companyId: company,
-        postulantId: postulant,
-        applicationState: applicationState
-      })
-    };
-
     if (appId === null) {
-      options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/applications/add`;
+      //  updateApplication;
     } else {
-      options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/applications/update/${appId}`;
+      dispatch(
+        updateApplication(appId, {
+          position: position,
+          company: company,
+          postulant: postulant,
+          applicationState: applicationState
+        })
+      );
     }
-    fetch(url, options)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
-          return response.json().then(({ ErrMessage }) => {
-            throw new Error(ErrMessage);
-          });
-        }
-        window.location.href = `/applications`;
-      })
-      .catch((error) => {
-        setShowErrorModal(true);
-        setShowErrorModalMessage(JSON.stringify(error.message));
-      })
-      .finally(() => {
-        setShowModal(false);
-        setIsLoading(false);
-      });
   };
-
-  if (isLoading) return <IsLoading />;
-
   const closeErrorMessage = () => {
     setShowErrorModal(false);
   };
@@ -108,7 +83,7 @@ const FormApplication = () => {
     event.preventDefault();
     setShowModal(true);
   };
-
+  if (isLoading) return <IsLoading />;
   return (
     <div>
       <Modal
@@ -128,7 +103,6 @@ const FormApplication = () => {
         showModal={showErrorModal}
         closeModal={closeErrorMessage}
         titleText="Error"
-        middleText={showErrorModalMessage}
         buttonText="ok"
       />
       <h1>Form</h1>

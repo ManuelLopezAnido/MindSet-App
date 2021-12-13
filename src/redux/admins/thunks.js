@@ -34,6 +34,7 @@ export const getOneAdmin = (id) => (dispatch) => {
       return response.json();
     })
     .then((response) => {
+      console.log('The One admin is: ', response.data);
       dispatch(getOneAdminFulfilled(response));
       return response;
     })

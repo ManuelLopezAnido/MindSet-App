@@ -56,15 +56,14 @@ const reducer = (state = initialState, action) => {
     case GET_ONE_APPLICATION_FULFILLED:
       return {
         ...state,
-        selected: action.payload.data,
+        selected: action.payload,
         isLoading: false
       };
     case GET_ONE_APPLICATION_REJECTED:
       return {
         ...state,
         isLoading: false,
-        error: true,
-        errorMessage: action.payload
+        error: action.payload
       };
 
     case ADD_APPLICATION_FETCHING:
