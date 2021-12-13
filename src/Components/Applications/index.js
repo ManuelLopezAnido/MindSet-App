@@ -4,60 +4,42 @@ import Modal from '../Shared/Modal';
 import ErrorModal from '../Shared/ErrorModal';
 import IsLoading from '../Shared/IsLoading/IsLoading';
 import Button from '../Shared/Button/Button';
+import NoData from '../Shared/NoData';
 import DeleteButton from '../Shared/DeleteButton/DeleteButton';
+import { useSelector, useDispatch } from 'react-redux';
+import { getApplications, deleteApplication } from '../../redux/applications/thunks.js';
 
 function Applications() {
-  const [showModal, setShowModal] = useState(false);
   const [applications, setApplications] = useState([]);
   const [selectedId, setSelectedId] = useState('');
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState('');
 
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const listApplications = useSelector((store) => store.applications.list);
+  const error = useSelector((store) => store.applications.error);
+  const isLoading = useSelector((store) => store.applications.isLoading);
+  console.log('Lista de Applications: ', listApplications);
+  console.log('store Error is: ', error);
+  useEffect(() => {
+    dispatch(getApplications());
+  }, []);
 
   useEffect(() => {
-    setIsLoading(true);
-    fetch(`${process.env.REACT_APP_API}/applications`)
-      .then((response) => response.json())
-      .then((response) => {
-        setApplications(response.data);
-      })
-      .catch((error) => {
-        setShowErrorModal(true);
-        setShowErrorModalMessage(JSON.stringify(error.message));
-      })
-      .finally(() => setIsLoading(false));
-  }, []);
+    setApplications(listApplications);
+  }, [listApplications]);
+
+  useEffect(() => {
+    setShowErrorModal(error);
+  }, [error]);
 
   const addApplication = () => {
     window.location.href = `/applications/form`;
   };
 
-  const deleteApplication = () => {
-    setIsLoading(true);
-    const url = `${process.env.REACT_APP_API}/applications/delete/${selectedId}`;
-    fetch(url, {
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json'
-      }
-    })
-      .then((res) => {
-        if (res.status !== 204 && res.status !== 200) {
-          return res.json().then((ErrMessage) => {
-            throw new Error(ErrMessage);
-          });
-        }
-        setApplications(applications.filter((a) => a._id !== selectedId));
-      })
-      .catch((error) => {
-        setShowErrorModal(true);
-        setShowErrorModalMessage(JSON.stringify(error.message));
-      })
-      .finally(() => {
-        setShowModal(false);
-        setIsLoading(false);
-      });
+  const clickDeleteApplication = () => {
+    dispatch(deleteApplication(selectedId));
+    setShowModal(false);
   };
 
   const closeModal = () => {
@@ -71,17 +53,16 @@ function Applications() {
   };
 
   const closeErrorMessage = () => {
-    setShowErrorModal(false);
+    setShowErrorModal('');
   };
 
   if (isLoading) return <IsLoading />;
-
   return (
     <section className={styles.container}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
-        actionEntity={deleteApplication}
+        actionEntity={clickDeleteApplication}
         selectedId={selectedId}
         titleText="Delete an application"
         spanObjectArray={[
@@ -96,13 +77,13 @@ function Applications() {
         showModal={showErrorModal}
         closeModal={closeErrorMessage}
         titleText="Error"
-        middleText={showErrorModalMessage}
         buttonText="ok"
       />
       <div className={styles.titleAndButton}>
         <h3>Applications</h3>
         <Button onClick={addApplication} value="Applications" />
       </div>
+      <NoData data={listApplications.lenght} />
       <table>
         <thead>
           <tr>

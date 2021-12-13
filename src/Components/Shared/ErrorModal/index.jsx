@@ -1,6 +1,6 @@
 import styles from './errorModal.module.css';
 
-const ErrorModal = ({ showModal, titleText, closeModal, middleText, buttonText }) => {
+const ErrorModal = ({ showModal, titleText, closeModal, buttonText }) => {
   if (!showModal) {
     return null;
   }
@@ -13,7 +13,7 @@ const ErrorModal = ({ showModal, titleText, closeModal, middleText, buttonText }
           <span onClick={closeModal}>&times;</span>
         </div>
         <div className={styles.content}>
-          <span>{middleText}</span>
+          <span>{showModal}</span>
         </div>
         <div className={styles.buttonContainer}>
           <button onClick={closeModal}>{buttonText.toUpperCase()}</button>
