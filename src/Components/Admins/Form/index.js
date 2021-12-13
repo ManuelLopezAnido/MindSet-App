@@ -26,18 +26,21 @@ const AdminsForm = () => {
   const isLoading = useSelector((store) => store.admins.isLoading);
   const error = useSelector((store) => store.admins.error);
   const errorMessage = useSelector((store) => store.admins.errorMessage);
+  const selectedAdmin = useSelector((store) => store.admins.selected);
 
   const params = new URLSearchParams(window.location.search);
   const adminId = params.get('id');
 
   if (adminId) {
     useEffect(() => {
-      dispatch(getOneAdmin(adminId)).then((selected) => {
-        setEmailValue(selected.data.email ?? '-');
-        setPasswordValue(selected.data.password ?? '-');
-      });
+      dispatch(getOneAdmin(adminId));
     }, []);
   }
+
+  useEffect(() => {
+    setEmailValue(selectedAdmin.email ?? '-');
+    setPasswordValue(selectedAdmin.password ?? '-');
+  }, [selectedAdmin]);
 
   const onChangeEmailInput = (event) => {
     setEmailValue(event.target.value);

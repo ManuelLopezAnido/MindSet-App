@@ -42,7 +42,6 @@ function Clients() {
       }
     })
       .then((res) => {
-        console.log(res);
         if (res.status !== 204) {
           return res.json().then((message) => {
             throw new Error(message);
