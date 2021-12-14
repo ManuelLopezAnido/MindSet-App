@@ -50,11 +50,11 @@ export const addSession = (data) => (dispatch) => {
       'Content-type': 'application/json'
     },
     body: JSON.stringify({
-      postulant: data.postulantIdValue,
-      counselor: data.counselorIdValue,
-      date: data.dateValue,
-      time: data.timeValue,
-      accomplished: data.accomplishedValue
+      postulant: data.postulant,
+      counselor: data.counselor,
+      date: data.date,
+      time: data.time,
+      accomplished: data.accomplished
     })
   };
   console.log(data, 'data');
@@ -63,8 +63,8 @@ export const addSession = (data) => (dispatch) => {
   return fetch(`${URL}/sessions`, options)
     .then((data) => {
       if (data.status !== 201) {
-        return data.json().then(({ message }) => {
-          throw message;
+        return data.json().then((error) => {
+          throw error;
         });
       }
       return data.json();
@@ -74,6 +74,7 @@ export const addSession = (data) => (dispatch) => {
       return response.json();
     })
     .catch((error) => {
+      console.log('error', error);
       dispatch(addSessionRejected(error));
       return error;
     });
@@ -87,11 +88,11 @@ export const updateSession = (id, data) => (dispatch) => {
       'Content-type': 'application/json'
     },
     body: JSON.stringify({
-      postulant: data.postulantIdValue,
-      counselor: data.counselorIdValue,
-      date: data.dateValue,
-      time: data.timeValue,
-      accomplished: data.accomplishedValue
+      postulant: data.postulant,
+      counselor: data.counselor,
+      date: data.date,
+      time: data.time,
+      accomplished: data.accomplished
     })
   })
     .then((data) => {
@@ -107,7 +108,7 @@ export const updateSession = (id, data) => (dispatch) => {
 
 export const deleteSession = (id) => (dispatch) => {
   dispatch(deleteSessionFetching());
-  return fetch(`${URL}/sessions/delete/${id}`, {
+  return fetch(`${URL}/sessions/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-type': 'application/json'

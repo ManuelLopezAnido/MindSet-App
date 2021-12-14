@@ -77,7 +77,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        list: [...state.list, action.payload]
+        list: [...state.list, action.payload.data]
       };
     case ADD_SESSION_REJECTED:
       return {
@@ -96,14 +96,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        list: [
-          ...state.list.map((session) => {
-            if (session._id === action.payload._id) {
-              session = action.payload;
-            }
-            return session;
-          })
-        ]
+        list: [...state.list]
       };
     case UPDATE_SESSION_REJECTED:
       return {

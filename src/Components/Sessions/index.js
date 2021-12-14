@@ -27,7 +27,7 @@ function Sessions() {
     if (!sessions.length) {
       dispatch(getSessions());
     }
-  }, [dispatch]);
+  }, [sessions]);
 
   const onClickDelete = () => {
     dispatch(deleteSession(selectedId));
@@ -75,12 +75,14 @@ function Sessions() {
       </div>
       <table>
         <thead>
-          <th>Postulant Id</th>
-          <th>Counselor Id</th>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Accomplished</th>
-          <th>Actions</th>
+          <tr>
+            <th>Postulant Id</th>
+            <th>Counselor Id</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Accomplished</th>
+            <th>Actions</th>
+          </tr>
         </thead>
         <tbody>
           {sessions.map((session) => (
@@ -89,7 +91,7 @@ function Sessions() {
               onClick={() => (window.location.href = `sessions/form?id=${session._id}`)}
               className={styles.sessionRow}
             >
-              <td>{`${session.postulantId}`}</td>
+              <td>{session.postulantId}</td>
               <td>{session.counselorId}</td>
               <td>{session.createdAt}</td>
               <td>{session.time}</td>
