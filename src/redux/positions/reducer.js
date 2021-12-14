@@ -20,8 +20,7 @@ import {
 const initialState = {
   isLoading: false,
   list: [],
-  error: false,
-  errorMessage: '',
+  error: '',
   selected: {}
 };
 
@@ -30,21 +29,21 @@ const reducer = (state = initialState, action) => {
     case GET_POSITIONS_FETCHING:
       return {
         ...state,
-        error: false,
         isLoading: true
       };
-    case GET_POSITIONS_FULFILLED:
+    case GET_POSITIONS_FULFILLED: {
+      console.log('Positions fullfilled: ', action.payload);
       return {
         ...state,
         isLoading: false,
-        error: false,
-        list: action.payload.Positions
+        list: action.payload
       };
+    }
     case GET_POSITIONS_REJECTED:
       return {
         ...state,
         isLoading: false,
-        error: true //TODO: CHANGE THIS
+        error: action.payload
       };
 
     case GET_ONE_POSITION_FETCHING:
@@ -109,27 +108,26 @@ const reducer = (state = initialState, action) => {
     case DELETE_POSITION_FETCHING:
       return {
         ...state,
-        error: false,
         isLoading: true
       };
     case DELETE_POSITION_FULFILLED:
       return {
         ...state,
         isLoading: false,
-        list: state.list.filter((position) => position._id !== action.payload)
+        list: state.list.filter((pos) => pos._id !== action.payload)
       };
-    case DELETE_POSITION_REJECTED:
+    case DELETE_POSITION_REJECTED: {
+      console.log(action.payload);
       return {
         ...state,
         isLoading: false,
-        error: true,
-        errorMessage: action.payload
+        error: action.payload
       };
-
+    }
     case ERROR_TO_DEFAULT: {
       return {
         ...state,
-        error: false
+        error: ''
       };
     }
     default:

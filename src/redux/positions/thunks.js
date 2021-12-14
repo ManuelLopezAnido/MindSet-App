@@ -101,7 +101,7 @@ export const updatePosition = (id, data) => (dispatch) => {
 
 export const deletePosition = (id) => (dispatch) => {
   dispatch(deletePositionFetching());
-  return fetch(`${URL}/positions/delete/${id}`, {
+  return fetch(`${URL}/positions/delete/${id + 1}`, {
     method: 'DELETE',
     headers: {
       'Content-type': 'application/json'
@@ -111,5 +111,8 @@ export const deletePosition = (id) => (dispatch) => {
       if (response.status != 200) throw response;
       dispatch(deletePositionFulfilled(id));
     })
-    .catch((error) => dispatch(deletePositionRejected(error.statusText)));
+    .catch((error) => {
+      console.log('error is:', error);
+      dispatch(deletePositionRejected(error.statusText));
+    });
 };
