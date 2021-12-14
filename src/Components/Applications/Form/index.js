@@ -10,6 +10,7 @@ import {
   addApplication,
   updateApplication
 } from '../../../redux/applications/thunks';
+import { useHistory } from 'react-router-dom';
 
 const FormApplication = () => {
   const [showModal, setShowModal] = useState(false);
@@ -19,6 +20,7 @@ const FormApplication = () => {
   const [applicationState, setAppState] = useState('');
   const [showErrorModal, setShowErrorModal] = useState(false);
 
+  const history = useHistory();
   const dispatch = useDispatch();
   const error = useSelector((store) => store.applications.error);
   const isLoading = useSelector((store) => store.applications.isLoading);
@@ -49,20 +51,36 @@ const FormApplication = () => {
   }, []);
 
   useEffect(() => {
-    setPositionName(selectedApp.positionId);
-    setCompany(selectedApp.companyId);
-    setPostulant(selectedApp.postulantId);
-    setAppState(selectedApp.applicationState);
-  }, []);
+    if (Object.keys(selectedApp).length) {
+      setPositionName(selectedApp.positionId);
+      setCompany(selectedApp.companyId);
+      setPostulant(selectedApp.postulantId);
+      setAppState(selectedApp.applicationState);
+    }
+  }, [selectedApp]);
 
   useEffect(() => {
     setShowErrorModal(error);
   }, [error]);
 
   const submit = () => {
-    if (appId === null) {
-      //  updateApplication;
+    console.log('submited');
+    if (appId == null) {
+      dispatch(
+        addApplication({
+          position: position,
+          company: company,
+          postulant: postulant,
+          applicationState: applicationState
+        })
+      ).then((response) => {
+        console.log('Response is: ', response);
+        if (response) {
+          history.push('/applications');
+        }
+      });
     } else {
+      console.log('Clicked');
       dispatch(
         updateApplication(appId, {
           position: position,
@@ -70,9 +88,15 @@ const FormApplication = () => {
           postulant: postulant,
           applicationState: applicationState
         })
-      );
+      ).then((response) => {
+        console.log('Response is: ', response);
+        if (response) {
+          history.push('/applications');
+        }
+      });
     }
   };
+
   const closeErrorMessage = () => {
     setShowErrorModal(false);
   };
@@ -96,7 +120,7 @@ const FormApplication = () => {
             span: 'Are you sure you want to save these changes?'
           }
         ]}
-        leftButtonText="save"
+        leftButtonText="savedd"
         rightButtonText="cancel"
       />
       <ErrorModal

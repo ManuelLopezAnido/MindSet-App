@@ -20,7 +20,7 @@ const URL = process.env.REACT_APP_API;
 
 export const getApplications = () => (dispatch) => {
   dispatch(getApplicationsFetching());
-  fetch(`${URL}applications`)
+  fetch(`${URL}/applications`)
     .then((data) => data.json())
     .then((response) => {
       console.log('The response form server in thunks is: ', response.data);
@@ -35,7 +35,7 @@ export const getApplications = () => (dispatch) => {
 
 export const getOneApplication = (id) => (dispatch) => {
   dispatch(getOneApplicationFetching());
-  fetch(`${URL}applications/id/${id}`)
+  fetch(`${URL}/applications/id/${id}`)
     .then((response) => {
       if (response.status != 200) throw response;
       return response.json();
@@ -52,41 +52,9 @@ export const getOneApplication = (id) => (dispatch) => {
     });
 };
 
-export const addApplication = (data) => (dispatch) => {
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-type': 'application/json'
-    },
-    body: JSON.stringify({
-      email: data.email,
-      password: data.password
-    })
-  };
-
-  dispatch(addApplicationFetching());
-
-  return fetch(`${URL}/applications/create`, options)
-    .then((data) => {
-      if (data.status !== 201) {
-        return data.json().then(({ message }) => {
-          throw message;
-        });
-      }
-      return data.json();
-    })
-    .then((response) => {
-      dispatch(addApplicationFulfilled(response));
-      return response;
-    })
-    .catch((error) => {
-      dispatch(addApplicationRejected(error));
-      return error;
-    });
-};
 export const deleteApplication = (id) => (dispatch) => {
   dispatch(deleteApplicationFetching());
-  return fetch(`${URL}/applications/delete/${id + 1}`, {
+  return fetch(`${URL}/applications/delete/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-type': 'application/json'
@@ -99,9 +67,46 @@ export const deleteApplication = (id) => (dispatch) => {
     .catch((error) => dispatch(deleteApplicationRejected(error.statusText)));
 };
 
+export const addApplication = (data) => (dispatch) => {
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify({
+      positionId: data.position,
+      companyId: data.company,
+      postulantId: data.postulant,
+      applicationState: data.applicationState
+    })
+  };
+
+  dispatch(addApplicationFetching());
+
+  return fetch(`${URL}/applications/add`, options)
+    .then((data) => {
+      if (data.status !== 200) {
+        return data.json().then((errMessage) => {
+          throw errMessage;
+        });
+      }
+      return data.json();
+    })
+    .then((response) => {
+      dispatch(addApplicationFulfilled(response.data));
+      return response;
+    })
+    .catch((error) => {
+      console.log('Error in ADDING: ', error);
+      dispatch(addApplicationRejected(error));
+      return error;
+    });
+};
+
 export const updateApplication = (id, data) => (dispatch) => {
   dispatch(updateApplicationFetching());
-  fetch(`${URL}/applications/update/${id}`, {
+
+  return fetch(`${URL}/applications/update/${id}`, {
     method: 'PUT',
     headers: {
       'Content-type': 'application/json'
@@ -114,13 +119,16 @@ export const updateApplication = (id, data) => (dispatch) => {
     })
   })
     .then((data) => {
-      if (data.status != 200) throw data.statusText;
+      if (data.status != 201) throw data.statusText;
       return data.json();
     })
     .then((response) => {
-      console.log('added application response: ', response);
+      console.log('UPDATED application response: ', response);
       dispatch(updateApplicationFulfilled(response));
       return response;
     })
-    .catch((error) => dispatch(updateApplicationRejected(error)));
+    .catch((error) => {
+      console.log('added application error: ', error);
+      dispatch(updateApplicationRejected(error));
+    });
 };

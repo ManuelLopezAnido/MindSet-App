@@ -82,7 +82,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: true
+        error: action.payload
       };
 
     case UPDATE_APPLICATION_FETCHING:
@@ -101,8 +101,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: true,
-        errorMessage: action.payload
+        error: action.payload
       };
 
     case DELETE_APPLICATION_FETCHING:

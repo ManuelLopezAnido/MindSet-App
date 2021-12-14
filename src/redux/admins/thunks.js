@@ -72,6 +72,7 @@ export const addAdmin = (data) => (dispatch) => {
       return response;
     })
     .catch((error) => {
+      console.log('Error in ADDING: ', error);
       dispatch(addAdminRejected(error));
       return error;
     });
