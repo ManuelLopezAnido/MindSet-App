@@ -96,7 +96,14 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        list: [...state.list]
+        list: [
+          ...state.list.map((session) => {
+            if (session._id === action.payload._id) {
+              session = action.payload;
+            }
+            return session;
+          })
+        ]
       };
     case UPDATE_SESSION_REJECTED:
       return {

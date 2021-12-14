@@ -43,18 +43,24 @@ export const getOneSession = (id) => (dispatch) => {
     });
 };
 
-export const addSession = (values) => (dispatch) => {
+export const addSession = (data) => (dispatch) => {
   const options = {
     method: 'POST',
     headers: {
       'Content-type': 'application/json'
     },
-    body: JSON.stringify(values)
+    body: JSON.stringify({
+      postulant: data.postulantIdValue,
+      counselor: data.counselorIdValue,
+      date: data.dateValue,
+      time: data.timeValue,
+      accomplished: data.accomplishedValue
+    })
   };
-
+  console.log(data, 'data');
   dispatch(addSessionFetching());
 
-  return fetch(`${URL}/sessions/create`, options)
+  return fetch(`${URL}/sessions`, options)
     .then((data) => {
       if (data.status !== 201) {
         return data.json().then(({ message }) => {
@@ -65,7 +71,7 @@ export const addSession = (values) => (dispatch) => {
     })
     .then((response) => {
       dispatch(addSessionFulfilled(response));
-      return response;
+      return response.json();
     })
     .catch((error) => {
       dispatch(addSessionRejected(error));
@@ -73,14 +79,20 @@ export const addSession = (values) => (dispatch) => {
     });
 };
 
-export const updateSession = (id, values) => (dispatch) => {
+export const updateSession = (id, data) => (dispatch) => {
   dispatch(updateSessionFetching());
-  return fetch(`${URL}/sessions/update/${id}`, {
+  return fetch(`${URL}/sessions/${id}`, {
     method: 'PUT',
     headers: {
       'Content-type': 'application/json'
     },
-    body: JSON.stringify(values)
+    body: JSON.stringify({
+      postulant: data.postulantIdValue,
+      counselor: data.counselorIdValue,
+      date: data.dateValue,
+      time: data.timeValue,
+      accomplished: data.accomplishedValue
+    })
   })
     .then((data) => {
       if (data.status != 200) throw data.statusText;

@@ -27,7 +27,7 @@ function Sessions() {
     if (!sessions.length) {
       dispatch(getSessions());
     }
-  }, [sessions]);
+  }, [dispatch]);
 
   const onClickDelete = () => {
     dispatch(deleteSession(selectedId));
