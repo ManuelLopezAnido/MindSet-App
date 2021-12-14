@@ -64,8 +64,8 @@ export const addClient = (data) => (dispatch) => {
   return fetch(`${URL}/clients/add`, options)
     .then((data) => {
       if (data.status !== 200) {
-        return data.json().then(({ message }) => {
-          throw message;
+        return data.json().then((error) => {
+          throw error;
         });
       }
       return data.json();

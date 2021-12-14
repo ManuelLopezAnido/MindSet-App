@@ -200,7 +200,7 @@ const ClientsForm = () => {
           label="Open Positions"
           id="openPositions"
           name="openPositions"
-          required
+          // required
           value={openPositionsValue}
           onChange={onChangeOpenPositions}
         />
