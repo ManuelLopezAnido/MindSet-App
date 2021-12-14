@@ -4,14 +4,13 @@ import Input from '../../Shared/Input';
 import Modal from '../../Shared/Modal';
 import ErrorModal from '../../Shared/ErrorModal';
 import IsLoading from '../../Shared/IsLoading/IsLoading';
-
-const params = new URLSearchParams(window.location.search);
-const postulantId = params.get('_id');
+import { getOnePostulant, addPostulant, updatePostulant } from '../../../redux/postulants/thunks';
+import { useSelector, useDispatch } from 'react-redux';
+import { errorToDefault } from '../../../redux/postulants/actions';
+import { useHistory } from 'react-router-dom';
 
 const PostulantsForm = () => {
   const [showModal, setShowModal] = useState(false);
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
   const [firstNameValue, setFirstNameValue] = useState('');
   const [lastNameValue, setLastNameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
@@ -91,108 +90,345 @@ const PostulantsForm = () => {
   const [availabilityCheckSundayValue, setAvailabilityCheckSundayValue] = useState(false);
   const [availabilityFromSundayValue, setAvailabilityFromSundayValue] = useState('-');
   const [availabilityToSundayValue, setAvailabilityToSundayValue] = useState('-');
-  const [isLoading, setIsLoading] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const history = useHistory();
+
+  const isLoading = useSelector((store) => store.postulants.isLoading);
+  const error = useSelector((store) => store.postulants.error);
+  const errorMessage = useSelector((store) => store.postulants.errorMessage);
+
+  const params = new URLSearchParams(window.location.search);
+  const postulantId = params.get('_id');
 
   if (postulantId) {
     useEffect(() => {
-      setIsLoading(true);
-      fetch(`${process.env.REACT_APP_API}/postulants/${postulantId}`)
-        .then((response) => response.json())
-        .then((response) => {
-          onLoading(response);
-        })
-        .catch((error) => {
-          setShowErrorModal(true);
-          setShowErrorModalMessage(JSON.stringify(error.message));
-        })
-        .finally(() => setIsLoading(false));
+      dispatch(getOnePostulant(postulantId)).then((selected) => {
+        setFirstNameValue(selected.firstName ?? '-');
+        setLastNameValue(selected.lastName ?? '-');
+        setEmailValue(selected.email ?? '-');
+        setPhoneValue(selected.phone ?? '-');
+        setDateOfBirthValue(selected.dateOfBirth ?? '-');
+        setGenderValue(selected.gender ?? '-');
+        setCityValue(selected.city ?? '-');
+        setStateValue(selected.state ?? '-');
+        setCountryValue(selected.country ?? '-');
+
+        setElementarySchoolNameValue(selected.elementarySchool[0]?.name || '-');
+        setElementarySchoolDegreeValue(selected.elementarySchool[0]?.degree || '-');
+        setElementarySchoolGraduateYearValue(selected.elementarySchool[0]?.graduateYear || 0);
+
+        setHighSchoolNameValue(selected.highSchool[0]?.name || '-');
+        setHighSchoolDegreeValue(selected.highSchool[0]?.degree || '-');
+        setHighSchoolGraduateYearValue(selected.highSchool[0]?.graduateYear || 0);
+
+        setJuniorCollegeNameValue(selected.juniorCollege[0]?.name || '-');
+        setJuniorCollegeDegreeValue(selected.juniorCollege[0]?.degree || '-');
+        setJuniorCollegeGraduateYearValue(selected.juniorCollege[0]?.graduateYear || 0);
+
+        setUniversityNameValue(selected.university[0]?.name || '-');
+        setUniversityDegreeValue(selected.university[0]?.degree || '-');
+        setUniversityGraduateYearValue(selected.university[0]?.graduateYear || 0);
+
+        setOpenToWork(selected.openToWork);
+
+        setWorkExperienceTitleValue(selected.workExperience[0]?.title || '-');
+        setWorkExperienceStartValue(selected.workExperience[0]?.start || '2000-05-20');
+        setWorkExperienceEndValue(selected.workExperience[0]?.end || '2000-02-20');
+        setWorkExperienceCompanyValue(selected.workExperience[0]?.company || '-');
+        setWorkExperienceDescriptionValue(selected.workExperience[0]?.description || '-');
+
+        setProfTrainingDescriptionValue(selected.professionalTraining[0]?.description || '-');
+        setProfTrainingYearValue(selected.professionalTraining[0]?.year || 0);
+
+        setLanguagesValue(selected.languages || '');
+        setHobbiesValue(selected.hobbies || '');
+
+        setFamilyMember1NameValue(selected.familyMembers[0]?.name || '-');
+        setFamilyMember1bondValue(selected.familyMembers[0]?.bond || '-');
+
+        setFamilyMember2NameValue(selected.familyMembers[1]?.name || '-');
+        setFamilyMember2bondValue(selected.familyMembers[1]?.bond || '-');
+
+        setFamilyMember3NameValue(selected.familyMembers[2]?.name || '-');
+        setFamilyMember3bondValue(selected.familyMembers[2]?.bond || '-');
+
+        setFamilyMember4NameValue(selected.familyMembers[3]?.name || '-');
+        setFamilyMember4bondValue(selected.familyMembers[3]?.bond || '-');
+
+        setAvailabilityCheckMondayValue(selected.availability[0]?.available);
+        setAvailabilityFromMondayValue(selected.availability[0]?.from || '-');
+        setAvailabilityToMondayValue(selected.availability[0]?.to || '-');
+
+        setAvailabilityCheckTuesdayValue(selected.availability[1]?.available);
+        setAvailabilityFromTuesdayValue(selected.availability[1]?.from || '-');
+        setAvailabilityToTuesdayValue(selected.availability[1]?.to || '-');
+
+        setAvailabilityCheckWednesdayValue(selected.availability[2]?.available);
+        setAvailabilityFromWednesdayValue(selected.availability[2]?.from || '-');
+        setAvailabilityToWednesdayValue(selected.availability[2]?.to || '-');
+
+        setAvailabilityCheckThursdayValue(selected.availability[3]?.available);
+        setAvailabilityFromThursdayValue(selected.availability[3]?.from || '-');
+        setAvailabilityToThursdayValue(selected.availability[3]?.to || '-');
+
+        setAvailabilityCheckFridayValue(selected.availability[4]?.available);
+        setAvailabilityFromFridayValue(selected.availability[4]?.from || '-');
+        setAvailabilityToFridayValue(selected.availability[4]?.to || '-');
+
+        setAvailabilityCheckSaturdayValue(selected.availability[5]?.available);
+        setAvailabilityFromSaturdayValue(selected.availability[5]?.from || '-');
+        setAvailabilityToSaturdayValue(selected.availability[5]?.to || '-');
+
+        setAvailabilityCheckSundayValue(selected.availability[6]?.available);
+        setAvailabilityFromSundayValue(selected.availability[6]?.from || '-');
+        setAvailabilityToSundayValue(selected.availability[6]?.to || '-');
+      });
     }, []);
   }
 
-  const onLoading = (data) => {
-    setFirstNameValue(data.firstName || '-');
-    setLastNameValue(data.lastName || '-');
-    setEmailValue(data.email || '-');
-    setPhoneValue(data.phone || 123456789);
-    setDateOfBirthValue(data.dateOfBirth || '-');
-    setGenderValue(data.gender || '-');
-    setCityValue(data.city || '-');
-    setStateValue(data.state || '-');
-    setCountryValue(data.country || '-');
+  const onChangeFirstName = (event) => {
+    setFirstNameValue(event.target.value);
+  };
 
-    setElementarySchoolNameValue(data.elementarySchool[0]?.name || '-');
-    setElementarySchoolDegreeValue(data.elementarySchool[0]?.degree || '-');
-    setElementarySchoolGraduateYearValue(data.elementarySchool[0]?.graduateYear || 0);
+  const onChangeLastName = (event) => {
+    setLastNameValue(event.target.value);
+  };
 
-    setHighSchoolNameValue(data.highSchool[0]?.name || '-');
-    setHighSchoolDegreeValue(data.highSchool[0]?.degree || '-');
-    setHighSchoolGraduateYearValue(data.highSchool[0]?.graduateYear || 0);
+  const onChangeEmail = (event) => {
+    setEmailValue(event.target.value);
+  };
 
-    setJuniorCollegeNameValue(data.juniorCollege[0]?.name || '-');
-    setJuniorCollegeDegreeValue(data.juniorCollege[0]?.degree || '-');
-    setJuniorCollegeGraduateYearValue(data.juniorCollege[0]?.graduateYear || 0);
+  const onChangePhone = (event) => {
+    setPhoneValue(event.target.value);
+  };
 
-    setUniversityNameValue(data.university[0]?.name || '-');
-    setUniversityDegreeValue(data.university[0]?.degree || '-');
-    setUniversityGraduateYearValue(data.university[0]?.graduateYear || 0);
+  const onChangeBirth = (event) => {
+    setDateOfBirthValue(event.target.value);
+  };
 
-    setOpenToWork(data.openToWork);
+  const onChangeGender = (event) => {
+    setGenderValue(event.target.value);
+  };
 
-    setWorkExperienceTitleValue(data.workExperience[0]?.title || '-');
-    setWorkExperienceStartValue(data.workExperience[0]?.start || '2000-05-20');
-    setWorkExperienceEndValue(data.workExperience[0]?.end || '2000-02-20');
-    setWorkExperienceCompanyValue(data.workExperience[0]?.company || '-');
-    setWorkExperienceDescriptionValue(data.workExperience[0]?.description || '-');
+  const onChangeCity = (event) => {
+    setCityValue(event.target.value);
+  };
 
-    setProfTrainingDescriptionValue(data.professionalTraining[0]?.description || '-');
-    setProfTrainingYearValue(data.professionalTraining[0]?.year || 0);
+  const onChangeState = (event) => {
+    setStateValue(event.target.value);
+  };
 
-    setLanguagesValue(data.languages || '');
-    setHobbiesValue(data.hobbies || '');
+  const onChangeCountry = (event) => {
+    setCountryValue(event.target.value);
+  };
 
-    setFamilyMember1NameValue(data.familyMembers[0]?.name || '-');
-    setFamilyMember1bondValue(data.familyMembers[0]?.bond || '-');
+  const onChangeSchoolName = (event) => {
+    setElementarySchoolNameValue(event.target.value);
+  };
 
-    setFamilyMember2NameValue(data.familyMembers[1]?.name || '-');
-    setFamilyMember2bondValue(data.familyMembers[1]?.bond || '-');
+  const onChangeSchoolDegree = (event) => {
+    setElementarySchoolDegreeValue(event.target.value);
+  };
 
-    setFamilyMember3NameValue(data.familyMembers[2]?.name || '-');
-    setFamilyMember3bondValue(data.familyMembers[2]?.bond || '-');
+  const onChangeSchoolGraduateYear = (event) => {
+    setElementarySchoolGraduateYearValue(event.target.value);
+  };
 
-    setFamilyMember4NameValue(data.familyMembers[3]?.name || '-');
-    setFamilyMember4bondValue(data.familyMembers[3]?.bond || '-');
+  const onChangeHighSchool = (event) => {
+    setHighSchoolNameValue(event.target.value);
+  };
 
-    setAvailabilityCheckMondayValue(data.availability[0]?.available);
-    setAvailabilityFromMondayValue(data.availability[0]?.from || '-');
-    setAvailabilityToMondayValue(data.availability[0]?.to || '-');
+  const onChangeHighSchoolDegree = (event) => {
+    setHighSchoolDegreeValue(event.target.value);
+  };
 
-    setAvailabilityCheckTuesdayValue(data.availability[1]?.available);
-    setAvailabilityFromTuesdayValue(data.availability[1]?.from || '-');
-    setAvailabilityToTuesdayValue(data.availability[1]?.to || '-');
+  const onChangeHighSchoolGraduate = (event) => {
+    setHighSchoolGraduateYearValue(event.target.value);
+  };
 
-    setAvailabilityCheckWednesdayValue(data.availability[2]?.available);
-    setAvailabilityFromWednesdayValue(data.availability[2]?.from || '-');
-    setAvailabilityToWednesdayValue(data.availability[2]?.to || '-');
+  const onChangeJuniorCollege = (event) => {
+    setJuniorCollegeNameValue(event.target.value);
+  };
 
-    setAvailabilityCheckThursdayValue(data.availability[3]?.available);
-    setAvailabilityFromThursdayValue(data.availability[3]?.from || '-');
-    setAvailabilityToThursdayValue(data.availability[3]?.to || '-');
+  const onChangeJuniorCollegeDegree = (event) => {
+    setJuniorCollegeDegreeValue(event.target.value);
+  };
 
-    setAvailabilityCheckFridayValue(data.availability[4]?.available);
-    setAvailabilityFromFridayValue(data.availability[4]?.from || '-');
-    setAvailabilityToFridayValue(data.availability[4]?.to || '-');
+  const onChangeJuniorCollegeGraduate = (event) => {
+    setJuniorCollegeGraduateYearValue(event.target.value);
+  };
 
-    setAvailabilityCheckSaturdayValue(data.availability[5]?.available);
-    setAvailabilityFromSaturdayValue(data.availability[5]?.from || '-');
-    setAvailabilityToSaturdayValue(data.availability[5]?.to || '-');
+  const onChangeUniversity = (event) => {
+    setUniversityNameValue(event.target.value);
+  };
 
-    setAvailabilityCheckSundayValue(data.availability[6]?.available);
-    setAvailabilityFromSundayValue(data.availability[6]?.from || '-');
-    setAvailabilityToSundayValue(data.availability[6]?.to || '-');
+  const onChangeUniversityDegree = (event) => {
+    setUniversityDegreeValue(event.target.value);
+  };
+
+  const onChangeUniversityGraduate = (event) => {
+    setUniversityGraduateYearValue(event.target.value);
+  };
+
+  const onChangeOpenToWork = (event) => {
+    setOpenToWork(event.target.checked);
+  };
+
+  const onChangeWorkExperience = (event) => {
+    setWorkExperienceTitleValue(event.target.value);
+  };
+
+  const onChangeWorkExperienceStart = (event) => {
+    setWorkExperienceStartValue(event.target.value);
+  };
+
+  const onChangeWorkExperienceEnd = (event) => {
+    setWorkExperienceEndValue(event.target.value);
+  };
+
+  const onChangeWorkExperienceCompany = (event) => {
+    setWorkExperienceCompanyValue(event.target.value);
+  };
+
+  const onChangeWorkExperienceDescription = (event) => {
+    setWorkExperienceDescriptionValue(event.target.value);
+  };
+
+  const onChangeProfTrainingDescription = (event) => {
+    setProfTrainingDescriptionValue(event.target.value);
+  };
+
+  const onChangeProfTrainingYear = (event) => {
+    setProfTrainingYearValue(event.target.value);
+  };
+
+  const onChangeLanguages = (event) => {
+    setLanguagesValue(event.target.value);
+  };
+
+  const onChangeHobbies = (event) => {
+    setHobbiesValue(event.target.value);
+  };
+
+  const onChangeFamlilyMember1Name = (event) => {
+    setFamilyMember1NameValue(event.target.value);
+  };
+
+  const onChangeFamlilyMember1Bond = (event) => {
+    setFamilyMember1bondValue(event.target.value);
+  };
+
+  const onChangeFamlilyMember2Name = (event) => {
+    setFamilyMember2NameValue(event.target.value);
+  };
+
+  const onChangeFamlilyMember2Bond = (event) => {
+    setFamilyMember2bondValue(event.target.value);
+  };
+
+  const onChangeFamlilyMember3Name = (event) => {
+    setFamilyMember3NameValue(event.target.value);
+  };
+
+  const onChangeFamlilyMember3Bond = (event) => {
+    setFamilyMember3bondValue(event.target.value);
+  };
+
+  const onChangeFamlilyMember4Name = (event) => {
+    setFamilyMember4NameValue(event.target.value);
+  };
+
+  const onChangeFamlilyMember4Bond = (event) => {
+    setFamilyMember4bondValue(event.target.value);
+  };
+
+  const onChangeMonday = (event) => {
+    setAvailabilityCheckMondayValue(event.target.checked);
+  };
+
+  const onChangeTuesday = (event) => {
+    setAvailabilityCheckTuesdayValue(event.target.checked);
+  };
+
+  const onChangeWednesday = (event) => {
+    setAvailabilityCheckWednesdayValue(event.target.checked);
+  };
+
+  const onChangeThursday = (event) => {
+    setAvailabilityCheckThursdayValue(event.target.checked);
+  };
+
+  const onChangeFriday = (event) => {
+    setAvailabilityCheckFridayValue(event.target.checked);
+  };
+
+  const onChangeSaturday = (event) => {
+    setAvailabilityCheckSaturdayValue(event.target.checked);
+  };
+
+  const onChangeSunday = (event) => {
+    setAvailabilityCheckSundayValue(event.target.checked);
+  };
+
+  const onChangeMondayFrom = (event) => {
+    setAvailabilityFromMondayValue(event.target.value);
+  };
+
+  const onChangeTuesdayFrom = (event) => {
+    setAvailabilityFromTuesdayValue(event.target.value);
+  };
+
+  const onChangeWednesdayFrom = (event) => {
+    setAvailabilityFromWednesdayValue(event.target.value);
+  };
+
+  const onChangeThursdayFrom = (event) => {
+    setAvailabilityFromThursdayValue(event.target.value);
+  };
+
+  const onChangeFridayFrom = (event) => {
+    setAvailabilityFromFridayValue(event.target.value);
+  };
+
+  const onChangeSaturdayFrom = (event) => {
+    setAvailabilityFromSaturdayValue(event.target.value);
+  };
+
+  const onChangeSundayFrom = (event) => {
+    setAvailabilityFromSundayValue(event.target.value);
+  };
+
+  const onChangeMondayTo = (event) => {
+    setAvailabilityToMondayValue(event.target.value);
+  };
+
+  const onChangeTuesdayTo = (event) => {
+    setAvailabilityToTuesdayValue(event.target.value);
+  };
+
+  const onChangeWednesdayTo = (event) => {
+    setAvailabilityToWednesdayValue(event.target.value);
+  };
+
+  const onChangeThursdayTo = (event) => {
+    setAvailabilityToThursdayValue(event.target.value);
+  };
+
+  const onChangeFridayTo = (event) => {
+    setAvailabilityToFridayValue(event.target.value);
+  };
+
+  const onChangeSaturdayTo = (event) => {
+    setAvailabilityToSaturdayValue(event.target.value);
+  };
+
+  const onChangeSundayTo = (event) => {
+    setAvailabilityToSundayValue(event.target.value);
   };
 
   const submit = () => {
-    setIsLoading(true);
     const data = {
       firstName: firstNameValue,
       lastName: lastNameValue,
@@ -312,44 +548,33 @@ const PostulantsForm = () => {
         }
       ]
     };
-
-    let url;
-    postulantId
-      ? (url = `${process.env.REACT_APP_API}/postulants/update/${postulantId}`)
-      : (url = `${process.env.REACT_APP_API}/postulants/add`);
-
-    return fetch(url, {
-      method: postulantId ? 'PUT' : 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-      .then(() => {
-        window.location.href = `${window.location.origin}/postulants`;
-      })
-      .catch((error) => {
-        setShowErrorModal(true);
-        setShowErrorModalMessage(JSON.stringify(error.message));
-      })
-      .finally(() => {
-        setShowModal(false);
-        setIsLoading(false);
+    if (postulantId) {
+      dispatch(updatePostulant(postulantId, data)).then((response) => {
+        if (response) {
+          history.push('/postulants');
+        }
       });
+    } else {
+      dispatch(addPostulant(data)).then((response) => {
+        if (response) {
+          history.push('/postulants');
+        }
+      });
+    }
   };
 
-  const closeErrorMessage = () => {
-    setShowErrorModal(false);
+  const closeModal = () => {
+    setShowModal(false);
   };
-
-  const closeModal = () => setShowModal(false);
 
   const onSubmit = (event) => {
     event.preventDefault();
     setShowModal(true);
   };
 
-  if (isLoading) return <IsLoading />;
+  if (isLoading) {
+    return <IsLoading />;
+  }
 
   return (
     <div className={styles.container}>
@@ -367,16 +592,13 @@ const PostulantsForm = () => {
         rightButtonText="cancel"
       />
       <ErrorModal
-        showModal={showErrorModal}
-        closeModal={closeErrorMessage}
+        showModal={error}
+        closeModal={() => errorToDefault()}
         titleText="Error"
-        middleText={showErrorModalMessage}
+        middleText={errorMessage}
         buttonText="ok"
       />
       <form action="" className={styles.form} onSubmit={onSubmit}>
-        <h2>
-          {firstNameValue} {lastNameValue}
-        </h2>
         <div className={styles.generalInformation}>
           <h3>General Information</h3>
           <Input
@@ -384,7 +606,7 @@ const PostulantsForm = () => {
             id="firstName"
             type="text"
             value={firstNameValue}
-            setValue={setFirstNameValue}
+            onChange={onChangeFirstName}
             required
           />
           <Input
@@ -392,7 +614,7 @@ const PostulantsForm = () => {
             id="lastName"
             type="text"
             value={lastNameValue}
-            setValue={setLastNameValue}
+            onChange={onChangeLastName}
             required
           />
           <Input
@@ -400,7 +622,7 @@ const PostulantsForm = () => {
             id="email"
             type="email"
             value={emailValue}
-            setValue={setEmailValue}
+            onChange={onChangeEmail}
             required
           />
           <Input
@@ -408,7 +630,7 @@ const PostulantsForm = () => {
             id="phone"
             type="number"
             value={phoneValue}
-            setValue={setPhoneValue}
+            onChange={onChangePhone}
             required
           />
           <Input
@@ -416,7 +638,7 @@ const PostulantsForm = () => {
             id="dateOfBirth"
             type="date"
             value={dateOfBirthValue}
-            setValue={setDateOfBirthValue}
+            onChange={onChangeBirth}
             required
           />
           <Input
@@ -424,7 +646,7 @@ const PostulantsForm = () => {
             id="gender"
             type="text"
             value={genderValue}
-            setValue={setGenderValue}
+            onChange={onChangeGender}
             required
           />
           <Input
@@ -432,7 +654,7 @@ const PostulantsForm = () => {
             id="city"
             type="text"
             value={cityValue}
-            setValue={setCityValue}
+            onChange={onChangeCity}
             required
           />
           <Input
@@ -440,7 +662,7 @@ const PostulantsForm = () => {
             id="state"
             type="text"
             value={stateValue}
-            setValue={setStateValue}
+            onChange={onChangeState}
             required
           />
           <Input
@@ -448,7 +670,7 @@ const PostulantsForm = () => {
             id="country"
             type="text"
             value={countryValue}
-            setValue={setCountryValue}
+            onChange={onChangeCountry}
             required
           />
         </div>
@@ -460,21 +682,21 @@ const PostulantsForm = () => {
             id="elementarySchool"
             type="text"
             value={elementarySchoolNameValue}
-            setValue={setElementarySchoolNameValue}
+            onChange={onChangeSchoolName}
           />
           <Input
             label="Degree"
             id="elementarySchoolDegree"
             type="text"
             value={elementarySchoolDegreeValue}
-            setValue={setElementarySchoolDegreeValue}
+            onChange={onChangeSchoolDegree}
           />
           <Input
             label="Graduate Year"
             id="elementarySchoolGraduateYear"
             type="text"
             value={elementarySchoolGraduateYearValue}
-            setValue={setElementarySchoolGraduateYearValue}
+            onChange={onChangeSchoolGraduateYear}
           />
           <h4>High School</h4>
           <Input
@@ -482,21 +704,21 @@ const PostulantsForm = () => {
             id="highSchool"
             type="text"
             value={highSchoolNameValue}
-            setValue={setHighSchoolNameValue}
+            onChange={onChangeHighSchool}
           />
           <Input
             label="Degree"
             id="highSchoolDegree"
             type="text"
             value={highSchoolDegreeValue}
-            setValue={setHighSchoolDegreeValue}
+            onChange={onChangeHighSchoolDegree}
           />
           <Input
             label="Graduate Year"
             id="highSchoolGraduateYear"
             type="text"
             value={highSchoolGraduateYearValue}
-            setValue={setHighSchoolGraduateYearValue}
+            onChange={onChangeHighSchoolGraduate}
           />
           <h4>Junior College</h4>
           <Input
@@ -504,21 +726,21 @@ const PostulantsForm = () => {
             id="juniorCollege"
             type="text"
             value={juniorCollegeNameValue}
-            setValue={setJuniorCollegeNameValue}
+            onChange={onChangeJuniorCollege}
           />
           <Input
             label="Degree"
             id="juniorCollegeDegree"
             type="text"
             value={juniorCollegeDegreeValue}
-            setValue={setJuniorCollegeDegreeValue}
+            onChange={onChangeJuniorCollegeDegree}
           />
           <Input
             label="Graduate Year"
             id="juniorCollegeGraduateYear"
             type="text"
             value={juniorCollegeGraduateYearValue}
-            setValue={setJuniorCollegeGraduateYearValue}
+            onChange={onChangeJuniorCollegeGraduate}
           />
           <h4>University</h4>
           <Input
@@ -526,21 +748,21 @@ const PostulantsForm = () => {
             id="University"
             type="text"
             value={universityNameValue}
-            setValue={setUniversityNameValue}
+            onChange={onChangeUniversity}
           />
           <Input
             label="Degree"
             id="UniversityDegree"
             type="text"
             value={universityDegreeValue}
-            setValue={setUniversityDegreeValue}
+            onChange={onChangeUniversityDegree}
           />
           <Input
             label="Graduate Year"
             id="UniversityGraduateYear"
             type="text"
             value={universityGraduateYearValue}
-            setValue={setUniversityGraduateYearValue}
+            onChange={onChangeUniversityGraduate}
           />
         </div>
         <div className={styles.openForWork}>
@@ -550,7 +772,7 @@ const PostulantsForm = () => {
               type="checkbox"
               id="openToWork"
               checked={openToWork}
-              onChange={(event) => setOpenToWork(event.target.checked)}
+              onChange={onChangeOpenToWork}
             />
           </h3>
           <label htmlFor="openToWork" />
@@ -562,35 +784,35 @@ const PostulantsForm = () => {
             id="workExperience"
             type="text"
             value={workExperienceTitleValue}
-            setValue={setWorkExperienceTitleValue}
+            onChange={onChangeWorkExperience}
           />
           <Input
             label="Started"
             id="WorkExpStarted"
             type="date"
             value={workExperienceStartValue}
-            setValue={setWorkExperienceStartValue}
+            onChange={onChangeWorkExperienceStart}
           />
           <Input
             label="Ended"
             id="WorkExpEnded"
             type="date" //HERE
             value={workExperienceEndValue}
-            setValue={setWorkExperienceEndValue}
+            onChange={onChangeWorkExperienceEnd}
           />
           <Input
             label="Company"
             id="WorkExpCompany"
             type="text"
             value={workExperienceCompanyValue}
-            setValue={setWorkExperienceCompanyValue}
+            onChange={onChangeWorkExperienceCompany}
           />
           <Input
             label="Description"
             id="workExpDescription"
             type="textarea"
             value={workExperienceDescriptionValue}
-            setValue={setWorkExperienceDescriptionValue}
+            onChange={onChangeWorkExperienceDescription}
           />
         </div>
         <div className={styles.professionalTraining}>
@@ -600,14 +822,14 @@ const PostulantsForm = () => {
             id="profTrainDescription"
             type="text"
             value={profTrainingDescriptionValue}
-            setValue={setProfTrainingDescriptionValue}
+            onChange={onChangeProfTrainingDescription}
           />
           <Input
             label="Year"
             id="profTrainStarted"
             type="number"
             value={profTrainingYearValue}
-            setValue={setProfTrainingYearValue}
+            onChange={onChangeProfTrainingYear}
           />
         </div>
         <Input
@@ -615,14 +837,14 @@ const PostulantsForm = () => {
           id="languages"
           type="text"
           value={languagesValue}
-          setValue={setLanguagesValue}
+          onChange={onChangeLanguages}
         />
         <Input
           label="Hobbies"
           id="hobbies"
           type="text"
           value={hobbiesValue}
-          setValue={setHobbiesValue}
+          onChange={onChangeHobbies}
         />
         <div className={styles.family}>
           <h3>Family</h3>
@@ -632,14 +854,14 @@ const PostulantsForm = () => {
               id="1stFMName"
               type="text"
               value={familyMember1NameValue}
-              setValue={setFamilyMember1NameValue}
+              onChange={onChangeFamlilyMember1Name}
             />
             <Input
               label="bond"
               id="1stFMBond"
               type="text"
               value={familyMember1bondValue}
-              setValue={setFamilyMember1bondValue}
+              onChange={onChangeFamlilyMember1Bond}
             />
           </div>
           <div>
@@ -648,14 +870,14 @@ const PostulantsForm = () => {
               id="2stFMName"
               type="text"
               value={familyMember2NameValue}
-              setValue={setFamilyMember2NameValue}
+              onChange={onChangeFamlilyMember2Name}
             />
             <Input
               label="bond"
               id="2stFMBond"
               type="text"
               value={familyMember2bondValue}
-              setValue={setFamilyMember2bondValue}
+              onChange={onChangeFamlilyMember2Bond}
             />
           </div>
           <div>
@@ -664,14 +886,14 @@ const PostulantsForm = () => {
               id="3stFMName"
               type="text"
               value={familyMember3NameValue}
-              setValue={setFamilyMember3NameValue}
+              onChange={onChangeFamlilyMember3Name}
             />
             <Input
               label="bond"
               id="3stFMBond"
               type="text"
               value={familyMember3bondValue}
-              setValue={setFamilyMember3bondValue}
+              onChange={onChangeFamlilyMember3Bond}
             />
           </div>
           <div>
@@ -680,14 +902,14 @@ const PostulantsForm = () => {
               id="4stFMName"
               type="text"
               value={familyMember4NameValue}
-              setValue={setFamilyMember4NameValue}
+              onChange={onChangeFamlilyMember4Name}
             />
             <Input
               label="bond"
               id="4stFMBond"
               type="text"
               value={familyMember4bondValue}
-              setValue={setFamilyMember4bondValue}
+              onChange={onChangeFamlilyMember4Bond}
             />
           </div>
         </div>
@@ -699,44 +921,44 @@ const PostulantsForm = () => {
               type="checkbox"
               id="mondayDay1"
               checked={availabilityCheckMondayValue}
-              onChange={(event) => setAvailabilityCheckMondayValue(event.target.checked)}
+              onChange={onChangeMonday}
             />
             <Input
               label="from"
               id="fromDay1"
               type="text"
               value={availabilityFromMondayValue}
-              setValue={setAvailabilityFromMondayValue}
+              onChange={onChangeMondayFrom}
             />
             <Input
               label="To"
               id="ToDay1"
               type="text"
               value={availabilityToMondayValue}
-              setValue={setAvailabilityToMondayValue}
+              onChange={onChangeMondayTo}
             />
           </div>
           <div>
             <label htmlFor="tuesdayDay2" /> Tuesdays
-            <input
+            <Input
               type="checkbox"
               id="tuesdayDay2"
               checked={availabilityCheckTuesdayValue}
-              onChange={(event) => setAvailabilityCheckTuesdayValue(event.target.checked)}
+              onChange={onChangeTuesday}
             />
             <Input
               label="from"
               id="fromDay2"
               type="text"
               value={availabilityFromTuesdayValue}
-              setValue={setAvailabilityFromTuesdayValue}
+              onChange={onChangeTuesdayFrom}
             />
             <Input
               label="To"
               id="ToDay2"
               type="text"
               value={availabilityToTuesdayValue}
-              setValue={setAvailabilityToTuesdayValue}
+              onChange={onChangeTuesdayTo}
             />
           </div>
           <div>
@@ -745,21 +967,21 @@ const PostulantsForm = () => {
               type="checkbox"
               id="WednesdayDay3"
               checked={availabilityCheckWednesdayValue}
-              onChange={(event) => setAvailabilityCheckWednesdayValue(event.target.checked)}
+              onChange={onChangeWednesday}
             />
             <Input
               label="from"
               id="fromDay3"
               type="text"
               value={availabilityFromWednesdayValue}
-              setValue={setAvailabilityFromWednesdayValue}
+              onChange={onChangeWednesdayFrom}
             />
             <Input
               label="To"
               id="ToDay3"
               type="text"
               value={availabilityToWednesdayValue}
-              setValue={setAvailabilityToWednesdayValue}
+              onChange={onChangeWednesdayTo}
             />
           </div>
           <div>
@@ -768,21 +990,21 @@ const PostulantsForm = () => {
               type="checkbox"
               id="ThursdayDay4"
               checked={availabilityCheckThursdayValue}
-              onChange={(event) => setAvailabilityCheckThursdayValue(event.target.checked)}
+              onChange={onChangeThursday}
             />
             <Input
               label="from"
               id="fromDay4"
               type="text"
               value={availabilityFromThursdayValue}
-              setValue={setAvailabilityFromThursdayValue}
+              onChange={onChangeThursdayFrom}
             />
             <Input
               label="To"
               id="ToDay4"
               type="text"
               value={availabilityToThursdayValue}
-              setValue={setAvailabilityToThursdayValue}
+              onChange={onChangeThursdayTo}
             />
           </div>
           <div>
@@ -791,67 +1013,67 @@ const PostulantsForm = () => {
               type="checkbox"
               id="FridayDay5"
               checked={availabilityCheckFridayValue}
-              onChange={(event) => setAvailabilityCheckFridayValue(event.target.checked)}
+              onChange={onChangeFriday}
             />
             <Input
               label="from"
               id="fromDay5"
               type="text"
               value={availabilityFromFridayValue}
-              setValue={setAvailabilityFromFridayValue}
+              onChange={onChangeFridayFrom}
             />
             <Input
               label="To"
               id="ToDay5"
               type="text"
               value={availabilityToFridayValue}
-              setValue={setAvailabilityToFridayValue}
+              onChange={onChangeFridayTo}
             />
           </div>
           <div>
             <label htmlFor="SaturdayDay6" /> Saturdays
-            <input
+            <Input
               type="checkbox"
               id="SaturdayDay6"
               checked={availabilityCheckSaturdayValue}
-              onChange={(event) => setAvailabilityCheckSaturdayValue(event.target.checked)}
+              onChange={onChangeSaturday}
             />
             <Input
               label="from"
               id="fromDay6"
               type="text"
               value={availabilityFromSaturdayValue}
-              setValue={setAvailabilityFromSaturdayValue}
+              onChange={onChangeSaturdayFrom}
             />
             <Input
               label="To"
               id="ToDay6"
               type="text"
               value={availabilityToSaturdayValue}
-              setValue={setAvailabilityToSaturdayValue}
+              onChange={onChangeSaturdayTo}
             />
           </div>
           <div>
             <label htmlFor="SundayDay7" /> Sundays
-            <input
+            <Input
               type="checkbox"
               id="SundayDay7"
               checked={availabilityCheckSundayValue}
-              onChange={(event) => setAvailabilityCheckSundayValue(event.target.checked)}
+              onChange={onChangeSunday}
             />
             <Input
               label="from"
               id="fromDay7"
               type="text"
               value={availabilityFromSundayValue}
-              setValue={setAvailabilityFromSundayValue}
+              onChange={onChangeSundayFrom}
             />
             <Input
               label="To"
               id="ToDay7"
               type="text"
               value={availabilityToSundayValue}
-              setValue={setAvailabilityToSundayValue}
+              onChange={onChangeSundayTo}
             />
           </div>
         </div>

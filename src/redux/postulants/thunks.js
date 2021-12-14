@@ -61,110 +61,110 @@ export const addPostulant = (data) => (dispatch) => {
       country: data.country,
       elementarySchool: [
         {
-          name: data.elementarySchoolName,
-          degree: data.elementarySchoolDegree,
-          graduateYear: data.elementarySchoolGraduateYear
+          name: data.elementarySchool[0].name,
+          degree: data.elementarySchool[0].degree,
+          graduateYear: data.elementarySchool[0].graduateYear
         }
       ],
       highSchool: [
         {
-          name: data.highSchoolName,
-          degree: data.highSchoolDegree,
-          graduateYear: data.highSchoolGraduateYear
+          name: data.highSchool[0].name,
+          degree: data.highSchool[0].degree,
+          graduateYear: data.highSchool[0].graduateYear
         }
       ],
       juniorCollege: [
         {
-          name: data.juniorCollegeName,
-          degree: data.juniorCollegeDegree,
-          graduateYear: data.juniorCollegeGraduateYear
+          name: data.juniorCollege[0].name,
+          degree: data.juniorCollege[0].degree,
+          graduateYear: data.juniorCollege[0].graduateYear
         }
       ],
       university: [
         {
-          name: data.universityName,
-          degree: data.universityDegree,
-          graduateYear: data.universityGraduateYear
+          name: data.university[0].name,
+          degree: data.university[0].degree,
+          graduateYear: data.university[0].graduateYear
         }
       ],
       openToWork: data.openToWork,
       workExperience: [
         {
-          title: data.workExperienceTitle,
-          start: data.workExperienceStart,
-          end: data.workExperienceEnd,
-          company: data.workExperienceCompany,
-          description: data.workExperienceDescription
+          title: data.workExperience[0].title,
+          start: data.workExperience[0].start,
+          end: data.workExperience[0].end,
+          company: data.workExperience[0].company,
+          description: data.workExperience[0].description
         }
       ],
       professionalTraining: [
         {
-          description: data.profTrainingDescription,
-          year: data.profTrainingYear
+          description: data.professionalTraining[0].description,
+          year: data.professionalTraining[0].year
         }
       ],
       languages: data.languages,
       hobbies: data.hobbies,
       familyMembers: [
         {
-          name: data.familyMember1Name,
-          bond: data.familyMember1bond
+          name: data.familyMembers[0].name,
+          bond: data.familyMembers[0].bond
         },
         {
-          name: data.familyMember2Name,
-          bond: data.familyMember2bond
+          name: data.familyMembers[1].name,
+          bond: data.familyMembers[1].bond
         },
         {
-          name: data.familyMember3Name,
-          bond: data.familyMember3bond
+          name: data.familyMembers[2].name,
+          bond: data.familyMembers[2].bond
         },
         {
-          name: data.familyMember4Name,
-          bond: data.familyMember4bond
+          name: data.familyMembers[3].name,
+          bond: data.familyMembers[3].bond
         }
       ],
       availability: [
         {
           monday: 'Monday',
-          available: data.availabilityCheckMonday,
-          from: data.availabilityFromMonday,
-          to: data.availabilityToMonday
+          available: data.availability[0].available,
+          from: data.availability[0].from,
+          to: data.availability[0].to
         },
         {
           Tuesday: 'Tuesday',
-          available: data.availabilityCheckTuesday,
-          from: data.availabilityFromTuesday,
-          to: data.availabilityToTuesday
+          available: data.availability[1].available,
+          from: data.availability[1].from,
+          to: data.availability[1].to
         },
         {
           Wednesday: 'Wednesday',
-          available: data.availabilityCheckWednesday,
-          from: data.availabilityFromWednesday,
-          to: data.availabilityToWednesday
+          available: data.availability[2].available,
+          from: data.availability[2].from,
+          to: data.availability[2].to
         },
         {
           Thursday: 'Thursday',
-          available: data.availabilityCheckThursday,
-          from: data.availabilityFromThursday,
-          to: data.availabilityToThursday
+          available: data.availability[3].available,
+          from: data.availability[3].from,
+          to: data.availability[3].to
         },
         {
           Friday: 'Friday',
-          available: data.availabilityCheckFriday,
-          from: data.availabilityFromFriday,
-          to: data.availabilityToFriday
+          available: data.availability[4].available,
+          from: data.availability[4].from,
+          to: data.availability[4].to
         },
         {
           Saturday: 'Saturday',
-          available: data.availabilityCheckSaturday,
-          from: data.availabilityFromSaturday,
-          to: data.availabilityToSaturday
+          available: data.availability[5].available,
+          from: data.availability[5].from,
+          to: data.availability[5].to
         },
         {
           Sunday: 'Sunday',
-          available: data.availabilityCheckSunday,
-          from: data.availabilityFromSunday,
-          to: data.availabilityToSunday
+          available: data.availability[6].available,
+          from: data.availability[6].from,
+          to: data.availability[6].to
         }
       ]
     })
@@ -175,7 +175,9 @@ export const addPostulant = (data) => (dispatch) => {
   return fetch(`${URL}/postulants/add`, options)
     .then((data) => {
       if (data.status !== 201) {
+        console.log('data.status', data.status);
         return data.json().then(({ message }) => {
+          console.log('message', message);
           throw message;
         });
       }
@@ -187,6 +189,7 @@ export const addPostulant = (data) => (dispatch) => {
     })
     .catch((error) => {
       dispatch(addPostulantRejected(error));
+      console.log('error', error);
       return error;
     });
 };
@@ -210,110 +213,110 @@ export const updatePostulant = (id, data) => (dispatch) => {
       country: data.country,
       elementarySchool: [
         {
-          name: data.elementarySchoolName,
-          degree: data.elementarySchoolDegree,
-          graduateYear: data.elementarySchoolGraduateYear
+          name: data.elementarySchool[0].name,
+          degree: data.elementarySchool[0].degree,
+          graduateYear: data.elementarySchool[0].graduateYear
         }
       ],
       highSchool: [
         {
-          name: data.highSchoolName,
-          degree: data.highSchoolDegree,
-          graduateYear: data.highSchoolGraduateYear
+          name: data.highSchool[0].name,
+          degree: data.highSchool[0].degree,
+          graduateYear: data.highSchool[0].graduateYear
         }
       ],
       juniorCollege: [
         {
-          name: data.juniorCollegeName,
-          degree: data.juniorCollegeDegree,
-          graduateYear: data.juniorCollegeGraduateYear
+          name: data.juniorCollege[0].name,
+          degree: data.juniorCollege[0].degree,
+          graduateYear: data.juniorCollege[0].graduateYear
         }
       ],
       university: [
         {
-          name: data.universityName,
-          degree: data.universityDegree,
-          graduateYear: data.universityGraduateYear
+          name: data.university[0].name,
+          degree: data.university[0].degree,
+          graduateYear: data.university[0].graduateYear
         }
       ],
       openToWork: data.openToWork,
       workExperience: [
         {
-          title: data.workExperienceTitle,
-          start: data.workExperienceStart,
-          end: data.workExperienceEnd,
-          company: data.workExperienceCompany,
-          description: data.workExperienceDescription
+          title: data.workExperience[0].title,
+          start: data.workExperience[0].start,
+          end: data.workExperience[0].end,
+          company: data.workExperience[0].company,
+          description: data.workExperience[0].description
         }
       ],
       professionalTraining: [
         {
-          description: data.profTrainingDescription,
-          year: data.profTrainingYear
+          description: data.professionalTraining[0].description,
+          year: data.professionalTraining[0].year
         }
       ],
       languages: data.languages,
       hobbies: data.hobbies,
       familyMembers: [
         {
-          name: data.familyMember1Name,
-          bond: data.familyMember1bond
+          name: data.familyMembers[0].name,
+          bond: data.familyMembers[0].bond
         },
         {
-          name: data.familyMember2Name,
-          bond: data.familyMember2bond
+          name: data.familyMembers[1].name,
+          bond: data.familyMembers[1].bond
         },
         {
-          name: data.familyMember3Name,
-          bond: data.familyMember3bond
+          name: data.familyMembers[2].name,
+          bond: data.familyMembers[2].bond
         },
         {
-          name: data.familyMember4Name,
-          bond: data.familyMember4bond
+          name: data.familyMembers[3].name,
+          bond: data.familyMembers[3].bond
         }
       ],
       availability: [
         {
           monday: 'Monday',
-          available: data.availabilityCheckMonday,
-          from: data.availabilityFromMonday,
-          to: data.availabilityToMonday
+          available: data.availability[0].available,
+          from: data.availability[0].from,
+          to: data.availability[0].to
         },
         {
           Tuesday: 'Tuesday',
-          available: data.availabilityCheckTuesday,
-          from: data.availabilityFromTuesday,
-          to: data.availabilityToTuesday
+          available: data.availability[1].available,
+          from: data.availability[1].from,
+          to: data.availability[1].to
         },
         {
           Wednesday: 'Wednesday',
-          available: data.availabilityCheckWednesday,
-          from: data.availabilityFromWednesday,
-          to: data.availabilityToWednesday
+          available: data.availability[2].available,
+          from: data.availability[2].from,
+          to: data.availability[2].to
         },
         {
           Thursday: 'Thursday',
-          available: data.availabilityCheckThursday,
-          from: data.availabilityFromThursday,
-          to: data.availabilityToThursday
+          available: data.availability[3].available,
+          from: data.availability[3].from,
+          to: data.availability[3].to
         },
         {
           Friday: 'Friday',
-          available: data.availabilityCheckFriday,
-          from: data.availabilityFromFriday,
-          to: data.availabilityToFriday
+          available: data.availability[4].available,
+          from: data.availability[4].from,
+          to: data.availability[4].to
         },
         {
           Saturday: 'Saturday',
-          available: data.availabilityCheckSaturday,
-          from: data.availabilityFromSaturday,
-          to: data.availabilityToSaturday
+          available: data.availability[5].available,
+          from: data.availability[5].from,
+          to: data.availability[5].to
         },
         {
           Sunday: 'Sunday',
-          available: data.availabilityCheckSunday,
-          from: data.availabilityFromSunday,
-          to: data.availabilityToSunday
+          available: data.availability[6].available,
+          from: data.availability[6].from,
+          to: data.availability[6].to
         }
       ]
     })
@@ -323,6 +326,7 @@ export const updatePostulant = (id, data) => (dispatch) => {
       return data.json();
     })
     .then((response) => {
+      console.log('aca', response);
       dispatch(updatePostulantFulfilled(response));
       return response;
     })

@@ -53,8 +53,8 @@ export const addCounselor = (data) => (dispatch) => {
       firstName: data.firstName,
       lastName: data.lastName,
       email: data.email,
-      gender: data.gendere,
-      adress: data.adress,
+      gender: data.gender,
+      adress: data.address,
       birthday: data.birthday,
       city: data.city,
       country: data.country,
@@ -93,7 +93,7 @@ export const addCounselor = (data) => (dispatch) => {
 
   return fetch(`${URL}/counselors/add`, options)
     .then((data) => {
-      if (data.status !== 201) {
+      if (data.status !== 200) {
         return data.json().then(({ message }) => {
           throw message;
         });
