@@ -23,10 +23,9 @@ const ClientsForm = () => {
 
   const history = useHistory();
 
-  const isLoading = useSelector((store) => store.admins.isLoading);
-  const error = useSelector((store) => store.admins.error);
-  const errorMessage = useSelector((store) => store.admins.errorMessage);
-  const selectedClient = useSelector((store) => store.admins.selected);
+  const isLoading = useSelector((store) => store.clients.isLoading);
+  const error = useSelector((store) => store.clients.error);
+  const errorMessage = useSelector((store) => store.clients.errorMessage);
 
   const params = new URLSearchParams(window.location.search);
   const clientId = params.get('id');
@@ -37,26 +36,19 @@ const ClientsForm = () => {
     }, []);
   }
 
-  useEffect(() => {
-    setCompanyNameValue(selectedClient.companyName ?? '');
-    setCompanyTypeValue(selectedClient.companyType ?? '');
-    setCityValue(selectedClient.city ?? '');
-    setCountryValue(selectedClient.country ?? '');
-    setEmailValue(selectedClient.email ?? '');
-    setPhoneValue(selectedClient.phone ?? '');
-    setOpenPositionsValue(selectedClient.openPositions ?? '');
-
-    if (!clientId) {
-      setCompanyNameValue('');
-      setCompanyTypeValue('');
-      setCityValue('');
-      setCountryValue('');
-      setEmailValue('');
-      setPhoneValue('');
-      setOpenPositionsValue('');
-    }
-  }, [selectedClient]);
-
+  if (clientId) {
+    useEffect(() => {
+      dispatch(getOneClient(clientId)).then((selected) => {
+        setCompanyNameValue(selected.companyName ?? '-');
+        setCompanyTypeValue(selected.companyType ?? '-');
+        setCityValue(selected.city ?? '-');
+        setCountryValue(selected.country ?? '-');
+        setEmailValue(selected.email ?? '-');
+        setPhoneValue(selected.phone ?? '-');
+        setOpenPositionsValue(selected.openPositions ?? '-');
+      });
+    }, []);
+  }
   const onChangeCompanyNameValue = (event) => {
     setCompanyNameValue(event.target.value);
   };
@@ -122,10 +114,6 @@ const ClientsForm = () => {
     setShowModal(true);
   };
 
-  // const closeErrorMessage = () => {
-  //   setShowErrorModal(false);
-  // };
-
   if (isLoading) return <IsLoading />;
 
   return (
@@ -145,7 +133,7 @@ const ClientsForm = () => {
       />
       <ErrorModal
         showModal={error}
-        closeModal={() => errorToDefault()}
+        closeModal={() => dispatch(errorToDefault())}
         titleText="Error"
         middleText={errorMessage}
         buttonText="ok"

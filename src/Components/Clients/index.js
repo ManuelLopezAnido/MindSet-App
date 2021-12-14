@@ -23,13 +23,11 @@ function Clients() {
   const error = useSelector((store) => store.clients.error);
   const errorMessage = useSelector((store) => store.clients.errorMessage);
 
-  console.log('clients', clients);
-
   useEffect(() => {
     if (!clients.length) {
       dispatch(getClients());
     }
-  }, [dispatch]);
+  }, [clients]);
 
   const onDeleteClient = () => {
     dispatch(deleteClient(selectedId));
@@ -40,9 +38,9 @@ function Clients() {
     setShowModal(false);
   };
 
-  const handleIdClient = (event, id) => {
+  const handleIdClient = (event, selectedId) => {
     event.stopPropagation();
-    setSelectedId(id);
+    setSelectedId(selectedId);
     setShowModal(true);
   };
 
@@ -66,7 +64,7 @@ function Clients() {
       />
       <ErrorModal
         showModal={error}
-        closeModal={errorToDefault}
+        closeModal={() => dispatch(errorToDefault())}
         titleText="Error"
         middleText={errorMessage}
         buttonText="ok"

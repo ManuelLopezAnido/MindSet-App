@@ -28,7 +28,7 @@ export const getClients = () => (dispatch) => {
 
 export const getOneClient = (id) => (dispatch) => {
   dispatch(getOneClientFetching());
-  return fetch(`${URL}/clients/${id}`)
+  return fetch(`${URL}/clients/id/${id}`)
     .then((response) => {
       if (response.status != 200) throw response.message;
       return response.json();
@@ -50,21 +50,20 @@ export const addClient = (data) => (dispatch) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      companyName: data.companyNameValue,
-      companyType: data.companyTypeValue,
-      city: data.cityValue,
-      country: data.countryValue,
-      email: data.emailValue,
-      phone: data.phoneValue,
-      openPositions: data.openPositionsValue
+      companyName: data.companyName,
+      companyType: data.companyType,
+      city: data.city,
+      country: data.country,
+      email: data.email,
+      phone: data.phone,
+      openPositions: data.openPositions
     })
   };
 
   dispatch(addClientFetching());
-
-  return fetch(`${URL}/clients/create`, options)
+  return fetch(`${URL}/clients/add`, options)
     .then((data) => {
-      if (data.status !== 201) {
+      if (data.status !== 200) {
         return data.json().then(({ message }) => {
           throw message;
         });
@@ -76,6 +75,7 @@ export const addClient = (data) => (dispatch) => {
       return response;
     })
     .catch((error) => {
+      console.log('error', error);
       dispatch(addClientRejected(error));
       return error;
     });
@@ -89,13 +89,13 @@ export const updateClient = (id, data) => (dispatch) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      companyName: data.companyNameValue,
-      companyType: data.companyTypeValue,
-      city: data.cityValue,
-      country: data.countryValue,
-      email: data.emailValue,
-      phone: data.phoneValue,
-      openPositions: data.openPositionsValue
+      companyName: data.companyName,
+      companyType: data.companyType,
+      city: data.city,
+      country: data.country,
+      email: data.email,
+      phone: data.phone,
+      openPositions: data.openPositions
     })
   })
     .then((data) => {
@@ -106,7 +106,10 @@ export const updateClient = (id, data) => (dispatch) => {
       dispatch(updateClientFulfilled(response));
       return response;
     })
-    .catch((error) => dispatch(updateClientRejected(error)));
+    .catch((error) => {
+      dispatch(updateClientRejected(error));
+      return error;
+    });
 };
 
 export const deleteClient = (id) => (dispatch) => {
@@ -121,5 +124,8 @@ export const deleteClient = (id) => (dispatch) => {
       if (response.status != 200) throw response;
       dispatch(deleteClientFulfilled(id));
     })
-    .catch((error) => dispatch(deleteClientRejected(error.statusText)));
+    .catch((error) => {
+      dispatch(deleteClientRejected(error.statusText));
+      return error;
+    });
 };
