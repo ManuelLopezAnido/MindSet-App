@@ -55,7 +55,7 @@ const reducer = (state = initialState, action) => {
     case GET_ONE_POSITION_FULFILLED:
       return {
         ...state,
-        selected: action.payload.data,
+        selected: action.payload,
         isLoading: false
       };
     case GET_ONE_POSITION_REJECTED:

@@ -5,6 +5,7 @@ import ErrorModal from '../Shared/ErrorModal';
 import IsLoading from '../Shared/IsLoading/IsLoading';
 import Button from '../Shared/Button/Button';
 import DeleteButton from '../Shared/DeleteButton/DeleteButton';
+import NoData from '../Shared/NoData/NoData';
 import { getPositions, deletePosition } from '../../redux/positions/thunks';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -49,7 +50,7 @@ function Positions() {
   const closeErrorMessage = () => {
     dispatch(errorToDefault());
   };
-
+  console.log(listPositions.length);
   if (isLoading) return <IsLoading />;
 
   return (
@@ -103,6 +104,7 @@ function Positions() {
           ))}
         </tbody>
       </table>
+      <NoData data={listPositions.length} />
     </section>
   );
 }

@@ -34,6 +34,9 @@ export const getOnePosition = (id) => (dispatch) => {
       return response.json();
     })
     .then((response) => {
+      {
+        console.log('the fullflied position is: ', response.deploy);
+      }
       dispatch(getOnePositionFulfilled(response));
       return response;
     })
