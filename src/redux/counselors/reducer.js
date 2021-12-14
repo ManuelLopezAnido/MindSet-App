@@ -77,7 +77,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        list: [...state.list, action.payload]
+        list: [...state.list, action.payload.data]
       };
     case ADD_COUNSELOR_REJECTED:
       return {

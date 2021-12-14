@@ -81,18 +81,18 @@ const Councelor = () => {
           </tr>
         </thead>
         <tbody>
-          {counselors.map((councelor) => {
+          {counselors.map((counselor) => {
             return (
               <tr
-                key={councelor._id}
+                key={counselor._id}
                 onClick={() => {
-                  window.location.replace(`councelors/form?id=${councelor._id}`);
+                  window.location.replace(`councelors/form?id=${counselor._id}`);
                 }}
               >
-                <td>{councelor.firstName}</td>
-                <td>{councelor.lastName}</td>
+                <td>{counselor.firstName}</td>
+                <td>{counselor.lastName}</td>
                 <td>
-                  <DeleteButton onClick={(event) => handleIdCouncelor(event, councelor._id)} />
+                  <DeleteButton onClick={(event) => handleIdCouncelor(event, counselor._id)} />
                 </td>
               </tr>
             );

@@ -44,6 +44,7 @@ export const getOneCounselor = (id) => (dispatch) => {
 };
 
 export const addCounselor = (data) => (dispatch) => {
+  console.log(data);
   const options = {
     method: 'POST',
     headers: {
@@ -53,39 +54,44 @@ export const addCounselor = (data) => (dispatch) => {
       firstName: data.firstName,
       lastName: data.lastName,
       email: data.email,
-      gender: data.gendere,
-      adress: data.adress,
+      gender: data.gender,
+      address: data.address,
       birthday: data.birthday,
       city: data.city,
       country: data.country,
       phone: data.phone,
-      availability: {
-        monday: {
-          availability: data.monday,
-          from: data.mondayFrom,
-          to: data.mondayTo
+      availability: [
+        {
+          day: 'Monday',
+          available: data.availability[0].available,
+          from: data.availability[0].from,
+          to: data.availability[0].to
         },
-        tuesday: {
-          availability: data.tuesday,
-          from: data.tuesdayFrom,
-          to: data.tuesdayTo
+        {
+          day: 'Tuesday',
+          available: data.availability[1].available,
+          from: data.availability[1].from,
+          to: data.availability[1].to
         },
-        wednesday: {
-          availability: data.wednesday,
-          from: data.wednesdayFrom,
-          to: data.wednesdayTo
+        {
+          day: 'Wednesday',
+          available: data.availability[2].available,
+          from: data.availability[2].from,
+          to: data.availability[2].to
         },
-        thursday: {
-          availability: data.thursday,
-          from: data.thursdayFrom,
-          to: data.thursdayTo
+        {
+          day: 'Thursday',
+          available: data.availability[3].available,
+          from: data.availability[3].from,
+          to: data.availability[3].to
         },
-        friday: {
-          availability: data.friday,
-          from: data.fridayFrom,
-          to: data.fridayTo
+        {
+          day: 'Friday',
+          available: data.availability[4].available,
+          from: data.availability[4].from,
+          to: data.availability[4].to
         }
-      }
+      ]
     })
   };
 
@@ -93,7 +99,7 @@ export const addCounselor = (data) => (dispatch) => {
 
   return fetch(`${URL}/counselors/add`, options)
     .then((data) => {
-      if (data.status !== 201) {
+      if (data.status !== 200) {
         return data.json().then(({ message }) => {
           throw message;
         });
@@ -111,6 +117,7 @@ export const addCounselor = (data) => (dispatch) => {
 };
 
 export const updateCounselor = (id, data) => (dispatch) => {
+  console.log(data);
   dispatch(updateCounselorFetching());
   return fetch(`${URL}/counselors/update/${id}`, {
     method: 'PUT',
@@ -122,38 +129,43 @@ export const updateCounselor = (id, data) => (dispatch) => {
       lastName: data.lastName,
       email: data.email,
       gender: data.gender,
-      adress: data.adress,
+      address: data.address,
       birthday: data.birthday,
       city: data.city,
       country: data.country,
       phone: data.phone,
-      availability: {
-        monday: {
-          availability: data.monday,
-          from: data.mondayFrom,
-          to: data.mondayTo
+      availability: [
+        {
+          day: 'Monday',
+          available: data.availability[0].available,
+          from: data.availability[0].from,
+          to: data.availability[0].to
         },
-        tuesday: {
-          availability: data.tuesday,
-          from: data.tuesdayFrom,
-          to: data.tuesdayTo
+        {
+          day: 'Tuesday',
+          available: data.availability[1].available,
+          from: data.availability[1].from,
+          to: data.availability[1].to
         },
-        wednesday: {
-          availability: data.wednesday,
-          from: data.wednesdayFrom,
-          to: data.wednesdayTo
+        {
+          day: 'Wednesday',
+          available: data.availability[2].available,
+          from: data.availability[2].from,
+          to: data.availability[2].to
         },
-        thursday: {
-          availability: data.thursday,
-          from: data.thursdayFrom,
-          to: data.thursdayTo
+        {
+          day: 'Thursday',
+          available: data.availability[3].available,
+          from: data.availability[3].from,
+          to: data.availability[3].to
         },
-        friday: {
-          availability: data.friday,
-          from: data.fridayFrom,
-          to: data.fridayTo
+        {
+          day: 'Friday',
+          available: data.availability[4].available,
+          from: data.availability[4].from,
+          to: data.availability[4].to
         }
-      }
+      ]
     })
   })
     .then((data) => {
@@ -164,7 +176,9 @@ export const updateCounselor = (id, data) => (dispatch) => {
       dispatch(updateCounselorFulfilled(response));
       return response;
     })
-    .catch((error) => dispatch(updateCounselorRejected(error)));
+    .catch((error) => {
+      dispatch(updateCounselorRejected(error));
+    });
 };
 
 export const deleteCounselor = (id) => (dispatch) => {

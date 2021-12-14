@@ -23,20 +23,20 @@ const CouncelorsForm = () => {
   const [countryValue, setCountryValue] = useState([]);
   const [phoneValue, setPhoneValue] = useState([]);
   const [mondayValue, setMondayValue] = useState(false);
-  const [mondayFromValue, setMondayFromValue] = useState([]);
-  const [mondayToValue, setMondayToValue] = useState([]);
+  const [mondayFromValue, setMondayFromValue] = useState('');
+  const [mondayToValue, setMondayToValue] = useState('');
   const [tuesdayValue, setTuesdayValue] = useState(false);
-  const [tuesdayFromValue, setTuesdayFromValue] = useState([]);
-  const [tuesdayToValue, setTuesdayToValue] = useState([]);
+  const [tuesdayFromValue, setTuesdayFromValue] = useState('');
+  const [tuesdayToValue, setTuesdayToValue] = useState('');
   const [wednesdayValue, setWednesdayValue] = useState(false);
-  const [wednesdayFromValue, setWednesdayFromValue] = useState([]);
-  const [wednesdayToValue, setWednesdayToValue] = useState([]);
+  const [wednesdayFromValue, setWednesdayFromValue] = useState('');
+  const [wednesdayToValue, setWednesdayToValue] = useState('');
   const [thursdayValue, setThursdayValue] = useState(false);
-  const [thursdayFromValue, setThursdayFromValue] = useState([]);
-  const [thursdayToValue, setThursdayToValue] = useState([]);
+  const [thursdayFromValue, setThursdayFromValue] = useState('');
+  const [thursdayToValue, setThursdayToValue] = useState('');
   const [fridayValue, setFridayValue] = useState(false);
-  const [fridayFromValue, setFridayFromValue] = useState([]);
-  const [fridayToValue, setFridayToValue] = useState([]);
+  const [fridayFromValue, setFridayFromValue] = useState('');
+  const [fridayToValue, setFridayToValue] = useState('');
   const [emailError, setEmailError] = useState(false);
   const [birthdayError, setBirthdayError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
@@ -53,6 +53,7 @@ const CouncelorsForm = () => {
   if (counselorId) {
     useEffect(() => {
       dispatch(getOneCounselor(counselorId)).then((selected) => {
+        console.log(selected);
         setFirstNameValue(selected.firstName ?? '-');
         setLastNameValue(selected.lastName ?? '-');
         setEmailValue(selected.email ?? '-');
@@ -62,21 +63,21 @@ const CouncelorsForm = () => {
         setCityValue(selected.city ?? '-');
         setCountryValue(selected.country ?? '-');
         setPhoneValue(selected.phone ?? '-');
-        setMondayValue(selected.availability?.day[0] ?? '-');
-        setMondayFromValue(selected.lastName ?? '-');
-        setMondayToValue(selected.lastName ?? '-');
-        setTuesdayValue(selected.lastName ?? '-');
-        setTuesdayFromValue(selected.lastName ?? '-');
-        setTuesdayToValue(selected.lastName ?? '-');
-        setWednesdayValue(selected.lastName ?? '-');
-        setWednesdayFromValue(selected.lastName ?? '-');
-        setWednesdayToValue(selected.lastName ?? '-');
-        setThursdayValue(selected.lastName ?? '-');
-        setThursdayFromValue(selected.lastName ?? '-');
-        setThursdayToValue(selected.lastName ?? '-');
-        setFridayValue(selected.lastName ?? '-');
-        setFridayFromValue(selected.lastName ?? '-');
-        setFridayToValue(selected.lastName ?? '-');
+        setMondayValue(selected.availability[0].available);
+        setMondayFromValue(selected.availability[0].from ?? '-');
+        setMondayToValue(selected.availability[0].to ?? '-');
+        setTuesdayValue(selected.availability[1].available);
+        setTuesdayFromValue(selected.availability[1].from ?? '-');
+        setTuesdayToValue(selected.availability[1].to ?? '-');
+        setWednesdayValue(selected.availability[2].available);
+        setWednesdayFromValue(selected.availability[2].from ?? '-');
+        setWednesdayToValue(selected.availability[2].to ?? '-');
+        setThursdayValue(selected.availability[3].available);
+        setThursdayFromValue(selected.availability[3].from ?? '-');
+        setThursdayToValue(selected.availability[3].to ?? '-');
+        setFridayValue(selected.availability[4].available);
+        setFridayFromValue(selected.availability[4].from ?? '-');
+        setFridayToValue(selected.availability[4].to ?? '-');
       });
     }, []);
   }
@@ -118,7 +119,7 @@ const CouncelorsForm = () => {
   };
 
   const onChangeAvailabilityMonday = (event) => {
-    String(setMondayValue(event.target.value)) === true;
+    setMondayValue(event.target.checked);
   };
 
   const onChangeFromMonday = (event) => {
@@ -130,7 +131,7 @@ const CouncelorsForm = () => {
   };
 
   const onChangeAvailabilityTuesday = (event) => {
-    setTuesdayValue(event.target.value);
+    setTuesdayValue(event.target.checked);
   };
 
   const onChangeFromTuesday = (event) => {
@@ -142,7 +143,7 @@ const CouncelorsForm = () => {
   };
 
   const onChangeAvailabilityWednesday = (event) => {
-    setWednesdayValue(event.target.value);
+    setWednesdayValue(event.target.checked);
   };
 
   const onChangeFromWednesday = (event) => {
@@ -154,7 +155,7 @@ const CouncelorsForm = () => {
   };
 
   const onChangeAvailabilityThursday = (event) => {
-    setThursdayValue(event.target.value);
+    setThursdayValue(event.target.checked);
   };
 
   const onChangeFromThursday = (event) => {
@@ -166,7 +167,7 @@ const CouncelorsForm = () => {
   };
 
   const onChangeAvailabilityFriday = (event) => {
-    setFridayValue(event.target.value);
+    setFridayValue(event.target.checked);
   };
 
   const onChangeFromFriday = (event) => {
@@ -190,21 +191,38 @@ const CouncelorsForm = () => {
           city: cityValue,
           country: countryValue,
           phone: phoneValue,
-          monday: mondayValue,
-          mondayFrom: mondayFromValue,
-          mondayTo: mondayToValue,
-          tuesday: tuesdayValue,
-          tuesdayFrom: tuesdayFromValue,
-          tuesdayTo: tuesdayToValue,
-          wednesday: wednesdayValue,
-          wednesdayFrom: wednesdayFromValue,
-          wednesdayTo: wednesdayToValue,
-          thursday: thursdayValue,
-          thursdayFrom: thursdayFromValue,
-          thursdayTo: thursdayToValue,
-          friday: fridayValue,
-          fridayFrom: fridayFromValue,
-          fridayTo: fridayToValue
+          availability: [
+            {
+              day: 'Monday',
+              available: mondayValue,
+              from: mondayFromValue,
+              to: mondayToValue
+            },
+            {
+              day: 'Tuesday',
+              available: tuesdayValue,
+              from: tuesdayFromValue,
+              to: tuesdayToValue
+            },
+            {
+              day: 'Wednesday',
+              available: wednesdayValue,
+              from: wednesdayFromValue,
+              to: wednesdayToValue
+            },
+            {
+              day: 'Thursday',
+              available: thursdayValue,
+              from: thursdayFromValue,
+              to: thursdayToValue
+            },
+            {
+              day: 'Friday',
+              available: fridayValue,
+              from: fridayFromValue,
+              to: fridayToValue
+            }
+          ]
         })
       ).then((response) => {
         if (response) {
@@ -223,20 +241,38 @@ const CouncelorsForm = () => {
           city: cityValue,
           country: countryValue,
           phone: phoneValue,
-          monday: mondayValue,
-          mondayFrom: mondayFromValue,
-          mondayTo: mondayToValue,
-          tuesday: tuesdayValue,
-          tuesdayFrom: tuesdayFromValue,
-          tuesdayTo: tuesdayToValue,
-          wednesday: wednesdayValue,
-          wednesdayFrom: wednesdayFromValue,
-          wednesdayTo: wednesdayToValue,
-          thursday: thursdayValue,
-          thursdayFrom: thursdayFromValue,
-          thursdayTo: thursdayToValue,
-          friday: fridayValue,
-          fridayFrom: fridayFromValue
+          availability: [
+            {
+              day: 'Monday',
+              available: mondayValue,
+              from: mondayFromValue,
+              to: mondayToValue
+            },
+            {
+              day: 'Tuesday',
+              available: tuesdayValue,
+              from: tuesdayFromValue,
+              to: tuesdayToValue
+            },
+            {
+              day: 'Wednesday',
+              available: wednesdayValue,
+              from: wednesdayFromValue,
+              to: wednesdayToValue
+            },
+            {
+              day: 'Thursday',
+              available: thursdayValue,
+              from: thursdayFromValue,
+              to: thursdayToValue
+            },
+            {
+              day: 'Friday',
+              available: fridayValue,
+              from: fridayFromValue,
+              to: fridayToValue
+            }
+          ]
         })
       ).then((response) => {
         if (response) {
@@ -456,8 +492,14 @@ const CouncelorsForm = () => {
         <Error showError={phoneError} text={'Telephones with # () and blanks are not valid'} />
         <div className={styles.availabilityContainer}>
           <div className={styles.day}>
-            <div onChange={onChangeAvailabilityMonday} className={styles.eachDay}>
-              <Input label="Monday" type="checkbox" value={true} name="monday" />
+            <div className={styles.eachDay}>
+              <Input
+                label="Monday"
+                type="checkbox"
+                onChange={onChangeAvailabilityMonday}
+                checked={mondayValue}
+                name="monday"
+              />
             </div>
             <div>
               <Input
@@ -481,8 +523,14 @@ const CouncelorsForm = () => {
             </div>
           </div>
           <div className={styles.day}>
-            <div onChange={onChangeAvailabilityTuesday} className={styles.eachDay}>
-              <Input label="Tuesday" type="checkbox" value={true} name="tuesday" />
+            <div className={styles.eachDay}>
+              <Input
+                label="Tuesday"
+                type="checkbox"
+                onChange={onChangeAvailabilityTuesday}
+                checked={tuesdayValue}
+                name="tuesday"
+              />
             </div>
             <div>
               <Input
@@ -506,8 +554,14 @@ const CouncelorsForm = () => {
             </div>
           </div>
           <div className={styles.day}>
-            <div onChange={onChangeAvailabilityWednesday} className={styles.eachDay}>
-              <Input label="Wednesday" type="checkbox" value={true} name="wednesday" />
+            <div className={styles.eachDay}>
+              <Input
+                label="Wednesday"
+                type="checkbox"
+                onChange={onChangeAvailabilityWednesday}
+                checked={wednesdayValue}
+                name="wednesday"
+              />
             </div>
             <div>
               <Input
@@ -531,8 +585,14 @@ const CouncelorsForm = () => {
             </div>
           </div>
           <div className={styles.day}>
-            <div onChange={onChangeAvailabilityThursday} className={styles.eachDay}>
-              <Input label="Thursday" type="checkbox" value={true} name="thursday" />
+            <div className={styles.eachDay}>
+              <Input
+                label="Thursday"
+                type="checkbox"
+                onChange={onChangeAvailabilityThursday}
+                checked={thursdayValue}
+                name="thursday"
+              />
             </div>
             <div>
               <Input
@@ -556,8 +616,14 @@ const CouncelorsForm = () => {
             </div>
           </div>
           <div className={styles.day}>
-            <div onChange={onChangeAvailabilityFriday} className={styles.eachDay}>
-              <Input label="Friday" type="checkbox" value={true} name="thursday" />
+            <div className={styles.eachDay}>
+              <Input
+                label="Friday"
+                type="checkbox"
+                onChange={onChangeAvailabilityFriday}
+                checked={fridayValue}
+                name="friday"
+              />
             </div>
             <div>
               <Input
