@@ -49,7 +49,6 @@ const reducer = (state = initialState, action) => {
     case GET_ONE_POSITION_FETCHING:
       return {
         ...state,
-        error: false,
         isLoading: true
       };
     case GET_ONE_POSITION_FULFILLED:
@@ -62,8 +61,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: true,
-        errorMessage: action.payload
+        error: action.payload
       };
 
     case ADD_POSITION_FETCHING:

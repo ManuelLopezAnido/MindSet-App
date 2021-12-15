@@ -6,7 +6,8 @@ import ErrorModal from '../../Shared/ErrorModal';
 import IsLoading from '../../Shared/IsLoading/IsLoading';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { getOnePosition } from '../../../redux/positions/thunks';
+import { addPosition, getOnePosition, updatePosition } from '../../../redux/positions/thunks';
+import { errorToDefault } from '../../../redux/positions/actions';
 
 const PositionsForm = () => {
   const [jobTitle, setJobTitle] = useState('');
@@ -17,11 +18,11 @@ const PositionsForm = () => {
   const [country, setCountry] = useState('');
   const [datePosted, setDatePosted] = useState('');
   const [closingDate, setClosingDate] = useState('');
-  const [showErrorModal, setShowErrorModal] = useState('');
+
   const [showModal, setShowModal] = useState(false);
 
   const dispatch = useDispatch();
-  const historty = useHistory();
+  const history = useHistory();
 
   const isLoading = useSelector((store) => store.positions.isLoading);
   const error = useSelector((store) => store.positions.error);
@@ -68,58 +69,48 @@ const PositionsForm = () => {
     setjobDescription(selectedPosition.companyName ?? '');
     setCity(selectedPosition.city ?? '');
     setCountry(selectedPosition.country ?? '');
-    setCountry(selectedPosition.country ?? '');
     setDatePosted(selectedPosition.datePosted ?? '');
     setClosingDate(selectedPosition.closingDate ?? '');
   }, [selectedPosition]);
 
   const submit = () => {
-    let url;
-    const options = {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        jobTitle: jobTitle,
-        clientId: clientId,
-        companyName: companyName,
-        jobDescription: jobDescription,
-        city: city,
-        country: country,
-        datePosted: datePosted,
-        closingDate: closingDate
-      })
-    };
-
-    if (posId === null) {
-      options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/positions/create`;
-    } else {
-      options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/positions/update/${posId}`;
-    }
-
-    fetch(url, options)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
-          return response.json().then(({ ErrMessage }) => {
-            throw new Error(ErrMessage);
-          });
+    if (posId) {
+      dispatch(
+        updatePosition(posId, {
+          jobTitle: jobTitle,
+          clientId: clientId,
+          companyName: companyName,
+          city: city,
+          country: country,
+          datePosted: datePosted,
+          closingDate: closingDate
+        })
+      ).then((response) => {
+        if (response) {
+          history.push('/positions');
         }
-      })
-      .then(() => {
-        window.location.href = `/positions`;
-      })
-      .catch((error) => {
-        setShowErrorModal(true);
-      })
-      .finally(() => {
-        setShowModal(false);
       });
+    } else {
+      dispatch(
+        addPosition({
+          jobTitle: jobTitle,
+          clientId: clientId,
+          companyName: companyName,
+          city: city,
+          country: country,
+          datePosted: datePosted,
+          closingDate: closingDate
+        })
+      ).then((response) => {
+        if (response) {
+          history.push('/positions');
+        }
+      });
+    }
   };
 
   const closeErrorMessage = () => {
-    setShowErrorModal(false);
+    dispatch(errorToDefault());
   };
 
   const closeModal = () => setShowModal(false);
@@ -147,7 +138,7 @@ const PositionsForm = () => {
         rightButtonText="cancel"
       />
       <ErrorModal
-        showModal={showErrorModal}
+        showModal={error}
         closeModal={closeErrorMessage}
         titleText="Error"
         buttonText="ok"

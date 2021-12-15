@@ -30,7 +30,7 @@ export const getOnePosition = (id) => (dispatch) => {
   dispatch(getOnePositionFetching());
   return fetch(`${URL}/positions/${id}`)
     .then((response) => {
-      if (response.status != 200) throw response.message;
+      if (response.status != 200) throw response;
       return response.json();
     })
     .then((response) => {
@@ -41,7 +41,10 @@ export const getOnePosition = (id) => (dispatch) => {
       return response;
     })
     .catch((error) => {
-      dispatch(getOnePositionRejected(error));
+      {
+        console.log('the error position is: ', error.statusText);
+      }
+      dispatch(getOnePositionRejected(error.statusText));
       return error;
     });
 };
