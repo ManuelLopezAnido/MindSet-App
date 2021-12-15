@@ -28,14 +28,14 @@ export const getPositions = () => (dispatch) => {
 
 export const getOnePosition = (id) => (dispatch) => {
   dispatch(getOnePositionFetching());
-  return fetch(`${URL}/positions/${id}`)
+  fetch(`${URL}/positions/id/${id}`)
     .then((response) => {
       if (response.status != 200) throw response;
       return response.json();
     })
     .then((response) => {
       {
-        console.log('the fullflied position is: ', response.deploy);
+        console.log('the fullflied position is: ', response);
       }
       dispatch(getOnePositionFulfilled(response));
       return response;

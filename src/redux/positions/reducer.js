@@ -36,7 +36,8 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        list: action.payload
+        list: action.payload,
+        selected: {}
       };
     }
     case GET_POSITIONS_REJECTED:
