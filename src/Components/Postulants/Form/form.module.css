@@ -1,5 +1,4 @@
 .container {
-  /* display: flex; */
   height: 100%;
   overflow-y: scroll;
   width: 100%;
@@ -10,8 +9,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* width: 100%; */
-  /* overflow-y: scroll; */
 }
 
 .sendFormButton {
@@ -24,4 +21,5 @@
   background-color: #002147;
   color: white;
   font-weight: bold;
+  cursor: pointer;
 }
