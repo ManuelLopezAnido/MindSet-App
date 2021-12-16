@@ -45,8 +45,8 @@ const Routes = () => {
         <Route path="/postulants/form" component={PostulantsForm} />
         <Route path="/postulants/form/:id" component={PostulantsForm} />
         <Route exact path="/profiles" component={Profiles} />
-        <Route path="/profiles/form" component={ProfilesForm} />
-        <Route path="/profiles/form/:id" component={ProfilesForm} />
+        <Route path="/workprofiles/form" component={ProfilesForm} />
+        <Route path="/workprofiles/form/:id" component={ProfilesForm} />
         <Route exact path="/counselors" component={Councelors} />
         <Route path="/councelors/form" component={CouncelorsForm} />
         <Route path="/councelors/form/:id" component={CouncelorsForm} />
