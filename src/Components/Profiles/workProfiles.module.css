@@ -1,20 +1,12 @@
 .container {
-  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-tbody {
+.container * > tbody {
   text-align: center;
-}
-
-.workProfileLink {
-  font-weight: bold;
-  text-decoration: inherit;
-  color: #000;
-  margin: 40px;
 }
 
 .addButton {
@@ -25,16 +17,12 @@ tbody {
   border: none;
   border-radius: 7px;
   background-color: #002147;
-  color: #fff;
+  color: white;
   font-weight: bold;
 }
 
-.workProfile_workProfileRow {
-  border: 3px solid #ff0000;
-}
-
 .workProfileRow:hover :not(.deleteButtonTD, .deleteIcon, img) {
-  background: #d3d3d3;
+  background: lightgrey;
   cursor: pointer;
 }
 
@@ -42,4 +30,12 @@ tbody {
   background: none;
   border: none;
   cursor: pointer;
+}
+
+.titleAndButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-bottom: 2px solid #dedede;
 }

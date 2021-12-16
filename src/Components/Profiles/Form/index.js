@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
-import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import Input from '../../Shared/Input';
+import Modal from '../../Shared/Modal';
+import ErrorModal from '../../Shared/ErrorModal';
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
 const ProfilesForm = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [showModalMessageError, setShowModalMessageError] = useState(false);
-  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangeName = (event) => {
     setName(event.target.value);
@@ -19,8 +24,8 @@ const ProfilesForm = () => {
   const workProfileId = params.get('id');
 
   useEffect(() => {
-    console.log(workProfileId);
     if (workProfileId) {
+      setIsLoading(true);
       fetch(`${process.env.REACT_APP_API}/workprofiles/${workProfileId}`)
         .then((response) => {
           if (response.status !== 200) {
@@ -31,19 +36,20 @@ const ProfilesForm = () => {
           return response.json();
         })
         .then((response) => {
-          console.log(response);
           setName(response.workProfile.name);
           setDescription(response.workProfile.description);
         })
         .catch((error) => {
-          setShowModalMessageError(true);
-          setShowModalMessageErrorMessage(JSON.stringify(error.message));
-        });
+          setShowErrorModal(true);
+          setShowErrorModalMessage(JSON.stringify(error.message));
+        })
+        .finally(() => setIsLoading(false));
     }
   }, []);
 
-  const onSubmit = (event) => {
+  const submit = (event) => {
     event.preventDefault();
+    setIsLoading(true);
     let url;
 
     const options = {
@@ -74,26 +80,56 @@ const ProfilesForm = () => {
         return (window.location.href = `/profiles`);
       })
       .catch((error) => {
-        setShowModalMessageErrorMessage(error.toString());
-        setShowModalMessageError(true);
+        setShowErrorModalMessage(error.toString());
+        setShowErrorModal(true);
+      })
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
       });
   };
 
-  const closeModalMessageError = () => {
-    setShowModalMessageError(false);
+  const closeModal = () => {
+    setShowModal(false);
   };
+
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
+  };
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setShowModal(true);
+  };
+
+  if (isLoading) return <IsLoading />;
 
   return (
     <div>
-      <ErrorMessage
-        show={showModalMessageError}
-        closeModalMessageError={closeModalMessageError}
-        setShowModalMessageError={setShowModalMessageError}
-        showModalMessageErrorMessage={showModalMessageErrorMessage}
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        actionEntity={submit}
+        titleText="Save"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to save these changes?'
+          }
+        ]}
+        leftButtonText="save"
+        rightButtonText="cancel"
+      />
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
       />
       <h1>Form</h1>
       <form className={styles.container} onSubmit={onSubmit}>
-        <input
+        <Input
+          label="Profile name"
           id="name"
           name="profileName"
           required
@@ -101,7 +137,8 @@ const ProfilesForm = () => {
           onChange={onChangeName}
           placeholder="Profile"
         />
-        <input
+        <Input
+          label="Profile description"
           id="description"
           name="profileDescription"
           value={description}

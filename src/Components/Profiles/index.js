@@ -1,34 +1,40 @@
 import { useEffect, useState } from 'react';
 import styles from './workProfiles.module.css';
-import ModalWorkProfiles from './Modal/ModalWorkProfiles';
-import ErrorMessage from './ErrorMessage/ErrorMessage';
-import deleteIcon from '../../assets/images/delete-icon.png';
+import Modal from '../Shared/Modal';
+import ErrorModal from '../Shared/ErrorModal';
+import IsLoading from '../Shared/IsLoading/IsLoading';
+import Button from '../Shared/Button/Button';
+import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 
 function WorkProfiles() {
   const [showModal, setShowModal] = useState(false);
-  const [showModalMessageError, setShowModalMessageError] = useState(false);
-  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [workProfiles, saveWorkProfiles] = useState([]);
   const [selectedId, setSelectedId] = useState('');
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${process.env.REACT_APP_API}/workprofiles`)
       .then((response) => response.json())
       .then((response) => {
         saveWorkProfiles(response.workProfiles);
       })
       .catch((error) => {
-        setShowModalMessageError(true);
-        setShowModalMessageErrorMessage(JSON.stringify(error.message));
-      });
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const addWorkProfile = () => {
     window.location.href = `/workprofiles/form`;
   };
 
-  const deleteWorkProfile = (id) => {
-    const url = `${process.env.REACT_APP_API}/workprofiles/delete/${id}`;
+  const deleteWorkProfile = () => {
+    setIsLoading(true);
+    const url = `${process.env.REACT_APP_API}/workprofiles/delete/${selectedId}`;
     fetch(url, {
       method: 'DELETE',
       headers: {
@@ -41,22 +47,16 @@ function WorkProfiles() {
             throw new Error(message);
           });
         }
-        return;
+        saveWorkProfiles(workProfiles.filter((workProfile) => workProfile._id !== selectedId));
       })
       .catch((error) => {
-        setShowModalMessageError(true);
-        setShowModalMessageErrorMessage(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
       });
-    closeModal();
-    saveWorkProfiles(workProfiles.filter((workProfile) => workProfile._id !== id));
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const closeModalMessageError = () => {
-    setShowModalMessageErrorMessage(false);
   };
 
   const handleWorkProfile = (event, id) => {
@@ -65,22 +65,43 @@ function WorkProfiles() {
     setShowModal(true);
   };
 
-  console.log('workProfiles', workProfiles);
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
+  };
+
+  if (isLoading) return <IsLoading />;
+
   return (
     <section className={styles.container}>
-      <ModalWorkProfiles
-        show={showModal}
+      <Modal
+        showModal={showModal}
         closeModal={closeModal}
-        deleteWorkProfile={deleteWorkProfile}
+        actionEntity={deleteWorkProfile}
         selectedId={selectedId}
+        titleText="Delete a profile"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to delete this profile?'
+          }
+        ]}
+        leftButtonText="delete"
+        rightButtonText="cancel"
       />
-      <ErrorMessage
-        show={showModalMessageError}
-        closeModalMessageError={closeModalMessageError}
-        setShowModalMessageError={setShowModalMessageError}
-        showModalMessageErrorMessage={showModalMessageErrorMessage}
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
       />
-      <h2>Profiles</h2>
+      <div className={styles.titleAndButton}>
+        <h3>Profiles</h3>
+        <Button onClick={addWorkProfile} value="Profile" />
+      </div>
       <table>
         <thead>
           <th>Name</th>
@@ -96,20 +117,12 @@ function WorkProfiles() {
               <td>{workProfile.name}</td>
               <td>{workProfile.description}</td>
               <td className={styles.deleteButtonTD}>
-                <button
-                  className={styles.deleteIcon}
-                  onClick={(event) => handleWorkProfile(event, workProfile._id)}
-                >
-                  <img src={deleteIcon} />
-                </button>
+                <DeleteButton onClick={(event) => handleWorkProfile(event, workProfile._id)} />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <button className={styles.addButton} onClick={addWorkProfile}>
-        ADD PROFILE
-      </button>
     </section>
   );
 }
