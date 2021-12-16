@@ -10,13 +10,6 @@
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 100vh;
-}
-
 .container {
   display: flex;
   flex-direction: column;
@@ -45,44 +38,16 @@ body {
 
 .eachDay{
   display: flex;
-  flex-wrap: wrap;
-  width: 120px;
+  justify-content: space-between;
+  width: 280px;
 }
 
-.eachDay>p{
-  margin: 0;
-  width: 100%;
-  font-size: 15px;
-  font-weight: bold;
-}
-
-.eachDay>label{
-  margin-top: 2px;
-  width: 40%;
-  font-size: 14px;
-}
-
-.eachDay>input{
-  margin-top: 18px;
-  width: 40%;
-  height: 1.4em;
-}
-
-.fromTo{
+.eachDay input{
   display: flex;
-  flex-wrap: wrap;
-  height: 40px;
+  margin-top: 5px;
+  width: 15px;
 }
 
-.fromTo>label{
-  margin: 0px 0px 8px 6px;
-  width: 80%;
-  font-size: 15px;
-  font-weight: bold;
-}
-
-.fromTo>Input{
-  margin: 6px;
-  width: 80px;
-  height: 20px;
+.eachDay label{
+  width: 20%;
 }
