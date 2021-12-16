@@ -610,20 +610,24 @@ const PostulantsForm = () => {
             setValue={setProfTrainingYearValue}
           />
         </div>
-        <Input
-          label="Languages"
-          id="languages"
-          type="text"
-          value={languagesValue}
-          setValue={setLanguagesValue}
-        />
-        <Input
-          label="Hobbies"
-          id="hobbies"
-          type="text"
-          value={hobbiesValue}
-          setValue={setHobbiesValue}
-        />
+        <div>
+          <Input
+            label="Languages"
+            id="languages"
+            type="text"
+            value={languagesValue}
+            setValue={setLanguagesValue}
+          />
+        </div>
+        <div>
+          <Input
+            label="Hobbies"
+            id="hobbies"
+            type="text"
+            value={hobbiesValue}
+            setValue={setHobbiesValue}
+          />
+        </div>
         <div className={styles.family}>
           <h3>Family</h3>
           <div>
