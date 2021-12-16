@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
-import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import Input from '../../Shared/Input';
+import Modal from '../../Shared/Modal';
+import ErrorModal from '../../Shared/ErrorModal';
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
 const InterviewsForm = () => {
   const [jobTitle, setJobTitle] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [dateValue, setDate] = useState('');
   const [timeValue, setTime] = useState('');
-  const [showModalMessageError, setShowModalMessageError] = useState(false);
-  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangeJobTitle = (event) => {
     setJobTitle(event.target.value);
@@ -28,6 +33,7 @@ const InterviewsForm = () => {
 
   useEffect(() => {
     if (interviewId) {
+      setIsLoading(true);
       fetch(`${process.env.REACT_APP_API}/interviews/${interviewId}`)
         .then((response) => {
           if (response.status !== 200) {
@@ -44,14 +50,16 @@ const InterviewsForm = () => {
           setTime(response.time);
         })
         .catch((error) => {
-          setShowModalMessageError(true);
-          setShowModalMessageErrorMessage(JSON.stringify(error.message));
-        });
+          setShowErrorModal(true);
+          setShowErrorModalMessage(JSON.stringify(error.message));
+        })
+        .finally(() => setIsLoading(false));
     }
   }, []);
 
-  const onSubmit = (event) => {
+  const submit = (event) => {
     event.preventDefault();
+    setIsLoading(true);
     let url;
 
     const options = {
@@ -84,26 +92,56 @@ const InterviewsForm = () => {
         return (window.location.href = `/interviews`);
       })
       .catch((error) => {
-        setShowModalMessageErrorMessage(error.toString());
-        setShowModalMessageError(true);
+        setShowErrorModalMessage(error.toString());
+        setShowErrorModal(true);
+      })
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
       });
   };
 
-  const closeModalMessageError = () => {
-    setShowModalMessageError(false);
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
   };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setShowModal(true);
+  };
+
+  if (isLoading) return <IsLoading />;
 
   return (
     <div>
-      <ErrorMessage
-        show={showModalMessageError}
-        closeModalMessageError={closeModalMessageError}
-        setShowModalMessageError={setShowModalMessageError}
-        showModalMessageErrorMessage={showModalMessageErrorMessage}
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        actionEntity={submit}
+        titleText="Save"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to save these changes?'
+          }
+        ]}
+        leftButtonText="save"
+        rightButtonText="cancel"
+      />
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
       />
       <h1>Form</h1>
       <form className={styles.container} onSubmit={onSubmit}>
-        <input
+        <Input
+          label="Job"
           id="jobTitle"
           name="jobTitleName"
           required
@@ -111,23 +149,29 @@ const InterviewsForm = () => {
           onChange={onChangeJobTitle}
           placeholder="Job"
         />
-        <input
+        <Input
+          label="Company"
           id="companyName"
           name="companyName"
+          required
           value={companyName}
           onChange={onChangeCompanyName}
           placeholder="Company Name"
         />
-        <input
+        <Input
+          label="Date"
           id="date"
           name="date"
+          required
           value={dateValue.substring(0, 10)}
           onChange={onChangeDate}
           placeholder="E.G. 07/12/2021"
         />
-        <input
+        <Input
+          label="Time"
           id="time"
           name="time"
+          required
           value={timeValue}
           onChange={onChangeTime}
           placeholder="Type the hour"

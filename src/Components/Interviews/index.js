@@ -1,34 +1,40 @@
 import { useEffect, useState } from 'react';
 import styles from './interviews.module.css';
-import ModalInterview from './Modal/ModalInterview';
-import ErrorMessage from './ErrorMessage/ErrorMessage';
-import deleteIcon from '../../assets/images/delete-icon.png';
+import Modal from '../Shared/Modal';
+import ErrorModal from '../Shared/ErrorModal';
+import IsLoading from '../Shared/IsLoading/IsLoading';
+import Button from '../Shared/Button/Button';
+import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 
 function Interviews() {
   const [showModal, setShowModal] = useState(false);
-  const [showModalMessageError, setShowModalMessageError] = useState(false);
-  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
   const [interviews, saveInterviews] = useState([]);
   const [selectedId, setSelectedId] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${process.env.REACT_APP_API}/interviews`)
       .then((response) => response.json())
       .then((response) => {
         saveInterviews(response);
       })
       .catch((error) => {
-        setShowModalMessageError(true);
-        setShowModalMessageErrorMessage(JSON.stringify(error.message));
-      });
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const addInterview = () => {
     window.location.href = `/interviews/form`;
   };
 
-  const deleteInterview = (id) => {
-    const url = `${process.env.REACT_APP_API}/interviews/delete/${id}`;
+  const deleteInterview = () => {
+    setIsLoading(true);
+    const url = `${process.env.REACT_APP_API}/interviews/delete/${selectedId}`;
     fetch(url, {
       method: 'DELETE',
       headers: {
@@ -41,22 +47,24 @@ function Interviews() {
             throw new Error(message);
           });
         }
-        return;
+        saveInterviews(interviews.filter((interview) => interview._id !== selectedId));
       })
       .catch((error) => {
-        setShowModalMessageError(true);
-        setShowModalMessageErrorMessage(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
       });
-    closeModal();
-    saveInterviews(interviews.filter((interview) => interview._id !== id));
   };
 
   const closeModal = () => {
     setShowModal(false);
   };
 
-  const closeModalMessageError = () => {
-    setShowModalMessageErrorMessage(false);
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
   };
 
   const handleIdInterview = (event, id) => {
@@ -65,22 +73,36 @@ function Interviews() {
     setShowModal(true);
   };
 
+  if (isLoading) return <IsLoading />;
+
   return (
     <section className={styles.container}>
-      <ModalInterview
-        show={showModal}
+      <Modal
+        showModal={showModal}
         closeModal={closeModal}
-        deleteInterview={deleteInterview}
+        actionEntity={deleteInterview}
         selectedId={selectedId}
+        titleText="Delete an interview"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to delete this interview?'
+          }
+        ]}
+        leftButtonText="delete"
+        rightButtonText="cancel"
       />
-      <ErrorMessage
-        show={showModalMessageError}
-        closeModalMessageError={closeModalMessageError}
-        setShowModalMessageError={setShowModalMessageError}
-        showModalMessageErrorMessage={showModalMessageErrorMessage}
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
       />
-      <h2>Interviews</h2>
-      <table>
+      <div className={styles.titleAndButton}>
+        <h3>Interviews</h3>
+        <Button onClick={addInterview} value="Interview" />
+      </div>
+      <table className={styles.list}>
         <thead>
           <th>Job Title</th>
           <th>Company Name</th>
@@ -98,21 +120,13 @@ function Interviews() {
               <td>{interview.companyName}</td>
               <td>{interview.date.substring(0, 10)}</td>
               <td>{interview.time}</td>
-              <td className={styles.deleteButtonTD}>
-                <button
-                  className={styles.deleteIcon}
-                  onClick={(event) => handleIdInterview(event, interview._id)}
-                >
-                  <img src={deleteIcon} />
-                </button>
+              <td>
+                <DeleteButton onClick={(event) => handleIdInterview(event, interview._id)} />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <button className={styles.addButton} onClick={addInterview}>
-        ADD INTERVIEW
-      </button>
     </section>
   );
 }

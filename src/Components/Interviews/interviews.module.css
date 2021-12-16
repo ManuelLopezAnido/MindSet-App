@@ -1,20 +1,17 @@
 .container {
-  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 80%;
 }
 
-tbody {
+.container * > tbody {
   text-align: center;
 }
 
-.interviewLink {
-  font-weight: bold;
-  text-decoration: inherit;
-  color: #000;
-  margin: 40px;
+.list {
+  width: 100%;
 }
 
 .addButton {
@@ -25,16 +22,12 @@ tbody {
   border: none;
   border-radius: 7px;
   background-color: #002147;
-  color: #fff;
+  color: white;
   font-weight: bold;
 }
 
-.interviews_interviewRow {
-  border: 3px solid #ff0000;
-}
-
 .interviewRow:hover :not(.deleteButtonTD, .deleteIcon, img) {
-  background: #d3d3d3;
+  background: lightgrey;
   cursor: pointer;
 }
 
@@ -42,4 +35,12 @@ tbody {
   background: none;
   border: none;
   cursor: pointer;
+}
+
+.titleAndButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-bottom: 2px solid #dedede;
 }
