@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import styles from './clients.module.css';
-import ModalClient from './Modal/ModalClient';
-import ErrorMessageModal from './ErrorMessageModal/ErrorMessageModal';
+import Modal from '../Shared/Modal';
+import ErrorModal from '../Shared/ErrorModal';
 import IsLoading from '../Shared/IsLoading/IsLoading';
 import Button from '../Shared/Button/Button';
 import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 
 function Clients() {
-  const [showModal, setShowModal] = useState(false);
-  const [showModalMessageError, setShowModalMessageError] = useState(false);
-  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
   const [clients, saveClients] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -22,8 +22,8 @@ function Clients() {
         saveClients(response.data);
       })
       .catch((error) => {
-        setShowModalMessageError(true);
-        setShowModalMessageErrorMessage(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
       })
       .finally(() => setIsLoading(false));
   }, []);
@@ -32,9 +32,9 @@ function Clients() {
     window.location.href = `/clients/form`;
   };
 
-  const deleteClient = (id) => {
+  const deleteClient = () => {
     setIsLoading(true);
-    const url = `${process.env.REACT_APP_API}/clients/delete/${id}`;
+    const url = `${process.env.REACT_APP_API}/clients/delete/${selectedId}`;
     fetch(url, {
       method: 'DELETE',
       headers: {
@@ -47,23 +47,20 @@ function Clients() {
             throw new Error(message);
           });
         }
-        return;
+        saveClients(clients.filter((client) => client._id !== selectedId));
       })
       .catch((error) => {
-        setShowModalMessageError(true);
-        setShowModalMessageErrorMessage(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.msg));
       })
-      .finally(() => setIsLoading(false));
-    closeModal();
-    saveClients(clients.filter((client) => client._id !== id));
+      .finally(() => {
+        setIsLoading(false);
+        setShowModal(false);
+      });
   };
 
   const closeModal = () => {
     setShowModal(false);
-  };
-
-  const closeModalMessageError = () => {
-    setShowModalMessageErrorMessage(false);
   };
 
   const handleIdClient = (event, id) => {
@@ -72,21 +69,33 @@ function Clients() {
     setShowModal(true);
   };
 
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
+  };
   if (isLoading) return <IsLoading />;
 
   return (
     <section className={styles.container}>
-      <ModalClient
-        show={showModal}
+      <Modal
+        showModal={showModal}
         closeModal={closeModal}
-        deleteClient={deleteClient}
+        actionEntity={deleteClient}
         selectedId={selectedId}
+        titleText="Delete a client"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to delete this client?'
+          }
+        ]}
+        leftButtonText="delete"
+        rightButtonText="cancel"
       />
-      <ErrorMessageModal
-        show={showModalMessageError}
-        closeModalMessageError={closeModalMessageError}
-        setShowModalMessageError={setShowModalMessageError}
-        showModalMessageErrorMessage={showModalMessageErrorMessage}
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
       />
       <div className={styles.titleAndButton}>
         <h3>Clients</h3>
@@ -94,12 +103,14 @@ function Clients() {
       </div>
       <table>
         <thead>
-          <th>Name</th>
-          <th>Company Type</th>
-          <th>Email</th>
-          <th>Country</th>
-          <th>Phone</th>
-          <th>Actions</th>
+          <tr>
+            <th>Name</th>
+            <th>Company Type</th>
+            <th>Email</th>
+            <th>Country</th>
+            <th>Phone</th>
+            <th>Actions</th>
+          </tr>
         </thead>
         <tbody>
           {clients.map((client) => (

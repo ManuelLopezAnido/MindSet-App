@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
+import Input from '../../Shared/Input';
+import Modal from '../../Shared/Modal';
+import ErrorModal from '../../Shared/ErrorModal';
+import IsLoading from '../../Shared/IsLoading/IsLoading';
 
-const ApplicationForm = () => {
+const FormApplication = () => {
+  const [showModal, setShowModal] = useState(false);
   const [position, setPositionName] = useState('');
   const [company, setCompany] = useState('');
   const [postulant, setPostulant] = useState('');
   const [applicationState, setAppState] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangePosition = (event) => {
     setPositionName(event.target.value);
@@ -39,11 +47,16 @@ const ApplicationForm = () => {
           setCompany(response.companyId);
           setPostulant(response.postulantId ? response.postulantId : 'No id'); // Bad DB. Applications with no postulantID exist
           setAppState(response.applicationState);
-        });
+        })
+        .catch((error) => {
+          setShowErrorModal(true);
+          setShowErrorModalMessage(JSON.stringify(error.message));
+        })
+        .finally(() => setIsLoading(false));
     }
   }, []);
-  const onSubmit = (event) => {
-    event.preventDefault();
+
+  const submit = () => {
     let url;
     const options = {
       headers: {
@@ -74,43 +87,88 @@ const ApplicationForm = () => {
         window.location.href = `/applications`;
       })
       .catch((error) => {
-        return error;
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
       });
   };
+
+  if (isLoading) return <IsLoading />;
+
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
+  };
+
+  const closeModal = () => setShowModal(false);
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setShowModal(true);
+  };
+
   return (
     <div>
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        actionEntity={submit}
+        titleText="Save"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to save these changes?'
+          }
+        ]}
+        leftButtonText="save"
+        rightButtonText="cancel"
+      />
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
+      />
       <h1>Form</h1>
       <form className={styles.container} onSubmit={onSubmit}>
-        <input
+        <Input
+          label="Position"
           id="position"
           name="positionName"
+          type="string"
           required
           value={position}
           onChange={onChangePosition}
-          placeholder="Position"
-        ></input>
-        <input
+        />
+        <Input
+          label="Company Name"
           id="company"
           name="companyName"
+          type="string"
           required
           value={company}
           onChange={onChangeCompany}
-          placeholder="Company Name"
-        ></input>
-        <input
+        />
+        <Input
+          label="Postulant"
           id="postulant"
           name="postulantName"
+          type="string"
+          required
           value={postulant}
           onChange={onChangePostulant}
-          placeholder="Postulant Name"
-        ></input>
-        <input
+        />
+        <Input
+          label="State"
           id="applicationState"
           name="applicationName"
+          type="string"
+          required
           value={applicationState}
           onChange={onChangeAppState}
-          placeholder="State"
-        ></input>
+        />
         <button className={styles.sendFormButton} type="submit">
           SEND
         </button>
@@ -119,4 +177,4 @@ const ApplicationForm = () => {
   );
 };
 
-export default ApplicationForm;
+export default FormApplication;

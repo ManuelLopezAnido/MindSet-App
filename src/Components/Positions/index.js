@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './positions.module.css';
-import ModalPositons from './Modal/modalPositions.js';
+import Modal from '../Shared/Modal';
+import ErrorModal from '../Shared/ErrorModal';
 import IsLoading from '../Shared/IsLoading/IsLoading';
 import Button from '../Shared/Button/Button';
 import DeleteButton from '../Shared/DeleteButton/DeleteButton';
@@ -9,6 +10,8 @@ function Positions() {
   const [showModal, setShowModal] = useState(false);
   const [positions, setPositions] = useState([]);
   const [selectedId, setSelectedId] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -16,8 +19,11 @@ function Positions() {
     fetch(`${process.env.REACT_APP_API}/positions`)
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         setPositions(response);
+      })
+      .catch((error) => {
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
       })
       .finally(() => setIsLoading(false));
   }, []);
@@ -26,9 +32,9 @@ function Positions() {
     window.location.href = `/positions/form`;
   };
 
-  const deletePosition = (idPos) => {
+  const deletePosition = () => {
+    const url = `${process.env.REACT_APP_API}/positions/delete/${selectedId}`;
     setIsLoading(true);
-    const url = `${process.env.REACT_APP_API}/positions/delete/${idPos}`;
     fetch(url, {
       method: 'DELETE',
       headers: {
@@ -41,30 +47,56 @@ function Positions() {
             throw new Error(ErrMessage);
           });
         }
-        closeModal();
-        setPositions(positions.filter((a) => a._id !== idPos));
+        setPositions(positions.filter((a) => a._id !== selectedId));
       })
-      .catch((error) => error)
-      .finally(() => setIsLoading(false));
+      .catch((error) => {
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
+      });
   };
-  const closeModal = () => {
-    setShowModal(false);
-  };
+
   const handleIdPosition = (event, id) => {
     event.stopPropagation();
     setSelectedId(id);
     setShowModal(true);
   };
 
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
+  };
+
   if (isLoading) return <IsLoading />;
 
   return (
     <section className={styles.container}>
-      <ModalPositons
-        show={showModal}
+      <Modal
+        showModal={showModal}
         closeModal={closeModal}
-        delete={deletePosition}
+        actionEntity={deletePosition}
         selectedId={selectedId}
+        titleText="Delete a position"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to delete this position?'
+          }
+        ]}
+        leftButtonText="delete"
+        rightButtonText="cancel"
+      />
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
       />
       <div className={styles.titleAndButton}>
         <h3>Positions</h3>

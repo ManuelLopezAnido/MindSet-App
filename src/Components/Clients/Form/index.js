@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
-import ErrorMessageModal from '../ErrorMessageModal/ErrorMessageModal';
+import Input from '../../Shared/Input';
+import ErrorModal from '../../Shared/ErrorModal';
+import Modal from '../../Shared/Modal';
 import IsLoading from '../../Shared/IsLoading/IsLoading';
 
 const ClientsForm = () => {
+  const [showModal, setShowModal] = useState(false);
   const [companyNameValue, setCompanyNameValue] = useState('');
   const [companyTypeValue, setCompanyTypeValue] = useState('');
   const [cityValue, setCityValue] = useState('');
@@ -11,8 +14,8 @@ const ClientsForm = () => {
   const [emailValue, setEmailValue] = useState('');
   const [phoneValue, setPhoneValue] = useState('');
   const [openPositionsValue, setOpenPositionsValue] = useState([]);
-  const [showModalMessageError, setShowModalMessageError] = useState(false);
-  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const onChangeCompanyNameValue = (event) => {
@@ -62,16 +65,17 @@ const ClientsForm = () => {
           setOpenPositionsValue(response.openPositions);
         })
         .catch((error) => {
-          setShowModalMessageError(true);
-          setShowModalMessageErrorMessage(JSON.stringify(error.message));
-          setIsLoading(false);
+          setShowErrorModal(true);
+          setShowErrorModalMessage(JSON.stringify(error.message));
         })
-        .finally(() => setIsLoading(false));
+        .finally(() => {
+          setIsLoading(false);
+          setShowModal(false);
+        });
     }
   }, []);
 
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const submit = () => {
     setIsLoading(true);
     let url;
 
@@ -108,80 +112,115 @@ const ClientsForm = () => {
         return (window.location.href = `/clients`);
       })
       .catch((error) => {
-        setShowModalMessageErrorMessage(error.toString());
-        setShowModalMessageError(true);
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
+      });
   };
 
-  const closeModalMessageError = () => {
-    setShowModalMessageError(false);
+  const closeModal = () => setShowModal(false);
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setShowModal(true);
+  };
+
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
   };
 
   if (isLoading) return <IsLoading />;
 
   return (
     <div>
-      <ErrorMessageModal
-        show={showModalMessageError}
-        closeModalMessageError={closeModalMessageError}
-        setShowModalMessageError={setShowModalMessageError}
-        showModalMessageErrorMessage={showModalMessageErrorMessage}
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        actionEntity={submit}
+        titleText="Save"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to save these changes?'
+          }
+        ]}
+        leftButtonText="save"
+        rightButtonText="cancel"
+      />
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
       />
       <h1>Form</h1>
       <form className={styles.container} onSubmit={onSubmit}>
-        <input
+        <Input
+          label="Company Name"
           id="companyName"
           name="companyName"
+          type="string"
           required
           value={companyNameValue}
           onChange={onChangeCompanyNameValue}
-          placeholder="Company Name"
         />
-        <input
+        <Input
+          label="Company Type"
           id="companyType"
           name="companyType"
+          type="string"
           required
           value={companyTypeValue}
           onChange={onChangeCompanyType}
-          placeholder="Company Type"
         />
-        <input id="city" name="city" value={cityValue} onChange={onChangeCity} placeholder="City" />
-        <input
+        <Input
+          label="City"
+          id="city"
+          name="companyType"
+          type="string"
+          required
+          value={cityValue}
+          onChange={onChangeCity}
+        />
+        <Input
+          label="Country"
           id="country"
           name="country"
+          type="string"
+          required
           value={countryValue}
           onChange={onChangeCountry}
-          placeholder="Country"
         />
-        <input
+        <Input
+          label="Email"
           id="email"
           name="email"
           type="email"
           required
           value={emailValue}
           onChange={onChangeEmail}
-          placeholder="Email"
           pattern="^[^@]+@[^@]+\.[a-zA-Z]{2,}$"
-          title="Type a correct email"
         />
-        <input
+        <Input
+          label="Phone"
           id="phone"
           name="phone"
           type="number"
           required
           value={phoneValue}
           onChange={onChangePhone}
-          placeholder="Phone"
           pattern="^[0-9]*$"
-          title="Type a correct phone number"
         />
-        <input
+        <Input
+          label="Open Positions"
           id="openPositions"
           name="openPositions"
+          required
           value={openPositionsValue}
           onChange={onChangeOpenPositions}
-          placeholder="Open Positions"
         />
         <button className={styles.sendFormButton} type="submit">
           SEND

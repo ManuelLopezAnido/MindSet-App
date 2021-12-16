@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
 import styles from './form.module.css';
-import Input from '../Input';
-import ErrorMessageModal from '../ErrorMessageModal';
+import Input from '../../Shared/Input';
+import Modal from '../../Shared/Modal';
+import ErrorModal from '../../Shared/ErrorModal';
 import IsLoading from '../../Shared/IsLoading/IsLoading';
 
 const params = new URLSearchParams(window.location.search);
 const postulantId = params.get('_id');
 
 const PostulantsForm = () => {
-  const [showModalMessageError, setShowModalMessageError] = useState(false);
-  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
-
+  const [showModal, setShowModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
   const [firstNameValue, setFirstNameValue] = useState('');
   const [lastNameValue, setLastNameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
@@ -101,8 +102,8 @@ const PostulantsForm = () => {
           onLoading(response);
         })
         .catch((error) => {
-          setShowModalMessageError(true);
-          setShowModalMessageErrorMessage(JSON.stringify(error.message));
+          setShowErrorModal(true);
+          setShowErrorModalMessage(JSON.stringify(error.message));
         })
         .finally(() => setIsLoading(false));
     }, []);
@@ -190,8 +191,7 @@ const PostulantsForm = () => {
     setAvailabilityToSundayValue(data.availability[6]?.to || '-');
   };
 
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const submit = () => {
     setIsLoading(true);
     const data = {
       firstName: firstNameValue,
@@ -329,25 +329,49 @@ const PostulantsForm = () => {
         window.location.href = `${window.location.origin}/postulants`;
       })
       .catch((error) => {
-        setShowModalMessageError(true);
-        setShowModalMessageErrorMessage(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
+      });
   };
 
-  const closeModalMessageError = () => {
-    setShowModalMessageError(false);
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
+  };
+
+  const closeModal = () => setShowModal(false);
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setShowModal(true);
   };
 
   if (isLoading) return <IsLoading />;
 
   return (
     <div className={styles.container}>
-      <ErrorMessageModal
-        show={showModalMessageError}
-        closeModalMessageError={closeModalMessageError}
-        setShowModalMessageError={setShowModalMessageError}
-        showModalMessageErrorMessage={showModalMessageErrorMessage}
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        actionEntity={submit}
+        titleText="Save"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to save these changes?'
+          }
+        ]}
+        leftButtonText="save"
+        rightButtonText="cancel"
+      />
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
       />
       <form action="" className={styles.form} onSubmit={onSubmit}>
         <h2>
@@ -356,7 +380,7 @@ const PostulantsForm = () => {
         <div className={styles.generalInformation}>
           <h3>General Information</h3>
           <Input
-            label="firstName"
+            label="First Name"
             id="firstName"
             type="text"
             value={firstNameValue}
@@ -364,7 +388,7 @@ const PostulantsForm = () => {
             required
           />
           <Input
-            label="lastName"
+            label="Last Name"
             id="lastName"
             type="text"
             value={lastNameValue}
@@ -372,7 +396,7 @@ const PostulantsForm = () => {
             required
           />
           <Input
-            label="email"
+            label="Email"
             id="email"
             type="email"
             value={emailValue}
@@ -380,7 +404,7 @@ const PostulantsForm = () => {
             required
           />
           <Input
-            label="phone"
+            label="Phone"
             id="phone"
             type="number"
             value={phoneValue}
@@ -388,7 +412,7 @@ const PostulantsForm = () => {
             required
           />
           <Input
-            label="dateOfBirth"
+            label="Date Of Birth"
             id="dateOfBirth"
             type="date"
             value={dateOfBirthValue}
@@ -396,7 +420,7 @@ const PostulantsForm = () => {
             required
           />
           <Input
-            label="gender"
+            label="Gender"
             id="gender"
             type="text"
             value={genderValue}
@@ -404,7 +428,7 @@ const PostulantsForm = () => {
             required
           />
           <Input
-            label="city"
+            label="City"
             id="city"
             type="text"
             value={cityValue}
@@ -412,7 +436,7 @@ const PostulantsForm = () => {
             required
           />
           <Input
-            label="state"
+            label="State"
             id="state"
             type="text"
             value={stateValue}
@@ -420,7 +444,7 @@ const PostulantsForm = () => {
             required
           />
           <Input
-            label="country"
+            label="Country"
             id="country"
             type="text"
             value={countryValue}

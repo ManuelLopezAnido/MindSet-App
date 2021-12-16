@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import styles from './councelors.module.css';
-import Modal from '../Councelors/Modal';
+import Modal from '../Shared/Modal';
 import Error from '../Councelors/Error';
-import ErrorMessage from '../Councelors/ErrorMessage';
+import ErrorModal from '../Shared/ErrorModal';
 import IsLoading from '../Shared/IsLoading/IsLoading';
 import Button from '../Shared/Button/Button';
 import DeleteButton from '../Shared/DeleteButton/DeleteButton';
@@ -11,8 +11,8 @@ const Councelor = () => {
   const [councelors, saveCouncelors] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [errorMessageText, setErrorMessageText] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -23,8 +23,8 @@ const Councelor = () => {
         saveCouncelors(response.data);
       })
       .catch((error) => {
-        setShowErrorMessage(true);
-        setErrorMessageText(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
       })
       .finally(() => setIsLoading(false));
   }, []);
@@ -33,12 +33,13 @@ const Councelor = () => {
     window.location.replace(`councelors/form`);
   };
 
-  const deleteCouncelor = (id) => {
+  const deleteCouncelor = () => {
     setIsLoading(true);
+
     const options = {
       method: 'DELETE'
     };
-    const url = `${process.env.REACT_APP_API}/counselors/delete/${id}`;
+    const url = `${process.env.REACT_APP_API}/counselors/delete/${selectedId}`;
     fetch(url, options)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201) {
@@ -46,17 +47,19 @@ const Councelor = () => {
             throw new Error(message);
           });
         }
-        saveCouncelors(councelors.filter((councelor) => councelor._id !== id));
-        setShowModal(false);
+        saveCouncelors(councelors.filter((councelor) => councelor._id !== selectedId));
       })
       .catch((error) => {
-        setShowErrorMessage(true);
-        setErrorMessageText(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
+      });
   };
 
-  const onShowModal = (id, event) => {
+  const handleIdCouncelor = (event, id) => {
     event.stopPropagation();
     setShowModal(true);
     setSelectedId(id);
@@ -66,8 +69,8 @@ const Councelor = () => {
     setShowModal(false);
   };
 
-  const closeError = () => {
-    setShowErrorMessage(false);
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
   };
 
   if (isLoading) return <IsLoading />;
@@ -77,11 +80,24 @@ const Councelor = () => {
       <Modal
         showModal={showModal}
         closeModal={closeModal}
-        id={selectedId}
-        delete={deleteCouncelor}
-        text="Are you sure you want to delete the counselor selected?"
-      ></Modal>
-      <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
+        actionEntity={deleteCouncelor}
+        selectedId={selectedId}
+        titleText="Delete a counselor"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to delete this counselor?'
+          }
+        ]}
+        leftButtonText="delete"
+        rightButtonText="cancel"
+      />
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
+      />
       <div className={styles.titleAndButton}>
         <h3>Councelors</h3>
         <Button onClick={addCouncelor} value="Councelors" />
@@ -106,7 +122,7 @@ const Councelor = () => {
                 <td>{councelor.firstName}</td>
                 <td>{councelor.lastName}</td>
                 <td>
-                  <DeleteButton onClick={(event) => onShowModal(councelor._id, event)} />
+                  <DeleteButton onClick={(event) => handleIdCouncelor(event, councelor._id)} />
                 </td>
               </tr>
             );

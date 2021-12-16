@@ -1,20 +1,50 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './form.module.css';
-import Input from '../Input';
+import Input from '../../Shared/Input';
 import Error from '../Error';
 import Button from '../Button';
-import ErrorMessage from '../ErrorMessage';
+import Modal from '../../Shared/Modal';
+import ErrorModal from '../../Shared/ErrorModal';
 import IsLoading from '../../Shared/IsLoading/IsLoading';
+import { getOneAdmin, addAdmin, updateAdmin } from '../../../redux/admins/thunks';
+import { useSelector, useDispatch } from 'react-redux';
+import { errorToDefault } from '../../../redux/admins/actions';
+import { useHistory } from 'react-router-dom';
 
 const AdminsForm = () => {
+  const [showModal, setShowModal] = useState(false);
   const [emailValue, setEmailValue] = useState([]);
   const [passwordValue, setPasswordValue] = useState([]);
   const [passwordError, setPasswordError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [canSave, setCanSave] = useState(true);
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [errorMessageText, setErrorMessageText] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const history = useHistory();
+
+  const isLoading = useSelector((store) => store.admins.isLoading);
+  const error = useSelector((store) => store.admins.error);
+  const errorMessage = useSelector((store) => store.admins.errorMessage);
+  const selectedAdmin = useSelector((store) => store.admins.selected);
+
+  const params = new URLSearchParams(window.location.search);
+  const adminId = params.get('id');
+
+  if (adminId) {
+    useEffect(() => {
+      dispatch(getOneAdmin(adminId));
+    }, []);
+  }
+
+  useEffect(() => {
+    setEmailValue(selectedAdmin.email ?? '');
+    setPasswordValue(selectedAdmin.password ?? '');
+    if (!adminId) {
+      setEmailValue('');
+      setPasswordValue('');
+    }
+  }, [selectedAdmin]);
 
   const onChangeEmailInput = (event) => {
     setEmailValue(event.target.value);
@@ -23,47 +53,40 @@ const AdminsForm = () => {
   const onChangePasswordInput = (event) => {
     setPasswordValue(event.target.value);
   };
+
+  const submit = () => {
+    if (adminId) {
+      dispatch(
+        updateAdmin(adminId, {
+          email: emailValue,
+          password: passwordValue
+        })
+      ).then((response) => {
+        if (response) {
+          history.push('/admins');
+        }
+      });
+    } else {
+      dispatch(
+        addAdmin({
+          email: emailValue,
+          password: passwordValue
+        })
+      ).then((response) => {
+        if (response) {
+          history.push('/admins');
+        }
+      });
+    }
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   const onSubmit = (event) => {
     event.preventDefault();
-    setIsLoading(true);
-    const params = new URLSearchParams(window.location.search);
-    const adminId = params.get('id');
-    let url;
-
-    const options = {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: emailValue,
-        password: passwordValue
-      })
-    };
-
-    if (adminId !== null) {
-      options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/admins/update/${adminId}`;
-    } else {
-      options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/admins/create`;
-    }
-
-    fetch(url, options)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
-          return response.json().then(({ message }) => {
-            throw new Error(message);
-          });
-        }
-      })
-      .then(() => {
-        window.location.replace(`/admins`);
-      })
-      .catch((error) => {
-        setShowErrorMessage(true);
-        setErrorMessageText(JSON.stringify(error.message));
-      })
-      .finally(() => setIsLoading(false));
+    setShowModal(true);
   };
 
   const hideEmail = () => {
@@ -100,21 +123,36 @@ const AdminsForm = () => {
     }
   };
 
-  const closeError = () => {
-    setShowErrorMessage(false);
-  };
-
   if (isLoading) return <IsLoading />;
 
   return (
     <div className={styles.container}>
-      <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        actionEntity={submit}
+        titleText="Save"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to save these changes?'
+          }
+        ]}
+        leftButtonText="save"
+        rightButtonText="cancel"
+      />
+      <ErrorModal
+        showModal={error}
+        closeModal={() => errorToDefault()}
+        titleText="Error"
+        middleText={errorMessage}
+        buttonText="ok"
+      />
       <form className={styles.form} onSubmit={onSubmit}>
         <h2>Form</h2>
         <Input
+          label="Email"
           name="email"
           type="string"
-          placeholder="Email"
           required
           className={styles.input}
           value={emailValue}
@@ -124,9 +162,9 @@ const AdminsForm = () => {
         />
         <Error showError={emailError} text={'Please fill with a valid email address'} />
         <Input
+          label="Password"
           name="password"
           type="password"
-          placeholder="Password"
           required
           className={styles.input}
           value={passwordValue}

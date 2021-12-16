@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './postulants.module.css';
-import Modal from '../Postulants/Modal';
-import ErrorMessageModal from '../Postulants/ErrorMessageModal';
+import Modal from '../Shared/Modal';
+import ErrorModal from '../Shared/ErrorModal';
 import IsLoading from '../Shared/IsLoading/IsLoading';
 import Button from '../Shared/Button/Button';
 import DeleteButton from '../Shared/DeleteButton/DeleteButton';
@@ -9,11 +9,9 @@ import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 const Postulants = () => {
   const [showModal, setShowModal] = useState(false);
   const [postulants, setPostulants] = useState([]);
-  const [idToDelete, setIdToDelete] = useState('');
-  const [firstNameToDelete, setFirstNameToDelete] = useState('');
-  const [lastNameToDelete, setLastNameToDelete] = useState('');
-  const [showModalMessageError, setShowModalMessageError] = useState(false);
-  const [showModalMessageErrorMessage, setShowModalMessageErrorMessage] = useState('');
+  const [selectedId, setSelectedId] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -22,15 +20,20 @@ const Postulants = () => {
       .then((response) => response.json())
       .then((response) => setPostulants(response))
       .catch((error) => {
-        setShowModalMessageError(true);
-        setShowModalMessageErrorMessage(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
       })
       .finally(() => setIsLoading(false));
   }, []);
 
+  const redirectToForm = (postulantId) => {
+    postulantId
+      ? (window.location.href = `${window.location.pathname}/form?_id=${postulantId}`)
+      : (window.location.href = `${window.location.pathname}/form`);
+  };
+
   const deletePostulant = () => {
-    setIsLoading(true);
-    const url = `${process.env.REACT_APP_API}/postulants/delete/${idToDelete}`;
+    const url = `${process.env.REACT_APP_API}/postulants/delete/${selectedId}`;
     fetch(url, {
       method: 'DELETE',
       headers: {
@@ -43,35 +46,30 @@ const Postulants = () => {
             throw new Error(message);
           });
         }
-        setPostulants(postulants.filter((postulants) => postulants._id !== idToDelete));
+        setPostulants(postulants.filter((postulants) => postulants._id !== selectedId));
       })
       .catch((error) => {
-        setShowModalMessageError(true);
-        setShowModalMessageErrorMessage(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
       })
-      .finally(() => setIsLoading(false));
-  };
-
-  const redirectToForm = (postulantId) => {
-    postulantId
-      ? (window.location.href = `${window.location.pathname}/form?_id=${postulantId}`)
-      : (window.location.href = `${window.location.pathname}/form`);
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
+      });
   };
 
   const closeModal = () => {
     setShowModal(false);
   };
 
-  const closeModalMessageError = () => {
-    setShowModalMessageErrorMessage(false);
+  const handleIdPostulant = (event, id) => {
+    event.stopPropagation();
+    setSelectedId(id);
+    setShowModal(true);
   };
 
-  const onShowModal = (event, id, firstName, lastName) => {
-    event.stopPropagation();
-    setShowModal(true);
-    setIdToDelete(id);
-    setFirstNameToDelete(firstName);
-    setLastNameToDelete(lastName);
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
   };
 
   if (isLoading) return <IsLoading />;
@@ -81,25 +79,28 @@ const Postulants = () => {
       <Modal
         showModal={showModal}
         closeModal={closeModal}
-        actionPostulant={deletePostulant}
-        idToUse={idToDelete}
-        titleText="Warning"
-        warningText="you are about to delete a postulant"
-        buttonText="delete"
-        text="Are you sure you want to delete"
-        firstName={firstNameToDelete}
-        lastName={lastNameToDelete}
+        actionEntity={deletePostulant}
+        selectedId={selectedId}
+        titleText="Delete a postulant"
+        leftButtonText="delete"
+        rightButtonText="cancel"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to delete this postulant'
+          }
+        ]}
       />
-      <ErrorMessageModal
-        show={showModalMessageError}
-        closeModalMessageError={closeModalMessageError}
-        setShowModalMessageError={setShowModalMessageError}
-        showModalMessageErrorMessage={showModalMessageErrorMessage}
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
       />
       <div className={styles.content}>
         <div className={styles.titleAndButton}>
           <h3>Postulants</h3>
-          <Button value="Postulant" onClick={redirectToForm(null)} />
+          <Button value="Postulant" onClick={() => redirectToForm(null)} />
         </div>
         <table className={styles.list}>
           <thead>
@@ -121,11 +122,7 @@ const Postulants = () => {
                   <div>{postulant?.country || '-'}</div>
                 </td>
                 <td>
-                  <DeleteButton
-                    onClick={(event) =>
-                      onShowModal(event, postulant._id, postulant.firstName, postulant.lastName)
-                    }
-                  />
+                  <DeleteButton onClick={(event) => handleIdPostulant(event, postulant._id)} />
                 </td>
               </tr>
             ))}

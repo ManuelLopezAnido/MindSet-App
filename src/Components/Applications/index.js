@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import styles from './applications.module.css';
-import ModalApplications from './Modal/ModalApplications.js';
+import Modal from '../Shared/Modal';
+import ErrorModal from '../Shared/ErrorModal';
 import IsLoading from '../Shared/IsLoading/IsLoading';
-import ErrorMessage from '../Councelors/ErrorMessage';
 import Button from '../Shared/Button/Button';
 import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 
@@ -10,9 +10,10 @@ function Applications() {
   const [showModal, setShowModal] = useState(false);
   const [applications, setApplications] = useState([]);
   const [selectedId, setSelectedId] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
+
   const [isLoading, setIsLoading] = useState(false);
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [errorMessageText, setErrorMessageText] = useState('');
 
   useEffect(() => {
     setIsLoading(true);
@@ -21,6 +22,10 @@ function Applications() {
       .then((response) => {
         setApplications(response.data);
       })
+      .catch((error) => {
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
       .finally(() => setIsLoading(false));
   }, []);
 
@@ -28,9 +33,9 @@ function Applications() {
     window.location.href = `/applications/form`;
   };
 
-  const deleteApplication = (idApp) => {
+  const deleteApplication = () => {
     setIsLoading(true);
-    const url = `${process.env.REACT_APP_API}/applications/delete/${idApp}`;
+    const url = `${process.env.REACT_APP_API}/applications/delete/${selectedId}`;
     fetch(url, {
       method: 'DELETE',
       headers: {
@@ -43,22 +48,20 @@ function Applications() {
             throw new Error(ErrMessage);
           });
         }
-        closeModal();
-        setApplications(applications.filter((a) => a._id !== idApp));
+        setApplications(applications.filter((a) => a._id !== selectedId));
       })
       .catch((error) => {
-        setShowErrorMessage(true);
-        setErrorMessageText(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
+      });
   };
 
   const closeModal = () => {
     setShowModal(false);
-  };
-
-  const closeError = () => {
-    setShowErrorMessage(false);
   };
 
   const handleIdApplication = (event, id) => {
@@ -67,17 +70,35 @@ function Applications() {
     setShowModal(true);
   };
 
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
+  };
+
   if (isLoading) return <IsLoading />;
 
   return (
     <section className={styles.container}>
-      <ModalApplications
-        show={showModal}
+      <Modal
+        showModal={showModal}
         closeModal={closeModal}
-        delete={deleteApplication}
+        actionEntity={deleteApplication}
         selectedId={selectedId}
+        titleText="Delete an application"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to delete this application?'
+          }
+        ]}
+        leftButtonText="delete"
+        rightButtonText="cancel"
       />
-      <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
+      />
       <div className={styles.titleAndButton}>
         <h3>Applications</h3>
         <Button onClick={addApplication} value="Applications" />

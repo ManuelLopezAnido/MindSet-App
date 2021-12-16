@@ -9,7 +9,6 @@
 .container {
   display: flex;
   flex-direction: column;
-  flex: 1;
   justify-content: center;
   align-items: center;
 }
@@ -110,23 +109,10 @@
 	border: 1px solid #FDC800;
 }
 
-button {
-	box-sizing: border-box;
-	width: 100%;
-	max-width: 400px;
-	padding: 15px;
-	background: #FDC800;
-	border-bottom: 2px solid #b18b01;
-	border-top-style: none;
-	border-right-style: none;
-	border-left-style: none;
-	color: #fff;
-}
-
-.titleAndButton{
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	width: 50%;
-	border-bottom: 2px solid #dedede;
+.titleAndButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-bottom: 2px solid #dedede;
 }

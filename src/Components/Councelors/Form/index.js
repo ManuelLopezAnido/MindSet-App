@@ -1,12 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './form.module.css';
-import Input from '../Input';
+import Input from '../../Shared/Input';
 import Error from '../Error';
 import Button from '../Button';
-import ErrorMessage from '../ErrorMessage';
+import Modal from '../../Shared/Modal';
+import ErrorModal from '../../Shared/ErrorModal';
 import IsLoading from '../../Shared/IsLoading/IsLoading';
 
 const CouncelorsForm = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
   const [firstNameValue, setFirstNameValue] = useState([]);
   const [lastNameValue, setLastNameValue] = useState([]);
   const [emailValue, setEmailValue] = useState([]);
@@ -35,8 +39,49 @@ const CouncelorsForm = () => {
   const [birthdayError, setBirthdayError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
   const [canSave, setCanSave] = useState(true);
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [errorMessageText, setErrorMessageText] = useState('');
+  const params = new URLSearchParams(window.location.search);
+  const councelorId = params.get('id');
+
+  if (councelorId) {
+    useEffect(() => {
+      fetch(`${process.env.REACT_APP_API}/counselors/id/${councelorId}`)
+        .then((response) => response.json())
+        .then((response) => {
+          onLoading(response);
+        })
+        .catch((error) => {
+          setShowErrorModal(true);
+          setShowErrorModalMessage(JSON.stringify(error.message));
+        });
+    }, []);
+  }
+
+  const onLoading = (data) => {
+    setFirstNameValue(data.firstName ?? '-');
+    setLastNameValue(data.lastName ?? '-');
+    setEmailValue(data.email ?? '-');
+    setGenderValue(data.gender ?? '-');
+    setAdressValue(data.address ?? '-');
+    setBirthdayValue(data.birthday ?? '-');
+    setCityValue(data.city ?? '-');
+    setCountryValue(data.country ?? '-');
+    setPhoneValue(data.phone ?? '-');
+    setMondayValue(data.availability?.day[0] ?? '-');
+    setMondayFromValue(data.lastName ?? '-');
+    setMondayToValue(data.lastName ?? '-');
+    setTuesdayValue(data.lastName ?? '-');
+    setTuesdayFromValue(data.lastName ?? '-');
+    setTuesdayToValue(data.lastName ?? '-');
+    setWednesdayValue(data.lastName ?? '-');
+    setWednesdayFromValue(data.lastName ?? '-');
+    setWednesdayToValue(data.lastName ?? '-');
+    setThursdayValue(data.lastName ?? '-');
+    setThursdayFromValue(data.lastName ?? '-');
+    setThursdayToValue(data.lastName ?? '-');
+    setFridayValue(data.lastName ?? '-');
+    setFridayFromValue(data.lastName ?? '-');
+    setFridayToValue(data.lastName ?? '-');
+  };
   const [isLoading, setIsLoading] = useState(false);
 
   const onChangeFirstNameInput = (event) => {
@@ -77,7 +122,6 @@ const CouncelorsForm = () => {
 
   const onChangeAvailabilityMonday = (event) => {
     String(setMondayValue(event.target.value)) === true;
-    console.log(mondayValue);
   };
 
   const onChangeFromMonday = (event) => {
@@ -136,8 +180,7 @@ const CouncelorsForm = () => {
     setFridayToValue(event.target.value);
   };
 
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const submit = () => {
     setIsLoading(true);
     const params = new URLSearchParams(window.location.search);
     const councelorId = params.get('id');
@@ -195,8 +238,6 @@ const CouncelorsForm = () => {
       url = `${process.env.REACT_APP_API}/counselors/add`;
     }
 
-    console.log(options);
-
     fetch(url, options)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201) {
@@ -206,13 +247,27 @@ const CouncelorsForm = () => {
         }
       })
       .then(() => {
-        window.location.replace(`http://localhost:3000/councelors`);
+        window.location.replace(`http://localhost:3000/counselors`);
       })
       .catch((error) => {
-        setShowErrorMessage(true);
-        setErrorMessageText(JSON.stringify(error.message));
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
+      });
+  };
+
+  const closeErrorMessage = () => {
+    setShowErrorModal(false);
+  };
+
+  const closeModal = () => setShowModal(false);
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setShowModal(true);
   };
 
   const hideEmail = () => {
@@ -233,12 +288,7 @@ const CouncelorsForm = () => {
 
   const hidePhone = () => {
     setPhoneError(false);
-    if (
-      phoneValue.length < 8 ||
-      phoneValue.includes('(') ||
-      phoneValue.includes(')') ||
-      phoneValue.includes('#')
-    ) {
+    if (phoneValue.length < 8) {
       setCanSave(true);
     }
   };
@@ -305,39 +355,54 @@ const CouncelorsForm = () => {
     }
   };
 
-  const closeError = () => {
-    setShowErrorMessage(false);
-  };
-
   if (isLoading) return <IsLoading />;
 
   return (
     <div className={styles.container}>
-      <ErrorMessage show={showErrorMessage} close={closeError} text={errorMessageText} />
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        actionEntity={submit}
+        titleText="Save"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to save these changes?'
+          }
+        ]}
+        leftButtonText="save"
+        rightButtonText="cancel"
+      />
+      <ErrorModal
+        showModal={showErrorModal}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        middleText={showErrorModalMessage}
+        buttonText="ok"
+      />
       <form className={styles.form} onSubmit={onSubmit}>
         <h2>Form</h2>
         <Input
+          label="First Name"
           name="firstName"
           type="string"
-          placeholder="First Name"
           required
           className={styles.input}
           value={firstNameValue}
           onChange={onChangeFirstNameInput}
         />
         <Input
+          label="Last Name"
           name="lastName"
           type="string"
-          placeholder="Last Name"
           required
           className={styles.input}
           value={lastNameValue}
           onChange={onChangeLastNameInput}
         />
         <Input
+          label="Email"
           name="email"
           type="email"
-          placeholder="Email"
           required
           className={styles.input}
           value={emailValue}
@@ -347,27 +412,27 @@ const CouncelorsForm = () => {
         />
         <Error showError={emailError} text={'Please enter a valid email'} />
         <Input
+          label="Gender"
           name="gender"
           type="string"
-          placeholder="Gender"
           required
           className={styles.input}
           value={genderValue}
           onChange={onChangeGenderInput}
         />
         <Input
+          label="Adress"
           name="adress"
           type="string"
-          placeholder="Adress"
           required
           className={styles.input}
           value={adressValue}
           onChange={onChangeAdressInput}
         />
         <Input
+          label="Birthday"
           name="birthday"
           type="string"
-          placeholder="Birthday"
           required
           className={styles.input}
           value={birthdayValue}
@@ -377,26 +442,26 @@ const CouncelorsForm = () => {
         />
         <Error showError={birthdayError} text={'Please enter a valid date (dd/mm/yyyy)'} />
         <Input
+          label="City"
           name="city"
           type="string"
-          placeholder="City"
           required
           className={styles.input}
           value={cityValue}
           onChange={onChangeCityInput}
         />
         <Input
+          label="Country"
           name="country"
           type="string"
-          placeholder="Country"
           required
           value={countryValue}
           onChange={onChangeCountryInput}
         />
         <Input
+          label="Phone"
           name="phone"
           type="number"
-          placeholder="Phone"
           required
           value={phoneValue}
           onChange={onChangePhoneInput}
@@ -407,26 +472,23 @@ const CouncelorsForm = () => {
         <div className={styles.availabilityContainer}>
           <div className={styles.day}>
             <div onChange={onChangeAvailabilityMonday} className={styles.eachDay}>
-              <p>Monday</p>
-              <Input type="checkbox" value={true} name="monday" />
+              <Input label="Monday" type="checkbox" value={true} name="monday" />
             </div>
-            <div className={styles.fromTo}>
-              <label>From</label>
+            <div>
               <Input
+                label="From"
                 name="fromMonday"
                 type="string"
-                placeholder="00:00"
                 value={mondayFromValue}
                 onChange={onChangeFromMonday}
                 disabled={!mondayValue}
               />
             </div>
-            <div className={styles.fromTo}>
-              <label>To</label>
+            <div>
               <Input
+                label="To"
                 name="toMonday"
                 type="string"
-                placeholder="00:00"
                 value={mondayToValue}
                 onChange={onChangeToMonday}
                 disabled={!mondayValue}
@@ -435,26 +497,23 @@ const CouncelorsForm = () => {
           </div>
           <div className={styles.day}>
             <div onChange={onChangeAvailabilityTuesday} className={styles.eachDay}>
-              <p>Tuesday</p>
-              <Input type="checkbox" value={true} name="tuesday" />
+              <Input label="Tuesday" type="checkbox" value={true} name="tuesday" />
             </div>
-            <div className={styles.fromTo}>
-              <label>From</label>
+            <div>
               <Input
+                label="From"
                 name="fromTuesday"
                 type="string"
-                placeholder="00:00"
                 value={tuesdayFromValue}
                 onChange={onChangeFromTuesday}
                 disabled={!tuesdayValue}
               />
             </div>
-            <div className={styles.fromTo}>
-              <label>To</label>
+            <div>
               <Input
+                label="To"
                 name="toTuesday"
                 type="string"
-                placeholder="00:00"
                 value={tuesdayToValue}
                 onChange={onChangeToTuesday}
                 disabled={!tuesdayValue}
@@ -463,26 +522,23 @@ const CouncelorsForm = () => {
           </div>
           <div className={styles.day}>
             <div onChange={onChangeAvailabilityWednesday} className={styles.eachDay}>
-              <p>Wednesday</p>
-              <Input type="checkbox" value={true} name="wednesday" />
+              <Input label="Wednesday" type="checkbox" value={true} name="wednesday" />
             </div>
-            <div className={styles.fromTo}>
-              <label>From</label>
+            <div>
               <Input
+                label="From"
                 name="fromWednesday"
                 type="string"
-                placeholder="00:00"
                 value={wednesdayFromValue}
                 onChange={onChangeFromWednesday}
                 disabled={!wednesdayValue}
               />
             </div>
-            <div className={styles.fromTo}>
-              <label>To</label>
+            <div>
               <Input
+                label="To"
                 name="toWednesday"
                 type="string"
-                placeholder="00:00"
                 value={wednesdayToValue}
                 onChange={onChangeToWednesday}
                 disabled={!wednesdayValue}
@@ -491,26 +547,23 @@ const CouncelorsForm = () => {
           </div>
           <div className={styles.day}>
             <div onChange={onChangeAvailabilityThursday} className={styles.eachDay}>
-              <p>Thursday</p>
-              <Input type="checkbox" value={true} name="thursday" />
+              <Input label="Thursday" type="checkbox" value={true} name="thursday" />
             </div>
-            <div className={styles.fromTo}>
-              <label>From</label>
+            <div>
               <Input
+                label="From"
                 name="fromThursday"
                 type="string"
-                placeholder="00:00"
                 value={thursdayFromValue}
                 onChange={onChangeFromThursday}
                 disabled={!thursdayValue}
               />
             </div>
-            <div className={styles.fromTo}>
-              <label>To</label>
+            <div>
               <Input
+                label="To"
                 name="toThursday"
                 type="string"
-                placeholder="00:00"
                 value={thursdayToValue}
                 onChange={onChangeToThursday}
                 disabled={!thursdayValue}
@@ -519,26 +572,23 @@ const CouncelorsForm = () => {
           </div>
           <div className={styles.day}>
             <div onChange={onChangeAvailabilityFriday} className={styles.eachDay}>
-              <p>Friday</p>
-              <Input type="checkbox" value={true} name="thursday" />
+              <Input label="Friday" type="checkbox" value={true} name="thursday" />
             </div>
-            <div className={styles.fromTo}>
-              <label>From</label>
+            <div>
               <Input
+                label="From"
                 name="fromFriday"
                 type="string"
-                placeholder="00:00"
                 value={fridayFromValue}
                 onChange={onChangeFromFriday}
                 disabled={!fridayValue}
               />
             </div>
-            <div className={styles.fromTo}>
-              <label>To</label>
+            <div>
               <Input
+                label="To"
                 name="toFriday"
                 type="string"
-                placeholder="00:00"
                 value={fridayToValue}
                 onChange={onChangeToFriday}
                 disabled={!fridayValue}
