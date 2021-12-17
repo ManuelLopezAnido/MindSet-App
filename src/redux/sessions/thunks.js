@@ -86,8 +86,8 @@ export const updateSession = (id, data) => (dispatch) => {
       'Content-type': 'application/json'
     },
     body: JSON.stringify({
-      postulant: data.postulant,
-      counselor: data.counselor,
+      postulantId: data.postulantId,
+      counselorId: data.counselorId,
       date: data.date,
       time: data.time,
       accomplished: data.accomplished
