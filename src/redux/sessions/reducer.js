@@ -44,7 +44,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: true //TODO: CHANGE THIS
+        error: true
       };
 
     case GET_ONE_SESSION_FETCHING:
