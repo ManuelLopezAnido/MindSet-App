@@ -26,6 +26,7 @@ const ClientsForm = () => {
   const isLoading = useSelector((store) => store.clients.isLoading);
   const error = useSelector((store) => store.clients.error);
   const errorMessage = useSelector((store) => store.clients.errorMessage);
+  const selected = useSelector((store) => store.clients.selected);
 
   const params = new URLSearchParams(window.location.search);
   const clientId = params.get('id');
@@ -34,21 +35,18 @@ const ClientsForm = () => {
     useEffect(() => {
       dispatch(getOneClient(clientId));
     }, []);
+
+    useEffect(() => {
+      setCompanyNameValue(selected.companyName ?? '-');
+      setCompanyTypeValue(selected.companyType ?? '-');
+      setCityValue(selected.city ?? '-');
+      setCountryValue(selected.country ?? '-');
+      setEmailValue(selected.email ?? '-');
+      setPhoneValue(selected.phone ?? '-');
+      setOpenPositionsValue(selected.openPositions ?? '-');
+    }, [selected]);
   }
 
-  if (clientId) {
-    useEffect(() => {
-      dispatch(getOneClient(clientId)).then((selected) => {
-        setCompanyNameValue(selected.companyName ?? '-');
-        setCompanyTypeValue(selected.companyType ?? '-');
-        setCityValue(selected.city ?? '-');
-        setCountryValue(selected.country ?? '-');
-        setEmailValue(selected.email ?? '-');
-        setPhoneValue(selected.phone ?? '-');
-        setOpenPositionsValue(selected.openPositions ?? '-');
-      });
-    }, []);
-  }
   const onChangeCompanyNameValue = (event) => {
     setCompanyNameValue(event.target.value);
   };
