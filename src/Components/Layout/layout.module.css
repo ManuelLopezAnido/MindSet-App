@@ -7,7 +7,7 @@
 .body {
   display: flex;
   flex-direction: row;
-  min-height: 160vh;
+  height: 85vh;
 }
 .content {
   display: flex;

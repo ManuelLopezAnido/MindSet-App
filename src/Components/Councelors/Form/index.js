@@ -58,6 +58,7 @@ const CouncelorsForm = () => {
   }
 
   useEffect(() => {
+    if (Object.keys(selectedCounselor).length <= 0) return;
     setFirstNameValue(selectedCounselor.firstName ?? '-');
     setLastNameValue(selectedCounselor.lastName ?? '-');
     setEmailValue(selectedCounselor.email ?? '-');
@@ -68,7 +69,7 @@ const CouncelorsForm = () => {
     setCountryValue(selectedCounselor.country ?? '-');
     setPhoneValue(selectedCounselor.phone ?? '-');
     setMondayValue(selectedCounselor.availability[0].available);
-    setMondayFromValue(selectedCounselor.availability[0].from);
+    setMondayFromValue(selectedCounselor.availability[0].from ?? '-');
     setMondayToValue(selectedCounselor.availability[0].to ?? '-');
     setTuesdayValue(selectedCounselor.availability[1].available);
     setTuesdayFromValue(selectedCounselor.availability[1].from ?? '-');
