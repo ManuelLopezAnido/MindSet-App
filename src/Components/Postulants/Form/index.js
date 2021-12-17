@@ -610,20 +610,24 @@ const PostulantsForm = () => {
             setValue={setProfTrainingYearValue}
           />
         </div>
-        <Input
-          label="Languages"
-          id="languages"
-          type="text"
-          value={languagesValue}
-          setValue={setLanguagesValue}
-        />
-        <Input
-          label="Hobbies"
-          id="hobbies"
-          type="text"
-          value={hobbiesValue}
-          setValue={setHobbiesValue}
-        />
+        <div>
+          <Input
+            label="Languages"
+            id="languages"
+            type="text"
+            value={languagesValue}
+            setValue={setLanguagesValue}
+          />
+        </div>
+        <div>
+          <Input
+            label="Hobbies"
+            id="hobbies"
+            type="text"
+            value={hobbiesValue}
+            setValue={setHobbiesValue}
+          />
+        </div>
         <div className={styles.family}>
           <h3>Family</h3>
           <div>
@@ -855,13 +859,15 @@ const PostulantsForm = () => {
             />
           </div>
         </div>
-        <div className={styles.formButton}>
-          {postulantId ? (
-            <button type="submit">Edit</button>
-          ) : (
-            <button type="submit">Add postulant</button>
-          )}
-        </div>
+        {postulantId ? (
+          <button className={styles.sendFormButton} type="submit">
+            Edit
+          </button>
+        ) : (
+          <button className={styles.sendFormButton} type="submit">
+            Add postulant
+          </button>
+        )}
       </form>
     </div>
   );
