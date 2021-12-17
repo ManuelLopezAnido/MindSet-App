@@ -117,7 +117,7 @@ const ClientsForm = () => {
   if (isLoading) return <IsLoading />;
 
   return (
-    <div>
+    <div className={styles.form}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
