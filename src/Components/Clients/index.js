@@ -5,73 +5,45 @@ import ErrorModal from '../Shared/ErrorModal';
 import IsLoading from '../Shared/IsLoading/IsLoading';
 import Button from '../Shared/Button/Button';
 import DeleteButton from '../Shared/DeleteButton/DeleteButton';
+import { useSelector, useDispatch } from 'react-redux';
+import { getClients, deleteClient } from '../../redux/clients/thunks';
+import { useHistory } from 'react-router-dom';
+import { errorToDefault } from '../../redux/clients/actions';
 
 function Clients() {
-  const [clients, saveClients] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+
+  const history = useHistory();
+
+  const dispatch = useDispatch();
+
+  const clients = useSelector((store) => store.clients.list);
+  const isLoading = useSelector((store) => store.clients.isLoading);
+  const error = useSelector((store) => store.clients.error);
+  const errorMessage = useSelector((store) => store.clients.errorMessage);
 
   useEffect(() => {
-    setIsLoading(true);
-    fetch(`${process.env.REACT_APP_API}/clients`)
-      .then((response) => response.json())
-      .then((response) => {
-        saveClients(response.data);
-      })
-      .catch((error) => {
-        setShowErrorModal(true);
-        setShowErrorModalMessage(JSON.stringify(error.message));
-      })
-      .finally(() => setIsLoading(false));
-  }, []);
+    if (!clients.length) {
+      dispatch(getClients());
+    }
+  }, [clients]);
 
-  const addClient = () => {
-    window.location.href = `/clients/form`;
-  };
-
-  const deleteClient = () => {
-    setIsLoading(true);
-    const url = `${process.env.REACT_APP_API}/clients/delete/${selectedId}`;
-    fetch(url, {
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json'
-      }
-    })
-      .then((res) => {
-        if (res.status !== 204) {
-          return res.json().then((message) => {
-            throw new Error(message);
-          });
-        }
-        saveClients(clients.filter((client) => client._id !== selectedId));
-      })
-      .catch((error) => {
-        setShowErrorModal(true);
-        setShowErrorModalMessage(JSON.stringify(error.msg));
-      })
-      .finally(() => {
-        setIsLoading(false);
-        setShowModal(false);
-      });
+  const onDeleteClient = () => {
+    dispatch(deleteClient(selectedId));
+    setShowModal(false);
   };
 
   const closeModal = () => {
     setShowModal(false);
   };
 
-  const handleIdClient = (event, id) => {
+  const handleIdClient = (event, selectedId) => {
     event.stopPropagation();
-    setSelectedId(id);
+    setSelectedId(selectedId);
     setShowModal(true);
   };
 
-  const closeErrorMessage = () => {
-    setShowErrorModal(false);
-  };
   if (isLoading) return <IsLoading />;
 
   return (
@@ -79,7 +51,7 @@ function Clients() {
       <Modal
         showModal={showModal}
         closeModal={closeModal}
-        actionEntity={deleteClient}
+        actionEntity={onDeleteClient}
         selectedId={selectedId}
         titleText="Delete a client"
         spanObjectArray={[
@@ -91,15 +63,15 @@ function Clients() {
         rightButtonText="cancel"
       />
       <ErrorModal
-        showModal={showErrorModal}
-        closeModal={closeErrorMessage}
+        showModal={error}
+        closeModal={() => dispatch(errorToDefault())}
         titleText="Error"
-        middleText={showErrorModalMessage}
+        middleText={errorMessage}
         buttonText="ok"
       />
       <div className={styles.titleAndButton}>
         <h3>Clients</h3>
-        <Button onClick={addClient} value="Client" />
+        <Button onClick={() => history.push('/clients/form')} value="Client" />
       </div>
       <table>
         <thead>

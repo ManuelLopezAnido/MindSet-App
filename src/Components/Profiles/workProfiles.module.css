@@ -3,15 +3,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 80%;
 }
 
 .container * > tbody {
   text-align: center;
-}
-
-.list {
-  width: 100%;
 }
 
 .addButton {
@@ -26,7 +21,7 @@
   font-weight: bold;
 }
 
-.interviewRow:hover :not(.deleteButtonTD, .deleteIcon, img) {
+.workProfileRow:hover :not(.deleteButtonTD, .deleteIcon, img) {
   background: lightgrey;
   cursor: pointer;
 }
