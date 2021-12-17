@@ -49,22 +49,15 @@ const SessionsForm = () => {
     useEffect(() => {
       dispatch(getOneSession(sessionId));
     }, []);
-  }
 
-  useEffect(() => {
-    setPostulantIdValue(selectedSession.postulantId ?? '');
-    setCounselorIdValue(selectedSession.counselorId ?? '');
-    setDateValue(selectedSession.createdAt ?? '');
-    setTimeValue(selectedSession.time ?? '');
-    setAccomplishedValue(selectedSession.accomplished ?? '');
-    if (!sessionId) {
-      setPostulantIdValue('');
-      setCounselorIdValue('');
-      setDateValue('');
-      setTimeValue('');
-      setAccomplishedValue('');
-    }
-  }, [selectedSession]);
+    useEffect(() => {
+      setPostulantIdValue(selectedSession.postulantId ?? '');
+      setCounselorIdValue(selectedSession.counselorId ?? '');
+      setDateValue(selectedSession.createdAt ?? '');
+      setTimeValue(selectedSession.time ?? '');
+      setAccomplishedValue(selectedSession.accomplished ?? '');
+    }, [selectedSession]);
+  }
 
   const submit = () => {
     if (sessionId) {
