@@ -75,7 +75,6 @@ export const addClient = (data) => (dispatch) => {
       return response;
     })
     .catch((error) => {
-      console.log('error', error);
       dispatch(addClientRejected(error));
       return error;
     });
@@ -99,7 +98,7 @@ export const updateClient = (id, data) => (dispatch) => {
     })
   })
     .then((data) => {
-      if (data.status != 200) throw data.statusText;
+      if (data.status >= 400) throw data.statusText;
       return data.json();
     })
     .then((response) => {
@@ -121,7 +120,7 @@ export const deleteClient = (id) => (dispatch) => {
     }
   })
     .then((response) => {
-      if (response.status < 200) throw response;
+      if (response.status >= 400) throw response;
       dispatch(deleteClientFulfilled(id));
     })
     .catch((error) => {
