@@ -62,7 +62,7 @@ export const addSession = (data) => (dispatch) => {
 
   return fetch(`${URL}/sessions`, options)
     .then((data) => {
-      if (data.status !== 201) {
+      if (data.status != 201) {
         return data.json().then((error) => {
           throw error;
         });
@@ -115,7 +115,7 @@ export const deleteSession = (id) => (dispatch) => {
     }
   })
     .then((response) => {
-      if (response.status != 200) throw response;
+      if (response.status < 200) throw response;
       dispatch(deleteSessionFulfilled(id));
     })
     .catch((error) => dispatch(deleteSessionRejected(error.statusText)));

@@ -166,7 +166,6 @@ const SessionsForm = () => {
           name="accomplished"
           onChange={(event) => setAccomplishedValue(event.target.checked)}
           checked={accomplishedValue}
-          required
         />
         <button className={styles.sendFormButton} type="submit">
           SEND

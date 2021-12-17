@@ -91,8 +91,12 @@ function Sessions() {
               onClick={() => (window.location.href = `sessions/form?id=${session._id}`)}
               className={styles.sessionRow}
             >
-              <td>{session.postulantId}</td>
-              <td>{session.counselorId}</td>
+              <td>
+                {session.postulantId
+                  ? session.postulantId.firstName + session.postulantId.lastName
+                  : 'Not found'}
+              </td>
+              <td>{session.counselorId ? session.counselorId.firstName : 'Not found'}</td>
               <td>{session.createdAt}</td>
               <td>{session.time}</td>
               <td>{session.accomplished.toString()}</td>
