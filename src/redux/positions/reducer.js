@@ -58,13 +58,13 @@ const reducer = (state = initialState, action) => {
         selected: action.payload,
         isLoading: false
       };
-    case GET_ONE_POSITION_REJECTED:
+    case GET_ONE_POSITION_REJECTED: {
       return {
         ...state,
         isLoading: false,
         error: action.payload
       };
-
+    }
     case ADD_POSITION_FETCHING:
       return {
         ...state,
