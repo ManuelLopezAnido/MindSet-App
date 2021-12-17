@@ -97,7 +97,7 @@ function Sessions() {
                   : 'Not found'}
               </td>
               <td>{session.counselorId ? session.counselorId.firstName : 'Not found'}</td>
-              <td>{session.createdAt}</td>
+              <td>{session.date}</td>
               <td>{session.time}</td>
               <td>{session.accomplished.toString()}</td>
               <td className={styles.deleteButtonTD}>

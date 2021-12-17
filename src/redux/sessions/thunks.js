@@ -73,7 +73,6 @@ export const addSession = (data) => (dispatch) => {
       return response;
     })
     .catch((error) => {
-      console.log('error', error);
       dispatch(addSessionRejected(error));
       return error;
     });

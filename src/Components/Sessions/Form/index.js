@@ -53,7 +53,7 @@ const SessionsForm = () => {
     useEffect(() => {
       setPostulantIdValue(selectedSession.postulantId ?? '');
       setCounselorIdValue(selectedSession.counselorId ?? '');
-      setDateValue(selectedSession.createdAt ?? '');
+      setDateValue(selectedSession.date ?? '');
       setTimeValue(selectedSession.time ?? '');
       setAccomplishedValue(selectedSession.accomplished ?? '');
     }, [selectedSession]);
@@ -63,7 +63,7 @@ const SessionsForm = () => {
     if (sessionId) {
       dispatch(
         updateSession(sessionId, {
-          postulant: postulantIdValue,
+          postulantId: postulantIdValue,
           counselorId: counselorIdValue,
           date: dateValue,
           time: timeValue,
@@ -77,8 +77,8 @@ const SessionsForm = () => {
     } else {
       dispatch(
         addSession({
-          postulant: postulantIdValue,
-          counselor: counselorIdValue,
+          postulantId: postulantIdValue,
+          counselorId: counselorIdValue,
           date: dateValue,
           time: timeValue,
           accomplished: accomplishedValue
