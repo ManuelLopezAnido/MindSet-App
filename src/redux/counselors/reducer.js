@@ -56,7 +56,7 @@ const reducer = (state = initialState, action) => {
     case GET_ONE_COUNSELOR_FULFILLED:
       return {
         ...state,
-        selected: action.payload.data,
+        selected: action.payload,
         isLoading: false
       };
     case GET_ONE_COUNSELOR_REJECTED:
