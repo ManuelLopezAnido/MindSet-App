@@ -121,7 +121,7 @@ export const deleteClient = (id) => (dispatch) => {
     }
   })
     .then((response) => {
-      if (response.status != 200) throw response;
+      if (response.status < 200) throw response;
       dispatch(deleteClientFulfilled(id));
     })
     .catch((error) => {
