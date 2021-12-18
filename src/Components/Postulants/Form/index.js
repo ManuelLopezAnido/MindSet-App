@@ -98,95 +98,180 @@ const PostulantsForm = () => {
   const isLoading = useSelector((store) => store.postulants.isLoading);
   const error = useSelector((store) => store.postulants.error);
   const errorMessage = useSelector((store) => store.postulants.errorMessage);
+  const selectedPostulant = useSelector((store) => store.postulants.selected);
 
   const params = new URLSearchParams(window.location.search);
   const postulantId = params.get('_id');
 
   if (postulantId) {
     useEffect(() => {
-      dispatch(getOnePostulant(postulantId)).then((selected) => {
-        setFirstNameValue(selected.firstName ?? '-');
-        setLastNameValue(selected.lastName ?? '-');
-        setEmailValue(selected.email ?? '-');
-        setPhoneValue(selected.phone ?? '-');
-        setDateOfBirthValue(selected.dateOfBirth ?? '-');
-        setGenderValue(selected.gender ?? '-');
-        setCityValue(selected.city ?? '-');
-        setStateValue(selected.state ?? '-');
-        setCountryValue(selected.country ?? '-');
-
-        setElementarySchoolNameValue(selected.elementarySchool[0]?.name || '-');
-        setElementarySchoolDegreeValue(selected.elementarySchool[0]?.degree || '-');
-        setElementarySchoolGraduateYearValue(selected.elementarySchool[0]?.graduateYear || 0);
-
-        setHighSchoolNameValue(selected.highSchool[0]?.name || '-');
-        setHighSchoolDegreeValue(selected.highSchool[0]?.degree || '-');
-        setHighSchoolGraduateYearValue(selected.highSchool[0]?.graduateYear || 0);
-
-        setJuniorCollegeNameValue(selected.juniorCollege[0]?.name || '-');
-        setJuniorCollegeDegreeValue(selected.juniorCollege[0]?.degree || '-');
-        setJuniorCollegeGraduateYearValue(selected.juniorCollege[0]?.graduateYear || 0);
-
-        setUniversityNameValue(selected.university[0]?.name || '-');
-        setUniversityDegreeValue(selected.university[0]?.degree || '-');
-        setUniversityGraduateYearValue(selected.university[0]?.graduateYear || 0);
-
-        setOpenToWork(selected.openToWork);
-
-        setWorkExperienceTitleValue(selected.workExperience[0]?.title || '-');
-        setWorkExperienceStartValue(selected.workExperience[0]?.start || '2000-05-20');
-        setWorkExperienceEndValue(selected.workExperience[0]?.end || '2000-02-20');
-        setWorkExperienceCompanyValue(selected.workExperience[0]?.company || '-');
-        setWorkExperienceDescriptionValue(selected.workExperience[0]?.description || '-');
-
-        setProfTrainingDescriptionValue(selected.professionalTraining[0]?.description || '-');
-        setProfTrainingYearValue(selected.professionalTraining[0]?.year || 0);
-
-        setLanguagesValue(selected.languages || '');
-        setHobbiesValue(selected.hobbies || '');
-
-        setFamilyMember1NameValue(selected.familyMembers[0]?.name || '-');
-        setFamilyMember1bondValue(selected.familyMembers[0]?.bond || '-');
-
-        setFamilyMember2NameValue(selected.familyMembers[1]?.name || '-');
-        setFamilyMember2bondValue(selected.familyMembers[1]?.bond || '-');
-
-        setFamilyMember3NameValue(selected.familyMembers[2]?.name || '-');
-        setFamilyMember3bondValue(selected.familyMembers[2]?.bond || '-');
-
-        setFamilyMember4NameValue(selected.familyMembers[3]?.name || '-');
-        setFamilyMember4bondValue(selected.familyMembers[3]?.bond || '-');
-
-        setAvailabilityCheckMondayValue(selected.availability[0]?.available);
-        setAvailabilityFromMondayValue(selected.availability[0]?.from || '-');
-        setAvailabilityToMondayValue(selected.availability[0]?.to || '-');
-
-        setAvailabilityCheckTuesdayValue(selected.availability[1]?.available);
-        setAvailabilityFromTuesdayValue(selected.availability[1]?.from || '-');
-        setAvailabilityToTuesdayValue(selected.availability[1]?.to || '-');
-
-        setAvailabilityCheckWednesdayValue(selected.availability[2]?.available);
-        setAvailabilityFromWednesdayValue(selected.availability[2]?.from || '-');
-        setAvailabilityToWednesdayValue(selected.availability[2]?.to || '-');
-
-        setAvailabilityCheckThursdayValue(selected.availability[3]?.available);
-        setAvailabilityFromThursdayValue(selected.availability[3]?.from || '-');
-        setAvailabilityToThursdayValue(selected.availability[3]?.to || '-');
-
-        setAvailabilityCheckFridayValue(selected.availability[4]?.available);
-        setAvailabilityFromFridayValue(selected.availability[4]?.from || '-');
-        setAvailabilityToFridayValue(selected.availability[4]?.to || '-');
-
-        setAvailabilityCheckSaturdayValue(selected.availability[5]?.available);
-        setAvailabilityFromSaturdayValue(selected.availability[5]?.from || '-');
-        setAvailabilityToSaturdayValue(selected.availability[5]?.to || '-');
-
-        setAvailabilityCheckSundayValue(selected.availability[6]?.available);
-        setAvailabilityFromSundayValue(selected.availability[6]?.from || '-');
-        setAvailabilityToSundayValue(selected.availability[6]?.to || '-');
-      });
+      dispatch(getOnePostulant(postulantId));
     }, []);
   }
+
+  useEffect(() => {
+    if (Object.keys(selectedPostulant).length <= 0) return;
+    setFirstNameValue(selectedPostulant.firstName ?? '-');
+    setLastNameValue(selectedPostulant.lastName ?? '-');
+    setEmailValue(selectedPostulant.email ?? '-');
+    setPhoneValue(selectedPostulant.phone ?? '-');
+    setDateOfBirthValue(selectedPostulant.dateOfBirth ?? '-');
+    setGenderValue(selectedPostulant.gender ?? '-');
+    setCityValue(selectedPostulant.city ?? '-');
+    setStateValue(selectedPostulant.state ?? '-');
+    setCountryValue(selectedPostulant.country ?? '-');
+
+    setElementarySchoolNameValue(selectedPostulant.elementarySchool[0]?.name || '-');
+    setElementarySchoolDegreeValue(selectedPostulant.elementarySchool[0]?.degree || '-');
+    setElementarySchoolGraduateYearValue(selectedPostulant.elementarySchool[0]?.graduateYear || 0);
+
+    setHighSchoolNameValue(selectedPostulant.highSchool[0]?.name || '-');
+    setHighSchoolDegreeValue(selectedPostulant.highSchool[0]?.degree || '-');
+    setHighSchoolGraduateYearValue(selectedPostulant.highSchool[0]?.graduateYear || 0);
+
+    setJuniorCollegeNameValue(selectedPostulant.juniorCollege[0]?.name || '-');
+    setJuniorCollegeDegreeValue(selectedPostulant.juniorCollege[0]?.degree || '-');
+    setJuniorCollegeGraduateYearValue(selectedPostulant.juniorCollege[0]?.graduateYear || 0);
+
+    setUniversityNameValue(selectedPostulant.university[0]?.name || '-');
+    setUniversityDegreeValue(selectedPostulant.university[0]?.degree || '-');
+    setUniversityGraduateYearValue(selectedPostulant.university[0]?.graduateYear || 0);
+
+    setOpenToWork(selectedPostulant.openToWork);
+
+    setWorkExperienceTitleValue(selectedPostulant.workExperience[0]?.title || '-');
+    setWorkExperienceStartValue(selectedPostulant.workExperience[0]?.start || '2000-05-20');
+    setWorkExperienceEndValue(selectedPostulant.workExperience[0]?.end || '2000-02-20');
+    setWorkExperienceCompanyValue(selectedPostulant.workExperience[0]?.company || '-');
+    setWorkExperienceDescriptionValue(selectedPostulant.workExperience[0]?.description || '-');
+
+    setProfTrainingDescriptionValue(selectedPostulant.professionalTraining[0]?.description || '-');
+    setProfTrainingYearValue(selectedPostulant.professionalTraining[0]?.year || 0);
+
+    setLanguagesValue(selectedPostulant.languages || '');
+    setHobbiesValue(selectedPostulant.hobbies || '');
+
+    setFamilyMember1NameValue(selectedPostulant.familyMembers[0]?.name || '-');
+    setFamilyMember1bondValue(selectedPostulant.familyMembers[0]?.bond || '-');
+
+    setFamilyMember2NameValue(selectedPostulant.familyMembers[1]?.name || '-');
+    setFamilyMember2bondValue(selectedPostulant.familyMembers[1]?.bond || '-');
+
+    setFamilyMember3NameValue(selectedPostulant.familyMembers[2]?.name || '-');
+    setFamilyMember3bondValue(selectedPostulant.familyMembers[2]?.bond || '-');
+
+    setFamilyMember4NameValue(selectedPostulant.familyMembers[3]?.name || '-');
+    setFamilyMember4bondValue(selectedPostulant.familyMembers[3]?.bond || '-');
+
+    setAvailabilityCheckMondayValue(selectedPostulant.availability[0]?.available);
+    setAvailabilityFromMondayValue(selectedPostulant.availability[0]?.from || '-');
+    setAvailabilityToMondayValue(selectedPostulant.availability[0]?.to || '-');
+
+    setAvailabilityCheckTuesdayValue(selectedPostulant.availability[1]?.available);
+    setAvailabilityFromTuesdayValue(selectedPostulant.availability[1]?.from || '-');
+    setAvailabilityToTuesdayValue(selectedPostulant.availability[1]?.to || '-');
+
+    setAvailabilityCheckWednesdayValue(selectedPostulant.availability[2]?.available);
+    setAvailabilityFromWednesdayValue(selectedPostulant.availability[2]?.from || '-');
+    setAvailabilityToWednesdayValue(selectedPostulant.availability[2]?.to || '-');
+
+    setAvailabilityCheckThursdayValue(selectedPostulant.availability[3]?.available);
+    setAvailabilityFromThursdayValue(selectedPostulant.availability[3]?.from || '-');
+    setAvailabilityToThursdayValue(selectedPostulant.availability[3]?.to || '-');
+
+    setAvailabilityCheckFridayValue(selectedPostulant.availability[4]?.available);
+    setAvailabilityFromFridayValue(selectedPostulant.availability[4]?.from || '-');
+    setAvailabilityToFridayValue(selectedPostulant.availability[4]?.to || '-');
+
+    setAvailabilityCheckSaturdayValue(selectedPostulant.availability[5]?.available);
+    setAvailabilityFromSaturdayValue(selectedPostulant.availability[5]?.from || '-');
+    setAvailabilityToSaturdayValue(selectedPostulant.availability[5]?.to || '-');
+
+    setAvailabilityCheckSundayValue(selectedPostulant.availability[6]?.available);
+    setAvailabilityFromSundayValue(selectedPostulant.availability[6]?.from || '-');
+    setAvailabilityToSundayValue(selectedPostulant.availability[6]?.to || '-');
+    if (!postulantId) {
+      setFirstNameValue('');
+      setLastNameValue('');
+      setEmailValue('');
+      setPhoneValue('');
+      setDateOfBirthValue('');
+      setGenderValue('');
+      setCityValue('');
+      setStateValue('');
+      setCountryValue('');
+
+      setElementarySchoolNameValue('');
+      setElementarySchoolDegreeValue('');
+      setElementarySchoolGraduateYearValue('');
+
+      setHighSchoolNameValue('');
+      setHighSchoolDegreeValue('');
+      setHighSchoolGraduateYearValue('');
+
+      setJuniorCollegeNameValue('');
+      setJuniorCollegeDegreeValue('');
+      setJuniorCollegeGraduateYearValue('');
+
+      setUniversityNameValue('');
+      setUniversityDegreeValue('');
+      setUniversityGraduateYearValue('');
+
+      setOpenToWork(false);
+
+      setWorkExperienceTitleValue('');
+      setWorkExperienceStartValue('');
+      setWorkExperienceEndValue('');
+      setWorkExperienceCompanyValue('');
+      setWorkExperienceDescriptionValue('');
+
+      setProfTrainingDescriptionValue('');
+      setProfTrainingYearValue('');
+
+      setLanguagesValue('');
+      setHobbiesValue('');
+
+      setFamilyMember1NameValue('');
+      setFamilyMember1bondValue('');
+
+      setFamilyMember2NameValue('');
+      setFamilyMember2bondValue('');
+
+      setFamilyMember3NameValue('');
+      setFamilyMember3bondValue('');
+
+      setFamilyMember4NameValue('');
+      setFamilyMember4bondValue('');
+
+      setAvailabilityCheckMondayValue(false);
+      setAvailabilityFromMondayValue('');
+      setAvailabilityToMondayValue('');
+
+      setAvailabilityCheckTuesdayValue(false);
+      setAvailabilityFromTuesdayValue('');
+      setAvailabilityToTuesdayValue('');
+
+      setAvailabilityCheckWednesdayValue(false);
+      setAvailabilityFromWednesdayValue('');
+      setAvailabilityToWednesdayValue('');
+
+      setAvailabilityCheckThursdayValue(false);
+      setAvailabilityFromThursdayValue('');
+      setAvailabilityToThursdayValue('');
+
+      setAvailabilityCheckFridayValue(false);
+      setAvailabilityFromFridayValue('');
+      setAvailabilityToFridayValue('');
+
+      setAvailabilityCheckSaturdayValue(false);
+      setAvailabilityFromSaturdayValue('');
+      setAvailabilityToSaturdayValue('');
+
+      setAvailabilityCheckSundayValue(false);
+      setAvailabilityFromSundayValue('');
+      setAvailabilityToSundayValue('');
+    }
+  }, [selectedPostulant]);
 
   const onChangeFirstName = (event) => {
     setFirstNameValue(event.target.value);

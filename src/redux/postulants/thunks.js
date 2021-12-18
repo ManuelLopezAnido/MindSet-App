@@ -175,9 +175,7 @@ export const addPostulant = (data) => (dispatch) => {
   return fetch(`${URL}/postulants/add`, options)
     .then((data) => {
       if (data.status !== 201) {
-        console.log('data.status', data.status);
         return data.json().then(({ message }) => {
-          console.log('message', message);
           throw message;
         });
       }
@@ -189,7 +187,6 @@ export const addPostulant = (data) => (dispatch) => {
     })
     .catch((error) => {
       dispatch(addPostulantRejected(error));
-      console.log('error', error);
       return error;
     });
 };
@@ -326,7 +323,6 @@ export const updatePostulant = (id, data) => (dispatch) => {
       return data.json();
     })
     .then((response) => {
-      console.log('aca', response);
       dispatch(updatePostulantFulfilled(response));
       return response;
     })
