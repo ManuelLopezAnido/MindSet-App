@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
-import Input from '../../Shared/Input';
-import ErrorModal from '../../Shared/ErrorModal';
-import Modal from '../../Shared/Modal';
-import IsLoading from '../../Shared/IsLoading/IsLoading';
-import { getOneClient, addClient, updateClient } from '../../../redux/clients/thunks';
+import Input from 'Components/Shared/Input';
+import ErrorModal from 'Components/Shared/ErrorModal';
+import Modal from 'Components/Shared/Modal';
+import IsLoading from 'Components/Shared/IsLoading/IsLoading';
+import { getOneClient, addClient, updateClient } from 'redux/clients/thunks';
 import { useSelector, useDispatch } from 'react-redux';
-import { errorToDefault } from '../../../redux/clients/actions';
+import { errorToDefault } from 'redux/clients/actions';
 import { useHistory } from 'react-router-dom';
 
 const ClientsForm = () => {

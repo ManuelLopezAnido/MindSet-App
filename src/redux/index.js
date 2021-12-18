@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import counselorsReducer from './counselors/reducer';
-import adminsReducer from './admins/reducer';
-import sessionsReducer from './sessions/reducer';
-import clientsReducer from './clients/reducer';
+import counselorsReducer from 'redux/counselors/reducer';
+import adminsReducer from 'redux/admins/reducer';
+import sessionsReducer from 'redux/sessions/reducer';
+import clientsReducer from 'redux/clients/reducer';
 
 const rootReducer = combineReducers({
   admins: adminsReducer,

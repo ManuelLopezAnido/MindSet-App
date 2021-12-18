@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
-import Input from '../../Shared/Input';
-import Error from '../Error';
-import Button from '../Button';
-import Modal from '../../Shared/Modal';
-import ErrorModal from '../../Shared/ErrorModal';
-import IsLoading from '../../Shared/IsLoading/IsLoading';
-import { getOneCounselor, addCounselor, updateCounselor } from '../../../redux/counselors/thunks';
+import Input from 'Components/Shared/Input';
+import Error from 'Components/Councelors/Error';
+import Button from 'Components/Councelors/Button';
+import Modal from 'Components/Shared/Modal';
+import ErrorModal from 'Components/Shared/ErrorModal';
+import IsLoading from 'Components/Shared/IsLoading/IsLoading';
+import { getOneCounselor, addCounselor, updateCounselor } from 'redux/counselors/thunks';
 import { useSelector, useDispatch } from 'react-redux';
-import { errorToDefault } from '../../../redux/counselors/actions';
+import { errorToDefault } from 'redux/counselors/actions';
 import { useHistory } from 'react-router-dom';
 
 const CouncelorsForm = () => {

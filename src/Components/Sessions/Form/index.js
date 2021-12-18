@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styles from './form.module.css';
-import Input from '../../Shared/Input';
-import Modal from '../../Shared/Modal';
-import ErrorModal from '../../Shared/ErrorModal';
-import IsLoading from '../../Shared/IsLoading/IsLoading';
-import { getOneSession, addSession, updateSession } from '../../../redux/sessions/thunks';
+import Input from 'Components/Shared/Input';
+import Modal from 'Components/Shared/Modal';
+import ErrorModal from 'Components/Shared/ErrorModal';
+import IsLoading from 'Components/Shared/IsLoading/IsLoading';
+import { getOneSession, addSession, updateSession } from 'redux/sessions/thunks';
 import { useSelector, useDispatch } from 'react-redux';
-import { errorToDefault } from '../../../redux/sessions/actions';
+import { errorToDefault } from 'redux/sessions/actions';
 import { useHistory } from 'react-router-dom';
 
 const SessionsForm = () => {

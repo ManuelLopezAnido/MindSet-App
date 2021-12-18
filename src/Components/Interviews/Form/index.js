@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
-import Input from '../../Shared/Input';
-import Modal from '../../Shared/Modal';
-import ErrorModal from '../../Shared/ErrorModal';
-import IsLoading from '../../Shared/IsLoading/IsLoading';
+import Input from 'Components/Shared/Input';
+import Modal from 'Components/Shared/Modal';
+import ErrorModal from 'Components/Shared/ErrorModal';
+import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 
 const InterviewsForm = () => {
   const [jobTitle, setJobTitle] = useState('');

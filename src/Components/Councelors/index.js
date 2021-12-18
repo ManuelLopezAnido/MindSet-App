@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import styles from './councelors.module.css';
-import Modal from '../Shared/Modal';
-import ErrorModal from '../Shared/ErrorModal';
-import IsLoading from '../Shared/IsLoading/IsLoading';
-import Button from '../Shared/Button/Button';
-import DeleteButton from '../Shared/DeleteButton/DeleteButton';
+import Modal from 'Components/Shared/Modal';
+import ErrorModal from 'Components/Shared/ErrorModal';
+import IsLoading from 'Components/Shared/IsLoading/IsLoading';
+import Button from 'Components/Shared/Button/Button';
+import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 import { useSelector, useDispatch } from 'react-redux';
-import { getCounselors, deleteCounselor } from '../../redux/counselors/thunks';
+import { getCounselors, deleteCounselor } from 'redux/counselors/thunks';
 import { useHistory } from 'react-router-dom';
-import { errorToDefault } from '../../redux/counselors/actions';
+import { errorToDefault } from 'redux/counselors/actions';
 
 const Councelor = () => {
   const [showModal, setShowModal] = useState(false);

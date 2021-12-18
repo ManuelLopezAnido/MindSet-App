@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import styles from './clients.module.css';
-import Modal from '../Shared/Modal';
-import ErrorModal from '../Shared/ErrorModal';
-import IsLoading from '../Shared/IsLoading/IsLoading';
-import Button from '../Shared/Button/Button';
-import DeleteButton from '../Shared/DeleteButton/DeleteButton';
+import Modal from 'Components/Shared/Modal';
+import ErrorModal from 'Components/Shared/ErrorModal';
+import IsLoading from 'Components/Shared/IsLoading/IsLoading';
+import Button from 'Components/Shared/Button/Button';
+import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 import { useSelector, useDispatch } from 'react-redux';
-import { getClients, deleteClient } from '../../redux/clients/thunks';
+import { getClients, deleteClient } from 'redux/clients/thunks';
 import { useHistory } from 'react-router-dom';
-import { errorToDefault } from '../../redux/clients/actions';
+import { errorToDefault } from 'redux/clients/actions';
 
 function Clients() {
   const [showModal, setShowModal] = useState(false);
