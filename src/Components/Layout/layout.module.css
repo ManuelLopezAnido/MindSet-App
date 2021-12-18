@@ -7,7 +7,7 @@
 .body {
   display: flex;
   flex-direction: row;
-  min-height: 160vh;
+  height: 85vh;
 }
 .content {
   display: flex;
@@ -15,4 +15,10 @@
   align-items: center;
   width: 80vw;
   background-color: rgb(228, 225, 225);
+}
+
+.content > :nth-child(1) {
+  height: 100%;
+  overflow-y: scroll;
+  width: 80%;
 }

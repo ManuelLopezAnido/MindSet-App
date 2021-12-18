@@ -3,6 +3,7 @@
   justify-content: space-between;
   align-items: center;
   height: 15vh;
+  color: #FFF;
 }
 
 .brand {
@@ -14,13 +15,10 @@
   width: 20vw;
   height: 100%;
   background-color: #9ED8D8;
+  color: #3A5374;
 }
-.entityname{
-  color:white;
-  font-size: 2rem ;
-  padding-left: 2vw;
-}
-.mainhead{
+
+.mainHead {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -28,12 +26,11 @@
   width: 80vw;
   background-color: #325477;
 }
-.Icons{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: row;
-  width: 13vw;
-  padding-right: 2vw;
+
+.entityName {
+  font-size: 2rem;
 }
 
+.mainHead > div {
+  padding: 2rem;
+}
