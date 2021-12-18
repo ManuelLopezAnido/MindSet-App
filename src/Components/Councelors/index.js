@@ -22,8 +22,6 @@ const Councelor = () => {
   const error = useSelector((store) => store.counselors.error);
   const errorMessage = useSelector((store) => store.counselors.errorMessage);
 
-  console.log(counselors);
-
   useEffect(() => {
     if (!counselors.length) {
       dispatch(getCounselors());
