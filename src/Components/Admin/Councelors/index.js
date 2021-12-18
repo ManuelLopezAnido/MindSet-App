@@ -1,64 +1,61 @@
 import { useEffect, useState } from 'react';
-import styles from './admins.module.css';
+import styles from './councelors.module.css';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import Button from 'Components/Shared/Button/Button';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 import { useSelector, useDispatch } from 'react-redux';
-import { getAdmins, deleteAdmin } from 'redux/admins/thunks';
+import { getCounselors, deleteCounselor } from 'redux/counselors/thunks';
 import { useHistory } from 'react-router-dom';
-import { errorToDefault } from 'redux/admins/actions';
+import { errorToDefault } from 'redux/counselors/actions';
 
-const Admins = () => {
+const Councelor = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
-
   const history = useHistory();
 
   const dispatch = useDispatch();
 
-  const admins = useSelector((store) => store.admins.list);
-  const isLoading = useSelector((store) => store.admins.isLoading);
-  const error = useSelector((store) => store.admins.error);
-  const errorMessage = useSelector((store) => store.admins.errorMessage);
+  const counselors = useSelector((store) => store.counselors.list);
+  const isLoading = useSelector((store) => store.counselors.isLoading);
+  const error = useSelector((store) => store.counselors.error);
+  const errorMessage = useSelector((store) => store.counselors.errorMessage);
 
   useEffect(() => {
-    if (!admins.length) {
-      dispatch(getAdmins());
+    if (!counselors.length) {
+      dispatch(getCounselors());
     }
-  }, [admins]);
+  }, [counselors]);
 
   const onClickDelete = () => {
-    dispatch(deleteAdmin(selectedId));
+    dispatch(deleteCounselor(selectedId));
     setShowModal(false);
+  };
+
+  const handleIdCouncelor = (event, id) => {
+    event.stopPropagation();
+    setShowModal(true);
+    setSelectedId(id);
   };
 
   const closeModal = () => {
     setShowModal(false);
   };
 
-  const handleIdAdmin = (event, id) => {
-    event.stopPropagation();
-    setSelectedId(id);
-    setShowModal(true);
-  };
-
-  if (isLoading) {
-    return <IsLoading />;
-  }
+  if (isLoading) return <IsLoading />;
 
   return (
-    <div className={styles.container}>
+    <section className={styles.container}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
         actionEntity={onClickDelete}
         selectedId={selectedId}
-        titleText="Delete an Admin"
+        titleText="Delete a counselor"
         spanObjectArray={[
           {
-            span: 'Are you sure you want to delete this admin?'
+            span: 'Are you sure you want to delete this counselor?'
           }
         ]}
         leftButtonText="delete"
@@ -72,36 +69,37 @@ const Admins = () => {
         buttonText="ok"
       />
       <div className={styles.titleAndButton}>
-        <h3>Admin</h3>
-        <Button onClick={() => history.push('/admins/form')} value="Admin" />
+        <h3>Councelors</h3>
+        <Button onClick={() => history.push('/admin/councelors/form')} value="Counselor" />
       </div>
       <table className={styles.list}>
         <thead>
           <tr>
-            <th> Email </th>
+            <th> First Name </th>
+            <th> Last Name </th>
             <th> Actions </th>
           </tr>
         </thead>
         <tbody>
-          {admins.map((admin) => {
+          {counselors.map((counselor) => {
             return (
               <tr
-                key={admin._id}
+                key={counselor._id}
                 onClick={() => {
-                  window.location.replace(`admins/form?id=${admin._id}`);
+                  window.location.replace(`councelors/form?id=${counselor._id}`);
                 }}
               >
-                <td>{admin.email}</td>
+                <td>{counselor.firstName}</td>
+                <td>{counselor.lastName}</td>
                 <td>
-                  <DeleteButton onClick={(event) => handleIdAdmin(event, admin._id)} />
+                  <DeleteButton onClick={(event) => handleIdCouncelor(event, counselor._id)} />
                 </td>
               </tr>
             );
           })}
         </tbody>
       </table>
-    </div>
+    </section>
   );
 };
-
-export default Admins;
+export default Councelor;

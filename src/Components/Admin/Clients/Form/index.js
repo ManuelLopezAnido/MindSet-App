@@ -83,7 +83,7 @@ const ClientsForm = () => {
         })
       ).then((response) => {
         if (response) {
-          history.push('/clients');
+          history.push('/admin/clients');
         }
       });
     } else {
@@ -99,7 +99,7 @@ const ClientsForm = () => {
         })
       ).then((response) => {
         if (response) {
-          history.push('/clients');
+          history.push('/admin/clients');
         }
       });
     }

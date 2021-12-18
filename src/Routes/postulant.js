@@ -1,12 +1,13 @@
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import Home from 'Components/Home';
 import Layout from 'Components/Layout';
 
 const PostulantRoutes = () => {
+  const { url } = useRouteMatch();
   return (
     <Layout>
       <Switch>
-        <Route path="/" exact component={Home} />
+        <Route path={`${url}/`} exact component={Home} />
       </Switch>
     </Layout>
   );

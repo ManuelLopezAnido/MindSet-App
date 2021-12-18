@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import Input from 'Components/Shared/Input';
-import Error from 'Components/Councelors/Error';
-import Button from 'Components/Councelors/Button';
+import Error from 'Components/Admin/Councelors/Error';
+import Button from 'Components/Admin/Councelors/Button';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
@@ -255,7 +255,7 @@ const CouncelorsForm = () => {
         })
       ).then((response) => {
         if (response) {
-          history.push('/counselors');
+          history.push('/admin/counselors');
         }
       });
     } else {
@@ -305,7 +305,7 @@ const CouncelorsForm = () => {
         })
       ).then((response) => {
         if (response) {
-          history.push('/counselors');
+          history.push('/admin/counselors');
         }
       });
     }

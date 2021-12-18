@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import Input from 'Components/Shared/Input';
-import Error from 'Components/Admins/Error';
-import Button from 'Components/Admins/Button';
+import Error from 'Components/Admin/Admins/Error';
+import Button from 'Components/Admin/Admins/Button';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
@@ -63,7 +63,7 @@ const AdminsForm = () => {
         })
       ).then((response) => {
         if (response) {
-          history.push('/admins');
+          history.push('/admin/admins');
         }
       });
     } else {
@@ -74,7 +74,7 @@ const AdminsForm = () => {
         })
       ).then((response) => {
         if (response) {
-          history.push('/admins');
+          history.push('/admin/admins');
         }
       });
     }

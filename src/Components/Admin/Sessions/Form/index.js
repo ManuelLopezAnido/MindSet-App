@@ -72,7 +72,7 @@ const SessionsForm = () => {
         })
       ).then((response) => {
         if (response) {
-          history.push('/sessions');
+          history.push('/admin/sessions');
         }
       });
     } else {
@@ -86,7 +86,7 @@ const SessionsForm = () => {
         })
       ).then((response) => {
         if (response) {
-          history.push('/sessions');
+          history.push('/admin/sessions');
         }
       });
     }

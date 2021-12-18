@@ -1,58 +1,58 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
 import Layout from 'Components/Layout';
-import Home from 'Components/Home';
-import Admins from 'Components/Admins';
-import AdminsForm from 'Components/Admins/Form';
-import Applications from 'Components/Applications';
-import ApplicationsForm from 'Components/Applications/Form';
-import Clients from 'Components/Clients';
-import ClientsForm from 'Components/Clients/Form';
-import Interviews from 'Components/Interviews';
-import InterviewsForm from 'Components/Interviews/Form';
-import Positions from 'Components/Positions';
-import PositionsForm from 'Components/Positions/Form';
-import Postulants from 'Components/Postulants';
-import PostulantsForm from 'Components/Postulants/Form';
-import Profiles from 'Components/Profiles';
-import ProfilesForm from 'Components/Profiles/Form';
-import Councelors from 'Components/Councelors';
-import CouncelorsForm from 'Components/Councelors/Form';
-import Sessions from 'Components/Sessions';
-import SessionsForm from 'Components/Sessions/Form';
+import Admins from 'Components/Admin/Admins';
+import AdminsForm from 'Components/Admin/Admins/Form';
+import Applications from 'Components/Admin/Applications';
+import ApplicationsForm from 'Components/Admin/Applications/Form';
+import Clients from 'Components/Admin/Clients';
+import ClientsForm from 'Components/Admin/Clients/Form';
+import Interviews from 'Components/Admin/Interviews';
+import InterviewsForm from 'Components/Admin/Interviews/Form';
+import Positions from 'Components/Admin/Positions';
+import PositionsForm from 'Components/Admin/Positions/Form';
+import Postulants from 'Components/Admin/Postulants';
+import PostulantsForm from 'Components/Admin/Postulants/Form';
+import Profiles from 'Components/Admin/Profiles';
+import ProfilesForm from 'Components/Admin/Profiles/Form';
+import Councelors from 'Components/Admin/Councelors';
+import CouncelorsForm from 'Components/Admin/Councelors/Form';
+import Sessions from 'Components/Admin/Sessions';
+import SessionsForm from 'Components/Admin/Sessions/Form';
 
 const AdminRoutes = () => {
+  const { url } = useRouteMatch();
   return (
     <Layout>
       <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/admins" component={Admins} />
-        <Route path="/admins/form" component={AdminsForm} />
-        <Route path="/admins/form/:id" component={AdminsForm} />
-        <Route exact path="/applications" component={Applications} />
-        <Route path="/applications/form" component={ApplicationsForm} />
-        <Route path="/applications/form/:id" component={ApplicationsForm} />
-        <Route exact path="/clients" component={Clients} />
-        <Route path="/clients/form" component={ClientsForm} />
-        <Route path="/clients/form/:id" component={ClientsForm} />
-        <Route exact path="/interviews" component={Interviews} />
-        <Route path="/interviews/form" component={InterviewsForm} />
-        <Route path="/interviews/form/:id" component={InterviewsForm} />
-        <Route exact path="/positions" component={Positions} />
-        <Route path="/positions/form" component={PositionsForm} />
-        <Route path="/positions/form/:id" component={PositionsForm} />
-        <Route exact path="/postulants" component={Postulants} />
-        <Route path="/postulants/form" component={PostulantsForm} />
-        <Route path="/postulants/form/:id" component={PostulantsForm} />
-        <Route exact path="/profiles" component={Profiles} />
-        <Route path="/workprofiles/form" component={ProfilesForm} />
-        <Route path="/workprofiles/form/:id" component={ProfilesForm} />
-        <Route exact path="/counselors" component={Councelors} />
-        <Route path="/councelors/form" component={CouncelorsForm} />
-        <Route path="/councelors/form/:id" component={CouncelorsForm} />
-        <Route exact path="/sessions" component={Sessions} />
-        <Route path="/sessions/form" component={SessionsForm} />
-        <Route path="/sessions/form/:id" component={SessionsForm} />
+        <Route exact path={`${url}/admins`} component={Admins} />
+        <Route path={`${url}/admins/form`} component={AdminsForm} />
+        <Route path={`${url}/admins/form/:id`} component={AdminsForm} />
+        <Route exact path={`${url}/applications`} component={Applications} />
+        <Route path={`${url}/applications/form`} component={ApplicationsForm} />
+        <Route path={`${url}/applications/form/:id`} component={ApplicationsForm} />
+        <Route exact path={`${url}/clients`} component={Clients} />
+        <Route path={`${url}/clients/form`} component={ClientsForm} />
+        <Route path={`${url}/clients/form/:id`} component={ClientsForm} />
+        <Route exact path={`${url}/interviews`} component={Interviews} />
+        <Route path={`${url}/interviews/form`} component={InterviewsForm} />
+        <Route path={`${url}/interviews/form/:id`} component={InterviewsForm} />
+        <Route exact path={`${url}/positions`} component={Positions} />
+        <Route path={`${url}/positions/form`} component={PositionsForm} />
+        <Route path={`${url}/positions/form/:id`} component={PositionsForm} />
+        <Route exact path={`${url}/postulants`} component={Postulants} />
+        <Route path={`${url}/postulants/form`} component={PostulantsForm} />
+        <Route path={`${url}/postulants/form/:id`} component={PostulantsForm} />
+        <Route exact path={`${url}/profiles`} component={Profiles} />
+        <Route path={`${url}/workprofiles/form`} component={ProfilesForm} />
+        <Route path={`${url}/workprofiles/form/:id`} component={ProfilesForm} />
+        <Route exact path={`${url}/counselors`} component={Councelors} />
+        <Route path={`${url}/councelors/form`} component={CouncelorsForm} />
+        <Route path={`${url}/councelors/form/:id`} component={CouncelorsForm} />
+        <Route exact path={`${url}/sessions`} component={Sessions} />
+        <Route path={`${url}/sessions/form`} component={SessionsForm} />
+        <Route path={`${url}/sessions/form/:id`} component={SessionsForm} />
+        <Redirect to={`${url}/admins`} />
       </Switch>
     </Layout>
   );
