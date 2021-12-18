@@ -1,14 +1,15 @@
-.container {
-  height: 100%;
-  overflow-y: scroll;
-  width: 100%;
-}
-
-.form {
+.container,
+h1 {
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.container > * input {
+  width: 250px;
+  margin: 10px 0px;
 }
 
 .sendFormButton {
@@ -21,5 +22,4 @@
   background-color: #002147;
   color: white;
   font-weight: bold;
-  cursor: pointer;
 }

@@ -6,83 +6,110 @@ import Button from '../Button';
 import Modal from '../../Shared/Modal';
 import ErrorModal from '../../Shared/ErrorModal';
 import IsLoading from '../../Shared/IsLoading/IsLoading';
+import { getOneCounselor, addCounselor, updateCounselor } from '../../../redux/counselors/thunks';
+import { useSelector, useDispatch } from 'react-redux';
+import { errorToDefault } from '../../../redux/counselors/actions';
+import { useHistory } from 'react-router-dom';
 
 const CouncelorsForm = () => {
   const [showModal, setShowModal] = useState(false);
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
   const [firstNameValue, setFirstNameValue] = useState([]);
   const [lastNameValue, setLastNameValue] = useState([]);
   const [emailValue, setEmailValue] = useState([]);
   const [genderValue, setGenderValue] = useState([]);
-  const [adressValue, setAdressValue] = useState([]);
+  const [addressValue, setAddressValue] = useState([]);
   const [birthdayValue, setBirthdayValue] = useState([]);
   const [cityValue, setCityValue] = useState([]);
   const [countryValue, setCountryValue] = useState([]);
   const [phoneValue, setPhoneValue] = useState([]);
   const [mondayValue, setMondayValue] = useState(false);
-  const [mondayFromValue, setMondayFromValue] = useState([]);
-  const [mondayToValue, setMondayToValue] = useState([]);
+  const [mondayFromValue, setMondayFromValue] = useState('');
+  const [mondayToValue, setMondayToValue] = useState('');
   const [tuesdayValue, setTuesdayValue] = useState(false);
-  const [tuesdayFromValue, setTuesdayFromValue] = useState([]);
-  const [tuesdayToValue, setTuesdayToValue] = useState([]);
+  const [tuesdayFromValue, setTuesdayFromValue] = useState('');
+  const [tuesdayToValue, setTuesdayToValue] = useState('');
   const [wednesdayValue, setWednesdayValue] = useState(false);
-  const [wednesdayFromValue, setWednesdayFromValue] = useState([]);
-  const [wednesdayToValue, setWednesdayToValue] = useState([]);
+  const [wednesdayFromValue, setWednesdayFromValue] = useState('');
+  const [wednesdayToValue, setWednesdayToValue] = useState('');
   const [thursdayValue, setThursdayValue] = useState(false);
-  const [thursdayFromValue, setThursdayFromValue] = useState([]);
-  const [thursdayToValue, setThursdayToValue] = useState([]);
+  const [thursdayFromValue, setThursdayFromValue] = useState('');
+  const [thursdayToValue, setThursdayToValue] = useState('');
   const [fridayValue, setFridayValue] = useState(false);
-  const [fridayFromValue, setFridayFromValue] = useState([]);
-  const [fridayToValue, setFridayToValue] = useState([]);
+  const [fridayFromValue, setFridayFromValue] = useState('');
+  const [fridayToValue, setFridayToValue] = useState('');
   const [emailError, setEmailError] = useState(false);
   const [birthdayError, setBirthdayError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
   const [canSave, setCanSave] = useState(true);
-  const params = new URLSearchParams(window.location.search);
-  const councelorId = params.get('id');
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const isLoading = useSelector((store) => store.counselors.isLoading);
+  const error = useSelector((store) => store.counselors.error);
+  const errorMessage = useSelector((store) => store.counselors.errorMessage);
+  const selectedCounselor = useSelector((store) => store.counselors.selected);
 
-  if (councelorId) {
+  const params = new URLSearchParams(window.location.search);
+  const counselorId = params.get('id');
+
+  if (counselorId) {
     useEffect(() => {
-      fetch(`${process.env.REACT_APP_API}/counselors/id/${councelorId}`)
-        .then((response) => response.json())
-        .then((response) => {
-          onLoading(response);
-        })
-        .catch((error) => {
-          setShowErrorModal(true);
-          setShowErrorModalMessage(JSON.stringify(error.message));
-        });
+      dispatch(getOneCounselor(counselorId));
     }, []);
   }
 
-  const onLoading = (data) => {
-    setFirstNameValue(data.firstName ?? '-');
-    setLastNameValue(data.lastName ?? '-');
-    setEmailValue(data.email ?? '-');
-    setGenderValue(data.gender ?? '-');
-    setAdressValue(data.address ?? '-');
-    setBirthdayValue(data.birthday ?? '-');
-    setCityValue(data.city ?? '-');
-    setCountryValue(data.country ?? '-');
-    setPhoneValue(data.phone ?? '-');
-    setMondayValue(data.availability?.day[0] ?? '-');
-    setMondayFromValue(data.lastName ?? '-');
-    setMondayToValue(data.lastName ?? '-');
-    setTuesdayValue(data.lastName ?? '-');
-    setTuesdayFromValue(data.lastName ?? '-');
-    setTuesdayToValue(data.lastName ?? '-');
-    setWednesdayValue(data.lastName ?? '-');
-    setWednesdayFromValue(data.lastName ?? '-');
-    setWednesdayToValue(data.lastName ?? '-');
-    setThursdayValue(data.lastName ?? '-');
-    setThursdayFromValue(data.lastName ?? '-');
-    setThursdayToValue(data.lastName ?? '-');
-    setFridayValue(data.lastName ?? '-');
-    setFridayFromValue(data.lastName ?? '-');
-    setFridayToValue(data.lastName ?? '-');
-  };
-  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    if (Object.keys(selectedCounselor).length <= 0) return;
+    setFirstNameValue(selectedCounselor.firstName ?? '-');
+    setLastNameValue(selectedCounselor.lastName ?? '-');
+    setEmailValue(selectedCounselor.email ?? '-');
+    setGenderValue(selectedCounselor.gender ?? '-');
+    setAddressValue(selectedCounselor.address ?? '-');
+    setBirthdayValue(selectedCounselor.birthday ?? '-');
+    setCityValue(selectedCounselor.city ?? '-');
+    setCountryValue(selectedCounselor.country ?? '-');
+    setPhoneValue(selectedCounselor.phone ?? '-');
+    setMondayValue(selectedCounselor.availability[0].available);
+    setMondayFromValue(selectedCounselor.availability[0].from ?? '-');
+    setMondayToValue(selectedCounselor.availability[0].to ?? '-');
+    setTuesdayValue(selectedCounselor.availability[1].available);
+    setTuesdayFromValue(selectedCounselor.availability[1].from ?? '-');
+    setTuesdayToValue(selectedCounselor.availability[1].to ?? '-');
+    setWednesdayValue(selectedCounselor.availability[2].available);
+    setWednesdayFromValue(selectedCounselor.availability[2].from ?? '-');
+    setWednesdayToValue(selectedCounselor.availability[2].to ?? '-');
+    setThursdayValue(selectedCounselor.availability[3].available);
+    setThursdayFromValue(selectedCounselor.availability[3].from ?? '-');
+    setThursdayToValue(selectedCounselor.availability[3].to ?? '-');
+    setFridayValue(selectedCounselor.availability[4].available);
+    setFridayFromValue(selectedCounselor.availability[4].from ?? '-');
+    setFridayToValue(selectedCounselor.availability[4].to ?? '-');
+    if (!counselorId) {
+      setFirstNameValue('');
+      setLastNameValue('');
+      setEmailValue('');
+      setGenderValue('');
+      setAddressValue('');
+      setBirthdayValue('');
+      setCityValue('');
+      setCountryValue('');
+      setPhoneValue('');
+      setMondayValue(false);
+      setMondayFromValue('');
+      setMondayToValue('');
+      setTuesdayValue(false);
+      setTuesdayFromValue('');
+      setTuesdayToValue('');
+      setWednesdayValue(false);
+      setWednesdayFromValue('');
+      setWednesdayToValue('');
+      setThursdayValue(false);
+      setThursdayFromValue('');
+      setThursdayToValue('');
+      setFridayValue(false);
+      setFridayFromValue('');
+      setFridayToValue('');
+    }
+  }, [selectedCounselor]);
 
   const onChangeFirstNameInput = (event) => {
     setFirstNameValue(event.target.value);
@@ -100,8 +127,8 @@ const CouncelorsForm = () => {
     setGenderValue(event.target.value);
   };
 
-  const onChangeAdressInput = (event) => {
-    setAdressValue(event.target.value);
+  const onChangeAddressInput = (event) => {
+    setAddressValue(event.target.value);
   };
 
   const onChangeBirthdayInput = (event) => {
@@ -121,7 +148,7 @@ const CouncelorsForm = () => {
   };
 
   const onChangeAvailabilityMonday = (event) => {
-    String(setMondayValue(event.target.value)) === true;
+    setMondayValue(event.target.checked);
   };
 
   const onChangeFromMonday = (event) => {
@@ -133,7 +160,7 @@ const CouncelorsForm = () => {
   };
 
   const onChangeAvailabilityTuesday = (event) => {
-    setTuesdayValue(event.target.value);
+    setTuesdayValue(event.target.checked);
   };
 
   const onChangeFromTuesday = (event) => {
@@ -145,7 +172,7 @@ const CouncelorsForm = () => {
   };
 
   const onChangeAvailabilityWednesday = (event) => {
-    setWednesdayValue(event.target.value);
+    setWednesdayValue(event.target.checked);
   };
 
   const onChangeFromWednesday = (event) => {
@@ -157,7 +184,7 @@ const CouncelorsForm = () => {
   };
 
   const onChangeAvailabilityThursday = (event) => {
-    setThursdayValue(event.target.value);
+    setThursdayValue(event.target.checked);
   };
 
   const onChangeFromThursday = (event) => {
@@ -169,7 +196,7 @@ const CouncelorsForm = () => {
   };
 
   const onChangeAvailabilityFriday = (event) => {
-    setFridayValue(event.target.value);
+    setFridayValue(event.target.checked);
   };
 
   const onChangeFromFriday = (event) => {
@@ -181,89 +208,112 @@ const CouncelorsForm = () => {
   };
 
   const submit = () => {
-    setIsLoading(true);
-    const params = new URLSearchParams(window.location.search);
-    const councelorId = params.get('id');
-    let url;
-
-    const options = {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName: firstNameValue,
-        lastName: lastNameValue,
-        email: emailValue,
-        gender: genderValue,
-        adress: adressValue,
-        birthday: birthdayValue,
-        city: cityValue,
-        country: countryValue,
-        phone: phoneValue,
-        availability: {
-          monday: {
-            availability: mondayValue,
-            from: mondayFromValue,
-            to: mondayToValue
-          },
-          tuesday: {
-            availability: tuesdayValue,
-            from: tuesdayFromValue,
-            to: tuesdayToValue
-          },
-          wednesday: {
-            availability: wednesdayValue,
-            from: wednesdayFromValue,
-            to: wednesdayToValue
-          },
-          thursday: {
-            availability: thursdayValue,
-            from: thursdayFromValue,
-            to: thursdayToValue
-          },
-          friday: {
-            availability: fridayValue,
-            from: fridayFromValue,
-            to: fridayToValue
-          }
+    if (counselorId) {
+      dispatch(
+        updateCounselor(counselorId, {
+          firstName: firstNameValue,
+          lastName: lastNameValue,
+          email: emailValue,
+          gender: genderValue,
+          address: addressValue,
+          birthday: birthdayValue,
+          city: cityValue,
+          country: countryValue,
+          phone: phoneValue,
+          availability: [
+            {
+              day: 'Monday',
+              available: mondayValue,
+              from: mondayFromValue,
+              to: mondayToValue
+            },
+            {
+              day: 'Tuesday',
+              available: tuesdayValue,
+              from: tuesdayFromValue,
+              to: tuesdayToValue
+            },
+            {
+              day: 'Wednesday',
+              available: wednesdayValue,
+              from: wednesdayFromValue,
+              to: wednesdayToValue
+            },
+            {
+              day: 'Thursday',
+              available: thursdayValue,
+              from: thursdayFromValue,
+              to: thursdayToValue
+            },
+            {
+              day: 'Friday',
+              available: fridayValue,
+              from: fridayFromValue,
+              to: fridayToValue
+            }
+          ]
+        })
+      ).then((response) => {
+        if (response) {
+          history.push('/counselors');
         }
-      })
-    };
-
-    if (councelorId !== null) {
-      options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/counselors/update/${councelorId}`;
-    } else {
-      options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/counselors/add`;
-    }
-
-    fetch(url, options)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
-          return response.json().then(({ message }) => {
-            throw new Error(message);
-          });
-        }
-      })
-      .then(() => {
-        window.location.replace(`http://localhost:3000/counselors`);
-      })
-      .catch((error) => {
-        setShowErrorModal(true);
-        setShowErrorModalMessage(JSON.stringify(error.message));
-      })
-      .finally(() => {
-        setShowModal(false);
-        setIsLoading(false);
       });
+    } else {
+      dispatch(
+        addCounselor({
+          firstName: firstNameValue,
+          lastName: lastNameValue,
+          email: emailValue,
+          gender: genderValue,
+          address: addressValue,
+          birthday: birthdayValue,
+          city: cityValue,
+          country: countryValue,
+          phone: phoneValue,
+          availability: [
+            {
+              day: 'Monday',
+              available: mondayValue,
+              from: mondayFromValue,
+              to: mondayToValue
+            },
+            {
+              day: 'Tuesday',
+              available: tuesdayValue,
+              from: tuesdayFromValue,
+              to: tuesdayToValue
+            },
+            {
+              day: 'Wednesday',
+              available: wednesdayValue,
+              from: wednesdayFromValue,
+              to: wednesdayToValue
+            },
+            {
+              day: 'Thursday',
+              available: thursdayValue,
+              from: thursdayFromValue,
+              to: thursdayToValue
+            },
+            {
+              day: 'Friday',
+              available: fridayValue,
+              from: fridayFromValue,
+              to: fridayToValue
+            }
+          ]
+        })
+      ).then((response) => {
+        if (response) {
+          history.push('/counselors');
+        }
+      });
+    }
   };
 
-  const closeErrorMessage = () => {
-    setShowErrorModal(false);
+  const closeModal = () => {
+    setShowModal(false);
   };
-
-  const closeModal = () => setShowModal(false);
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -346,7 +396,7 @@ const CouncelorsForm = () => {
         firstNameValue.length > 0 &&
         lastNameValue.length > 0 &&
         genderValue.length > 0 &&
-        adressValue.length > 0 &&
+        addressValue.length > 0 &&
         cityValue.length > 0 &&
         countryValue.length > 0
       ) {
@@ -373,10 +423,10 @@ const CouncelorsForm = () => {
         rightButtonText="cancel"
       />
       <ErrorModal
-        showModal={showErrorModal}
-        closeModal={closeErrorMessage}
+        showModal={error}
+        closeModal={() => errorToDefault()}
         titleText="Error"
-        middleText={showErrorModalMessage}
+        middleText={errorMessage}
         buttonText="ok"
       />
       <form className={styles.form} onSubmit={onSubmit}>
@@ -421,13 +471,13 @@ const CouncelorsForm = () => {
           onChange={onChangeGenderInput}
         />
         <Input
-          label="Adress"
-          name="adress"
+          label="Address"
+          name="address"
           type="string"
           required
           className={styles.input}
-          value={adressValue}
-          onChange={onChangeAdressInput}
+          value={addressValue}
+          onChange={onChangeAddressInput}
         />
         <Input
           label="Birthday"
@@ -471,8 +521,14 @@ const CouncelorsForm = () => {
         <Error showError={phoneError} text={'Telephones with # () and blanks are not valid'} />
         <div className={styles.availabilityContainer}>
           <div className={styles.day}>
-            <div onChange={onChangeAvailabilityMonday} className={styles.eachDay}>
-              <Input label="Monday" type="checkbox" value={true} name="monday" />
+            <div className={styles.eachDay}>
+              <Input
+                label="Monday"
+                type="checkbox"
+                onChange={onChangeAvailabilityMonday}
+                checked={mondayValue}
+                name="monday"
+              />
             </div>
             <div>
               <Input
@@ -496,8 +552,14 @@ const CouncelorsForm = () => {
             </div>
           </div>
           <div className={styles.day}>
-            <div onChange={onChangeAvailabilityTuesday} className={styles.eachDay}>
-              <Input label="Tuesday" type="checkbox" value={true} name="tuesday" />
+            <div className={styles.eachDay}>
+              <Input
+                label="Tuesday"
+                type="checkbox"
+                onChange={onChangeAvailabilityTuesday}
+                checked={tuesdayValue}
+                name="tuesday"
+              />
             </div>
             <div>
               <Input
@@ -521,8 +583,14 @@ const CouncelorsForm = () => {
             </div>
           </div>
           <div className={styles.day}>
-            <div onChange={onChangeAvailabilityWednesday} className={styles.eachDay}>
-              <Input label="Wednesday" type="checkbox" value={true} name="wednesday" />
+            <div className={styles.eachDay}>
+              <Input
+                label="Wednesday"
+                type="checkbox"
+                onChange={onChangeAvailabilityWednesday}
+                checked={wednesdayValue}
+                name="wednesday"
+              />
             </div>
             <div>
               <Input
@@ -546,8 +614,14 @@ const CouncelorsForm = () => {
             </div>
           </div>
           <div className={styles.day}>
-            <div onChange={onChangeAvailabilityThursday} className={styles.eachDay}>
-              <Input label="Thursday" type="checkbox" value={true} name="thursday" />
+            <div className={styles.eachDay}>
+              <Input
+                label="Thursday"
+                type="checkbox"
+                onChange={onChangeAvailabilityThursday}
+                checked={thursdayValue}
+                name="thursday"
+              />
             </div>
             <div>
               <Input
@@ -571,8 +645,14 @@ const CouncelorsForm = () => {
             </div>
           </div>
           <div className={styles.day}>
-            <div onChange={onChangeAvailabilityFriday} className={styles.eachDay}>
-              <Input label="Friday" type="checkbox" value={true} name="thursday" />
+            <div className={styles.eachDay}>
+              <Input
+                label="Friday"
+                type="checkbox"
+                onChange={onChangeAvailabilityFriday}
+                checked={fridayValue}
+                name="friday"
+              />
             </div>
             <div>
               <Input
