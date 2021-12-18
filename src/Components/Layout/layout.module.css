@@ -13,7 +13,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow-y: scroll;
   width: 80vw;
   background-color: rgb(228, 225, 225);
+}
+
+.content > :nth-child(1) {
+  height: 100%;
+  overflow-y: scroll;
+  width: 80%;
 }
