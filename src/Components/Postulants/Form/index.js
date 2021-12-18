@@ -1162,13 +1162,15 @@ const PostulantsForm = () => {
             />
           </div>
         </div>
-        <div className={styles.formButton}>
-          {postulantId ? (
-            <button type="submit">Edit</button>
-          ) : (
-            <button type="submit">Add postulant</button>
-          )}
-        </div>
+        {postulantId ? (
+          <button className={styles.sendFormButton} type="submit">
+            Edit
+          </button>
+        ) : (
+          <button className={styles.sendFormButton} type="submit">
+            Add postulant
+          </button>
+        )}
       </form>
     </div>
   );
