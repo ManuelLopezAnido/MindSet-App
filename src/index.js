@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
-import Routes from './routes';
+import Routes from './Routes';
 import './reset.css';
 import './index.css';
 import { composeWithDevTools } from 'redux-devtools-extension';

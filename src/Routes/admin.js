@@ -21,7 +21,7 @@ import CouncelorsForm from 'Components/Councelors/Form';
 import Sessions from 'Components/Sessions';
 import SessionsForm from 'Components/Sessions/Form';
 
-const Routes = () => {
+const AdminRoutes = () => {
   return (
     <Layout>
       <Switch>
@@ -58,4 +58,4 @@ const Routes = () => {
   );
 };
 
-export default Routes;
+export default AdminRoutes;
