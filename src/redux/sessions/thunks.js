@@ -20,7 +20,7 @@ const URL = process.env.REACT_APP_API;
 
 export const getSessions = () => (dispatch) => {
   dispatch(getSessionsFetching());
-  fetch(`${URL}/sessions/`)
+  fetch(`${URL}/sessions`)
     .then((data) => data.json())
     .then((response) => dispatch(getSessionsFulfilled(response)))
     .catch((error) => dispatch(getSessionsRejected(error)));

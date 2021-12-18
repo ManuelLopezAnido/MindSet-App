@@ -51,6 +51,7 @@ const SessionsForm = () => {
     }, []);
 
     useEffect(() => {
+      if (!selectedSession) return;
       setPostulantIdValue(selectedSession.postulantId ?? '');
       setCounselorIdValue(selectedSession.counselorId ?? '');
       setDateValue(selectedSession.date ?? '');

@@ -1,12 +1,14 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 .container * > tbody {
   text-align: center;
+}
+
+.sessionsTable {
+  width: 100%;
+}
+
+.sessionsTable > thead {
+  font-size: 1.2rem;
+  border-bottom: 1px solid;
 }
 
 .addButton {
@@ -39,4 +41,3 @@
   width: 100%;
   border-bottom: 2px solid #dedede;
 }
-

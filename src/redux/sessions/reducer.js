@@ -77,7 +77,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        list: [...state.list, action.payload.data]
+        list: [...state.list, action.payload]
       };
     case ADD_SESSION_REJECTED:
       return {

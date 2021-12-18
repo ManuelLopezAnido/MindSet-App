@@ -73,7 +73,7 @@ function Sessions() {
         <h3>Sessions</h3>
         <Button onClick={() => history.push('/sessions/form')} />
       </div>
-      <table>
+      <table className={styles.sessionsTable}>
         <thead>
           <tr>
             <th>Postulant Id</th>
