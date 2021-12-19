@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
 import styles from './positions.module.css';
+import NoData from 'Components/Shared/NoData/NoData';
+import { getPositions, deletePosition } from 'redux/positions/thunks';
+import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { errorToDefault } from 'redux/positions/actions';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
@@ -8,55 +13,28 @@ import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 
 function Positions() {
   const [showModal, setShowModal] = useState(false);
-  const [positions, setPositions] = useState([]);
   const [selectedId, setSelectedId] = useState('');
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const listPositions = useSelector((store) => store.positions.list);
+  const isLoading = useSelector((store) => store.positions.isLoading);
+  const error = useSelector((store) => store.positions.error);
 
   useEffect(() => {
-    setIsLoading(true);
-    fetch(`${process.env.REACT_APP_API}/positions`)
-      .then((response) => response.json())
-      .then((response) => {
-        setPositions(response);
-      })
-      .catch((error) => {
-        setShowErrorModal(true);
-        setShowErrorModalMessage(JSON.stringify(error.message));
-      })
-      .finally(() => setIsLoading(false));
-  }, []);
+    if (!listPositions.length) {
+      dispatch(getPositions());
+    }
+  }, [listPositions]);
 
   const addPositions = () => {
-    window.location.href = `/admin/positions/form`;
+    history.push('/admin/positions/form');
   };
 
-  const deletePosition = () => {
-    const url = `${process.env.REACT_APP_API}/positions/delete/${selectedId}`;
-    setIsLoading(true);
-    fetch(url, {
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json'
-      }
-    })
-      .then((res) => {
-        if (res.status !== 204 && res.status !== 200) {
-          return res.json().then((ErrMessage) => {
-            throw new Error(ErrMessage);
-          });
-        }
-        setPositions(positions.filter((a) => a._id !== selectedId));
-      })
-      .catch((error) => {
-        setShowErrorModal(true);
-        setShowErrorModalMessage(JSON.stringify(error.message));
-      })
-      .finally(() => {
-        setShowModal(false);
-        setIsLoading(false);
-      });
+  const OnClickDeletePosition = () => {
+    setShowModal(false);
+    dispatch(deletePosition(selectedId));
   };
 
   const handleIdPosition = (event, id) => {
@@ -70,9 +48,8 @@ function Positions() {
   };
 
   const closeErrorMessage = () => {
-    setShowErrorModal(false);
+    dispatch(errorToDefault());
   };
-
   if (isLoading) return <IsLoading />;
 
   return (
@@ -80,7 +57,7 @@ function Positions() {
       <Modal
         showModal={showModal}
         closeModal={closeModal}
-        actionEntity={deletePosition}
+        actionEntity={OnClickDeletePosition}
         selectedId={selectedId}
         titleText="Delete a position"
         spanObjectArray={[
@@ -92,10 +69,9 @@ function Positions() {
         rightButtonText="cancel"
       />
       <ErrorModal
-        showModal={showErrorModal}
+        showModal={error}
         closeModal={closeErrorMessage}
         titleText="Error"
-        middleText={showErrorModalMessage}
         buttonText="ok"
       />
       <div className={styles.titleAndButton}>
@@ -111,7 +87,7 @@ function Positions() {
           </tr>
         </thead>
         <tbody>
-          {positions.map((a) => (
+          {listPositions.map((a) => (
             <tr
               className={styles.positionRow}
               key={a._id}
@@ -127,6 +103,7 @@ function Positions() {
           ))}
         </tbody>
       </table>
+      <NoData data={listPositions.length} />
     </section>
   );
 }
