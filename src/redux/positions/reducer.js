@@ -32,7 +32,6 @@ const reducer = (state = initialState, action) => {
         isLoading: true
       };
     case GET_POSITIONS_FULFILLED: {
-      console.log('Positions fullfilled: ', action.payload);
       return {
         ...state,
         isLoading: false,
@@ -68,26 +67,24 @@ const reducer = (state = initialState, action) => {
     case ADD_POSITION_FETCHING:
       return {
         ...state,
-        error: false,
         isLoading: true
       };
     case ADD_POSITION_FULFILLED:
       return {
         ...state,
         isLoading: false,
-        list: [...state.list, action.payload]
+        list: []
       };
     case ADD_POSITION_REJECTED:
       return {
         ...state,
         isLoading: false,
-        error: true
+        error: action.payload
       };
 
     case UPDATE_POSITION_FETCHING:
       return {
         ...state,
-        error: false,
         isLoading: true
       };
     case UPDATE_POSITION_FULFILLED:
@@ -100,8 +97,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: true,
-        errorMessage: action.payload
+        error: action.payload
       };
 
     case DELETE_POSITION_FETCHING:
@@ -116,7 +112,6 @@ const reducer = (state = initialState, action) => {
         list: state.list.filter((pos) => pos._id !== action.payload)
       };
     case DELETE_POSITION_REJECTED: {
-      console.log(action.payload);
       return {
         ...state,
         isLoading: false,

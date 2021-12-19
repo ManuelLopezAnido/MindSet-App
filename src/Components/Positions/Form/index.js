@@ -80,6 +80,7 @@ const PositionsForm = () => {
           jobTitle: jobTitle,
           clientId: clientId,
           companyName: companyName,
+          jobDescription: jobDescription,
           city: city,
           country: country,
           datePosted: datePosted,
@@ -96,10 +97,11 @@ const PositionsForm = () => {
           jobTitle: jobTitle,
           clientId: clientId,
           companyName: companyName,
+          jobDescription: jobDescription,
           city: city,
           country: country,
-          datePosted: datePosted,
-          closingDate: closingDate
+          datePosted: datePosted.toString(),
+          closingDate: closingDate.toString()
         })
       ).then((response) => {
         if (response) {
@@ -108,7 +110,6 @@ const PositionsForm = () => {
       });
     }
   };
-
   const closeErrorMessage = () => {
     dispatch(errorToDefault());
   };
@@ -123,7 +124,7 @@ const PositionsForm = () => {
   if (isLoading) return <IsLoading />;
 
   return (
-    <div>
+    <div className={styles.container}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -144,13 +145,13 @@ const PositionsForm = () => {
         buttonText="ok"
       />
       <h1>Form</h1>
-      <form className={styles.container} onSubmit={onSubmit}>
+      <form className={styles.contForm} onSubmit={onSubmit}>
         <Input
           label="Job"
           id="jobTitle"
           name="jobTitleName"
           type="string"
-          required
+          requireds
           value={jobTitle}
           onChange={onChangeJobTitle}
         />
@@ -171,6 +172,15 @@ const PositionsForm = () => {
           required
           value={companyName}
           onChange={onChangeCompanyName}
+        />
+        <Input
+          label="Job Title"
+          id="JobTitle"
+          name="jobTitleName"
+          type="string"
+          required
+          value={jobTitle}
+          onChange={onChangeJobTitle}
         />
         <Input
           label="Job Description"

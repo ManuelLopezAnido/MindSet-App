@@ -23,7 +23,6 @@ export const getPositions = () => (dispatch) => {
     .then((data) => data.json())
     .then((response) => dispatch(getPositionsFulfilled(response)))
     .catch((error) => {
-      console.log('Error is:', error.toString());
       dispatch(getPositionsRejected(error.toString()));
     });
 };
@@ -36,9 +35,6 @@ export const getOnePosition = (id) => (dispatch) => {
       return response.json();
     })
     .then((response) => {
-      {
-        console.log('the fullflied position is: ', response);
-      }
       dispatch(getOnePositionFulfilled(response));
     })
     .catch((error) => {
@@ -52,36 +48,26 @@ export const addPosition = (data) => (dispatch) => {
     headers: {
       'Content-type': 'application/json'
     },
-    body: JSON.stringify({
-      email: data.email,
-      password: data.password
-    })
+    body: JSON.stringify(data)
   };
-
   dispatch(addPositionFetching());
 
   return fetch(`${URL}/positions/create`, options)
     .then((data) => {
-      if (data.status !== 201) {
-        return data.json().then(({ message }) => {
-          throw message;
-        });
-      }
+      if (data.status != 201) throw data;
       return data.json();
     })
     .then((response) => {
-      dispatch(addPositionFulfilled(response));
-      return response;
+      return dispatch(addPositionFulfilled(response));
     })
     .catch((error) => {
-      dispatch(addPositionRejected(error));
-      return error;
+      dispatch(addPositionRejected(error.statusText));
     });
 };
 
 export const updatePosition = (id, data) => (dispatch) => {
   dispatch(updatePositionFetching());
-  return fetch(`${URL}positions/update/${id}`, {
+  return fetch(`${URL}/positions/update/${id}`, {
     method: 'PUT',
     headers: {
       'Content-type': 'application/json'
@@ -95,7 +81,9 @@ export const updatePosition = (id, data) => (dispatch) => {
     .then((response) => {
       return dispatch(updatePositionFulfilled(response));
     })
-    .catch((error) => dispatch(updatePositionRejected(error)));
+    .catch((error) => {
+      dispatch(updatePositionRejected(error));
+    });
 };
 
 export const deletePosition = (id) => (dispatch) => {
@@ -111,7 +99,6 @@ export const deletePosition = (id) => (dispatch) => {
       dispatch(deletePositionFulfilled(id));
     })
     .catch((error) => {
-      console.log('error is:', error);
       dispatch(deletePositionRejected(error.statusText));
     });
 };

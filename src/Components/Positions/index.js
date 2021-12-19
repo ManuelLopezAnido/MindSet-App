@@ -29,10 +29,10 @@ function Positions() {
   }, [listPositions]);
 
   const addPositions = () => {
-    history.push('/admins/form');
+    history.push('/positions/form');
   };
 
-  const OnClickdeletePosition = () => {
+  const OnClickDeletePosition = () => {
     setShowModal(false);
     dispatch(deletePosition(selectedId));
   };
@@ -50,7 +50,6 @@ function Positions() {
   const closeErrorMessage = () => {
     dispatch(errorToDefault());
   };
-  console.log(listPositions.length);
   if (isLoading) return <IsLoading />;
 
   return (
@@ -58,7 +57,7 @@ function Positions() {
       <Modal
         showModal={showModal}
         closeModal={closeModal}
-        actionEntity={OnClickdeletePosition}
+        actionEntity={OnClickDeletePosition}
         selectedId={selectedId}
         titleText="Delete a position"
         spanObjectArray={[
