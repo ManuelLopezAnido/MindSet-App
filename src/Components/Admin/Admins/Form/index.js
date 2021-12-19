@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { errorToDefault, selectedToDefault } from 'redux/admins/actions';
 import { useHistory } from 'react-router-dom';
 import { Field, Form } from 'react-final-form';
-import { emailValidation, passwordValidation } from 'regex';
+import { validateEmail, validatePassword } from 'validations';
 
 const AdminsForm = () => {
   const [showModal, setShowModal] = useState(false);
@@ -55,16 +55,15 @@ const AdminsForm = () => {
   };
 
   const validate = (formValues) => {
-    console.log('validating');
     const errors = {};
-    if (!emailValidation.test(formValues.email)) {
-      errors.email = 'Invalid email';
-    }
-    if (!passwordValidation.test(formValues.password)) {
-      errors.password = 'At least 8 characters, one letter and one number';
-      console.log('error');
-    }
+    validateEmail(formValues.email, errors);
+    validatePassword(formValues.password, errors);
     return errors;
+  };
+
+  const onSubmit = (formValues) => {
+    setFormValues(formValues);
+    setShowModal(true);
   };
 
   if (isLoading) return <IsLoading />;
@@ -92,10 +91,7 @@ const AdminsForm = () => {
         buttonText="ok"
       />
       <Form
-        onSubmit={(formValues) => {
-          setFormValues(formValues);
-          setShowModal(true);
-        }}
+        onSubmit={onSubmit}
         validate={validate}
         initialValues={selectedAdmin}
         render={(formProps) => (
