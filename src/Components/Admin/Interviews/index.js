@@ -29,7 +29,7 @@ function Interviews() {
   }, []);
 
   const addInterview = () => {
-    window.location.href = `/interviews/form`;
+    window.location.href = `/admin/interviews/form`;
   };
 
   const deleteInterview = () => {
@@ -114,7 +114,7 @@ function Interviews() {
             <tr
               className={styles.interviewRow}
               key={interview._id}
-              onClick={() => (window.location.href = `interviews/form?id=${interview._id}`)}
+              onClick={() => (window.location.href = `/admin/interviews/form?id=${interview._id}`)}
             >
               <td>{interview.jobTitle}</td>
               <td>{interview.companyName}</td>

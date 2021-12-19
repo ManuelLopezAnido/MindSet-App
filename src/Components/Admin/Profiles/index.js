@@ -29,7 +29,7 @@ function WorkProfiles() {
   }, []);
 
   const addWorkProfile = () => {
-    window.location.href = `/workprofiles/form`;
+    window.location.href = `/admin/workprofiles/form`;
   };
 
   const deleteWorkProfile = () => {
@@ -112,7 +112,9 @@ function WorkProfiles() {
             <tr
               className={styles.workProfileRow}
               key={workProfile._id}
-              onClick={() => (window.location.href = `workprofiles/form?id=${workProfile._id}`)}
+              onClick={() =>
+                (window.location.href = `/admin/workprofiles/form?id=${workProfile._id}`)
+              }
             >
               <td>{workProfile.name}</td>
               <td>{workProfile.description}</td>

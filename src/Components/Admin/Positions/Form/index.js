@@ -111,7 +111,7 @@ const PositionsForm = () => {
         }
       })
       .then(() => {
-        window.location.href = `/positions`;
+        window.location.href = `/admin/positions`;
       })
       .catch((error) => {
         setShowErrorModal(true);

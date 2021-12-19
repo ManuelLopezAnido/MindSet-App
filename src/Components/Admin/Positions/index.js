@@ -29,7 +29,7 @@ function Positions() {
   }, []);
 
   const addPositions = () => {
-    window.location.href = `/positions/form`;
+    window.location.href = `/admin/positions/form`;
   };
 
   const deletePosition = () => {
@@ -115,7 +115,7 @@ function Positions() {
             <tr
               className={styles.positionRow}
               key={a._id}
-              onClick={() => (window.location.href = `positions/form?id=${a._id}`)}
+              onClick={() => (window.location.href = `/admin/positions/form?id=${a._id}`)}
             >
               <td>{a.jobTitle}</td>
               <td>{a.companyName}</td>

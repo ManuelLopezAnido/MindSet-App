@@ -84,7 +84,7 @@ const FormApplication = () => {
             throw new Error(ErrMessage);
           });
         }
-        window.location.href = `/applications`;
+        window.location.href = `/admin/applications`;
       })
       .catch((error) => {
         setShowErrorModal(true);

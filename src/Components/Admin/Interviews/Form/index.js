@@ -89,7 +89,7 @@ const InterviewsForm = () => {
             throw new Error(msg);
           });
         }
-        return (window.location.href = `/interviews`);
+        return (window.location.href = `/admin/interviews`);
       })
       .catch((error) => {
         setShowErrorModalMessage(error.toString());

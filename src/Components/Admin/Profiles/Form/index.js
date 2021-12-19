@@ -77,7 +77,7 @@ const ProfilesForm = () => {
             throw new Error(msg);
           });
         }
-        return (window.location.href = `/profiles`);
+        return (window.location.href = `/admin/profiles`);
       })
       .catch((error) => {
         setShowErrorModalMessage(error.toString());

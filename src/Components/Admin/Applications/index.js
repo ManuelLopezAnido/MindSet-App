@@ -30,7 +30,7 @@ function Applications() {
   }, []);
 
   const addApplication = () => {
-    window.location.href = `/applications/form`;
+    window.location.href = `/admin/applications/form`;
   };
 
   const deleteApplication = () => {
@@ -117,7 +117,7 @@ function Applications() {
             <tr
               className={styles.applicationRow}
               key={a._id}
-              onClick={() => (window.location.href = `applications/form?id=${a._id}`)}
+              onClick={() => (window.location.href = `/admin/applications/form?id=${a._id}`)}
             >
               <td>{a.positionId ? a.positionId.jobTitle : 'Not found position'}</td>
               <td>{a.companyId ? a.companyId.companyName : 'Not found company'}</td>
