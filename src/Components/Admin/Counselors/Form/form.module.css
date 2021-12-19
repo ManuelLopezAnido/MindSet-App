@@ -1,0 +1,56 @@
+.form {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 16px;
+  min-width: 50%;
+  max-width: 70%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.form > h2 {
+  width: 100%;
+  text-align: center;
+}
+
+.availabilityContainer{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.day{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5px;
+  width:80%;
+}
+
+.eachDay{
+  display: flex;
+  justify-content: space-between;
+  width: 280px;
+}
+
+.eachDay input{
+  display: flex;
+  margin-top: 5px;
+  width: 15px;
+}
+
+.eachDay label{
+  width: 20%;
+}

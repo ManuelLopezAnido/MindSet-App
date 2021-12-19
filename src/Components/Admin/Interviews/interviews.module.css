@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+}
+
+.container * > tbody {
+  text-align: center;
+}
+
+.list {
+  width: 100%;
+}
+
+.addButton {
+  width: 100px;
+  height: 50px;
+  padding: 5px 15px;
+  margin: 20px 0px;
+  border: none;
+  border-radius: 7px;
+  background-color: #002147;
+  color: white;
+  font-weight: bold;
+}
+
+.interviewRow:hover :not(.deleteButtonTD, .deleteIcon, img) {
+  background: lightgrey;
+  cursor: pointer;
+}
+
+.deleteIcon {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.titleAndButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-bottom: 2px solid #dedede;
+}

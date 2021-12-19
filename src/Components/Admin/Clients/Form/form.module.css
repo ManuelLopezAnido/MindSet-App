@@ -1,0 +1,29 @@
+.form {
+  height: 100%;
+  overflow-y: scroll;
+  margin-top: 20px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container * >input {
+  width: 250px;
+  margin: 10px 0px;
+}
+
+.sendFormButton {
+  width: 100px;
+  height: 50px;
+  padding: 5px 15px;
+  margin: 20px 0px;
+  border: none;
+  border-radius: 7px;
+  background-color: #002147;
+  color: white;
+  font-weight: bold;
+}

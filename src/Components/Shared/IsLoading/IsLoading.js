@@ -1,5 +1,5 @@
 import styles from './isLoading.module.css';
-import loadingImg from '../../../assets/images/loadingImage.png';
+import loadingImg from 'assets/images/loadingImage.png';
 
 const IsLoading = () => (
   <div className={styles.loading}>

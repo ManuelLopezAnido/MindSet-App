@@ -1,5 +1,5 @@
-import Header from '../Header';
-import Navbar from '../Navbar';
+import Header from 'Components/Layout/Header';
+import Navbar from 'Components/Layout/Navbar';
 import styles from './layout.module.css';
 
 const Layout = (props) => {
