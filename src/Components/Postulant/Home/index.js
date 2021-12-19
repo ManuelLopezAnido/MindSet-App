@@ -1,5 +1,7 @@
 import styles from './home.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getOnePostulant } from 'redux/postulants/thunks';
 
 function Home() {
   const [openPersonalInformationData, setOpenPersonalInformationData] = useState(false);
@@ -23,8 +25,17 @@ function Home() {
     setDataOfInterestData(!openDataOfInterestData);
   };
 
+  const dispatch = useDispatch();
+  const selectedPostulant = useSelector((store) => store.postulants.selected);
+  const postulantId = '61a4398da318de40f22eba2c';
+
+  useEffect(() => {
+    dispatch(getOnePostulant(postulantId));
+  }, []);
+
   return (
     <section className={styles.home}>
+      {console.log(selectedPostulant)}
       <div className={styles.informationField}>
         <div className={styles.titleField}>
           <p>Personal Information</p>
@@ -33,48 +44,48 @@ function Home() {
         {openPersonalInformationData ? (
           <div className={styles.dataSection}>
             <div className={styles.dataField}>
-              <p>Name</p>
-              <p>Juan Alberto</p>
+              <p className={styles.fieldName}>Name</p>
+              <p>{selectedPostulant.firstName}</p>
             </div>
             <div className={styles.dataField}>
-              <p>Last Name</p>
-              <p>Mateyko</p>
+              <p className={styles.fieldName}>Last Name</p>
+              <p>{selectedPostulant.lastName}</p>
             </div>
             <div className={styles.dataField}>
-              <p>Email</p>
-              <p></p>
+              <p className={styles.fieldName}>Email</p>
+              <p>{selectedPostulant.email}</p>
             </div>
             <div className={styles.dataField}>
-              <p>Phone</p>
-              <p></p>
+              <p className={styles.fieldName}>Phone</p>
+              <p>{selectedPostulant.phone}</p>
             </div>
             <div className={styles.dataField}>
-              <p>Date of Birth</p>
-              <p></p>
+              <p className={styles.fieldName}>Date of Birth</p>
+              <p>{selectedPostulant.dateOfBirth}</p>
             </div>
             <div className={styles.dataField}>
-              <p>Gender</p>
-              <p></p>
+              <p className={styles.fieldName}>Gender</p>
+              <p>{selectedPostulant.gender}</p>
             </div>
             <div className={styles.dataField}>
-              <p>Adress</p>
-              <p></p>
+              <p className={styles.fieldName}>Address</p>
+              <p>???</p>
             </div>
             <div className={styles.dataField}>
-              <p>City</p>
-              <p></p>
+              <p className={styles.fieldName}>City</p>
+              <p>{selectedPostulant.city}</p>
             </div>
             <div className={styles.dataField}>
-              <p>Postal Code</p>
-              <p></p>
+              <p className={styles.fieldName}>Postal Code</p>
+              <p>????</p>
             </div>
             <div className={styles.dataField}>
-              <p>Country</p>
-              <p></p>
+              <p className={styles.fieldName}>Country</p>
+              <p>{selectedPostulant.country}</p>
             </div>
             <div className={styles.dataField}>
-              <p>Abount Me</p>
-              <p></p>
+              <p className={styles.fieldName}>Abount Me</p>
+              <p>????</p>
             </div>
           </div>
         ) : null}

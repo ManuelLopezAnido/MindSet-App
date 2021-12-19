@@ -29,3 +29,8 @@
   width: 25%;
   margin: 10px 20px;
 }
+
+.fieldName {
+  font-weight: bold;
+  margin-bottom: 15px;
+}
