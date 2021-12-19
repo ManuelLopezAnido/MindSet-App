@@ -12,12 +12,6 @@ const Header = () => {
         <div className={styles.brand}>MindSet</div>
         <div className={styles.mainHead}>
           <div className={styles.entityName}> {entity} </div>
-          <div>
-            <span>Log In</span>
-            <Link to="/postulant/signUp">
-              <span className={styles.signUp}>Sign Up</span>
-            </Link>
-          </div>
         </div>
       </div>
     </header>
