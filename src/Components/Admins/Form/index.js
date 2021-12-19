@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import Input from '../../Shared/Input';
-import Error from '../Error';
 import Button from '../Button';
 import Modal from '../../Shared/Modal';
 import ErrorModal from '../../Shared/ErrorModal';
@@ -11,18 +10,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { errorToDefault } from '../../../redux/admins/actions';
 import { useHistory } from 'react-router-dom';
 
+import { Field, Form } from 'react-final-form';
+
 const AdminsForm = () => {
   const [showModal, setShowModal] = useState(false);
-  const [emailValue, setEmailValue] = useState([]);
-  const [passwordValue, setPasswordValue] = useState([]);
-  const [passwordError, setPasswordError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
-  const [canSave, setCanSave] = useState(true);
-
+  const [formValues, setFormValues] = useState({});
   const dispatch = useDispatch();
-
   const history = useHistory();
-
   const isLoading = useSelector((store) => store.admins.isLoading);
   const error = useSelector((store) => store.admins.error);
   const errorMessage = useSelector((store) => store.admins.errorMessage);
@@ -37,42 +31,15 @@ const AdminsForm = () => {
     }, []);
   }
 
-  useEffect(() => {
-    setEmailValue(selectedAdmin.email ?? '');
-    setPasswordValue(selectedAdmin.password ?? '');
-    if (!adminId) {
-      setEmailValue('');
-      setPasswordValue('');
-    }
-  }, [selectedAdmin]);
-
-  const onChangeEmailInput = (event) => {
-    setEmailValue(event.target.value);
-  };
-
-  const onChangePasswordInput = (event) => {
-    setPasswordValue(event.target.value);
-  };
-
   const submit = () => {
     if (adminId) {
-      dispatch(
-        updateAdmin(adminId, {
-          email: emailValue,
-          password: passwordValue
-        })
-      ).then((response) => {
+      dispatch(updateAdmin(adminId, formValues)).then((response) => {
         if (response) {
           history.push('/admins');
         }
       });
     } else {
-      dispatch(
-        addAdmin({
-          email: emailValue,
-          password: passwordValue
-        })
-      ).then((response) => {
+      dispatch(addAdmin(formValues)).then((response) => {
         if (response) {
           history.push('/admins');
         }
@@ -84,44 +51,12 @@ const AdminsForm = () => {
     setShowModal(false);
   };
 
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const onSubmit = (formValues) => {
+    setFormValues(formValues);
     setShowModal(true);
   };
 
-  const hideEmail = () => {
-    setEmailError(false);
-  };
-
-  const hidePassword = () => {
-    setPasswordError(false);
-  };
-
-  const validateSave = () => {
-    if (emailValue.length > 0 && passwordValue.length === 0) {
-      if (!emailValue.includes('@')) {
-        setEmailError(true);
-        setCanSave(true);
-      }
-    } else if (emailValue.length === 0 && passwordValue.length > 0) {
-      if (passwordValue.length < 8) {
-        setPasswordError(true);
-        setCanSave(true);
-      }
-    } else if (emailValue.length === 0 && passwordValue.length === 0) {
-      setCanSave(true);
-    } else if (emailValue.length > 0 && passwordValue.length > 0) {
-      if (passwordValue.length < 8) {
-        setPasswordError(true);
-        setCanSave(true);
-      } else if (!emailValue.includes('@')) {
-        setEmailError(true);
-        setCanSave(true);
-      } else if (!emailError && !passwordError) {
-        setCanSave(false);
-      }
-    }
-  };
+  const validate = (formValues) => console.log(formValues);
 
   if (isLoading) return <IsLoading />;
 
@@ -147,37 +82,38 @@ const AdminsForm = () => {
         middleText={errorMessage}
         buttonText="ok"
       />
-      <form className={styles.form} onSubmit={onSubmit}>
-        <h2>Form</h2>
-        <Input
-          label="Email"
-          name="email"
-          type="string"
-          required
-          className={styles.input}
-          value={emailValue}
-          onChange={onChangeEmailInput}
-          onBlur={validateSave}
-          onFocus={hideEmail}
-        />
-        <Error showError={emailError} text={'Please fill with a valid email address'} />
-        <Input
-          label="Password"
-          name="password"
-          type="password"
-          required
-          className={styles.input}
-          value={passwordValue}
-          onChange={onChangePasswordInput}
-          onBlur={validateSave}
-          onFocus={hidePassword}
-        />
-        <Error
-          showError={passwordError}
-          text={'Password is too short. It must have at least 8 characters.'}
-        />
-        <Button type="Submit" disabled={canSave} />
-      </form>
+      <Form
+        onSubmit={onSubmit}
+        validate={validate}
+        initialValues={selectedAdmin}
+        render={(formProps) => (
+          <form className={styles.form} onSubmit={formProps.handleSubmit}>
+            <h2>Form</h2>
+            <Field
+              name="email"
+              label="email"
+              placeholder="example@geemail.com"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please enter your email')}
+            />
+            <Field
+              name="password"
+              label="Password"
+              placeholder="*********"
+              type="password"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please enter your email')}
+            />
+            <Button
+              type="submit"
+              className={StyleSheet.submitButton}
+              disabled={formProps.submitting || formProps.pristine}
+            />
+          </form>
+        )}
+      />
     </div>
   );
 };
