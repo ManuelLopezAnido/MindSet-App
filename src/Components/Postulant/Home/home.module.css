@@ -1,6 +1,31 @@
 .home {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   color: black;
+}
+
+.informationField {
+  width: 70%;
+}
+
+.titleField {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #467599;
+  color: #FFF;
+  height: 30px;;
+  border: 2px solid black;
+}
+
+.dataSection {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.dataField {
+  width: 25%;
+  margin: 10px 20px;
 }
