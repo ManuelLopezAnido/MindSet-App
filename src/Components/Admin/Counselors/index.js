@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import styles from './councelors.module.css';
+import styles from './counselors.module.css';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
@@ -10,7 +10,7 @@ import { getCounselors, deleteCounselor } from 'redux/counselors/thunks';
 import { useHistory } from 'react-router-dom';
 import { errorToDefault } from 'redux/counselors/actions';
 
-const Councelor = () => {
+const Counselor = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
   const history = useHistory();
@@ -33,7 +33,7 @@ const Councelor = () => {
     setShowModal(false);
   };
 
-  const handleIdCouncelor = (event, id) => {
+  const handleIdCounselor = (event, id) => {
     event.stopPropagation();
     setShowModal(true);
     setSelectedId(id);
@@ -69,8 +69,8 @@ const Councelor = () => {
         buttonText="ok"
       />
       <div className={styles.titleAndButton}>
-        <h3>Councelors</h3>
-        <Button onClick={() => history.push('/admin/councelors/form')} value="Counselor" />
+        <h3>Counselors</h3>
+        <Button onClick={() => history.push('/admin/counselors/form')} value="Counselor" />
       </div>
       <table className={styles.list}>
         <thead>
@@ -86,13 +86,13 @@ const Councelor = () => {
               <tr
                 key={counselor._id}
                 onClick={() => {
-                  window.location.replace(`councelors/form?id=${counselor._id}`);
+                  window.location.replace(`counselors/form?id=${counselor._id}`);
                 }}
               >
                 <td>{counselor.firstName}</td>
                 <td>{counselor.lastName}</td>
                 <td>
-                  <DeleteButton onClick={(event) => handleIdCouncelor(event, counselor._id)} />
+                  <DeleteButton onClick={(event) => handleIdCounselor(event, counselor._id)} />
                 </td>
               </tr>
             );
@@ -102,4 +102,4 @@ const Councelor = () => {
     </section>
   );
 };
-export default Councelor;
+export default Counselor;

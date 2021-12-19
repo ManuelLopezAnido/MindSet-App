@@ -10,7 +10,7 @@ const Routes = () => {
     <Router>
       <Suspense fallback={IsLoading}>
         <Switch>
-          <Route path="/postulant" exact component={PostulantRoutes} />
+          <Route path="/postulant" component={PostulantRoutes} />
           <Route path="/admin" component={AdminRoutes} />
           <Redirect to="/postulant" />
         </Switch>

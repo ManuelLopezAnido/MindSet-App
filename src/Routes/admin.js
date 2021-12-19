@@ -15,8 +15,8 @@ import Postulants from 'Components/Admin/Postulants';
 import PostulantsForm from 'Components/Admin/Postulants/Form';
 import Profiles from 'Components/Admin/Profiles';
 import ProfilesForm from 'Components/Admin/Profiles/Form';
-import Councelors from 'Components/Admin/Councelors';
-import CouncelorsForm from 'Components/Admin/Councelors/Form';
+import Counselors from 'Components/Admin/Counselors';
+import CounselorsForm from 'Components/Admin/Counselors/Form';
 import Sessions from 'Components/Admin/Sessions';
 import SessionsForm from 'Components/Admin/Sessions/Form';
 
@@ -46,9 +46,9 @@ const AdminRoutes = () => {
         <Route exact path={`${url}/profiles`} component={Profiles} />
         <Route path={`${url}/workprofiles/form`} component={ProfilesForm} />
         <Route path={`${url}/workprofiles/form/:id`} component={ProfilesForm} />
-        <Route exact path={`${url}/counselors`} component={Councelors} />
-        <Route path={`${url}/councelors/form`} component={CouncelorsForm} />
-        <Route path={`${url}/councelors/form/:id`} component={CouncelorsForm} />
+        <Route exact path={`${url}/counselors`} component={Counselors} />
+        <Route path={`${url}/counselors/form`} component={CounselorsForm} />
+        <Route path={`${url}/counselors/form/:id`} component={CounselorsForm} />
         <Route exact path={`${url}/sessions`} component={Sessions} />
         <Route path={`${url}/sessions/form`} component={SessionsForm} />
         <Route path={`${url}/sessions/form/:id`} component={SessionsForm} />

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import Input from 'Components/Shared/Input';
-import Error from 'Components/Admin/Councelors/Error';
-import Button from 'Components/Admin/Councelors/Button';
+import Error from 'Components/Admin/Counselors/Error';
+import Button from 'Components/Admin/Counselors/Button';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { errorToDefault } from 'redux/counselors/actions';
 import { useHistory } from 'react-router-dom';
 
-const CouncelorsForm = () => {
+const CounselorsForm = () => {
   const [showModal, setShowModal] = useState(false);
   const [firstNameValue, setFirstNameValue] = useState([]);
   const [lastNameValue, setLastNameValue] = useState([]);
@@ -682,4 +682,4 @@ const CouncelorsForm = () => {
   );
 };
 
-export default CouncelorsForm;
+export default CounselorsForm;

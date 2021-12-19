@@ -34,3 +34,13 @@
 .mainHead > div {
   padding: 2rem;
 }
+
+.signUp {
+  margin-left: 20px;
+  color: #FFF;
+  text-decoration: none;
+}
+
+.signUp:hover {
+  color: grey;
+}
