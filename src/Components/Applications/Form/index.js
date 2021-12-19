@@ -25,9 +25,6 @@ const FormApplication = () => {
   const error = useSelector((store) => store.applications.error);
   const isLoading = useSelector((store) => store.applications.isLoading);
   const selectedApp = useSelector((store) => store.applications.selected);
-  console.log('la application is: ', selectedApp);
-  console.log('store Error is: ', error);
-
   const onChangePosition = (event) => {
     setPositionName(event.target.value);
   };
@@ -64,7 +61,6 @@ const FormApplication = () => {
   }, [error]);
 
   const submit = () => {
-    console.log('submited');
     if (appId == null) {
       dispatch(
         addApplication({
@@ -74,13 +70,11 @@ const FormApplication = () => {
           applicationState: applicationState
         })
       ).then((response) => {
-        console.log('Response is: ', response);
         if (response) {
           history.push('/applications');
         }
       });
     } else {
-      console.log('Clicked');
       dispatch(
         updateApplication(appId, {
           position: position,
@@ -89,7 +83,6 @@ const FormApplication = () => {
           applicationState: applicationState
         })
       ).then((response) => {
-        console.log('Response is: ', response);
         if (response) {
           history.push('/applications');
         }
@@ -120,7 +113,7 @@ const FormApplication = () => {
             span: 'Are you sure you want to save these changes?'
           }
         ]}
-        leftButtonText="savedd"
+        leftButtonText="save"
         rightButtonText="cancel"
       />
       <ErrorModal

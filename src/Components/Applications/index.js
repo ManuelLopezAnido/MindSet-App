@@ -8,9 +8,9 @@ import NoData from '../Shared/NoData';
 import DeleteButton from '../Shared/DeleteButton/DeleteButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { getApplications, deleteApplication } from '../../redux/applications/thunks.js';
+import { errorToDefault } from '../../redux/admins/actions';
 
 function Applications() {
-  const [applications, setApplications] = useState([]);
   const [selectedId, setSelectedId] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState('');
@@ -19,15 +19,10 @@ function Applications() {
   const listApplications = useSelector((store) => store.applications.list);
   const error = useSelector((store) => store.applications.error);
   const isLoading = useSelector((store) => store.applications.isLoading);
-  console.log('Lista de Applications: ', listApplications);
-  console.log('store Error is: ', error);
+
   useEffect(() => {
     dispatch(getApplications());
   }, []);
-
-  useEffect(() => {
-    setApplications(listApplications);
-  }, [listApplications]);
 
   useEffect(() => {
     setShowErrorModal(error);
@@ -53,7 +48,7 @@ function Applications() {
   };
 
   const closeErrorMessage = () => {
-    setShowErrorModal('');
+    dispatch(errorToDefault());
   };
 
   if (isLoading) return <IsLoading />;
@@ -94,7 +89,7 @@ function Applications() {
           </tr>
         </thead>
         <tbody>
-          {applications.map((a) => (
+          {listApplications.map((a) => (
             <tr
               className={styles.applicationRow}
               key={a._id}

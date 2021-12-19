@@ -23,12 +23,9 @@ export const getApplications = () => (dispatch) => {
   fetch(`${URL}/applications`)
     .then((data) => data.json())
     .then((response) => {
-      console.log('The response form server in thunks is: ', response.data);
-      console.log('The URL is: ', `${URL}applications/`);
       dispatch(getApplicationsFulfilled(response.data));
     })
     .catch((error) => {
-      console.log('The error form server in thunks is: ', error.toString());
       dispatch(getApplicationsRejected(error.toString()));
     });
 };
@@ -39,15 +36,11 @@ export const getOneApplication = (id) => (dispatch) => {
     .then((response) => {
       if (response.status != 200) throw response;
       return response.json();
-      // console.log('The One application is: ', response);
     })
     .then((response) => {
-      console.log('The One application is: ', response);
       dispatch(getOneApplicationFulfilled(response));
     })
     .catch((error) => {
-      console.log('The error on application is: ', error.statusText);
-      console.log('The URL is: ', `${URL}applications/id/${id}`);
       dispatch(getOneApplicationRejected(error.statusText));
     });
 };
@@ -97,7 +90,6 @@ export const addApplication = (data) => (dispatch) => {
       return response;
     })
     .catch((error) => {
-      console.log('Error in ADDING: ', error);
       dispatch(addApplicationRejected(error));
       return error;
     });
@@ -123,12 +115,10 @@ export const updateApplication = (id, data) => (dispatch) => {
       return data.json();
     })
     .then((response) => {
-      console.log('UPDATED application response: ', response);
       dispatch(updateApplicationFulfilled(response));
       return response;
     })
     .catch((error) => {
-      console.log('added application error: ', error);
       dispatch(updateApplicationRejected(error));
     });
 };

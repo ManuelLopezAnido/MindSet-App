@@ -32,7 +32,6 @@ const reducer = (state = initialState, action) => {
         isLoading: true
       };
     case GET_APPLICATIONS_FULFILLED: {
-      console.log('Applcations form server: ', action.payload);
       return {
         ...state,
         isLoading: false,
@@ -40,7 +39,6 @@ const reducer = (state = initialState, action) => {
       };
     }
     case GET_APPLICATIONS_REJECTED: {
-      console.log('Error on GET from server is: ', action.payload);
       return {
         ...state,
         isLoading: false,
@@ -117,7 +115,6 @@ const reducer = (state = initialState, action) => {
         list: state.list.filter((application) => application._id !== action.payload)
       };
     case DELETE_APPLICATION_REJECTED: {
-      console.log('Error on DELETE from server is: ', action.payload);
       return {
         ...state,
         isLoading: false,
