@@ -88,7 +88,7 @@ const PositionsForm = () => {
         })
       ).then((response) => {
         if (response) {
-          history.push('/positions');
+          history.push('/admin/positions');
         }
       });
     } else {
@@ -105,7 +105,7 @@ const PositionsForm = () => {
         })
       ).then((response) => {
         if (response) {
-          history.push('/positions');
+          history.push('/admin/positions');
         }
       });
     }
@@ -151,7 +151,7 @@ const PositionsForm = () => {
           id="jobTitle"
           name="jobTitleName"
           type="string"
-          requireds
+          required
           value={jobTitle}
           onChange={onChangeJobTitle}
         />
