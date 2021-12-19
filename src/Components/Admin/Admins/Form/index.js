@@ -56,8 +56,8 @@ const AdminsForm = () => {
 
   const validate = (formValues) => {
     const errors = {};
-    validateEmail(formValues.email, errors);
-    validatePassword(formValues.password, errors);
+    errors.email = validateEmail(formValues.email);
+    errors.password = validatePassword(formValues.password);
     return errors;
   };
 

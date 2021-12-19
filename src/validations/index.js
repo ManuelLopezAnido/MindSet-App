@@ -1,18 +1,14 @@
 const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const passwordRegex = /^[A-Za-z\d\D]{8,}$/;
 
-export const validateEmail = (email, errorsArray) => {
+export const validateEmail = (email) => {
   if (!emailRegex.test(email)) {
-    errorsArray.email = 'Invalid email';
-    return true;
+    return 'Invalid email';
   }
-  return false;
 };
 
-export const validatePassword = (password, errorsArray) => {
+export const validatePassword = (password) => {
   if (!passwordRegex.test(password)) {
-    errorsArray.password = 'At least 8 characters';
-    return true;
+    return 'At least 8 characters';
   }
-  return false;
 };
