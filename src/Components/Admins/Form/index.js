@@ -7,9 +7,8 @@ import ErrorModal from '../../Shared/ErrorModal';
 import IsLoading from '../../Shared/IsLoading/IsLoading';
 import { getOneAdmin, addAdmin, updateAdmin } from '../../../redux/admins/thunks';
 import { useSelector, useDispatch } from 'react-redux';
-import { errorToDefault } from '../../../redux/admins/actions';
+import { errorToDefault, selectedToDefault } from '../../../redux/admins/actions';
 import { useHistory } from 'react-router-dom';
-
 import { Field, Form } from 'react-final-form';
 
 const AdminsForm = () => {
@@ -29,6 +28,13 @@ const AdminsForm = () => {
     useEffect(() => {
       dispatch(getOneAdmin(adminId));
     }, []);
+  } else {
+    useEffect(() => {
+      //this was needed, it was also possible to have
+      //selected: {} in the GET_ADMINS_FULFILLED but it
+      //wouldn't work in certain situations
+      dispatch(selectedToDefault());
+    }, []);
   }
 
   const submit = () => {
@@ -47,16 +53,20 @@ const AdminsForm = () => {
     }
   };
 
-  const closeModal = () => {
-    setShowModal(false);
+  const validate = (formValues) => {
+    console.log('validating');
+    const errors = {};
+    const emailValidation = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    const passwordValidation = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    if (!emailValidation.test(formValues.email)) {
+      errors.email = 'Invalid email';
+    }
+    if (!passwordValidation.test(formValues.password)) {
+      errors.password = 'At least 8 characters, one letter and one number';
+      console.log('error');
+    }
+    return errors;
   };
-
-  const onSubmit = (formValues) => {
-    setFormValues(formValues);
-    setShowModal(true);
-  };
-
-  const validate = (formValues) => console.log(formValues);
 
   if (isLoading) return <IsLoading />;
 
@@ -64,7 +74,7 @@ const AdminsForm = () => {
     <div className={styles.container}>
       <Modal
         showModal={showModal}
-        closeModal={closeModal}
+        closeModal={() => setShowModal(false)}
         actionEntity={submit}
         titleText="Save"
         spanObjectArray={[
@@ -83,7 +93,10 @@ const AdminsForm = () => {
         buttonText="ok"
       />
       <Form
-        onSubmit={onSubmit}
+        onSubmit={(formValues) => {
+          setFormValues(formValues);
+          setShowModal(true);
+        }}
         validate={validate}
         initialValues={selectedAdmin}
         render={(formProps) => (
@@ -104,7 +117,7 @@ const AdminsForm = () => {
               type="password"
               component={Input}
               disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please enter your email')}
+              validate={(value) => (value ? undefined : 'please enter your password')}
             />
             <Button
               type="submit"
