@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { errorToDefault, selectedToDefault } from 'redux/admins/actions';
 import { useHistory } from 'react-router-dom';
 import { Field, Form } from 'react-final-form';
+import { emailValidation, passwordValidation } from 'regex';
 
 const AdminsForm = () => {
   const [showModal, setShowModal] = useState(false);
@@ -56,8 +57,6 @@ const AdminsForm = () => {
   const validate = (formValues) => {
     console.log('validating');
     const errors = {};
-    const emailValidation = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
-    const passwordValidation = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     if (!emailValidation.test(formValues.email)) {
       errors.email = 'Invalid email';
     }
