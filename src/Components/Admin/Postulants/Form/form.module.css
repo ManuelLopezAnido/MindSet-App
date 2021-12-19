@@ -1,0 +1,44 @@
+.container > * h2 {
+  background-color: #FDC800;
+  padding: 1rem;
+}
+
+.container > * h3 {
+  background-color: #FDC800;
+  padding: 0.5rem;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.container > * h4 {
+  background-color: bisque;
+  padding: 0.3rem;
+  margin-left: 2ch;
+}
+
+.container {
+  height: 100%;
+  overflow-y: scroll;
+  width: 100%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sendFormButton {
+  width: 100px;
+  height: 50px;
+  padding: 5px 15px;
+  margin: 20px 0px;
+  border: none;
+  border-radius: 7px;
+  background-color: #002147;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
