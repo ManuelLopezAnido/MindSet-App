@@ -7,16 +7,19 @@
 .list {
   border-collapse: collapse;
   margin: 25px 0;
-  font-size: 16px;
-  min-width: 400px;
+  font-size: 1.3rem;
+  color: #5C6C84;
+  min-width: 600px;
   max-width: 800px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  background-color: #EEE;
 }
 
 .list thead tr {
-  background-color: #002147;
-  color: #ffffff;
+  /* background-color: #EEE; */
+  color: #A89361;
   text-align: left;
+  font-size: 1.6rem;
 }
 
 .list th,
@@ -26,15 +29,15 @@
 }
 
 .list tbody tr {
-  border-bottom: 1px solid #dddddd;
+  border-bottom: 2px solid #DCDCDC;
 }
 
-.list tbody tr:nth-of-type(even) {
+/* .list tbody tr:nth-of-type(even) {
   background-color: #f3f3f3;
-}
+} */
 
 .list tbody tr:last-of-type {
-  border-bottom: 2px solid #fdc800;
+  border-bottom: 2px solid #5C6C84;
 }
 
 .list tbody tr.active-row {
@@ -53,4 +56,9 @@
   align-items: center;
   width: 100%;
   border-bottom: 2px solid #dedede;
+}
+
+.titleAndButton h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
 }
