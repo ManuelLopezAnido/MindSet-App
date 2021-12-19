@@ -1,19 +1,19 @@
 import {
-  GET_POSTULANTS_FETCHING,
-  GET_POSTULANTS_FULFILLED,
-  GET_POSTULANTS_REJECTED,
-  GET_ONE_POSTULANT_FETCHING,
-  GET_ONE_POSTULANT_FULFILLED,
-  GET_ONE_POSTULANT_REJECTED,
-  ADD_POSTULANT_FETCHING,
-  ADD_POSTULANT_FULFILLED,
-  ADD_POSTULANT_REJECTED,
-  UPDATE_POSTULANT_FETCHING,
-  UPDATE_POSTULANT_FULFILLED,
-  UPDATE_POSTULANT_REJECTED,
-  DELETE_POSTULANT_FETCHING,
-  DELETE_POSTULANT_FULFILLED,
-  DELETE_POSTULANT_REJECTED,
+  GET_COUNSELORS_FETCHING,
+  GET_COUNSELORS_FULFILLED,
+  GET_COUNSELORS_REJECTED,
+  GET_ONE_COUNSELOR_FETCHING,
+  GET_ONE_COUNSELOR_FULFILLED,
+  GET_ONE_COUNSELOR_REJECTED,
+  ADD_COUNSELOR_FETCHING,
+  ADD_COUNSELOR_FULFILLED,
+  ADD_COUNSELOR_REJECTED,
+  UPDATE_COUNSELOR_FETCHING,
+  UPDATE_COUNSELOR_FULFILLED,
+  UPDATE_COUNSELOR_REJECTED,
+  DELETE_COUNSELOR_FETCHING,
+  DELETE_COUNSELOR_FULFILLED,
+  DELETE_COUNSELOR_REJECTED,
   ERROR_TO_DEFAULT
 } from './constants';
 
@@ -27,39 +27,39 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_POSTULANTS_FETCHING:
+    case GET_COUNSELORS_FETCHING:
       return {
         ...state,
         error: false,
         isLoading: true
       };
-    case GET_POSTULANTS_FULFILLED:
+    case GET_COUNSELORS_FULFILLED:
       return {
         ...state,
         isLoading: false,
         error: false,
         list: action.payload.data
       };
-    case GET_POSTULANTS_REJECTED:
+    case GET_COUNSELORS_REJECTED:
       return {
         ...state,
         isLoading: false,
         error: true
       };
 
-    case GET_ONE_POSTULANT_FETCHING:
+    case GET_ONE_COUNSELOR_FETCHING:
       return {
         ...state,
         error: false,
         isLoading: true
       };
-    case GET_ONE_POSTULANT_FULFILLED:
+    case GET_ONE_COUNSELOR_FULFILLED:
       return {
         ...state,
         selected: action.payload,
         isLoading: false
       };
-    case GET_ONE_POSTULANT_REJECTED:
+    case GET_ONE_COUNSELOR_REJECTED:
       return {
         ...state,
         isLoading: false,
@@ -67,38 +67,38 @@ const reducer = (state = initialState, action) => {
         errorMessage: action.payload
       };
 
-    case ADD_POSTULANT_FETCHING:
+    case ADD_COUNSELOR_FETCHING:
       return {
         ...state,
         error: false,
         isLoading: true
       };
-    case ADD_POSTULANT_FULFILLED:
+    case ADD_COUNSELOR_FULFILLED:
       return {
         ...state,
         isLoading: false,
-        list: [...state.list, action.payload]
+        list: [...state.list, action.payload.data]
       };
-    case ADD_POSTULANT_REJECTED:
+    case ADD_COUNSELOR_REJECTED:
       return {
         ...state,
         isLoading: false,
         error: true
       };
 
-    case UPDATE_POSTULANT_FETCHING:
+    case UPDATE_COUNSELOR_FETCHING:
       return {
         ...state,
         error: false,
         isLoading: true
       };
-    case UPDATE_POSTULANT_FULFILLED:
+    case UPDATE_COUNSELOR_FULFILLED:
       return {
         ...state,
         isLoading: false,
         list: [...state.list]
       };
-    case UPDATE_POSTULANT_REJECTED:
+    case UPDATE_COUNSELOR_REJECTED:
       return {
         ...state,
         isLoading: false,
@@ -106,19 +106,19 @@ const reducer = (state = initialState, action) => {
         errorMessage: action.payload
       };
 
-    case DELETE_POSTULANT_FETCHING:
+    case DELETE_COUNSELOR_FETCHING:
       return {
         ...state,
         error: false,
         isLoading: true
       };
-    case DELETE_POSTULANT_FULFILLED:
+    case DELETE_COUNSELOR_FULFILLED:
       return {
         ...state,
         isLoading: false,
-        list: state.list.filter((postulant) => postulant._id !== action.payload)
+        list: state.list.filter((counselor) => counselor._id !== action.payload)
       };
-    case DELETE_POSTULANT_REJECTED:
+    case DELETE_COUNSELOR_REJECTED:
       return {
         ...state,
         isLoading: false,
