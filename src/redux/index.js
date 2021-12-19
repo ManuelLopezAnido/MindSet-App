@@ -1,14 +1,16 @@
 import { combineReducers } from 'redux';
-import counselorsReducer from 'redux/counselors/reducer';
-import adminsReducer from 'redux/admins/reducer';
-import sessionsReducer from 'redux/sessions/reducer';
-import clientsReducer from 'redux/clients/reducer';
+import counselorsReducer from './counselors/reducer';
+import adminsReducer from './admins/reducer';
+import postulantsReducer from './postulants/reducer';
+import sessionsReducer from './sessions/reducer';
+import clientsReducer from './clients/reducer';
 
 const rootReducer = combineReducers({
   admins: adminsReducer,
+  clients: clientsReducer,
+  postulants: postulantsReducer,
   sessions: sessionsReducer,
-  counselors: counselorsReducer,
-  clients: clientsReducer
+  counselors: counselorsReducer
 });
 
 export default rootReducer;
