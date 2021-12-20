@@ -25,13 +25,13 @@ function Home() {
     setDataOfInterestData(!openDataOfInterestData);
   };
 
-  const dispatch = useDispatch();
-  const selectedPostulant = useSelector((store) => store.postulants.selected);
-  const postulantId = '61a4398da318de40f22eba2c';
-
   useEffect(() => {
     dispatch(getOnePostulant(postulantId));
   }, []);
+
+  const dispatch = useDispatch();
+  const selectedPostulant = useSelector((store) => store.postulants.selected);
+  const postulantId = '61a4398da318de40f22eba2c';
 
   return (
     <section className={styles.home}>
@@ -41,7 +41,6 @@ function Home() {
           {`${selectedPostulant.firstName} ${selectedPostulant.lastName}`}
         </div>
         <div className={styles.postulantDetails}>
-          {console.log(selectedPostulant)}
           {`${selectedPostulant.openToWork ? 'Open to Work' : 'Not Available to Work'}`}
         </div>
       </div>
