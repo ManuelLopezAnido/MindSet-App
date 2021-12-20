@@ -44,6 +44,7 @@ export const getOneCounselor = (id) => (dispatch) => {
 };
 
 export const addCounselor = (data) => (dispatch) => {
+  console.log(data);
   const options = {
     method: 'POST',
     headers: {
@@ -116,6 +117,7 @@ export const addCounselor = (data) => (dispatch) => {
 };
 
 export const updateCounselor = (id, data) => (dispatch) => {
+  console.log(data);
   dispatch(updateCounselorFetching());
   return fetch(`${URL}/counselors/update/${id}`, {
     method: 'PUT',
