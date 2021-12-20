@@ -7,50 +7,33 @@ import Input from 'Components/Shared/Input';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
+import { Field, Form } from 'react-final-form';
+import { validateMongoID } from 'validations';
+import { selectedToDefault } from 'redux/admins/actions';
 
 const FormApplication = () => {
   const [showModal, setShowModal] = useState(false);
-  const [position, setPositionName] = useState('');
-  const [company, setCompany] = useState('');
-  const [postulant, setPostulant] = useState('');
-  const [applicationState, setAppState] = useState('');
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [formValues, setFormValues] = useState(false);
 
   const history = useHistory();
   const dispatch = useDispatch();
   const error = useSelector((store) => store.applications.error);
   const isLoading = useSelector((store) => store.applications.isLoading);
   const selectedApp = useSelector((store) => store.applications.selected);
-  const onChangePosition = (event) => {
-    setPositionName(event.target.value);
-  };
-  const onChangeCompany = (event) => {
-    setCompany(event.target.value);
-  };
-  const onChangePostulant = (event) => {
-    setPostulant(event.target.value);
-  };
-  const onChangeAppState = (event) => {
-    setAppState(event.target.value);
-  };
 
   const params = new URLSearchParams(window.location.search);
   const appId = params.get('id');
 
-  useEffect(() => {
-    if (appId) {
+  if (appId) {
+    useEffect(() => {
       dispatch(getOneApplication(appId));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (Object.keys(selectedApp).length) {
-      setPositionName(selectedApp.positionId);
-      setCompany(selectedApp.companyId);
-      setPostulant(selectedApp.postulantId);
-      setAppState(selectedApp.applicationState);
-    }
-  }, [selectedApp]);
+    }, []);
+  } else {
+    useEffect(() => {
+      dispatch(selectedToDefault());
+    }, []);
+  }
 
   useEffect(() => {
     setShowErrorModal(error);
@@ -58,27 +41,13 @@ const FormApplication = () => {
 
   const submit = () => {
     if (appId == null) {
-      dispatch(
-        addApplication({
-          position: position,
-          company: company,
-          postulant: postulant,
-          applicationState: applicationState
-        })
-      ).then((response) => {
+      dispatch(addApplication(formValues)).then((response) => {
         if (response) {
           history.push('/admin/applications');
         }
       });
     } else {
-      dispatch(
-        updateApplication(appId, {
-          position: position,
-          company: company,
-          postulant: postulant,
-          applicationState: applicationState
-        })
-      ).then((response) => {
+      dispatch(updateApplication(appId, formValues)).then((response) => {
         if (response) {
           history.push('/admin/applications');
         }
@@ -90,18 +59,26 @@ const FormApplication = () => {
     setShowErrorModal(false);
   };
 
-  const closeModal = () => setShowModal(false);
-
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const onSubmit = (formValues) => {
+    setFormValues(formValues);
     setShowModal(true);
   };
+
+  const validate = (formValues) => {
+    const errors = {};
+    errors.positionId = validateMongoID(formValues.positionId);
+    errors.companyId = validateMongoID(formValues.companyId);
+    errors.postulantId = validateMongoID(formValues.postulantId);
+    return errors;
+  };
+
   if (isLoading) return <IsLoading />;
+
   return (
     <div>
       <Modal
         showModal={showModal}
-        closeModal={closeModal}
+        closeModal={() => setShowModal(false)}
         actionEntity={submit}
         titleText="Save"
         spanObjectArray={[
@@ -119,47 +96,50 @@ const FormApplication = () => {
         buttonText="ok"
       />
       <h1>Form</h1>
-      <form className={styles.container} onSubmit={onSubmit}>
-        <Input
-          label="Position"
-          id="position"
-          name="positionName"
-          type="string"
-          required
-          value={position}
-          onChange={onChangePosition}
-        />
-        <Input
-          label="Company Name"
-          id="company"
-          name="companyName"
-          type="string"
-          required
-          value={company}
-          onChange={onChangeCompany}
-        />
-        <Input
-          label="Postulant"
-          id="postulant"
-          name="postulantName"
-          type="string"
-          required
-          value={postulant}
-          onChange={onChangePostulant}
-        />
-        <Input
-          label="State"
-          id="applicationState"
-          name="applicationName"
-          type="string"
-          required
-          value={applicationState}
-          onChange={onChangeAppState}
-        />
-        <button className={styles.sendFormButton} type="submit">
-          SEND
-        </button>
-      </form>
+      <Form
+        onSubmit={onSubmit}
+        validate={validate}
+        initialValues={selectedApp}
+        render={(formProps) => (
+          <form className={styles.container} onSubmit={formProps.handleSubmit}>
+            <Field
+              name="positionId"
+              label="Position"
+              placeholder="some position ID for Now"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please choose a position')}
+            />
+            <Field
+              name="companyId"
+              label="Company name"
+              placeholder="some company ID form now"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please choose a company')}
+            />
+            <Field
+              name="postulantId"
+              label="Postulant name"
+              placeholder="some postulant ID form now"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please choose a postulant')}
+            />
+            <Field
+              name="state"
+              label="State"
+              placeholder="completed"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please choose a state')}
+            />
+            <button className={styles.sendFormButton} type="submit">
+              SEND
+            </button>
+          </form>
+        )}
+      />
     </div>
   );
 };
