@@ -40,3 +40,24 @@
   font-size: 0.7rem;
   color: #F00;
 }
+
+.input:focus {
+  outline: none;
+}
+
+.labelTitle {
+  padding: 0.5rem;
+}
+
+.inputError {
+  border: 2px solid red;
+}
+
+.errorMessage {
+  display: flex;
+  align-items: center;
+  height: 21px;
+  width: 12rem;
+  font-size: 0.7rem;
+  color: #F00;
+}

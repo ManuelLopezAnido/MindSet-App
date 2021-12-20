@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { addPosition, getOnePosition, updatePosition } from 'redux/positions/thunks';
+import { errorToDefault } from 'redux/positions/actions';
 import Input from 'Components/Shared/Input';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 
 const PositionsForm = () => {
-  const [showModal, setShowModal] = useState(false);
   const [jobTitle, setJobTitle] = useState('');
   const [clientId, setClientId] = useState('');
   const [companyName, setCompanyName] = useState('');
@@ -15,9 +18,15 @@ const PositionsForm = () => {
   const [country, setCountry] = useState('');
   const [datePosted, setDatePosted] = useState('');
   const [closingDate, setClosingDate] = useState('');
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+
+  const [showModal, setShowModal] = useState(false);
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const isLoading = useSelector((store) => store.positions.isLoading);
+  const error = useSelector((store) => store.positions.error);
+  const selectedPosition = useSelector((store) => store.positions.selected);
 
   const onChangeJobTitle = (event) => {
     setJobTitle(event.target.value);
@@ -47,84 +56,62 @@ const PositionsForm = () => {
   const params = new URLSearchParams(window.location.search);
   const posId = params.get('id');
 
+  if (posId) {
+    useEffect(() => {
+      dispatch(getOnePosition(posId));
+    }, []);
+  }
+
   useEffect(() => {
-    if (posId) {
-      fetch(`${process.env.REACT_APP_API}/positions/id/${posId}`)
-        .then((response) => {
-          if (response.status !== 200) {
-            return response.json().then(({ ErrMessage }) => {
-              throw new Error(ErrMessage);
-            });
-          }
-          return response.json();
-        })
-        .then((response) => {
-          setJobTitle(response.jobTitle);
-          setClientId(response.clientId);
-          setCompanyName(response.companyName);
-          setjobDescription(response.jobDescription);
-          setCity(response.city);
-          setCountry(response.country);
-          setDatePosted(response.datePosted);
-          setClosingDate(response.closingDate);
-        })
-        .catch((error) => {
-          setShowErrorModal(true);
-          setShowErrorModalMessage(JSON.stringify(error.message));
-        })
-        .finally(() => setIsLoading(false));
-    }
-  }, []);
+    setJobTitle(selectedPosition.jobTitle ?? '');
+    setClientId(selectedPosition.clientId ?? '');
+    setCompanyName(selectedPosition.companyName ?? '');
+    setjobDescription(selectedPosition.companyName ?? '');
+    setCity(selectedPosition.city ?? '');
+    setCountry(selectedPosition.country ?? '');
+    setDatePosted(selectedPosition.datePosted ?? '');
+    setClosingDate(selectedPosition.closingDate ?? '');
+  }, [selectedPosition]);
 
   const submit = () => {
-    let url;
-    const options = {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        jobTitle: jobTitle,
-        clientId: clientId,
-        companyName: companyName,
-        jobDescription: jobDescription,
-        city: city,
-        country: country,
-        datePosted: datePosted,
-        closingDate: closingDate
-      })
-    };
-
-    if (posId === null) {
-      options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/positions/create`;
-    } else {
-      options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/positions/update/${posId}`;
-    }
-
-    fetch(url, options)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
-          return response.json().then(({ ErrMessage }) => {
-            throw new Error(ErrMessage);
-          });
+    if (posId) {
+      dispatch(
+        updatePosition(posId, {
+          jobTitle: jobTitle,
+          clientId: clientId,
+          companyName: companyName,
+          jobDescription: jobDescription,
+          city: city,
+          country: country,
+          datePosted: datePosted,
+          closingDate: closingDate
+        })
+      ).then((response) => {
+        if (response) {
+          history.push('/admin/positions');
         }
-      })
-      .then(() => {
-        window.location.href = `/admin/positions`;
-      })
-      .catch((error) => {
-        setShowErrorModal(true);
-        setShowErrorModalMessage(JSON.stringify(error.message));
-      })
-      .finally(() => {
-        setShowModal(false);
-        setIsLoading(false);
       });
+    } else {
+      dispatch(
+        addPosition({
+          jobTitle: jobTitle,
+          clientId: clientId,
+          companyName: companyName,
+          jobDescription: jobDescription,
+          city: city,
+          country: country,
+          datePosted: datePosted.toString(),
+          closingDate: closingDate.toString()
+        })
+      ).then((response) => {
+        if (response) {
+          history.push('/admin/positions');
+        }
+      });
+    }
   };
-
   const closeErrorMessage = () => {
-    setShowErrorModal(false);
+    dispatch(errorToDefault());
   };
 
   const closeModal = () => setShowModal(false);
@@ -137,7 +124,7 @@ const PositionsForm = () => {
   if (isLoading) return <IsLoading />;
 
   return (
-    <div>
+    <div className={styles.container}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -152,14 +139,13 @@ const PositionsForm = () => {
         rightButtonText="cancel"
       />
       <ErrorModal
-        showModal={showErrorModal}
+        showModal={error}
         closeModal={closeErrorMessage}
         titleText="Error"
-        middleText={showErrorModalMessage}
         buttonText="ok"
       />
       <h1>Form</h1>
-      <form className={styles.container} onSubmit={onSubmit}>
+      <form className={styles.contForm} onSubmit={onSubmit}>
         <Input
           label="Job"
           id="jobTitle"
@@ -186,6 +172,15 @@ const PositionsForm = () => {
           required
           value={companyName}
           onChange={onChangeCompanyName}
+        />
+        <Input
+          label="Job Title"
+          id="JobTitle"
+          name="jobTitleName"
+          type="string"
+          required
+          value={jobTitle}
+          onChange={onChangeJobTitle}
         />
         <Input
           label="Job Description"
