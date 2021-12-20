@@ -1,8 +1,37 @@
+.container {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 100%;
+  margin: 0 1rem 0;
+  padding: 1rem 1rem 0rem;
+}
+
+.container label {
+  width: 100%;
+  margin: 2px 0px 2px 0px;
+  color: black;
+}
+
+.container option {
+  color: black;
+}
+
 .select {
   padding: 10px;
   border-radius: 2px;
 }
 
-.label {
-  padding-block: 0.5rem;
+.inputError {
+  border: 2px solid red;
+}
+
+.errorMessage {
+  display: flex;
+  align-items: center;
+  height: 21px;
+  width: 12rem;
+  font-size: 0.7rem;
+  color: #f00;
 }

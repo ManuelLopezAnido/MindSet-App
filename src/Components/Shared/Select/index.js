@@ -1,25 +1,26 @@
-import React from 'react';
 import styles from './select.module.css';
 
 const Select = (props) => {
+  const hasError = !!(props.meta.touched && props.meta.error);
+
   return (
-    <>
-      {props.label && <label className={styles.label}>{props.label}</label>}
+    <div className={styles.container}>
+      {props.label && <label>{props.label}</label>}
       <select
-        className={styles.select}
         name={props.name}
-        id={props.id}
-        value={props.value}
-        onChange={props.onChange}
-        required={props.required}
+        className={`${styles.select} ${props.style} ${hasError && styles.selectError}`}
+        placeholder={props.placeholder}
+        disabled={props.disabled}
+        {...props.select}
       >
         {props.options.map((option) => (
           <option key={option.value} value={option.value}>
-            {option.label}
+            {option.toShow}
           </option>
         ))}
+        <div className={styles.errorMessage}>{props.meta.touched && props.meta.error}</div>
       </select>
-    </>
+    </div>
   );
 };
 
