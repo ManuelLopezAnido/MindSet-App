@@ -1,5 +1,5 @@
-import styles from './home.module.css';
 import { useState } from 'react';
+import styles from './home.module.css';
 
 function Home() {
   const [openPersonalInformationData, setOpenPersonalInformationData] = useState(false);

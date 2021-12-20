@@ -1,0 +1,35 @@
+.wizard {
+  width: 80%;
+  margin: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.wizardButtons {
+  align-self: flex-end;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.btn {
+  background-color: #9ED8D8;
+  border: 2px solid #9ED8D8;
+  border-radius: 4px;
+  color: #FFFFFF;
+  font-weight: bold;
+  padding: 0.3rem 3rem;
+  visibility: hidden;
+}
+
+.prevBtn {
+  align-self: flex-start;
+}
+
+.nextBtn {
+  align-self: flex-end;
+}
+
+.showBtn {
+  visibility: visible;
+}
