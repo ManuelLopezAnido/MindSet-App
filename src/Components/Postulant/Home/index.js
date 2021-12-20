@@ -35,7 +35,6 @@ function Home() {
 
   return (
     <section className={styles.home}>
-      {console.log(selectedPostulant)}
       <div className={styles.informationField}>
         <div className={styles.titleField}>
           <p>Personal Information</p>
@@ -147,7 +146,39 @@ function Home() {
           <p>Work Experience Information</p>
           <button onClick={handleWorkExperienceData}>+</button>
         </div>
-        {openWorkExperienceData ? <div>Holis aca iria toda la data....</div> : null}
+        {openWorkExperienceData ? (
+          <div className={styles.dataSection}>
+            <div className={styles.informationRow}>
+              <div className={styles.dataField}>
+                <p className={styles.fieldName}>Work Experience</p>
+                <table className={styles.table}>
+                  <thead className={styles.tableHead}>
+                    <td className={styles.tableTitle}>Title</td>
+                    <td className={styles.tableTitle}>Company</td>
+                    <td className={styles.tableTitle}>Start</td>
+                    <td className={styles.tableTitle}>End</td>
+                  </thead>
+                  <tbody>
+                    <tr className={styles.tableRow}>
+                      <td>
+                        <p>{selectedPostulant.workExperience[0].title}</p>
+                      </td>
+                      <td>
+                        <p>{selectedPostulant.workExperience[0].company}</p>
+                      </td>
+                      <td>
+                        <p>{selectedPostulant.workExperience[0].start}</p>
+                      </td>
+                      <td>
+                        <p>{selectedPostulant.workExperience[0].end}</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        ) : null}
       </div>
       <div className={styles.informationField}>
         <div className={styles.titleField}>
