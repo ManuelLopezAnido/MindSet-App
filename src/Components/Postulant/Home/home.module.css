@@ -7,6 +7,32 @@
   overflow-y: scroll;
 }
 
+.postulantResume {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 45px;
+}
+
+.imagePostulant {
+  width: 150px;
+  height: 150px;
+  border: 5px solid #467599;
+  background-color: #e6e6e6;
+  border-radius: 100%;
+}
+
+.postulantName {
+  font-weight: bold;
+  color: #467599;
+  margin-top: 7px;
+}
+
+.postulantDetails {
+  color: #467599;
+}
+
 .informationField {
   width: 70%;
 }

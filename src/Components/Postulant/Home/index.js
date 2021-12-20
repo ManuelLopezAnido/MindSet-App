@@ -35,6 +35,16 @@ function Home() {
 
   return (
     <section className={styles.home}>
+      <div className={styles.postulantResume}>
+        <div className={styles.imagePostulant}></div>
+        <div className={styles.postulantName}>
+          {`${selectedPostulant.firstName} ${selectedPostulant.lastName}`}
+        </div>
+        <div className={styles.postulantDetails}>
+          {`${selectedPostulant.workExperience[0].title} |
+          ${selectedPostulant.openToWork ? 'Open to Wort' : 'Not Available to Work'}`}
+        </div>
+      </div>
       <div className={styles.informationField}>
         <div className={styles.titleField}>
           <p>Personal Information</p>
