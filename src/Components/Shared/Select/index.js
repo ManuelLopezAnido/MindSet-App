@@ -12,13 +12,14 @@ const Select = (props) => {
         disabled={props.disabled}
         {...props.input}
       >
+        <option value={undefined}></option>
         {props.options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.toShow}
           </option>
         ))}
-        <div className={styles.errorMessage}>{props.meta.touched && props.meta.error}</div>
       </select>
+      <div className={styles.errorMessage}>{props.meta.touched && props.meta.error}</div>
     </div>
   );
 };

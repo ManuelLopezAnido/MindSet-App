@@ -70,7 +70,7 @@ export const addApplication = (data) => (dispatch) => {
       positionId: data.positionId,
       companyId: data.companyId,
       postulantId: data.postulantId,
-      applicationState: data.state
+      applicationState: data.applicationState
     })
   };
 
@@ -107,7 +107,7 @@ export const updateApplication = (id, data) => (dispatch) => {
       positionId: data.positionId,
       companyId: data.companyId,
       postulantId: data.postulantId,
-      applicationState: data.state
+      applicationState: data.applicationState
     })
   })
     .then((data) => {

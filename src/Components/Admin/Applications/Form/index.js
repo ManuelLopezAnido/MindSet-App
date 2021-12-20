@@ -89,7 +89,13 @@ const FormApplication = () => {
   };
 
   const onSubmit = (formValues) => {
-    setFormValues(formValues);
+    const formValuesOk = {
+      positionId: formValues.positionId,
+      companyId: formValues.companyId,
+      postulantId: formValues.postulantId,
+      applicationState: formValues.applicationState
+    };
+    setFormValues(formValuesOk);
     setShowModal(true);
   };
 
@@ -134,7 +140,6 @@ const FormApplication = () => {
             <Field
               name="positionId"
               label="Position"
-              placeholder="some position ID for Now"
               options={positionsToMap}
               component={Select}
               disabled={formProps.submitting}
@@ -143,7 +148,6 @@ const FormApplication = () => {
             <Field
               name="companyId"
               label="Company name"
-              placeholder="some company ID form now"
               options={clientsToMap}
               component={Select}
               disabled={formProps.submitting}
@@ -152,14 +156,13 @@ const FormApplication = () => {
             <Field
               name="postulantId"
               label="Postulant name"
-              placeholder="some postulant ID form now"
               options={postulantsToMap}
               component={Select}
               disabled={formProps.submitting}
               validate={(value) => (value ? undefined : 'please choose a postulant')}
             />
             <Field
-              name="state"
+              name="applicationState"
               label="State"
               placeholder="completed"
               component={Input}
