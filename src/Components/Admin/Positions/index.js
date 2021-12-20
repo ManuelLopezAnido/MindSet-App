@@ -52,6 +52,8 @@ function Positions() {
   };
   if (isLoading) return <IsLoading />;
 
+  console.log(listPositions);
+
   return (
     <section className={styles.container}>
       <Modal
