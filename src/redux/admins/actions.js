@@ -14,8 +14,7 @@ import {
   DELETE_ADMIN_FETCHING,
   DELETE_ADMIN_FULFILLED,
   DELETE_ADMIN_REJECTED,
-  ERROR_TO_DEFAULT,
-  SELECTED_TO_DEFAULT
+  ERROR_TO_DEFAULT
 } from './constants';
 
 export const getAdminsFetching = () => {
@@ -80,8 +79,4 @@ export const deleteAdminRejected = (error) => ({
 
 export const errorToDefault = () => ({
   type: ERROR_TO_DEFAULT
-});
-
-export const selectedToDefault = () => ({
-  type: SELECTED_TO_DEFAULT
 });

@@ -23,6 +23,7 @@
 .dataSection {
   display: flex;
   flex-wrap: wrap;
+  background-color: #f5f5f5;
 }
 
 .dataField {
@@ -33,4 +34,10 @@
 .fieldName {
   font-weight: bold;
   margin-bottom: 15px;
+}
+
+.informationRow {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }

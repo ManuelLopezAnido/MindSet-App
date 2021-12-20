@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react';
 import styles from './applications.module.css';
-import NoData from 'Components/Shared/NoData';
-import { useSelector, useDispatch } from 'react-redux';
-import { getApplications, deleteApplication } from 'redux/applications/thunks.js';
-import { errorToDefault } from 'redux/admins/actions';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
@@ -11,30 +7,57 @@ import Button from 'Components/Shared/Button/Button';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 
 function Applications() {
-  const [selectedId, setSelectedId] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [showErrorModal, setShowErrorModal] = useState('');
+  const [applications, setApplications] = useState([]);
+  const [selectedId, setSelectedId] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
 
-  const dispatch = useDispatch();
-  const listApplications = useSelector((store) => store.applications.list);
-  const error = useSelector((store) => store.applications.error);
-  const isLoading = useSelector((store) => store.applications.isLoading);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    dispatch(getApplications());
+    setIsLoading(true);
+    fetch(`${process.env.REACT_APP_API}/applications`)
+      .then((response) => response.json())
+      .then((response) => {
+        setApplications(response.data);
+      })
+      .catch((error) => {
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => setIsLoading(false));
   }, []);
-
-  useEffect(() => {
-    setShowErrorModal(error);
-  }, [error]);
 
   const addApplication = () => {
     window.location.href = `/admin/applications/form`;
   };
 
-  const clickDeleteApplication = () => {
-    dispatch(deleteApplication(selectedId));
-    setShowModal(false);
+  const deleteApplication = () => {
+    setIsLoading(true);
+    const url = `${process.env.REACT_APP_API}/applications/delete/${selectedId}`;
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json'
+      }
+    })
+      .then((res) => {
+        if (res.status !== 204 && res.status !== 200) {
+          return res.json().then((ErrMessage) => {
+            throw new Error(ErrMessage);
+          });
+        }
+        setApplications(applications.filter((a) => a._id !== selectedId));
+      })
+      .catch((error) => {
+        setShowErrorModal(true);
+        setShowErrorModalMessage(JSON.stringify(error.message));
+      })
+      .finally(() => {
+        setShowModal(false);
+        setIsLoading(false);
+      });
   };
 
   const closeModal = () => {
@@ -48,16 +71,17 @@ function Applications() {
   };
 
   const closeErrorMessage = () => {
-    dispatch(errorToDefault());
+    setShowErrorModal(false);
   };
 
   if (isLoading) return <IsLoading />;
+
   return (
     <section className={styles.container}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
-        actionEntity={clickDeleteApplication}
+        actionEntity={deleteApplication}
         selectedId={selectedId}
         titleText="Delete an application"
         spanObjectArray={[
@@ -72,13 +96,13 @@ function Applications() {
         showModal={showErrorModal}
         closeModal={closeErrorMessage}
         titleText="Error"
+        middleText={showErrorModalMessage}
         buttonText="ok"
       />
       <div className={styles.titleAndButton}>
         <h3>Applications</h3>
         <Button onClick={addApplication} value="Applications" />
       </div>
-      <NoData data={listApplications.lenght} />
       <table>
         <thead>
           <tr>
@@ -89,7 +113,7 @@ function Applications() {
           </tr>
         </thead>
         <tbody>
-          {listApplications.map((a) => (
+          {applications.map((a) => (
             <tr
               className={styles.applicationRow}
               key={a._id}

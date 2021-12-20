@@ -95,7 +95,52 @@ function Home() {
           <p>Academic Information</p>
           <button onClick={handleAcademicInformationData}>+</button>
         </div>
-        {openAcademicInformationData ? <div>Holis aca iria toda la data....</div> : null}
+        {openAcademicInformationData ? (
+          <div className={styles.dataSection}>
+            <div className={styles.informationRow}>
+              <div className={styles.dataField}>
+                <p className={styles.fieldName}>Elementary School</p>
+                <p>{selectedPostulant.elementarySchool[0].name}</p>
+              </div>
+              <div className={styles.dataField}>
+                <p className={styles.fieldName}>Degree</p>
+                <p>{selectedPostulant.highSchool[0].degree}</p>
+              </div>
+              <div className={styles.dataField}>
+                <p className={styles.fieldName}>Graduate Year</p>
+                <p>{selectedPostulant.university[0].graduateYear}</p>
+              </div>
+            </div>
+            <div className={styles.informationRow}>
+              <div className={styles.dataField}>
+                <p className={styles.fieldName}>High School</p>
+                <p>{selectedPostulant.highSchool[0].name}</p>
+              </div>
+              <div className={styles.dataField}>
+                <p className={styles.fieldName}>Degree</p>
+                <p>{selectedPostulant.highSchool[0].degree}</p>
+              </div>
+              <div className={styles.dataField}>
+                <p className={styles.fieldName}>Graduate Year</p>
+                <p>{selectedPostulant.highSchool[0].graduateYear}</p>
+              </div>
+            </div>
+            <div className={styles.informationRow}>
+              <div className={styles.dataField}>
+                <p className={styles.fieldName}>University</p>
+                <p>{selectedPostulant.university[0].name}</p>
+              </div>
+              <div className={styles.dataField}>
+                <p className={styles.fieldName}>Degree</p>
+                <p>{selectedPostulant.university[0].degree}</p>
+              </div>
+              <div className={styles.dataField}>
+                <p className={styles.fieldName}>Graduate Year</p>
+                <p>{selectedPostulant.university[0].graduateYear}</p>
+              </div>
+            </div>
+          </div>
+        ) : null}
       </div>
       <div className={styles.informationField}>
         <div className={styles.titleField}>
