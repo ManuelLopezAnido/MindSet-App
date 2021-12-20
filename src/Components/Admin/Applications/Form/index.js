@@ -36,33 +36,6 @@ const FormApplication = () => {
   const params = new URLSearchParams(window.location.search);
   const appId = params.get('id');
 
-  // useEffect(() => {
-  //   dispatch(getPositions()).then(() => {
-  //     const poss = positions.map((position) => {
-  //       return { value: position._id, toShow: position.jobTitle };
-  //     });
-  //     setPositionsToMap(poss);
-  //   });
-  //   dispatch(getClients()).then(() => {
-  //     const cli = clients.map((client) => {
-  //       return { value: client._id, toShow: client?.companyName };
-  //     });
-  //     setClientsToMap(cli);
-  //   });
-  //   dispatch(getPostulants()).then(() => {
-  //     console.log('postulants store', postulants);
-  //     const post = postulants.map((postulant) => {
-  //       return { value: postulant?._id, toShow: postulant?.firstName };
-  //     });
-  //     setPostulantsToMap(post);
-  //   });
-  //   if (appId) {
-  //     dispatch(getOneApplication(appId));
-  //   } else {
-  //     dispatch(selectedToDefault());
-  //   }
-  // }, []);
-
   useEffect(() => {
     dispatch(getPositions());
     dispatch(getClients());
@@ -96,7 +69,6 @@ const FormApplication = () => {
   }, [error]);
 
   const submit = () => {
-    console.log('entre a submit');
     if (!appId) {
       dispatch(addApplication(formValues)).then((response) => {
         if (response) {
@@ -117,13 +89,11 @@ const FormApplication = () => {
   };
 
   const onSubmit = (formValues) => {
-    console.log('entre a onSubmit');
     setFormValues(formValues);
     setShowModal(true);
   };
 
   const validate = (formValues) => {
-    console.log('formValues: ', formValues);
     const errors = {};
     errors.positionId = validateMongoID(formValues.positionId);
     errors.companyId = validateMongoID(formValues.companyId);
@@ -198,7 +168,6 @@ const FormApplication = () => {
             />
             <Button
               type="submit"
-              onClick={() => console.log('clicked')}
               className={styles.submitButton}
               disabled={formProps.submitting || formProps.pristine}
             />
