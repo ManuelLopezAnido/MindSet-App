@@ -38,7 +38,9 @@ function Home() {
       <div className={styles.informationField}>
         <div className={styles.titleField}>
           <p>Personal Information</p>
-          <button onClick={handlePersonalInformationData}>+</button>
+          <button className={styles.collapseButton} onClick={handlePersonalInformationData}>
+            +
+          </button>
         </div>
         {openPersonalInformationData ? (
           <div className={styles.dataSection}>
@@ -92,7 +94,9 @@ function Home() {
       <div className={styles.informationField}>
         <div className={styles.titleField}>
           <p>Academic Information</p>
-          <button onClick={handleAcademicInformationData}>+</button>
+          <button className={styles.collapseButton} onClick={handleAcademicInformationData}>
+            +
+          </button>
         </div>
         {openAcademicInformationData ? (
           <div className={styles.dataSection}>
@@ -144,7 +148,9 @@ function Home() {
       <div className={styles.informationField}>
         <div className={styles.titleField}>
           <p>Work Experience Information</p>
-          <button onClick={handleWorkExperienceData}>+</button>
+          <button className={styles.collapseButton} onClick={handleWorkExperienceData}>
+            +
+          </button>
         </div>
         {openWorkExperienceData ? (
           <div className={styles.dataSection}>
@@ -183,9 +189,28 @@ function Home() {
       <div className={styles.informationField}>
         <div className={styles.titleField}>
           <p>Data of Interest</p>
-          <button onClick={handleDataOfInterestData}>+</button>
+          <button className={styles.collapseButton} onClick={handleDataOfInterestData}>
+            +
+          </button>
         </div>
-        {openDataOfInterestData ? <div>Holis aca iria toda la data....</div> : null}
+        {openDataOfInterestData ? (
+          <div className={styles.dataSection}>
+            <div className={styles.informationRow}>
+              <div className={styles.dataField}>
+                <p className={styles.fieldName}>Hobbies</p>
+                {selectedPostulant.hobbies.map((hobbie) => {
+                  return <p key={hobbie}>{hobbie}</p>;
+                })}
+              </div>
+              <div className={styles.dataField}>
+                <p className={styles.fieldName}>Languages</p>
+                {selectedPostulant.languages.map((language) => {
+                  return <p key={language}>{language}</p>;
+                })}
+              </div>
+            </div>
+          </div>
+        ) : null}
       </div>
     </section>
   );
