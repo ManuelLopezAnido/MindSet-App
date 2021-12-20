@@ -41,8 +41,8 @@ function Home() {
           {`${selectedPostulant.firstName} ${selectedPostulant.lastName}`}
         </div>
         <div className={styles.postulantDetails}>
-          {`${selectedPostulant.workExperience[0].title} |
-          ${selectedPostulant.openToWork ? 'Open to Wort' : 'Not Available to Work'}`}
+          {console.log(selectedPostulant)}
+          {`${selectedPostulant.openToWork ? 'Open to Work' : 'Not Available to Work'}`}
         </div>
       </div>
       <div className={styles.informationField}>
