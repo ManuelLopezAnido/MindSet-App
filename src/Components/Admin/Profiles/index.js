@@ -107,6 +107,7 @@ function WorkProfiles() {
           <tr>
             <th>Name</th>
             <th>Description</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
