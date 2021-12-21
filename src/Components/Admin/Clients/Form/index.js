@@ -5,7 +5,9 @@ import Button from 'Components/Admin/Clients/Button';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import Modal from 'Components/Shared/Modal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
+import Select from 'Components/Shared/Select';
 import { getOneClient, addClient, updateClient } from 'redux/clients/thunks';
+import { getPositions } from 'redux/positions/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 import { errorToDefault, selectedToDefault } from 'redux/admins/actions';
 import { Field, Form } from 'react-final-form';
@@ -15,25 +17,33 @@ import { validateEmail, validatePhone } from 'validations';
 const ClientsForm = () => {
   const [showModal, setShowModal] = useState(false);
   const [formValues, setFormValues] = useState({});
+  const [positionsToMap, setPositionsToMap] = useState([]);
   const dispatch = useDispatch();
   const history = useHistory();
   const isLoading = useSelector((store) => store.clients.isLoading);
   const error = useSelector((store) => store.clients.error);
   const errorMessage = useSelector((store) => store.clients.errorMessage);
   const selectedClient = useSelector((store) => store.clients.selected);
+  const positions = useSelector((store) => store.positions.list);
 
   const params = new URLSearchParams(window.location.search);
   const clientId = params.get('id');
 
-  if (clientId) {
-    useEffect(() => {
+  useEffect(() => {
+    dispatch(getPositions());
+    if (clientId) {
       dispatch(getOneClient(clientId));
-    }, []);
-  } else {
-    useEffect(() => {
+    } else {
       dispatch(selectedToDefault());
-    }, []);
-  }
+    }
+  }, []);
+
+  useEffect(() => {
+    const poss = positions.map((position) => {
+      return { value: position._id, toShow: position.jobTitle };
+    });
+    setPositionsToMap(poss);
+  }, [positions]);
 
   const submit = () => {
     if (clientId) {
@@ -155,7 +165,9 @@ const ClientsForm = () => {
               label="Open Positions"
               id="openPositions"
               name="openPositions"
-              component={Input}
+              options={positionsToMap}
+              multiple={true}
+              component={Select}
               disabled={formProps.submitting}
             />
             <Button
