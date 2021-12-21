@@ -37,14 +37,12 @@ const CounselorsForm = () => {
 
   const submit = () => {
     if (counselorId) {
-      console.log(formValues);
       dispatch(updateCounselor(counselorId, formValues)).then((response) => {
         if (response) {
           history.push('/admin/counselors');
         }
       });
     } else {
-      console.log(formValues);
       dispatch(addCounselor(formValues)).then((response) => {
         if (response) {
           history.push('/admin/counselors');
