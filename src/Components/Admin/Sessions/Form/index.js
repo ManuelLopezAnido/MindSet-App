@@ -83,8 +83,6 @@ const SessionsForm = () => {
     setShowModal(true);
   };
 
-  const validate = () => console.log('validating');
-
   if (isLoading) return <IsLoading />;
 
   return (
@@ -112,7 +110,6 @@ const SessionsForm = () => {
       <h1>Form</h1>
       <Form
         onSubmit={onSubmit}
-        validate={validate}
         initialValues={selectedSession}
         render={(formProps) => (
           <form className={styles.container} onSubmit={formProps.handleSubmit}>
@@ -151,9 +148,9 @@ const SessionsForm = () => {
             <Field
               name="accomplished"
               label="Accomplished"
+              type="checkbox"
               component={Checkbox}
               disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please choose a time')}
             />
             <Button
               type="submit"
