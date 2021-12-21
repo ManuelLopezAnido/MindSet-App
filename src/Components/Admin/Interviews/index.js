@@ -109,6 +109,7 @@ function Interviews() {
             <th>Company Name</th>
             <th>Date</th>
             <th>Time</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>

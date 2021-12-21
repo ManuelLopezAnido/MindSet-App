@@ -86,6 +86,7 @@ function Applications() {
             <th>Company </th>
             <th>Postulant</th>
             <th>State</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
