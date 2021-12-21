@@ -78,18 +78,18 @@ function Positions() {
         <h3>Positions</h3>
         <Button onClick={addPositions} value="Positions" />
       </div>
-      <table>
+      <table className={styles.list}>
         <thead>
           <tr>
             <th>Job</th>
             <th>Company </th>
             <th>Description</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {listPositions.map((a) => (
             <tr
-              className={styles.positionRow}
               key={a._id}
               onClick={() => (window.location.href = `/admin/positions/form?id=${a._id}`)}
             >
