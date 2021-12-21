@@ -103,7 +103,7 @@ function Applications() {
         <h3>Applications</h3>
         <Button onClick={addApplication} value="Applications" />
       </div>
-      <table>
+      <table className={styles.list}>
         <thead>
           <tr>
             <th>Position</th>
@@ -115,7 +115,6 @@ function Applications() {
         <tbody>
           {applications.map((a) => (
             <tr
-              className={styles.applicationRow}
               key={a._id}
               onClick={() => (window.location.href = `applications/form?id=${a._id}`)}
             >
