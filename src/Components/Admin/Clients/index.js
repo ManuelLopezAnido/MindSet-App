@@ -87,7 +87,6 @@ function Clients() {
         <tbody>
           {clients.map((client) => (
             <tr
-              className={styles.clientRow}
               key={client._id}
               onClick={() => (window.location.href = `clients/form?id=${client._id}`)}
             >
