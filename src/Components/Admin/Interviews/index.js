@@ -104,15 +104,16 @@ function Interviews() {
       </div>
       <table className={styles.list}>
         <thead>
-          <th>Job Title</th>
-          <th>Company Name</th>
-          <th>Date</th>
-          <th>Time</th>
+          <tr>
+            <th>Job Title</th>
+            <th>Company Name</th>
+            <th>Date</th>
+            <th>Time</th>
+          </tr>
         </thead>
         <tbody>
           {interviews.map((interview) => (
             <tr
-              className={styles.interviewRow}
               key={interview._id}
               onClick={() => (window.location.href = `/admin/interviews/form?id=${interview._id}`)}
             >
