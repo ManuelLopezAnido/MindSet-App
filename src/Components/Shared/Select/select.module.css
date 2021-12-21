@@ -8,10 +8,10 @@
   padding: 1rem 1rem 0rem;
 }
 
-.container label {
+.container label{
   width: 100%;
   margin: 2px 0px 2px 0px;
-  color: black;
+  color:black;
 }
 
 .container option {
@@ -23,7 +23,7 @@
   border-radius: 2px;
 }
 
-.inputError {
+.selectError {
   border: 2px solid red;
 }
 
@@ -33,5 +33,5 @@
   height: 21px;
   width: 12rem;
   font-size: 0.7rem;
-  color: #f00;
+  color: #F00;
 }
