@@ -79,8 +79,8 @@ function Applications() {
         <h3>Applications</h3>
         <Button onClick={addApplication} value="Applications" />
       </div>
+      <NoData data={listApplications.length} />
       <table className={listStyles.list}>
-        <NoData data={listApplications.length} />
         <thead>
           <tr>
             <th>Position</th>
