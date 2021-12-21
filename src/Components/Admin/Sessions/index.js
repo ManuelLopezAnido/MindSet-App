@@ -73,7 +73,7 @@ function Sessions() {
         <h3>Sessions</h3>
         <Button onClick={() => history.push('/admin/sessions/form')} />
       </div>
-      <table className={styles.sessionsTable}>
+      <table className={styles.list}>
         <thead>
           <tr>
             <th>Postulant Id</th>
@@ -89,7 +89,6 @@ function Sessions() {
             <tr
               key={session._id}
               onClick={() => (window.location.href = `sessions/form?id=${session._id}`)}
-              className={styles.sessionRow}
             >
               <td>{session.postulantId?.firstName + session.postulantId?.lastName}</td>
               <td>{session.counselorId ? session.counselorId.firstName : 'Not found'}</td>
