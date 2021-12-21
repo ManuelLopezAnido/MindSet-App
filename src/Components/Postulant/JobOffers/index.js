@@ -12,8 +12,13 @@ const JobOffers = () => {
 
   return (
     <div>
-      <h2>Job Offers</h2>
-      <h3>Postulant: Juan</h3>
+      {jobOffers.map((jobs) => (
+        <div key={jobs._id}>
+          <h2>Job Title: {jobs.jobTitle}</h2>
+          <h2>Company: {jobs.companyName}</h2>
+          <p>Descprition: {jobs.jobDescription} </p>
+        </div>
+      ))}
     </div>
   );
 };

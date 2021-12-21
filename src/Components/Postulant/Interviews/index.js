@@ -10,6 +10,11 @@ const Interviews = () => {
     dispatch(getInterviews());
   }, []);
   console.log(interviews);
+  const selectedPostulantId = '61a4398da318de40f22eba2c';
+  let filtredInterviews = interviews.filter((interview) => {
+    return interview.postulantId === selectedPostulantId;
+  });
+  console.log('filtrado: ', filtredInterviews);
   return (
     <div className={styles.interviews}>
       <h2> News Interviews</h2>
@@ -22,6 +27,16 @@ const Interviews = () => {
             <th>Actions</th>
           </tr>
         </thead>
+        <tbody>
+          {filtredInterviews.map((interview) => (
+            <tr key={interview._id}>
+              <td>{interview.jobTitle}</td>
+              <td>{interview.companyName}</td>
+              <td>{interview.time}</td>
+              <td>delete / edit</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   );
