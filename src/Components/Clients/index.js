@@ -73,7 +73,7 @@ function Clients() {
         <h3>Clients</h3>
         <Button onClick={() => history.push('/clients/form')} value="Client" />
       </div>
-      <table>
+      <table className={styles.list}>
         <thead>
           <tr>
             <th>Name</th>
