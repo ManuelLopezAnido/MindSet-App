@@ -102,15 +102,16 @@ function WorkProfiles() {
         <h3>Profiles</h3>
         <Button onClick={addWorkProfile} value="Profile" />
       </div>
-      <table>
+      <table className={styles.list}>
         <thead>
-          <th>Name</th>
-          <th>Description</th>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+          </tr>
         </thead>
         <tbody>
           {workProfiles.map((workProfile) => (
             <tr
-              className={styles.workProfileRow}
               key={workProfile._id}
               onClick={() =>
                 (window.location.href = `/admin/workprofiles/form?id=${workProfile._id}`)
