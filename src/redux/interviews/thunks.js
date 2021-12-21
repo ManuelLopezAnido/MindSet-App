@@ -1,12 +1,12 @@
-import { getPositionsFetching, getPositionsFulfilled, getPositionsRejected } from './actions';
+import { getInterviewsFetching, getInterviewsFulfilled, getInterviewsRejected } from './actions';
 const URL = process.env.REACT_APP_API;
 
-export const getPositions = () => (dispatch) => {
-  dispatch(getPositionsFetching());
-  fetch(`${URL}/positions/`)
+export const getInterviews = () => (dispatch) => {
+  dispatch(getInterviewsFetching());
+  fetch(`${URL}/interviews/`)
     .then((data) => data.json())
-    .then((response) => dispatch(getPositionsFulfilled(response)))
+    .then((response) => dispatch(getInterviewsFulfilled(response)))
     .catch((error) => {
-      dispatch(getPositionsRejected(error.toString()));
+      dispatch(getInterviewsRejected(error.toString()));
     });
 };

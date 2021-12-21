@@ -1,7 +1,7 @@
 import {
-  GET_POSITIONS_FETCHING,
-  GET_POSITIONS_FULFILLED,
-  GET_POSITIONS_REJECTED,
+  GET_INTERVIEWS_FETCHING,
+  GET_INTERVIEWS_FULFILLED,
+  GET_INTERVIEWS_REJECTED,
   ERROR_TO_DEFAULT
 } from './constants';
 
@@ -14,12 +14,12 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_POSITIONS_FETCHING:
+    case GET_INTERVIEWS_FETCHING:
       return {
         ...state,
         isLoading: true
       };
-    case GET_POSITIONS_FULFILLED: {
+    case GET_INTERVIEWS_FULFILLED: {
       return {
         ...state,
         isLoading: false,
@@ -27,7 +27,7 @@ const reducer = (state = initialState, action) => {
         selected: {}
       };
     }
-    case GET_POSITIONS_REJECTED:
+    case GET_INTERVIEWS_REJECTED:
       return {
         ...state,
         isLoading: false,

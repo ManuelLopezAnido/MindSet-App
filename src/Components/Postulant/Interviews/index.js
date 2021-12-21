@@ -9,17 +9,19 @@ const Interviews = () => {
   useEffect(() => {
     dispatch(getInterviews());
   }, []);
-
+  console.log(interviews);
   return (
     <div className={styles.interviews}>
       <h2> News Interviews</h2>
       <table>
-        <tr>
-          <th>Job Title</th>
-          <th>Company</th>
-          <th>Date and Hour</th>
-          <th>Actions</th>
-        </tr>
+        <thead>
+          <tr>
+            <th>Job Title</th>
+            <th>Company</th>
+            <th>Date and Hour</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
       </table>
     </div>
   );
