@@ -14,7 +14,8 @@ import {
   DELETE_ADMIN_FETCHING,
   DELETE_ADMIN_FULFILLED,
   DELETE_ADMIN_REJECTED,
-  ERROR_TO_DEFAULT
+  ERROR_TO_DEFAULT,
+  SELECTED_TO_DEFAULT
 } from './constants';
 
 const initialState = {
@@ -44,7 +45,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: true //TODO: CHANGE THIS
+        error: true
       };
 
     case GET_ONE_ADMIN_FETCHING:
@@ -130,6 +131,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         error: false
+      };
+    }
+    case SELECTED_TO_DEFAULT: {
+      return {
+        ...state,
+        selected: {}
       };
     }
     default:

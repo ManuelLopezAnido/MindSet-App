@@ -1,4 +1,4 @@
-import deleteIcon from '../../../assets/images/delete-icon.png';
+import deleteIcon from 'assets/images/delete-icon.png';
 import styles from './deleteButton.module.css';
 
 const DeleteButton = (props) => {

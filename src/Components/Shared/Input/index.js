@@ -1,33 +1,18 @@
 import styles from './input.module.css';
 
-const Input = ({
-  label,
-  id,
-  name,
-  type,
-  required,
-  value,
-  pattern,
-  onChange,
-  onBlur,
-  onFocus,
-  checked
-}) => {
+const Input = (props) => {
+  const hasError = !!(props.meta.touched && props.meta.error);
   return (
-    <div className={styles.input}>
-      <label htmlFor={id}>{label}</label>
+    <div className={styles.container}>
+      <label htmlFor={props.id}>{props.label}</label>
       <input
-        id={id}
-        name={name}
-        type={type}
-        required={required}
-        value={value}
-        pattern={pattern}
-        onChange={onChange}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        checked={checked}
-      ></input>
+        type={props.type}
+        className={`${styles.input} ${props.style} ${hasError && styles.inputError}`}
+        placeholder={props.placeholder}
+        disabled={props.disabled}
+        {...props.input}
+      />
+      <div className={styles.errorMessage}>{props.meta.touched && props.meta.error}</div>
     </div>
   );
 };
