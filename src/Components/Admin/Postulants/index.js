@@ -97,38 +97,36 @@ const Postulants = () => {
         middleText={showErrorModalMessage}
         buttonText="ok"
       />
-      <div className={styles.content}>
-        <div className={styles.titleAndButton}>
-          <h3>Postulants</h3>
-          <Button value="Postulant" onClick={() => redirectToForm(null)} />
-        </div>
-        <table className={styles.list}>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Country</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody className={styles.tableContent}>
-            {postulants.map((postulant) => (
-              <tr key={postulant._id} onClick={() => redirectToForm(postulant._id)}>
-                <td>
-                  <div>
-                    {postulant?.firstName || '-'} {postulant?.lastName || '-'}
-                  </div>
-                </td>
-                <td>
-                  <div>{postulant?.country || '-'}</div>
-                </td>
-                <td>
-                  <DeleteButton onClick={(event) => handleIdPostulant(event, postulant._id)} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className={styles.titleAndButton}>
+        <h3>Postulants</h3>
+        <Button value="Postulant" onClick={() => redirectToForm(null)} />
       </div>
+      <table className={styles.list}>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Country</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {postulants.map((postulant) => (
+            <tr key={postulant._id} onClick={() => redirectToForm(postulant._id)}>
+              <td>
+                <div>
+                  {postulant?.firstName || '-'} {postulant?.lastName || '-'}
+                </div>
+              </td>
+              <td>
+                <div>{postulant?.country || '-'}</div>
+              </td>
+              <td>
+                <DeleteButton onClick={(event) => handleIdPostulant(event, postulant._id)} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
