@@ -5,57 +5,33 @@ import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import Button from 'Components/Shared/Button/Button';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
+import { useSelector, useDispatch } from 'react-redux';
+import { getPostulants, deletePostulant } from 'redux/postulants/thunks';
+import { useHistory } from 'react-router-dom';
+import { errorToDefault } from 'redux/postulants/actions';
 
 const Postulants = () => {
   const [showModal, setShowModal] = useState(false);
-  const [postulants, setPostulants] = useState([]);
   const [selectedId, setSelectedId] = useState('');
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+
+  const history = useHistory();
+
+  const dispatch = useDispatch();
+
+  const postulants = useSelector((store) => store.postulants.list);
+  const isLoading = useSelector((store) => store.postulants.isLoading);
+  const error = useSelector((store) => store.postulants.error);
+  const errorMessage = useSelector((store) => store.postulants.errorMessage);
 
   useEffect(() => {
-    setIsLoading(true);
-    fetch(`${process.env.REACT_APP_API}/postulants`)
-      .then((response) => response.json())
-      .then((response) => setPostulants(response))
-      .catch((error) => {
-        setShowErrorModal(true);
-        setShowErrorModalMessage(JSON.stringify(error.message));
-      })
-      .finally(() => setIsLoading(false));
-  }, []);
+    if (!postulants.length) {
+      dispatch(getPostulants());
+    }
+  }, [postulants]);
 
-  const redirectToForm = (postulantId) => {
-    postulantId
-      ? (window.location.href = `${window.location.pathname}/form?_id=${postulantId}`)
-      : (window.location.href = `${window.location.pathname}/form`);
-  };
-
-  const deletePostulant = () => {
-    const url = `${process.env.REACT_APP_API}/postulants/delete/${selectedId}`;
-    fetch(url, {
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json'
-      }
-    })
-      .then((res) => {
-        if (res.status !== 204) {
-          return res.json().then((message) => {
-            throw new Error(message);
-          });
-        }
-        setPostulants(postulants.filter((postulants) => postulants._id !== selectedId));
-      })
-      .catch((error) => {
-        setShowErrorModal(true);
-        setShowErrorModalMessage(JSON.stringify(error.message));
-      })
-      .finally(() => {
-        setShowModal(false);
-        setIsLoading(false);
-      });
+  const onClickDelete = () => {
+    dispatch(deletePostulant(selectedId));
+    setShowModal(false);
   };
 
   const closeModal = () => {
@@ -68,10 +44,6 @@ const Postulants = () => {
     setShowModal(true);
   };
 
-  const closeErrorMessage = () => {
-    setShowErrorModal(false);
-  };
-
   if (isLoading) return <IsLoading />;
 
   return (
@@ -79,7 +51,7 @@ const Postulants = () => {
       <Modal
         showModal={showModal}
         closeModal={closeModal}
-        actionEntity={deletePostulant}
+        actionEntity={onClickDelete}
         selectedId={selectedId}
         titleText="Delete a postulant"
         leftButtonText="delete"
@@ -91,16 +63,16 @@ const Postulants = () => {
         ]}
       />
       <ErrorModal
-        showModal={showErrorModal}
-        closeModal={closeErrorMessage}
+        showModal={error}
+        closeModal={() => dispatch(errorToDefault())}
         titleText="Error"
-        middleText={showErrorModalMessage}
+        middleText={errorMessage}
         buttonText="ok"
       />
       <div className={styles.content}>
         <div className={styles.titleAndButton}>
           <h3>Postulants</h3>
-          <Button value="Postulant" onClick={() => redirectToForm(null)} />
+          <Button onClick={() => history.push('/admin/postulants/form')} value="Postulant" />
         </div>
         <table className={styles.list}>
           <thead>
@@ -112,7 +84,12 @@ const Postulants = () => {
           </thead>
           <tbody className={styles.tableContent}>
             {postulants.map((postulant) => (
-              <tr key={postulant._id} onClick={() => redirectToForm(postulant._id)}>
+              <tr
+                key={postulant._id}
+                onClick={() => {
+                  window.location.replace(`postulants/form?id=${postulant._id}`);
+                }}
+              >
                 <td>
                   <div>
                     {postulant?.firstName || '-'} {postulant?.lastName || '-'}
