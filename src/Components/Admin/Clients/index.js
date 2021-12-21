@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './clients.module.css';
+import listStyles from 'lists.module.css';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
@@ -47,7 +48,7 @@ function Clients() {
   if (isLoading) return <IsLoading />;
 
   return (
-    <section className={styles.container}>
+    <section className={listStyles.container}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -69,11 +70,11 @@ function Clients() {
         middleText={errorMessage}
         buttonText="ok"
       />
-      <div className={styles.titleAndButton}>
+      <div className={listStyles.titleAndButton}>
         <h3>Clients</h3>
         <Button onClick={() => history.push('/admin/clients/form')} value="Client" />
       </div>
-      <table className={styles.list}>
+      <table className={listStyles.list}>
         <thead>
           <tr>
             <th>Name</th>

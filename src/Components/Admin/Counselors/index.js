@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './counselors.module.css';
+import listStyles from 'lists.module.css';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
@@ -46,7 +47,7 @@ const Counselor = () => {
   if (isLoading) return <IsLoading />;
 
   return (
-    <section className={styles.container}>
+    <section className={listStyles.container}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -68,11 +69,11 @@ const Counselor = () => {
         middleText={errorMessage}
         buttonText="ok"
       />
-      <div className={styles.titleAndButton}>
+      <div className={listStyles.titleAndButton}>
         <h3>Counselors</h3>
         <Button onClick={() => history.push('/admin/counselors/form')} value="Counselor" />
       </div>
-      <table className={styles.list}>
+      <table className={listStyles.list}>
         <thead>
           <tr>
             <th> First Name </th>

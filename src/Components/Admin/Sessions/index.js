@@ -1,4 +1,5 @@
 import styles from './sessions.module.css';
+import listStyles from 'lists.module.css';
 import { useState, useEffect } from 'react';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
@@ -69,11 +70,11 @@ function Sessions() {
         middleText={errorMessage}
         buttonText="ok"
       />
-      <div className={styles.titleAndButton}>
+      <div className={listStyles.titleAndButton}>
         <h3>Sessions</h3>
         <Button onClick={() => history.push('/admin/sessions/form')} />
       </div>
-      <table className={styles.list}>
+      <table className={listStyles.list}>
         <thead>
           <tr>
             <th>Postulant Id</th>
@@ -95,7 +96,7 @@ function Sessions() {
               <td>{session.date}</td>
               <td>{session.time}</td>
               <td>{session.accomplished.toString()}</td>
-              <td className={styles.deleteButtonTD}>
+              <td className={listStyles.deleteButtonTD}>
                 <DeleteButton onClick={(event) => handleSession(event, session._id)} />
               </td>
             </tr>

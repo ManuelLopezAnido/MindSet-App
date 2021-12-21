@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './interviews.module.css';
+import listStyles from 'lists.module.css';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
@@ -76,7 +77,7 @@ function Interviews() {
   if (isLoading) return <IsLoading />;
 
   return (
-    <section className={styles.container}>
+    <section className={listStyles.container}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -98,11 +99,11 @@ function Interviews() {
         middleText={showErrorModalMessage}
         buttonText="ok"
       />
-      <div className={styles.titleAndButton}>
+      <div className={listStyles.titleAndButton}>
         <h3>Interviews</h3>
         <Button onClick={addInterview} value="Interview" />
       </div>
-      <table className={styles.list}>
+      <table className={listStyles.list}>
         <thead>
           <tr>
             <th>Job Title</th>

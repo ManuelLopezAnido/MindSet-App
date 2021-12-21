@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './postulants.module.css';
+import listStyles from 'lists.module.css';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
@@ -75,7 +76,7 @@ const Postulants = () => {
   if (isLoading) return <IsLoading />;
 
   return (
-    <div className={styles.container}>
+    <div className={listStyles.container}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -97,11 +98,11 @@ const Postulants = () => {
         middleText={showErrorModalMessage}
         buttonText="ok"
       />
-      <div className={styles.titleAndButton}>
+      <div className={listStyles.titleAndButton}>
         <h3>Postulants</h3>
         <Button value="Postulant" onClick={() => redirectToForm(null)} />
       </div>
-      <table className={styles.list}>
+      <table className={listStyles.list}>
         <thead>
           <tr>
             <th>Name</th>

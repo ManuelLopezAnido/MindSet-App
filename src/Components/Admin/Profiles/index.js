@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './workProfiles.module.css';
+import listStyles from 'lists.module.css';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
@@ -98,11 +99,11 @@ function WorkProfiles() {
         middleText={showErrorModalMessage}
         buttonText="ok"
       />
-      <div className={styles.titleAndButton}>
+      <div className={listStyles.titleAndButton}>
         <h3>Profiles</h3>
         <Button onClick={addWorkProfile} value="Profile" />
       </div>
-      <table className={styles.list}>
+      <table className={listStyles.list}>
         <thead>
           <tr>
             <th>Name</th>
@@ -120,7 +121,7 @@ function WorkProfiles() {
             >
               <td>{workProfile.name}</td>
               <td>{workProfile.description}</td>
-              <td className={styles.deleteButtonTD}>
+              <td className={listStyles.deleteButtonTD}>
                 <DeleteButton onClick={(event) => handleWorkProfile(event, workProfile._id)} />
               </td>
             </tr>

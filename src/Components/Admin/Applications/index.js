@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './applications.module.css';
+import listStyles from 'lists.module.css';
 import NoData from 'Components/Shared/NoData';
 import { useSelector, useDispatch } from 'react-redux';
 import { getApplications, deleteApplication } from 'redux/applications/thunks.js';
@@ -53,7 +54,7 @@ function Applications() {
 
   if (isLoading) return <IsLoading />;
   return (
-    <section className={styles.container}>
+    <section className={listStyles.container}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -74,11 +75,11 @@ function Applications() {
         titleText="Error"
         buttonText="ok"
       />
-      <div className={styles.titleAndButton}>
+      <div className={listStyles.titleAndButton}>
         <h3>Applications</h3>
         <Button onClick={addApplication} value="Applications" />
       </div>
-      <table className={styles.list}>
+      <table className={listStyles.list}>
         <NoData data={listApplications.length} />
         <thead>
           <tr>
