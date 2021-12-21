@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
 .list {
@@ -11,8 +12,8 @@
   color: #5C6C84;
   min-width: 600px;
   max-width: 800px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  background-color: #EEE;
+  /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); */
+  background-color: rgb(255, 255, 255);
 }
 
 .list thead tr {
