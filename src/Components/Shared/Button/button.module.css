@@ -9,10 +9,10 @@
     cursor: pointer;
     color: white;
     padding: 1.2rem 4rem;
+    margin: 2.5rem 0.8rem;
 }
 
 .addButton:hover {
-    margin: 5px;
     width: fit-content;
     height: fit-content;
     border: none;
