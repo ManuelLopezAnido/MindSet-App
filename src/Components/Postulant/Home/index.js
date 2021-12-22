@@ -2,6 +2,7 @@ import styles from './home.module.css';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOnePostulant } from 'redux/postulants/thunks';
+import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 
 function Home() {
   const [openPersonalInformationData, setOpenPersonalInformationData] = useState(false);
@@ -30,13 +31,23 @@ function Home() {
   }, []);
 
   const dispatch = useDispatch();
-  const selectedPostulant = useSelector((store) => store.postulants.selected);
   const postulantId = '61a4398da318de40f22eba2c';
+  const selectedPostulant = useSelector((store) => store.postulants.selected);
+  const isLoading = useSelector((store) => store.postulants.isLoading);
+
+  if (isLoading) {
+    return <IsLoading />;
+  }
 
   return (
     <section className={styles.home}>
       <div className={styles.postulantResume}>
-        <div className={styles.imagePostulant}></div>
+        <div className={styles.imagePostulant}>
+          <img
+            className={styles.logoPostulant}
+            src="http://3.bp.blogspot.com/_nKcd5vPHWY4/TJN_ySnkWCI/AAAAAAAAYvs/7h2_Z78Poj4/w1200-h630-p-k-no-nu/timthumb.jpg"
+          />
+        </div>
         <div className={styles.postulantName}>
           {`${selectedPostulant.firstName} ${selectedPostulant.lastName}`}
         </div>
