@@ -14,9 +14,6 @@ export const validatePassword = (password) => {
 };
 
 export const validatePhone = (phone) => {
-  const phoneString = String(phone);
   if (!phone) return;
-  if (phoneString.length < 8 || phoneString.includes('-')) {
-    return 'At least 8 numbers and cannot include -';
-  }
+  if (phone.length < 8) return 'At least 8 numbers and cannot include -';
 };
