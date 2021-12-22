@@ -8,6 +8,7 @@ const JobOffers = () => {
   const dispatch = useDispatch();
   const jobOffers = useSelector((store) => store.positions.list);
   const isLoading = useSelector((store) => store.positions.isLoading);
+  const [inputSearchBar, setInputSearchBar] = useState('');
 
   useEffect(() => {
     dispatch(getPositions());
@@ -22,27 +23,41 @@ const JobOffers = () => {
       <div className={styles.container}>
         <section className={styles.sectionForm}>
           <form>
-            <input className={styles.inputForm} type="text" placeholder="Search"></input>
-            <button>Q</button>
-            <button>Y</button>
+            <input
+              className={styles.inputForm}
+              type="text"
+              placeholder="Search"
+              onChange={(event) => setInputSearchBar(event.target.value)}
+            ></input>
           </form>
         </section>
         <section className={styles.containerJobsList}>
-          {jobOffers.map((jobs) => (
-            <div className={styles.jobContainer} key={jobs._id}>
-              <p className={styles.jobTitle}>{jobs.jobTitle}</p>
-              <p className={styles.jobDescription}>{jobs.jobDescription}</p>
-              <div className={styles.footerJobContainer}>
-                <p className={styles.companyName}>{jobs.companyName}</p>
-                <p className={styles.jobsLocation}>
-                  {jobs.city}, {jobs.country}
-                </p>
-                <button className={styles.buttonShowJob} type="submit">
-                  +
-                </button>
+          {jobOffers
+            .filter((jobOffer) => {
+              if (inputSearchBar === '') {
+                return jobOffer;
+              } else if (
+                jobOffer.jobTitle.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+                jobOffer.companyName.toLowerCase().includes(inputSearchBar.toLowerCase())
+              ) {
+                return jobOffer;
+              }
+            })
+            .map((jobs) => (
+              <div className={styles.jobContainer} key={jobs._id}>
+                <p className={styles.jobTitle}>{jobs.jobTitle}</p>
+                <p className={styles.jobDescription}>{jobs.jobDescription}</p>
+                <div className={styles.footerJobContainer}>
+                  <p className={styles.companyName}>{jobs.companyName}</p>
+                  <p className={styles.jobsLocation}>
+                    {jobs.city}, {jobs.country}
+                  </p>
+                  <button className={styles.buttonShowJob} type="submit">
+                    +
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </section>
       </div>
     </div>

@@ -22,6 +22,10 @@
   margin-right: 5px;
 }
 
+.inputForm:focus {
+  outline: none;
+}
+
 .containerJobsList {
   display: flex;
   flex-wrap: wrap;
