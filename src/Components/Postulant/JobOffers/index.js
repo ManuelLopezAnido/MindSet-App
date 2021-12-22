@@ -34,9 +34,7 @@ const JobOffers = () => {
         <section className={styles.containerJobsList}>
           {jobOffers
             .filter((jobOffer) => {
-              if (inputSearchBar === '') {
-                return jobOffer;
-              } else if (
+              if (
                 jobOffer.jobTitle.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
                 jobOffer.companyName.toLowerCase().includes(inputSearchBar.toLowerCase())
               ) {
