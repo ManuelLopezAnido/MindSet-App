@@ -2,13 +2,20 @@ import styles from './JobOffers.module.css';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPositions } from 'redux/positions/thunks';
+import IsLoading from 'Components/Shared/IsLoading/IsLoading';
+
 const JobOffers = () => {
   const dispatch = useDispatch();
   const jobOffers = useSelector((store) => store.positions.list);
+  const isLoading = useSelector((store) => store.positions.isLoading);
+
   useEffect(() => {
     dispatch(getPositions());
   }, []);
-  console.log(jobOffers);
+
+  if (isLoading) {
+    return <IsLoading />;
+  }
 
   return (
     <div className={styles.mainContainer}>
