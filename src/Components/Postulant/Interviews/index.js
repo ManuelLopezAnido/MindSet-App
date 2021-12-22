@@ -1,11 +1,16 @@
 import styles from './interviews.module.css';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getInterviews } from 'redux/interviews/thunks';
+import { getInterviews, deleteInterview } from 'redux/interviews/thunks';
+import { errorToDefault } from 'redux/admins/actions';
+import IsLoading from 'Components/Shared/IsLoading/IsLoading';
+import ErrorModal from 'Components/Shared/ErrorModal';
 
 const Interviews = () => {
   const dispatch = useDispatch();
   const interviews = useSelector((store) => store.interviews.list);
+  const Loading = useSelector((store) => store.interviews.isLoading);
+  const errMessage = useSelector((store) => store.interviews.error);
   useEffect(() => {
     dispatch(getInterviews());
   }, []);
@@ -15,8 +20,24 @@ const Interviews = () => {
     return interview.postulantId === selectedPostulantId;
   });
   console.log('filtrado: ', filtredInterviews);
+  const OnClickDelete = () => {
+    dispatch(deleteInterview());
+  };
+  const closeErrorMessage = () => {
+    dispatch(errorToDefault());
+  };
+  if (Loading) {
+    return <IsLoading />;
+  }
   return (
     <div className={styles.interviews}>
+      <ErrorModal
+        showModal={errMessage}
+        middleText={errMessage}
+        closeModal={closeErrorMessage}
+        titleText="Error"
+        buttonText="ok"
+      />
       <h2> News Interviews</h2>
       <table>
         <thead>
@@ -33,7 +54,7 @@ const Interviews = () => {
               <td>{interview.jobTitle}</td>
               <td>{interview.companyName}</td>
               <td>{interview.time}</td>
-              <td>delete / edit</td>
+              <td onClick={OnClickDelete()}>delete</td>
             </tr>
           ))}
         </tbody>
