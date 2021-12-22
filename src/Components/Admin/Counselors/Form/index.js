@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { errorToDefault, selectedToDefault } from 'redux/counselors/actions';
 import { useHistory } from 'react-router-dom';
 import { Field, Form } from 'react-final-form';
-import { validateEmail, validateBirthday, validatePhone } from 'validations';
+import { validateEmail, validatePhone } from 'validations';
 
 const CounselorsForm = () => {
   const [showModal, setShowModal] = useState(false);
@@ -54,7 +54,6 @@ const CounselorsForm = () => {
   const validate = (formValues) => {
     const errors = {};
     errors.email = validateEmail(formValues.email);
-    errors.birthday = validateBirthday(formValues.birthday);
     errors.phone = validatePhone(formValues.phone);
     return errors;
   };
@@ -138,7 +137,7 @@ const CounselorsForm = () => {
             <Field
               label="Birthday"
               name="birthday"
-              type="string"
+              type="date"
               component={Input}
               disabled={formProps.submitting}
               validate={(value) => (value ? undefined : 'please enter your birthday')}
@@ -231,6 +230,35 @@ const CounselorsForm = () => {
                   <Field
                     label="Wednesday"
                     type="checkbox"
+                    name="availability[2].available"
+                    component={Input}
+                    disabled={formProps.submitting}
+                  />
+                </div>
+                <div>
+                  <Field
+                    label="From"
+                    name="availability[2].from"
+                    type="string"
+                    component={Input}
+                    disabled={formProps.submitting}
+                  />
+                </div>
+                <div>
+                  <Field
+                    label="To"
+                    name="availability[2].to"
+                    type="string"
+                    component={Input}
+                    disabled={formProps.submitting}
+                  />
+                </div>
+              </div>
+              <div className={styles.day}>
+                <div className={styles.eachDay}>
+                  <Field
+                    label="Thursday"
+                    type="checkbox"
                     name="availability[3].available"
                     component={Input}
                     disabled={formProps.submitting}
@@ -258,9 +286,9 @@ const CounselorsForm = () => {
               <div className={styles.day}>
                 <div className={styles.eachDay}>
                   <Field
-                    label="Thursday"
-                    type="checkbox"
+                    label="Friday"
                     name="availability[4].available"
+                    type="checkbox"
                     component={Input}
                     disabled={formProps.submitting}
                   />
@@ -278,35 +306,6 @@ const CounselorsForm = () => {
                   <Field
                     label="To"
                     name="availability[4].to"
-                    type="string"
-                    component={Input}
-                    disabled={formProps.submitting}
-                  />
-                </div>
-              </div>
-              <div className={styles.day}>
-                <div className={styles.eachDay}>
-                  <Field
-                    label="Friday"
-                    name="availability[5].available"
-                    type="checkbox"
-                    component={Input}
-                    disabled={formProps.submitting}
-                  />
-                </div>
-                <div>
-                  <Field
-                    label="From"
-                    name="availability[5].from"
-                    type="string"
-                    component={Input}
-                    disabled={formProps.submitting}
-                  />
-                </div>
-                <div>
-                  <Field
-                    label="To"
-                    name="availability[5].to"
                     type="string"
                     component={Input}
                     disabled={formProps.submitting}

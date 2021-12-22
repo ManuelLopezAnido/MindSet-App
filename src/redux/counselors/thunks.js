@@ -44,7 +44,6 @@ export const getOneCounselor = (id) => (dispatch) => {
 };
 
 export const addCounselor = (data) => (dispatch) => {
-  console.log(data);
   const options = {
     method: 'POST',
     headers: {
@@ -63,33 +62,33 @@ export const addCounselor = (data) => (dispatch) => {
       availability: [
         {
           day: 'Monday',
-          available: data.availability[0].available,
-          from: data.availability[0].from,
-          to: data.availability[0].to
+          available: data.availability[0]?.available || false,
+          from: data.availability[0]?.from || '',
+          to: data.availability[0]?.to || ''
         },
         {
           day: 'Tuesday',
-          available: data.availability[1].available,
-          from: data.availability[1].from,
-          to: data.availability[1].to
+          available: data.availability[1]?.available || false,
+          from: data.availability[1]?.from || '',
+          to: data.availability[1]?.to || ''
         },
         {
           day: 'Wednesday',
-          available: data.availability[2].available,
-          from: data.availability[2].from,
-          to: data.availability[2].to
+          available: data.availability[2]?.available || false,
+          from: data.availability[2]?.from || '',
+          to: data.availability[2]?.to || ''
         },
         {
           day: 'Thursday',
-          available: data.availability[3].available,
-          from: data.availability[3].from,
-          to: data.availability[3].to
+          available: data.availability[3]?.available || false,
+          from: data.availability[3]?.from || '',
+          to: data.availability[3]?.to || ''
         },
         {
           day: 'Friday',
-          available: data.availability[4].available,
-          from: data.availability[4].from,
-          to: data.availability[4].to
+          available: data.availability[4]?.available || false,
+          from: data.availability[4]?.from || '',
+          to: data.availability[4]?.to || ''
         }
       ]
     })
@@ -117,7 +116,6 @@ export const addCounselor = (data) => (dispatch) => {
 };
 
 export const updateCounselor = (id, data) => (dispatch) => {
-  console.log(data);
   dispatch(updateCounselorFetching());
   return fetch(`${URL}/counselors/update/${id}`, {
     method: 'PUT',
