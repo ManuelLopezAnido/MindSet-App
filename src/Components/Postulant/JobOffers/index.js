@@ -11,14 +11,25 @@ const JobOffers = () => {
   console.log(jobOffers);
 
   return (
-    <div>
-      {jobOffers.map((jobs) => (
-        <div key={jobs._id}>
-          <h2>Job Title: {jobs.jobTitle}</h2>
-          <h2>Company: {jobs.companyName}</h2>
-          <p>Descprition: {jobs.jobDescription} </p>
-        </div>
-      ))}
+    <div className={styles.mainContainer}>
+      <div className={styles.container}>
+        <section className={styles.sectionForm}>
+          <form>
+            <input className={styles.inputForm} type="text" placeholder="Search"></input>
+            <button>Q</button>
+            <button>Y</button>
+          </form>
+        </section>
+        <section className={styles.containerJobsList}>
+          {jobOffers.map((jobs) => (
+            <div className={styles.jobContainer} key={jobs._id}>
+              <h2>{jobs.jobTitle}</h2>
+              <p>{jobs.jobDescription}</p>
+              <h2>Company: {jobs.companyName}</h2>
+            </div>
+          ))}
+        </section>
+      </div>
     </div>
   );
 };

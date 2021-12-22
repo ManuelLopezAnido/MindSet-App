@@ -1,0 +1,36 @@
+.mainContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 90%;
+  height: 80%;
+}
+
+.sectionForm {
+  display: flex;
+  justify-content: end;
+}
+
+.inputForm {
+  width: 230px;
+  background: none;
+  border: 2px solid #9ed8d8;
+  border-style: none none solid none;
+  margin-right: 5px;
+}
+
+.containerJobsList {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 75px;
+}
+
+.jobContainer {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  margin: 25px;
+}
