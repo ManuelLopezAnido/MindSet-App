@@ -23,9 +23,17 @@ const JobOffers = () => {
         <section className={styles.containerJobsList}>
           {jobOffers.map((jobs) => (
             <div className={styles.jobContainer} key={jobs._id}>
-              <h2>{jobs.jobTitle}</h2>
-              <p>{jobs.jobDescription}</p>
-              <h2>Company: {jobs.companyName}</h2>
+              <p className={styles.jobTitle}>{jobs.jobTitle}</p>
+              <p className={styles.jobDescription}>{jobs.jobDescription}</p>
+              <div className={styles.footerJobContainer}>
+                <p className={styles.companyName}>{jobs.companyName}</p>
+                <p className={styles.jobsLocation}>
+                  {jobs.city}, {jobs.country}
+                </p>
+                <button className={styles.buttonShowJob} type="submit">
+                  +
+                </button>
+              </div>
             </div>
           ))}
         </section>
