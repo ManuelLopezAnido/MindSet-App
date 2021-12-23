@@ -20,8 +20,8 @@ const Interviews = () => {
     return interview.postulantId === selectedPostulantId;
   });
   console.log('filtrado: ', filtredInterviews);
-  const OnClickDelete = () => {
-    dispatch(deleteInterview());
+  const OnClickDelete = (id) => {
+    dispatch(deleteInterview(id));
   };
   const closeErrorMessage = () => {
     dispatch(errorToDefault());
@@ -54,7 +54,7 @@ const Interviews = () => {
               <td>{interview.jobTitle}</td>
               <td>{interview.companyName}</td>
               <td>{interview.time}</td>
-              <td onClick={OnClickDelete()}>delete</td>
+              <td onClick={() => OnClickDelete(interview._id)}>delete</td>
             </tr>
           ))}
         </tbody>
