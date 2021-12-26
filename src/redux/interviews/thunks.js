@@ -25,7 +25,7 @@ export const deleteInterview = (id) => (dispatch) => {
       'Content-type': 'application/json'
     }
   };
-  fetch(`${URL}interviews/delete/${id}`, body)
+  fetch(`${URL}/interviews/delete/${id}`, body)
     .then((response) => {
       if (response.status !== 200) {
         throw response;
