@@ -1,90 +1,71 @@
 import React, { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import Input from 'Components/Shared/Input';
+import Select from 'Components/Shared/Select';
+import Checkbox from 'Components/Shared/Checkbox';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
+import Button from 'Components/Admin/Admins/Button';
 import { getOneSession, addSession, updateSession } from 'redux/sessions/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 import { errorToDefault } from 'redux/sessions/actions';
 import { useHistory } from 'react-router-dom';
+import { Field, Form } from 'react-final-form';
+import { getPostulants } from 'redux/postulants/thunks';
+import { getCounselors } from 'redux/counselors/thunks';
+import { selectedToDefault } from 'redux/sessions/actions';
 
 const SessionsForm = () => {
   const [showModal, setShowModal] = useState(false);
-  const [postulantIdValue, setPostulantIdValue] = useState('');
-  const [counselorIdValue, setCounselorIdValue] = useState('');
-  const [dateValue, setDateValue] = useState('');
-  const [timeValue, setTimeValue] = useState('');
   const [accomplishedValue, setAccomplishedValue] = useState(false);
+  const [formValues, setFormValues] = useState({});
+  const [postulantsToMap, setPostulantsToMap] = useState([]);
+  const [counselorsToMap, setCounselorsToMap] = useState([]);
 
   const dispatch = useDispatch();
-
   const history = useHistory();
-
   const isLoading = useSelector((store) => store.sessions.isLoading);
   const error = useSelector((store) => store.sessions.error);
   const errorMessage = useSelector((store) => store.sessions.errorMessage);
   const selectedSession = useSelector((store) => store.sessions.selected);
-
-  const onChangePostulantIdValue = (event) => {
-    setPostulantIdValue(event.target.value);
-  };
-
-  const onChangeCounselorIdValue = (event) => {
-    setCounselorIdValue(event.target.value);
-  };
-
-  const onChangeDateValue = (event) => {
-    setDateValue(event.target.value);
-  };
-
-  const onChangeTimeValue = (event) => {
-    setTimeValue(event.target.value);
-  };
+  const postulants = useSelector((store) => store.postulants.list);
+  const counselors = useSelector((store) => store.counselors.list);
 
   const params = new URLSearchParams(window.location.search);
   const sessionId = params.get('id');
 
-  if (sessionId) {
-    useEffect(() => {
+  useEffect(() => {
+    dispatch(getPostulants());
+    dispatch(getCounselors());
+    if (sessionId) {
       dispatch(getOneSession(sessionId));
-    }, []);
+    } else {
+      dispatch(selectedToDefault());
+    }
+  }, []);
 
-    useEffect(() => {
-      if (!selectedSession) return;
-      setPostulantIdValue(selectedSession.postulantId ?? '');
-      setCounselorIdValue(selectedSession.counselorId ?? '');
-      setDateValue(selectedSession.date ?? '');
-      setTimeValue(selectedSession.time ?? '');
-      setAccomplishedValue(selectedSession.accomplished ?? '');
-    }, [selectedSession]);
-  }
+  useEffect(() => {
+    const post = postulants.map((postulant) => {
+      return { value: postulant._id, toShow: postulant.firstName };
+    });
+    setPostulantsToMap(post);
+
+    const couns = counselors.map((counselor) => {
+      return { value: counselor._id, toShow: counselor.firstName };
+    });
+    setCounselorsToMap(couns);
+  }, [postulants, counselors]);
 
   const submit = () => {
     if (sessionId) {
-      dispatch(
-        updateSession(sessionId, {
-          postulantId: postulantIdValue,
-          counselorId: counselorIdValue,
-          date: dateValue,
-          time: timeValue,
-          accomplished: accomplishedValue
-        })
-      ).then((response) => {
+      dispatch(updateSession(sessionId, formValues)).then((response) => {
         if (response) {
           history.push('/admin/sessions');
         }
       });
     } else {
-      dispatch(
-        addSession({
-          postulantId: postulantIdValue,
-          counselorId: counselorIdValue,
-          date: dateValue,
-          time: timeValue,
-          accomplished: accomplishedValue
-        })
-      ).then((response) => {
+      dispatch(addSession(formValues)).then((response) => {
         if (response) {
           history.push('/admin/sessions');
         }
@@ -96,8 +77,9 @@ const SessionsForm = () => {
     setShowModal(false);
   };
 
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const onSubmit = (formValues) => {
+    console.log('formValues', formValues);
+    setFormValues(formValues);
     setShowModal(true);
   };
 
@@ -126,52 +108,58 @@ const SessionsForm = () => {
         buttonText="ok"
       />
       <h1>Form</h1>
-      <form className={styles.container} onSubmit={onSubmit}>
-        <Input
-          label="Postulant Id"
-          id="postulantId"
-          name="postulantId"
-          type="string"
-          required
-          value={postulantIdValue}
-          onChange={onChangePostulantIdValue}
-        />
-        <Input
-          label="Counselor Id"
-          id="counselorId"
-          name="counselorId"
-          type="string"
-          required
-          value={counselorIdValue}
-          onChange={onChangeCounselorIdValue}
-        />
-        <Input
-          label="Date"
-          id="date"
-          name="date"
-          required
-          value={dateValue}
-          onChange={onChangeDateValue}
-        />
-        <Input
-          label="Time"
-          id="time"
-          name="time"
-          required
-          value={timeValue}
-          onChange={onChangeTimeValue}
-        />
-        <label>Accomplished</label>
-        <Input
-          type="checkbox"
-          name="accomplished"
-          onChange={(event) => setAccomplishedValue(event.target.checked)}
-          checked={accomplishedValue}
-        />
-        <button className={styles.sendFormButton} type="submit">
-          SEND
-        </button>
-      </form>
+      <Form
+        onSubmit={onSubmit}
+        initialValues={selectedSession}
+        render={(formProps) => (
+          <form className={styles.container} onSubmit={formProps.handleSubmit}>
+            <Field
+              name="postulantId"
+              label="Postulant"
+              options={postulantsToMap}
+              component={Select}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please choose a postulant')}
+            />
+            <Field
+              name="counselorId"
+              label="Counselor"
+              options={counselorsToMap}
+              component={Select}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please choose a counselor')}
+            />
+            <Field
+              name="date"
+              label="Date"
+              type="date"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please choose a date')}
+            />
+            <Field
+              name="time"
+              label="Time"
+              type="time"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please choose a time')}
+            />
+            <Field
+              name="accomplished"
+              label="Accomplished"
+              type="checkbox"
+              component={Checkbox}
+              disabled={formProps.submitting}
+            />
+            <Button
+              type="submit"
+              className={StyleSheet.submitButton}
+              disabled={formProps.submitting || formProps.pristine}
+            />
+          </form>
+        )}
+      />
     </div>
   );
 };
