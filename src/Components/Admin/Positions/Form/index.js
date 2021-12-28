@@ -36,8 +36,6 @@ const PositionsForm = () => {
     }
   }, []);
 
-  console.log(selectedPosition);
-
   const submit = () => {
     if (positionId) {
       dispatch(updatePosition(positionId, formValues)).then((response) => {
