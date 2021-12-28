@@ -47,14 +47,12 @@ const ClientsForm = () => {
 
   const submit = () => {
     if (clientId) {
-      console.log(formValues);
       dispatch(updateClient(clientId, formValues)).then((response) => {
         if (response) {
           history.push('/admin/clients');
         }
       });
     } else {
-      console.log(formValues);
       dispatch(addClient(formValues)).then((response) => {
         if (response) {
           history.push('/admin/clients');
