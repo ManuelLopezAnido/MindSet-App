@@ -6,8 +6,8 @@ import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 
 const JobOffers = () => {
   const dispatch = useDispatch();
-  const jobOffers = useSelector((store) => store.positions.list);
   const isLoading = useSelector((store) => store.positions.isLoading);
+  const jobOffers = useSelector((store) => store.positions.list);
   const [inputSearchBar, setInputSearchBar] = useState('');
 
   useEffect(() => {
@@ -36,7 +36,9 @@ const JobOffers = () => {
             .filter((jobOffer) => {
               if (
                 jobOffer.jobTitle.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
-                jobOffer.companyName.toLowerCase().includes(inputSearchBar.toLowerCase())
+                jobOffer.companyName.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+                jobOffer.city.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+                jobOffer.country.toLowerCase().includes(inputSearchBar.toLowerCase())
               ) {
                 return jobOffer;
               }
