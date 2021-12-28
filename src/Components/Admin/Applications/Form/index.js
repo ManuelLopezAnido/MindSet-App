@@ -3,7 +3,7 @@ import styles from './form.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOneApplication, addApplication, updateApplication } from 'redux/applications/thunks';
 import { useHistory } from 'react-router-dom';
-import Input from 'Components/Shared/Input';
+import Input from 'Components/Shared/FormInput';
 import Select from 'Components/Shared/Select';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
