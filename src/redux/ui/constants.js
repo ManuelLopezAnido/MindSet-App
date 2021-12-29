@@ -1,0 +1,1 @@
+export const CHANGE_WIZARD_STEP = 'CHANGE_WIZARD_STEP';
