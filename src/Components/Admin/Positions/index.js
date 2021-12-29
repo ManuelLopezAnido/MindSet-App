@@ -83,9 +83,8 @@ function Positions() {
         <thead>
           <tr>
             <th>Job</th>
-            <th>Company </th>
-            <th>Description</th>
-            <th>Actions</th>
+            <th>company</th>
+            <th>Cancel postulation</th>
           </tr>
         </thead>
         <tbody>
@@ -96,7 +95,6 @@ function Positions() {
             >
               <td>{a.jobTitle}</td>
               <td>{a.companyName}</td>
-              <td>{a.jobDescription}</td>
               <td className={styles.deleteButtonTD}>
                 <DeleteButton onClick={(e) => handleIdPosition(e, a._id)} />
               </td>
