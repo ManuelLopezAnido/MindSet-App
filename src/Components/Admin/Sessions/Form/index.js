@@ -18,7 +18,6 @@ import { selectedToDefault } from 'redux/sessions/actions';
 
 const SessionsForm = () => {
   const [showModal, setShowModal] = useState(false);
-  const [accomplishedValue, setAccomplishedValue] = useState(false);
   const [formValues, setFormValues] = useState({});
   const [postulantsToMap, setPostulantsToMap] = useState([]);
   const [counselorsToMap, setCounselorsToMap] = useState([]);

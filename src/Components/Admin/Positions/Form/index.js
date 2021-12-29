@@ -3,121 +3,64 @@ import styles from './form.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { addPosition, getOnePosition, updatePosition } from 'redux/positions/thunks';
-import { errorToDefault } from 'redux/positions/actions';
+import { getClients } from 'redux/clients/thunks';
+import { errorToDefault, selectedToDefault } from 'redux/admins/actions';
+import { Field, Form } from 'react-final-form';
 import Input from 'Components/Shared/Input';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
+import SaveButton from 'Components/Shared/SaveButton';
+import Select from 'Components/Shared/Select';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 
 const PositionsForm = () => {
-  const [jobTitle, setJobTitle] = useState('');
-  const [clientId, setClientId] = useState('');
-  const [companyName, setCompanyName] = useState('');
-  const [jobDescription, setjobDescription] = useState('');
-  const [city, setCity] = useState('');
-  const [country, setCountry] = useState('');
-  const [datePosted, setDatePosted] = useState('');
-  const [closingDate, setClosingDate] = useState('');
-
   const [showModal, setShowModal] = useState(false);
-
+  const [formValues, setFormValues] = useState({});
+  const [clientsToMap, setClientsToMap] = useState([]);
   const dispatch = useDispatch();
   const history = useHistory();
-
   const isLoading = useSelector((store) => store.positions.isLoading);
   const error = useSelector((store) => store.positions.error);
+  const errorMessage = useSelector((store) => store.positions.errorMessage);
   const selectedPosition = useSelector((store) => store.positions.selected);
-
-  const onChangeJobTitle = (event) => {
-    setJobTitle(event.target.value);
-  };
-  const onChangeClientId = (event) => {
-    setClientId(event.target.value);
-  };
-  const onChangeCompanyName = (event) => {
-    setCompanyName(event.target.value);
-  };
-  const onChangeJobDescription = (event) => {
-    setjobDescription(event.target.value);
-  };
-  const onChangeCity = (event) => {
-    setCity(event.target.value);
-  };
-  const onChangeCountry = (event) => {
-    setCountry(event.target.value);
-  };
-  const onChangeDatePosted = (event) => {
-    setDatePosted(event.target.value);
-  };
-  const onChangeClosingDate = (event) => {
-    setClosingDate(event.target.value);
-  };
-
+  const clients = useSelector((store) => store.clients.list);
   const params = new URLSearchParams(window.location.search);
-  const posId = params.get('id');
-
-  if (posId) {
-    useEffect(() => {
-      dispatch(getOnePosition(posId));
-    }, []);
-  }
+  const positionId = params.get('id');
 
   useEffect(() => {
-    setJobTitle(selectedPosition.jobTitle ?? '');
-    setClientId(selectedPosition.clientId ?? '');
-    setCompanyName(selectedPosition.companyName ?? '');
-    setjobDescription(selectedPosition.companyName ?? '');
-    setCity(selectedPosition.city ?? '');
-    setCountry(selectedPosition.country ?? '');
-    setDatePosted(selectedPosition.datePosted ?? '');
-    setClosingDate(selectedPosition.closingDate ?? '');
-  }, [selectedPosition]);
+    dispatch(getClients());
+    if (positionId) {
+      dispatch(getOnePosition(positionId));
+    } else {
+      dispatch(selectedToDefault());
+    }
+  }, []);
 
   const submit = () => {
-    if (posId) {
-      dispatch(
-        updatePosition(posId, {
-          jobTitle: jobTitle,
-          clientId: clientId,
-          companyName: companyName,
-          jobDescription: jobDescription,
-          city: city,
-          country: country,
-          datePosted: datePosted,
-          closingDate: closingDate
-        })
-      ).then((response) => {
+    if (positionId) {
+      dispatch(updatePosition(positionId, formValues)).then((response) => {
         if (response) {
           history.push('/admin/positions');
         }
       });
     } else {
-      dispatch(
-        addPosition({
-          jobTitle: jobTitle,
-          clientId: clientId,
-          companyName: companyName,
-          jobDescription: jobDescription,
-          city: city,
-          country: country,
-          datePosted: datePosted.toString(),
-          closingDate: closingDate.toString()
-        })
-      ).then((response) => {
+      dispatch(addPosition(formValues)).then((response) => {
         if (response) {
           history.push('/admin/positions');
         }
       });
     }
   };
-  const closeErrorMessage = () => {
-    dispatch(errorToDefault());
-  };
 
-  const closeModal = () => setShowModal(false);
+  useEffect(() => {
+    const cli = clients.map((client) => {
+      return { value: client.companyName, toShow: client.companyName };
+    });
+    setClientsToMap(cli);
+  }, [clients]);
 
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const onSubmit = (formValues) => {
+    setFormValues(formValues);
     setShowModal(true);
   };
 
@@ -127,7 +70,7 @@ const PositionsForm = () => {
     <div className={styles.container}>
       <Modal
         showModal={showModal}
-        closeModal={closeModal}
+        closeModal={() => setShowModal(false)}
         actionEntity={submit}
         titleText="Save"
         spanObjectArray={[
@@ -140,97 +83,89 @@ const PositionsForm = () => {
       />
       <ErrorModal
         showModal={error}
-        closeModal={closeErrorMessage}
+        closeModal={() => dispatch(errorToDefault())}
         titleText="Error"
+        middleText={errorMessage}
         buttonText="ok"
       />
-      <h1>Form</h1>
-      <form className={styles.contForm} onSubmit={onSubmit}>
-        <Input
-          label="Job"
-          id="jobTitle"
-          name="jobTitleName"
-          type="string"
-          required
-          value={jobTitle}
-          onChange={onChangeJobTitle}
-        />
-        <Input
-          label="Company ID"
-          id="clientId"
-          name="clientIdName"
-          type="string"
-          required
-          value={clientId}
-          onChange={onChangeClientId}
-        />
-        <Input
-          label="Company Name"
-          id="companyName"
-          name="compantNameName"
-          type="string"
-          required
-          value={companyName}
-          onChange={onChangeCompanyName}
-        />
-        <Input
-          label="Job Title"
-          id="JobTitle"
-          name="jobTitleName"
-          type="string"
-          required
-          value={jobTitle}
-          onChange={onChangeJobTitle}
-        />
-        <Input
-          label="Job Description"
-          id="jobDescription"
-          name="jobDescriptionName"
-          type="string"
-          required
-          value={jobDescription}
-          onChange={onChangeJobDescription}
-        />
-        <Input
-          label="City"
-          id="city"
-          name="cityName"
-          type="string"
-          required
-          value={city}
-          onChange={onChangeCity}
-        />
-        <Input
-          label="Country"
-          id="country"
-          name="countryName"
-          type="string"
-          required
-          value={country}
-          onChange={onChangeCountry}
-        />
-        <Input
-          label="Date Posted"
-          id="datePosted"
-          name="datePostedName"
-          type="date"
-          required
-          value={datePosted}
-          onChange={onChangeDatePosted}
-        />
-        <Input
-          label="Closing Date"
-          id="closingDate"
-          name="closingDateName"
-          type="date"
-          required
-          value={closingDate}
-          onChange={onChangeClosingDate}
-        />
-        <button className={styles.sendFormButton} type="submit">
-          SEND
-        </button>
-      </form>
+      <Form
+        onSubmit={onSubmit}
+        initialValues={selectedPosition}
+        render={(formProps) => (
+          <form className={styles.form} onSubmit={formProps.handleSubmit}>
+            <h2>Form</h2>
+            <Field
+              label="Job"
+              id="jobTitle"
+              name="jobTitle"
+              type="string"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please enter the job title')}
+            />
+            <Field
+              label="Company Name"
+              id="companyName"
+              name="companyName"
+              type="checkbox"
+              options={clientsToMap}
+              component={Select}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please enter the company name')}
+            />
+            <Field
+              label="Job Description"
+              id="jobDescription"
+              name="jobDescription"
+              type="string"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please enter the job description')}
+            />
+            <Field
+              label="City"
+              id="city"
+              name="city"
+              type="string"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please enter a city')}
+            />
+            <Field
+              label="Country"
+              id="country"
+              name="country"
+              type="string"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please enter a country')}
+            />
+            <Field
+              label="Date Posted"
+              id="datePosted"
+              name="datePosted"
+              type="date"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please enter the date posted')}
+            />
+            <Field
+              label="Closing Date"
+              id="closingDate"
+              name="closingDate"
+              type="date"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please enter the closing date')}
+            />
+            <SaveButton
+              type="submit"
+              className={StyleSheet.submitButton}
+              disabled={formProps.submitting || formProps.pristine}
+            />
+          </form>
+        )}
+      />
     </div>
   );
 };

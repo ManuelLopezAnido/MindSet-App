@@ -14,7 +14,8 @@ import {
   DELETE_POSITION_FETCHING,
   DELETE_POSITION_FULFILLED,
   DELETE_POSITION_REJECTED,
-  ERROR_TO_DEFAULT
+  ERROR_TO_DEFAULT,
+  SELECTED_TO_DEFAULT
 } from './constants';
 
 export const getPositionsFetching = () => {
@@ -79,4 +80,8 @@ export const deletePositionRejected = (error) => ({
 
 export const errorToDefault = () => ({
   type: ERROR_TO_DEFAULT
+});
+
+export const selectedToDefault = () => ({
+  type: SELECTED_TO_DEFAULT
 });
