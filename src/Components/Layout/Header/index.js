@@ -1,5 +1,5 @@
 import styles from './header.module.css';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 
 const Header = () => {
   const location = useLocation();
@@ -12,6 +12,9 @@ const Header = () => {
         <div className={styles.brand}>MindSet</div>
         <div className={styles.mainHead}>
           <div className={styles.entityName}> {entity} </div>
+          <Link to="/postulant/signUp">
+            <span className={styles.signUp}>Sign Up</span>
+          </Link>
         </div>
       </div>
     </header>

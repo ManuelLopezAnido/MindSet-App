@@ -19,7 +19,7 @@ const URL = process.env.REACT_APP_API;
 
 export const getPositions = () => (dispatch) => {
   dispatch(getPositionsFetching());
-  fetch(`${URL}/positions/`)
+  return fetch(`${URL}/positions/`)
     .then((data) => data.json())
     .then((response) => dispatch(getPositionsFulfilled(response)))
     .catch((error) => {
@@ -48,7 +48,15 @@ export const addPosition = (data) => (dispatch) => {
     headers: {
       'Content-type': 'application/json'
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify({
+      jobTitle: data.jobTitle,
+      companyName: data.companyName,
+      jobDescription: data.jobDescription,
+      city: data.city,
+      country: data.country,
+      datePosted: data.datePosted,
+      closingDate: data.closingDate
+    })
   };
   dispatch(addPositionFetching());
 
@@ -72,7 +80,15 @@ export const updatePosition = (id, data) => (dispatch) => {
     headers: {
       'Content-type': 'application/json'
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify({
+      jobTitle: data.jobTitle,
+      companyName: data.companyName,
+      jobDescription: data.jobDescription,
+      city: data.city,
+      country: data.country,
+      datePosted: data.datePosted,
+      closingDate: data.closingDate
+    })
   })
     .then((data) => {
       if (data.status != 200) throw data.statusText;
@@ -88,7 +104,7 @@ export const updatePosition = (id, data) => (dispatch) => {
 
 export const deletePosition = (id) => (dispatch) => {
   dispatch(deletePositionFetching());
-  fetch(`${URL}/positions/delete/${id + 1}`, {
+  fetch(`${URL}/positions/delete/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-type': 'application/json'
