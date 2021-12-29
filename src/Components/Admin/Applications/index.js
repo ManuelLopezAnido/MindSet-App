@@ -95,12 +95,12 @@ function Applications() {
               key={a._id}
               onClick={() => (window.location.href = `/admin/applications/form?id=${a._id}`)}
             >
-              <td>{a.positionId ? a.positionId.jobTitle : 'Not found position'}</td>
-              <td>{a.companyId ? a.companyId.companyName : 'Not found company'}</td>
+              <td>{a.positionId ? a.positionId.jobTitle : 'Position not found'}</td>
+              <td>{a.companyId ? a.companyId.companyName : 'Company not found'}</td>
               <td>
                 {a.postulantId
                   ? a.postulantId.firstName + ' ' + a.postulantId.lastName
-                  : 'Not found postulant'}
+                  : 'Postulant not found'}
               </td>
               <td>{a.applicationState}</td>
               <td className={styles.deleteButtonTD}>

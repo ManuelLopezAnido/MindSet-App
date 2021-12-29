@@ -12,3 +12,10 @@ export const validatePassword = (password) => {
     return 'At least 8 characters';
   }
 };
+
+export const validateMongoID = (id) => {
+  //this short circuit is needed bc this validation is performed on load.
+  if (id && id.length < 24) {
+    return 'at least 24 characters long, not and ID';
+  }
+};

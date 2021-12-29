@@ -6,6 +6,7 @@ import sessionsReducer from './sessions/reducer';
 import clientsReducer from './clients/reducer';
 import uiReducer from './ui/reducer';
 import applicationsReducers from './applications/reducer';
+import positionsReducer from './positions/reducer';
 
 const rootReducer = combineReducers({
   admins: adminsReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   sessions: sessionsReducer,
   counselors: counselorsReducer,
   ui: uiReducer,
-  applications: applicationsReducers
+  applications: applicationsReducers,
+  positions: positionsReducer
 });
 
 export default rootReducer;

@@ -19,7 +19,7 @@ const URL = process.env.REACT_APP_API;
 
 export const getPositions = () => (dispatch) => {
   dispatch(getPositionsFetching());
-  fetch(`${URL}/positions/`)
+  return fetch(`${URL}/positions/`)
     .then((data) => data.json())
     .then((response) => dispatch(getPositionsFulfilled(response)))
     .catch((error) => {
