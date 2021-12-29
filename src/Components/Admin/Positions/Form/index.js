@@ -6,7 +6,7 @@ import { addPosition, getOnePosition, updatePosition } from 'redux/positions/thu
 import { getClients } from 'redux/clients/thunks';
 import { errorToDefault, selectedToDefault } from 'redux/admins/actions';
 import { Field, Form } from 'react-final-form';
-import Input from 'Components/Shared/Input';
+import Input from 'Components/Shared/FormInput';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import SaveButton from 'Components/Shared/SaveButton';
