@@ -1,0 +1,63 @@
+.container {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 100%;
+  margin: 0 1rem 0;
+  padding: 1rem 1rem 0rem;
+}
+
+.container label{
+  width: 100%;
+  margin: 2px 0px 2px 0px;
+  color:black;
+}
+
+.input {
+  font-size: 0.8rem;
+  border: 2px solid rgba(0, 0, 0, 0);
+  padding: 0.5rem;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.labelTitle {
+  padding: 0.5rem;
+}
+
+.inputError {
+  border: 2px solid red;
+}
+
+.errorMessage {
+  display: flex;
+  align-items: center;
+  height: 21px;
+  width: 12rem;
+  font-size: 0.7rem;
+  color: #F00;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.labelTitle {
+  padding: 0.5rem;
+}
+
+.inputError {
+  border: 2px solid red;
+}
+
+.errorMessage {
+  display: flex;
+  align-items: center;
+  height: 21px;
+  width: 12rem;
+  font-size: 0.7rem;
+  color: #F00;
+}
