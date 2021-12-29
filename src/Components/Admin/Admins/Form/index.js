@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
-import Input from 'Components/Shared/Input';
+import Input from 'Components/Shared/FormInput';
 import Button from 'Components/Admin/Admins/Button';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
@@ -8,8 +8,8 @@ import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import { getOneAdmin, addAdmin, updateAdmin } from 'redux/admins/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 import { errorToDefault, selectedToDefault } from 'redux/admins/actions';
-import { useHistory } from 'react-router-dom';
 import { Field, Form } from 'react-final-form';
+import { useHistory } from 'react-router-dom';
 import { validateEmail, validatePassword } from 'validations';
 
 const AdminsForm = () => {

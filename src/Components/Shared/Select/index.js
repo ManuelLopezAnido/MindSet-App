@@ -2,7 +2,6 @@ import styles from './select.module.css';
 
 const Select = (props) => {
   const hasError = !!(props.meta.touched && props.meta.error);
-
   return (
     <div className={styles.container}>
       {props.label && <label>{props.label}</label>}
