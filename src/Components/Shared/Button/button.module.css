@@ -1,4 +1,5 @@
 .addButton{
+    font-size: 1.3rem;
     margin: 5px;
     width: fit-content;
     height: fit-content;
@@ -7,11 +8,11 @@
     background-color: #1d3354;
     cursor: pointer;
     color: white;
-    padding: 0.5em 3em;
+    padding: 1.2rem 4rem;
+    margin: 2.5rem 0.8rem;
 }
 
 .addButton:hover {
-    margin: 5px;
     width: fit-content;
     height: fit-content;
     border: none;
