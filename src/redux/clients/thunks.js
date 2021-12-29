@@ -20,7 +20,7 @@ const URL = process.env.REACT_APP_API;
 
 export const getClients = () => (dispatch) => {
   dispatch(getClientsFetching());
-  fetch(`${URL}/clients/`)
+  return fetch(`${URL}/clients/`)
     .then((data) => data.json())
     .then((response) => dispatch(getClientsFulfilled(response)))
     .catch((error) => dispatch(getClientsRejected(error)));

@@ -22,7 +22,9 @@ export const getPostulants = () => (dispatch) => {
   dispatch(getPostulantsFetching());
   return fetch(`${URL}/postulants/`)
     .then((data) => data.json())
-    .then((response) => dispatch(getPostulantsFulfilled(response)))
+    .then((response) => {
+      dispatch(getPostulantsFulfilled(response));
+    })
     .catch((error) => dispatch(getPostulantsRejected(error)));
 };
 

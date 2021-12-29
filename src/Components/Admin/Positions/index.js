@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import styles from './positions.module.css';
+import listStyles from 'lists.module.css';
 import NoData from 'Components/Shared/NoData/NoData';
 import { getPositions, deletePosition } from 'redux/positions/thunks';
 import { useHistory } from 'react-router-dom';
@@ -53,7 +53,7 @@ function Positions() {
   if (isLoading) return <IsLoading />;
 
   return (
-    <section className={styles.container}>
+    <section className={listStyles.container}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -74,29 +74,27 @@ function Positions() {
         titleText="Error"
         buttonText="ok"
       />
-      <div className={styles.titleAndButton}>
+      <div className={listStyles.titleAndButton}>
         <h3>Positions</h3>
         <Button onClick={addPositions} value="Positions" />
       </div>
-      <table>
+      <table className={listStyles.list}>
         <thead>
           <tr>
             <th>Job</th>
-            <th>Company </th>
-            <th>Description</th>
+            <th>company</th>
+            <th>Cancel postulation</th>
           </tr>
         </thead>
         <tbody>
           {listPositions.map((a) => (
             <tr
-              className={styles.positionRow}
               key={a._id}
               onClick={() => (window.location.href = `/admin/positions/form?id=${a._id}`)}
             >
               <td>{a.jobTitle}</td>
               <td>{a.companyName}</td>
-              <td>{a.jobDescription}</td>
-              <td className={styles.deleteButtonTD}>
+              <td>
                 <DeleteButton onClick={(e) => handleIdPosition(e, a._id)} />
               </td>
             </tr>
