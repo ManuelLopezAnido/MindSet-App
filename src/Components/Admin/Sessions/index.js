@@ -48,7 +48,7 @@ function Sessions() {
   if (isLoading) return <IsLoading />;
 
   return (
-    <section className={styles.container}>
+    <section className={listStyles.container}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
