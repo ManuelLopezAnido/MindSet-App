@@ -1,4 +1,3 @@
-import styles from './sessions.module.css';
 import listStyles from 'lists.module.css';
 import { useState, useEffect } from 'react';
 import Modal from 'Components/Shared/Modal';

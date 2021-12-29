@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import styles from './positions.module.css';
 import listStyles from 'lists.module.css';
 import NoData from 'Components/Shared/NoData/NoData';
 import { getPositions, deletePosition } from 'redux/positions/thunks';
@@ -95,7 +94,7 @@ function Positions() {
             >
               <td>{a.jobTitle}</td>
               <td>{a.companyName}</td>
-              <td className={styles.deleteButtonTD}>
+              <td>
                 <DeleteButton onClick={(e) => handleIdPosition(e, a._id)} />
               </td>
             </tr>

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import styles from './applications.module.css';
 import listStyles from 'lists.module.css';
 import NoData from 'Components/Shared/NoData';
 import { useSelector, useDispatch } from 'react-redux';
@@ -104,7 +103,7 @@ function Applications() {
                   : 'Postulant not found'}
               </td>
               <td>{a.applicationState}</td>
-              <td className={styles.deleteButtonTD}>
+              <td>
                 <DeleteButton onClick={(e) => handleIdApplication(e, a._id)} />
               </td>
             </tr>

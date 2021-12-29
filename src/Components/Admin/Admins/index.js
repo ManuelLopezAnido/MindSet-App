@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import styles from './admins.module.css';
 import listStyles from 'lists.module.css';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
