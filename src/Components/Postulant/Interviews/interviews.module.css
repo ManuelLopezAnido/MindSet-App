@@ -1,0 +1,15 @@
+.interviews{
+  display: flex;
+  flex-direction: column;
+  border: black 1px solid;
+}
+.interviews h2{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: larger;
+  margin: 10px 0px;
+}
+.interviews th{
+  color:chocolate;
+}

@@ -59,7 +59,7 @@ function Home() {
         <div className={styles.titleField}>
           <p>Personal Information</p>
           <button className={styles.collapseButton} onClick={handlePersonalInformationData}>
-            +
+            {openPersonalInformationData ? '-' : '+'}
           </button>
         </div>
         {openPersonalInformationData ? (
@@ -115,7 +115,7 @@ function Home() {
         <div className={styles.titleField}>
           <p>Academic Information</p>
           <button className={styles.collapseButton} onClick={handleAcademicInformationData}>
-            +
+            {openAcademicInformationData ? '-' : '+'}
           </button>
         </div>
         {openAcademicInformationData ? (
@@ -169,7 +169,7 @@ function Home() {
         <div className={styles.titleField}>
           <p>Work Experience Information</p>
           <button className={styles.collapseButton} onClick={handleWorkExperienceData}>
-            +
+            {openWorkExperienceData ? '-' : '+'}
           </button>
         </div>
         {openWorkExperienceData ? (
@@ -210,7 +210,7 @@ function Home() {
         <div className={styles.titleField}>
           <p>Data of Interest</p>
           <button className={styles.collapseButton} onClick={handleDataOfInterestData}>
-            +
+            {openDataOfInterestData ? '-' : '+'}
           </button>
         </div>
         {openDataOfInterestData ? (
