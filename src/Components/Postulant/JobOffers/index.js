@@ -8,7 +8,6 @@ const JobOffers = () => {
   useEffect(() => {
     dispatch(getPositions());
   }, []);
-  console.log(jobOffers);
 
   return (
     <div>

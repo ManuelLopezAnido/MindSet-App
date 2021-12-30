@@ -14,12 +14,10 @@ const Interviews = () => {
   useEffect(() => {
     dispatch(getInterviews());
   }, []);
-  console.log(interviews);
   const selectedPostulantId = '61a4398da318de40f22eba2c';
   let filtredInterviews = interviews.filter((interview) => {
     return interview.postulantId === selectedPostulantId;
   });
-  console.log('filtrado: ', filtredInterviews);
   const OnClickDelete = (id) => {
     dispatch(deleteInterview(id));
   };

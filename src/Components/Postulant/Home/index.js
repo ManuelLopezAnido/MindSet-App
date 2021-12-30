@@ -35,7 +35,6 @@ function Home() {
 
   return (
     <section className={styles.home}>
-      {console.log(selectedPostulant)}
       <div className={styles.informationField}>
         <div className={styles.titleField}>
           <p>Personal Information</p>
