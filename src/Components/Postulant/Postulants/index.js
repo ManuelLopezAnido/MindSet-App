@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import styles from './postulants.module.css';
+import listStyles from 'lists.module.css';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
@@ -29,6 +29,11 @@ const Postulants = () => {
     }
   }, [postulants]);
 
+  const redirectToForm = (postulantId) => {
+    postulantId
+      ? (window.location.href = `${window.location.pathname}/form?_id=${postulantId}`)
+      : (window.location.href = `${window.location.pathname}/form`);
+  };
   const onClickDelete = () => {
     dispatch(deletePostulant(selectedId));
     setShowModal(false);
@@ -47,7 +52,7 @@ const Postulants = () => {
   if (isLoading) return <IsLoading />;
 
   return (
-    <div className={styles.container}>
+    <div className={listStyles.container}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -69,43 +74,36 @@ const Postulants = () => {
         middleText={errorMessage}
         buttonText="ok"
       />
-      <div className={styles.content}>
-        <div className={styles.titleAndButton}>
-          <h3>Postulants</h3>
-          <Button onClick={() => history.push('/admin/postulants/form')} value="Postulant" />
-        </div>
-        <table className={styles.list}>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Country</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody className={styles.tableContent}>
-            {postulants.map((postulant) => (
-              <tr
-                key={postulant._id}
-                onClick={() => {
-                  window.location.replace(`postulants/form?id=${postulant._id}`);
-                }}
-              >
-                <td>
-                  <div>
-                    {postulant?.firstName || '-'} {postulant?.lastName || '-'}
-                  </div>
-                </td>
-                <td>
-                  <div>{postulant?.country || '-'}</div>
-                </td>
-                <td>
-                  <DeleteButton onClick={(event) => handleIdPostulant(event, postulant._id)} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className={listStyles.titleAndButton}>
+        <h3>Postulants</h3>
+        <Button value="Postulant" onClick={() => redirectToForm(null)} />
       </div>
+      <table className={listStyles.list}>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Country</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {postulants.map((postulant) => (
+            <tr key={postulant._id} onClick={() => redirectToForm(postulant._id)}>
+              <td>
+                <div>
+                  {postulant?.firstName || '-'} {postulant?.lastName || '-'}
+                </div>
+              </td>
+              <td>
+                <div>{postulant?.country || '-'}</div>
+              </td>
+              <td>
+                <DeleteButton onClick={(event) => handleIdPostulant(event, postulant._id)} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

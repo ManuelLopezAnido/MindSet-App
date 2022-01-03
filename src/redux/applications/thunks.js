@@ -67,9 +67,9 @@ export const addApplication = (data) => (dispatch) => {
       'Content-type': 'application/json'
     },
     body: JSON.stringify({
-      positionId: data.position,
-      companyId: data.company,
-      postulantId: data.postulant,
+      positionId: data.positionId,
+      companyId: data.companyId,
+      postulantId: data.postulantId,
       applicationState: data.applicationState
     })
   };
@@ -104,9 +104,9 @@ export const updateApplication = (id, data) => (dispatch) => {
       'Content-type': 'application/json'
     },
     body: JSON.stringify({
-      positionId: data.position,
-      companyId: data.company,
-      postulantId: data.postulant,
+      positionId: data.positionId,
+      companyId: data.companyId,
+      postulantId: data.postulantId,
       applicationState: data.applicationState
     })
   })

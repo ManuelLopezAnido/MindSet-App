@@ -3,82 +3,80 @@ import styles from './form.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOneApplication, addApplication, updateApplication } from 'redux/applications/thunks';
 import { useHistory } from 'react-router-dom';
-import Input from 'Components/Shared/Input';
+import Input from 'Components/Shared/FormInput';
+import Select from 'Components/Shared/Select';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
+import Button from 'Components/Shared/Button/Button';
+import { Field, Form } from 'react-final-form';
+import { validateMongoID } from 'validations';
+import { selectedToDefault } from 'redux/admins/actions';
+import { getPositions } from 'redux/positions/thunks';
+import { getPostulants } from 'redux/postulants/thunks';
+import { getClients } from 'redux/clients/thunks';
 
 const FormApplication = () => {
   const [showModal, setShowModal] = useState(false);
-  const [position, setPositionName] = useState('');
-  const [company, setCompany] = useState('');
-  const [postulant, setPostulant] = useState('');
-  const [applicationState, setAppState] = useState('');
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [formValues, setFormValues] = useState({});
+  const [positionsToMap, setPositionsToMap] = useState([]);
+  const [clientsToMap, setClientsToMap] = useState([]);
+  const [postulantsToMap, setPostulantsToMap] = useState([]);
 
   const history = useHistory();
   const dispatch = useDispatch();
   const error = useSelector((store) => store.applications.error);
   const isLoading = useSelector((store) => store.applications.isLoading);
   const selectedApp = useSelector((store) => store.applications.selected);
-  const onChangePosition = (event) => {
-    setPositionName(event.target.value);
-  };
-  const onChangeCompany = (event) => {
-    setCompany(event.target.value);
-  };
-  const onChangePostulant = (event) => {
-    setPostulant(event.target.value);
-  };
-  const onChangeAppState = (event) => {
-    setAppState(event.target.value);
-  };
+  const positions = useSelector((store) => store.positions.list);
+  const clients = useSelector((store) => store.clients.list);
+  const postulants = useSelector((store) => store.postulants.list);
 
   const params = new URLSearchParams(window.location.search);
   const appId = params.get('id');
 
   useEffect(() => {
+    dispatch(getPositions());
+    dispatch(getClients());
+    dispatch(getPostulants());
     if (appId) {
       dispatch(getOneApplication(appId));
+    } else {
+      dispatch(selectedToDefault());
     }
   }, []);
 
   useEffect(() => {
-    if (Object.keys(selectedApp).length) {
-      setPositionName(selectedApp.positionId);
-      setCompany(selectedApp.companyId);
-      setPostulant(selectedApp.postulantId);
-      setAppState(selectedApp.applicationState);
-    }
-  }, [selectedApp]);
+    const poss = positions.map((position) => {
+      return { value: position._id, toShow: position.jobTitle };
+    });
+    setPositionsToMap(poss);
+
+    const cli = clients.map((client) => {
+      return { value: client._id, toShow: client.companyName };
+    });
+    setClientsToMap(cli);
+
+    const post = postulants.map((postulant) => {
+      return { value: postulant._id, toShow: postulant.firstName };
+    });
+    setPostulantsToMap(post);
+  }, [positions, clients, postulants]);
 
   useEffect(() => {
     setShowErrorModal(error);
   }, [error]);
 
   const submit = () => {
-    if (appId == null) {
-      dispatch(
-        addApplication({
-          position: position,
-          company: company,
-          postulant: postulant,
-          applicationState: applicationState
-        })
-      ).then((response) => {
+    if (!appId) {
+      dispatch(addApplication(formValues)).then((response) => {
         if (response) {
           history.push('/admin/applications');
         }
       });
     } else {
-      dispatch(
-        updateApplication(appId, {
-          position: position,
-          company: company,
-          postulant: postulant,
-          applicationState: applicationState
-        })
-      ).then((response) => {
+      dispatch(updateApplication(appId, formValues)).then((response) => {
         if (response) {
           history.push('/admin/applications');
         }
@@ -90,18 +88,32 @@ const FormApplication = () => {
     setShowErrorModal(false);
   };
 
-  const closeModal = () => setShowModal(false);
-
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const onSubmit = (formValues) => {
+    const formValuesOk = {
+      positionId: formValues.positionId,
+      companyId: formValues.companyId,
+      postulantId: formValues.postulantId,
+      applicationState: formValues.applicationState
+    };
+    setFormValues(formValuesOk);
     setShowModal(true);
   };
+
+  const validate = (formValues) => {
+    const errors = {};
+    errors.positionId = validateMongoID(formValues.positionId);
+    errors.companyId = validateMongoID(formValues.companyId);
+    errors.postulantId = validateMongoID(formValues.postulantId);
+    return errors;
+  };
+
   if (isLoading) return <IsLoading />;
+
   return (
     <div>
       <Modal
         showModal={showModal}
-        closeModal={closeModal}
+        closeModal={() => setShowModal(false)}
         actionEntity={submit}
         titleText="Save"
         spanObjectArray={[
@@ -119,47 +131,52 @@ const FormApplication = () => {
         buttonText="ok"
       />
       <h1>Form</h1>
-      <form className={styles.container} onSubmit={onSubmit}>
-        <Input
-          label="Position"
-          id="position"
-          name="positionName"
-          type="string"
-          required
-          value={position}
-          onChange={onChangePosition}
-        />
-        <Input
-          label="Company Name"
-          id="company"
-          name="companyName"
-          type="string"
-          required
-          value={company}
-          onChange={onChangeCompany}
-        />
-        <Input
-          label="Postulant"
-          id="postulant"
-          name="postulantName"
-          type="string"
-          required
-          value={postulant}
-          onChange={onChangePostulant}
-        />
-        <Input
-          label="State"
-          id="applicationState"
-          name="applicationName"
-          type="string"
-          required
-          value={applicationState}
-          onChange={onChangeAppState}
-        />
-        <button className={styles.sendFormButton} type="submit">
-          SEND
-        </button>
-      </form>
+      <Form
+        onSubmit={onSubmit}
+        validate={validate}
+        initialValues={selectedApp}
+        render={(formProps) => (
+          <form className={styles.container} onSubmit={formProps.handleSubmit}>
+            <Field
+              name="positionId"
+              label="Position"
+              options={positionsToMap}
+              component={Select}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please choose a position')}
+            />
+            <Field
+              name="companyId"
+              label="Company name"
+              options={clientsToMap}
+              component={Select}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please choose a company')}
+            />
+            <Field
+              name="postulantId"
+              label="Postulant name"
+              options={postulantsToMap}
+              component={Select}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please choose a postulant')}
+            />
+            <Field
+              name="applicationState"
+              label="State"
+              placeholder="completed"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please choose a state')}
+            />
+            <Button
+              type="submit"
+              className={styles.submitButton}
+              disabled={formProps.submitting || formProps.pristine}
+            />
+          </form>
+        )}
+      />
     </div>
   );
 };
