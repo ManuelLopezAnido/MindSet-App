@@ -1,5 +1,5 @@
 import styles from './interviews.module.css';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getInterviews } from 'redux/interviews/thunks';
 

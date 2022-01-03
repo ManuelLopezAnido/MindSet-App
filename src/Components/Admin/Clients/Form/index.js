@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
-import Input from 'Components/Shared/Input';
+import Input from 'Components/Shared/FormInput';
 import Button from 'Components/Admin/Clients/Button';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import Modal from 'Components/Shared/Modal';
