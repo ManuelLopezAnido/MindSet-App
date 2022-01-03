@@ -14,8 +14,6 @@ const Postulants = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
 
-  const history = useHistory();
-
   const dispatch = useDispatch();
 
   const postulants = useSelector((store) => store.postulants.list);
