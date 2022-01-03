@@ -68,7 +68,7 @@ export const addApplication = (data) => (dispatch) => {
     },
     body: JSON.stringify({
       positionId: data.positionId,
-      companyId: data.companyId,
+      clientId: data.clientId,
       postulantId: data.postulantId,
       applicationState: data.applicationState
     })
@@ -105,7 +105,7 @@ export const updateApplication = (id, data) => (dispatch) => {
     },
     body: JSON.stringify({
       positionId: data.positionId,
-      companyId: data.companyId,
+      clientId: data.clientId,
       postulantId: data.postulantId,
       applicationState: data.applicationState
     })
