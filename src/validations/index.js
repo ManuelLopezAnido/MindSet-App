@@ -13,17 +13,9 @@ export const validatePassword = (password) => {
   }
 };
 
-export const validatePhone = (phone) => {
-  const phoneString = String(phone);
-  if (!phone) return;
-  if (
-    phoneString.length < 8 ||
-    phoneString.includes('(') ||
-    phoneString.includes('.') ||
-    phoneString.includes(')') ||
-    phoneString.includes('#') ||
-    phoneString.includes('-')
-  ) {
-    return 'At least 8 numbers and cannot include (), #, . or -';
+export const validateMongoID = (id) => {
+  //this short circuit is needed bc this validation is performed on load.
+  if (id && id.length < 24) {
+    return 'at least 24 characters long, not and ID';
   }
 };
