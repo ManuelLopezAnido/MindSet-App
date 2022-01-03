@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
-import Input from 'Components/Shared/Input';
+import Input from 'Components/Shared/FormInput';
 import Button from 'Components/Admin/Admins/Button';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
@@ -116,7 +116,7 @@ const AdminsForm = () => {
             />
             <Button
               type="submit"
-              className={StyleSheet.submitButton}
+              className={styles.submitButton}
               disabled={formProps.submitting || formProps.pristine}
             />
           </form>

@@ -28,7 +28,7 @@ const Modal = ({
           ))}
         </div>
         <div className={styles.buttonContainer}>
-          <button onClick={actionEntity}> {leftButtonText.toUpperCase()} </button>
+          <button onClick={actionEntity}>{leftButtonText.toUpperCase()}</button>
           <button onClick={closeModal}>{rightButtonText.toUpperCase()}</button>
         </div>
       </div>

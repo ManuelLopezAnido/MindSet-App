@@ -20,9 +20,11 @@ const URL = process.env.REACT_APP_API;
 
 export const getPostulants = () => (dispatch) => {
   dispatch(getPostulantsFetching());
-  fetch(`${URL}/postulants/`)
+  return fetch(`${URL}/postulants/`)
     .then((data) => data.json())
-    .then((response) => dispatch(getPostulantsFulfilled(response)))
+    .then((response) => {
+      dispatch(getPostulantsFulfilled(response));
+    })
     .catch((error) => dispatch(getPostulantsRejected(error)));
 };
 

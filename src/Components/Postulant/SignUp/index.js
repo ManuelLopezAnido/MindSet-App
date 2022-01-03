@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field } from 'react-final-form';
 import { useSelector } from 'react-redux';
-import Input from 'Components/Shared/Input';
+import Input from 'Components/Shared/FormInput';
 import Wizard from './Wizard';
 import styles from './signUp.module.css';
 
@@ -152,4 +152,5 @@ const SignUp = () => {
     </div>
   );
 };
+
 export default SignUp;

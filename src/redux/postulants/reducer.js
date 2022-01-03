@@ -38,7 +38,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         error: false,
-        list: action.payload.data
+        list: action.payload
       };
     case GET_POSTULANTS_REJECTED:
       return {
