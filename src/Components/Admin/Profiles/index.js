@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import styles from './workProfiles.module.css';
+import listStyles from 'lists.module.css';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
@@ -76,7 +76,7 @@ function WorkProfiles() {
   if (isLoading) return <IsLoading />;
 
   return (
-    <section className={styles.container}>
+    <section className={listStyles.container}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -98,19 +98,21 @@ function WorkProfiles() {
         middleText={showErrorModalMessage}
         buttonText="ok"
       />
-      <div className={styles.titleAndButton}>
+      <div className={listStyles.titleAndButton}>
         <h3>Profiles</h3>
         <Button onClick={addWorkProfile} value="Profile" />
       </div>
-      <table>
+      <table className={listStyles.list}>
         <thead>
-          <th>Name</th>
-          <th>Description</th>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
         </thead>
         <tbody>
           {workProfiles.map((workProfile) => (
             <tr
-              className={styles.workProfileRow}
               key={workProfile._id}
               onClick={() =>
                 (window.location.href = `/admin/workprofiles/form?id=${workProfile._id}`)
@@ -118,7 +120,7 @@ function WorkProfiles() {
             >
               <td>{workProfile.name}</td>
               <td>{workProfile.description}</td>
-              <td className={styles.deleteButtonTD}>
+              <td className={listStyles.deleteButtonTD}>
                 <DeleteButton onClick={(event) => handleWorkProfile(event, workProfile._id)} />
               </td>
             </tr>

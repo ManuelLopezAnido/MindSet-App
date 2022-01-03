@@ -116,7 +116,7 @@ const AdminsForm = () => {
             />
             <Button
               type="submit"
-              className={StyleSheet.submitButton}
+              className={styles.submitButton}
               disabled={formProps.submitting || formProps.pristine}
             />
           </form>
