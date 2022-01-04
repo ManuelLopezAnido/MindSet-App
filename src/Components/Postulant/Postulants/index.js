@@ -7,7 +7,6 @@ import Button from 'Components/Shared/Button/Button';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { getPostulants, deletePostulant } from 'redux/postulants/thunks';
-import { useHistory } from 'react-router-dom';
 import { errorToDefault } from 'redux/postulants/actions';
 
 const Postulants = () => {
