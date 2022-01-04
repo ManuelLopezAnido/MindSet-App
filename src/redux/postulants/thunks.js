@@ -340,7 +340,7 @@ export const deletePostulant = (id) => (dispatch) => {
     }
   })
     .then((response) => {
-      if (response.status != 200) throw response;
+      if (response.status != 204) throw response;
       dispatch(deletePostulantFulfilled(id));
     })
     .catch((error) => dispatch(deletePostulantRejected(error.statusText)));
