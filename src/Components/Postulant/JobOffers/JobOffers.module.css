@@ -1,0 +1,81 @@
+.mainContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 90%;
+  height: 80%;
+}
+
+.sectionForm {
+  display: flex;
+  justify-content: end;
+}
+
+.inputForm {
+  width: 212px;
+  background: none;
+  border: 2px solid #9ed8d8;
+  border-style: none none solid none;
+  margin-right: 5px;
+}
+
+.inputForm:focus {
+  outline: none;
+}
+
+.containerJobsList {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 75px;
+}
+
+.jobContainer {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  margin: 25px;
+  box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
+  -webkit-box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
+  -moz-box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
+}
+
+.jobTitle {
+  margin: 0px 0px 14px 15px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #477599;
+}
+
+.jobDescription {
+  margin: 0px 0px 18px 15px;
+  font-size: 15px;
+}
+
+.footerJobContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px 20px 8px 15px;
+}
+
+.buttonShowJob {
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 100%;
+  color: #FFF;
+  background: #9ed8d8;
+}
+
+.jobsLocation, .companyName {
+  font-size: 15px;
+  font-weight: bold;
+  color: #7c7c7c;
+}
+
+.buttonShowJob:hover {
+  cursor: pointer;
+}
