@@ -18,8 +18,6 @@ const JobOffers = () => {
     return <IsLoading />;
   }
 
-  console.log(jobOffers);
-
   return (
     <div className={styles.mainContainer}>
       <div className={styles.container}>
