@@ -1,3 +1,5 @@
+import JobOffers from 'Components/Postulant/JobOffers';
+
 const homePage = () => {
   return (
     <section>
@@ -7,6 +9,7 @@ const homePage = () => {
         </h1>
         <h2>The most trending web for recruiting.</h2>
       </div>
+      <JobOffers />
     </section>
   );
 };

@@ -35,7 +35,7 @@
 .jobContainer {
   display: flex;
   flex-direction: column;
-  width: 40%;
+  width: 25vw;
   margin: 25px;
   box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
   -webkit-box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);

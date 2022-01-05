@@ -18,6 +18,8 @@ const JobOffers = () => {
     return <IsLoading />;
   }
 
+  console.log(jobOffers);
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.container}>
@@ -36,7 +38,7 @@ const JobOffers = () => {
             .filter((jobOffer) => {
               if (
                 jobOffer.jobTitle.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
-                jobOffer.companyName.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+                // jobOffer.clientName.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
                 jobOffer.city.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
                 jobOffer.country.toLowerCase().includes(inputSearchBar.toLowerCase())
               ) {
