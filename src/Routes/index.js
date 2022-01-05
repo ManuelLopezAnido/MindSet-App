@@ -4,7 +4,7 @@ import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 
 const AdminRoutes = lazy(() => import('Routes/admin'));
 const PostulantRoutes = lazy(() => import('Routes/postulant'));
-
+const PsychologistsRoutes = lazy(() => import('Routes/psychology'));
 const Routes = () => {
   return (
     <Router>
@@ -12,6 +12,7 @@ const Routes = () => {
         <Switch>
           <Route path="/postulant" component={PostulantRoutes} />
           <Route path="/admin" component={AdminRoutes} />
+          <Route path="/psychologists" component={PsychologistsRoutes} />
           <Redirect to="/postulant" />
         </Switch>
       </Suspense>
