@@ -95,7 +95,7 @@ export const addPostulant = (data) => (dispatch) => {
           title: data.workExperience[0].title,
           start: data.workExperience[0].start,
           end: data.workExperience[0].end,
-          company: data.workExperience[0].company,
+          client: data.workExperience[0].client,
           description: data.workExperience[0].description
         }
       ],
@@ -244,7 +244,7 @@ export const updatePostulant = (id, data) => (dispatch) => {
           title: data.workExperience[0].title,
           start: data.workExperience[0].start,
           end: data.workExperience[0].end,
-          company: data.workExperience[0].company,
+          client: data.workExperience[0].client,
           description: data.workExperience[0].description
         }
       ],

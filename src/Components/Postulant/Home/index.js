@@ -180,7 +180,7 @@ function Home() {
                 <table className={styles.table}>
                   <thead className={styles.tableHead}>
                     <td className={styles.tableTitle}>Title</td>
-                    <td className={styles.tableTitle}>Company</td>
+                    <td className={styles.tableTitle}>Client</td>
                     <td className={styles.tableTitle}>Start</td>
                     <td className={styles.tableTitle}>End</td>
                   </thead>
@@ -190,7 +190,7 @@ function Home() {
                         <p>{selectedPostulant.workExperience[0].title}</p>
                       </td>
                       <td>
-                        <p>{selectedPostulant.workExperience[0].company}</p>
+                        <p>{selectedPostulant.workExperience[0].client}</p>
                       </td>
                       <td>
                         <p>{selectedPostulant.workExperience[0].start}</p>

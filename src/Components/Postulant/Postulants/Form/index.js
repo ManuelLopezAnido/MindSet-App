@@ -42,7 +42,7 @@ const PostulantsForm = () => {
   const [workExperienceTitleValue, setWorkExperienceTitleValue] = useState('');
   const [workExperienceStartValue, setWorkExperienceStartValue] = useState('');
   const [workExperienceEndValue, setWorkExperienceEndValue] = useState('');
-  const [workExperienceCompanyValue, setWorkExperienceCompanyValue] = useState('');
+  const [workExperienceClientValue, setWorkExperienceClientValue] = useState('');
   const [workExperienceDescriptionValue, setWorkExperienceDescriptionValue] = useState('');
 
   const [profTrainingDescriptionValue, setProfTrainingDescriptionValue] = useState('');
@@ -142,7 +142,7 @@ const PostulantsForm = () => {
     setWorkExperienceTitleValue(selectedPostulant.workExperience[0]?.title || '-');
     setWorkExperienceStartValue(selectedPostulant.workExperience[0]?.start || '2000-05-20');
     setWorkExperienceEndValue(selectedPostulant.workExperience[0]?.end || '2000-02-20');
-    setWorkExperienceCompanyValue(selectedPostulant.workExperience[0]?.company || '-');
+    setWorkExperienceClientValue(selectedPostulant.workExperience[0]?.client || '-');
     setWorkExperienceDescriptionValue(selectedPostulant.workExperience[0]?.description || '-');
 
     setProfTrainingDescriptionValue(selectedPostulant.professionalTraining[0]?.description || '-');
@@ -222,7 +222,7 @@ const PostulantsForm = () => {
       setWorkExperienceTitleValue('');
       setWorkExperienceStartValue('');
       setWorkExperienceEndValue('');
-      setWorkExperienceCompanyValue('');
+      setWorkExperienceClientValue('');
       setWorkExperienceDescriptionValue('');
 
       setProfTrainingDescriptionValue('');
@@ -373,8 +373,8 @@ const PostulantsForm = () => {
     setWorkExperienceEndValue(event.target.value);
   };
 
-  const onChangeWorkExperienceCompany = (event) => {
-    setWorkExperienceCompanyValue(event.target.value);
+  const onChangeWorkExperienceClient = (event) => {
+    setWorkExperienceClientValue(event.target.value);
   };
 
   const onChangeWorkExperienceDescription = (event) => {
@@ -558,7 +558,7 @@ const PostulantsForm = () => {
           title: workExperienceTitleValue,
           start: workExperienceStartValue,
           end: workExperienceEndValue,
-          company: workExperienceCompanyValue,
+          client: workExperienceClientValue,
           description: workExperienceDescriptionValue
         }
       ],
@@ -886,11 +886,11 @@ const PostulantsForm = () => {
             onChange={onChangeWorkExperienceEnd}
           />
           <Input
-            label="Company"
-            id="WorkExpCompany"
+            label="Client"
+            id="WorkExpClient"
             type="text"
-            value={workExperienceCompanyValue}
-            onChange={onChangeWorkExperienceCompany}
+            value={workExperienceClientValue}
+            onChange={onChangeWorkExperienceClient}
           />
           <Input
             label="Description"

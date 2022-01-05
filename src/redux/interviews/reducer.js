@@ -1,5 +1,3 @@
-import Interviews from 'Components/Admin/Interviews';
-import { DELETE_ADMIN_FETCHING } from 'redux/admins/constants';
 import {
   GET_INTERVIEWS_FETCHING,
   GET_INTERVIEWS_FULFILLED,
