@@ -7,6 +7,7 @@ import clientsReducer from './clients/reducer';
 import uiReducer from './ui/reducer';
 import applicationsReducers from './applications/reducer';
 import positionsReducer from './positions/reducer';
+import authReducer from './auth/reducer';
 
 const rootReducer = combineReducers({
   admins: adminsReducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   counselors: counselorsReducer,
   ui: uiReducer,
   applications: applicationsReducers,
-  positions: positionsReducer
+  positions: positionsReducer,
+  auth: authReducer
 });
 
 export default rootReducer;
