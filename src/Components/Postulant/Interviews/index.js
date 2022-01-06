@@ -11,6 +11,7 @@ const Interviews = () => {
   const interviews = useSelector((store) => store.interviews.list);
   const Loading = useSelector((store) => store.interviews.isLoading);
   const errMessage = useSelector((store) => store.interviews.error);
+
   useEffect(() => {
     dispatch(getInterviews());
   }, []);

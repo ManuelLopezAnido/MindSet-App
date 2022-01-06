@@ -10,6 +10,7 @@ import { errorToDefault } from 'redux/postulants/actions';
 import { useHistory } from 'react-router-dom';
 
 const PostulantsForm = () => {
+  const [openPersonalInformationData, setOpenPersonalInformationData] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [firstNameValue, setFirstNameValue] = useState('');
   const [lastNameValue, setLastNameValue] = useState('');
@@ -101,7 +102,10 @@ const PostulantsForm = () => {
   const selectedPostulant = useSelector((store) => store.postulants.selected);
 
   const params = new URLSearchParams(window.location.search);
-  const postulantId = params.get('_id');
+  const postulantId = params.get('id');
+
+  console.log('params ', params);
+  console.log('postulantId: ', params.get('_id'));
 
   if (postulantId) {
     useEffect(() => {
@@ -272,6 +276,10 @@ const PostulantsForm = () => {
       setAvailabilityToSundayValue('');
     }
   }, [selectedPostulant]);
+
+  const handlePersonalInformationData = () => {
+    setOpenPersonalInformationData(!openPersonalInformationData);
+  };
 
   const onChangeFirstName = (event) => {
     setFirstNameValue(event.target.value);
@@ -683,9 +691,22 @@ const PostulantsForm = () => {
         middleText={errorMessage}
         buttonText="ok"
       />
+      <div className={styles.imagePostulant}>
+        <img
+          className={styles.logoPostulant}
+          src="http://3.bp.blogspot.com/_nKcd5vPHWY4/TJN_ySnkWCI/AAAAAAAAYvs/7h2_Z78Poj4/w1200-h630-p-k-no-nu/timthumb.jpg"
+        />
+      </div>
+      <div className={styles.postulantName}>
+        {`${selectedPostulant.firstName} ${selectedPostulant.lastName}`}
+      </div>
+      <div className={styles.postulantDetails}>
+        {`${selectedPostulant.openToWork ? 'Open to Work' : 'Not Available to Work'}`}
+      </div>
       <form action="" className={styles.form} onSubmit={onSubmit}>
-        <div className={styles.generalInformation}>
-          <h3>General Information</h3>
+        <h1>Edit your profile</h1>
+        <div className={styles.sections}>
+          <p>Personal information</p>
           <Input
             label="First Name"
             id="firstName"
@@ -759,9 +780,8 @@ const PostulantsForm = () => {
             required
           />
         </div>
-        <div className={styles.studies}>
-          <h3>Studies</h3>
-          <h4>Elementary School</h4>
+        <div className={styles.sections}>
+          <p>Academic Information</p>
           <Input
             label="Name"
             id="elementarySchool"
@@ -783,7 +803,6 @@ const PostulantsForm = () => {
             value={elementarySchoolGraduateYearValue}
             onChange={onChangeSchoolGraduateYear}
           />
-          <h4>High School</h4>
           <Input
             label="Name"
             id="highSchool"
@@ -805,7 +824,6 @@ const PostulantsForm = () => {
             value={highSchoolGraduateYearValue}
             onChange={onChangeHighSchoolGraduate}
           />
-          <h4>Junior College</h4>
           <Input
             label="Name"
             id="juniorCollege"
@@ -827,7 +845,6 @@ const PostulantsForm = () => {
             value={juniorCollegeGraduateYearValue}
             onChange={onChangeJuniorCollegeGraduate}
           />
-          <h4>University</h4>
           <Input
             label="Name"
             id="University"
@@ -850,20 +867,9 @@ const PostulantsForm = () => {
             onChange={onChangeUniversityGraduate}
           />
         </div>
-        <div className={styles.openForWork}>
-          <h3>
-            Open for Work
-            <input
-              type="checkbox"
-              id="openToWork"
-              checked={openToWork}
-              onChange={onChangeOpenToWork}
-            />
-          </h3>
-          <label htmlFor="openToWork" />
-        </div>
-        <div className={styles.workExperience}>
-          <h3>Work Experience</h3>
+        <Input type="checkbox" id="openToWork" checked={openToWork} onChange={onChangeOpenToWork} />
+        <div className={styles.sections}>
+          <p>Work experience information</p>
           <Input
             label="Title"
             id="workExperience"
@@ -881,7 +887,7 @@ const PostulantsForm = () => {
           <Input
             label="Ended"
             id="WorkExpEnded"
-            type="date" //HERE
+            type="date"
             value={workExperienceEndValue}
             onChange={onChangeWorkExperienceEnd}
           />
@@ -899,9 +905,6 @@ const PostulantsForm = () => {
             value={workExperienceDescriptionValue}
             onChange={onChangeWorkExperienceDescription}
           />
-        </div>
-        <div className={styles.professionalTraining}>
-          <h3>Professional Training</h3>
           <Input
             label="Description"
             id="profTrainDescription"
@@ -917,260 +920,225 @@ const PostulantsForm = () => {
             onChange={onChangeProfTrainingYear}
           />
         </div>
-        <Input
-          label="Languages"
-          id="languages"
-          type="text"
-          value={languagesValue}
-          onChange={onChangeLanguages}
-        />
-        <Input
-          label="Hobbies"
-          id="hobbies"
-          type="text"
-          value={hobbiesValue}
-          onChange={onChangeHobbies}
-        />
-        <div className={styles.family}>
-          <h3>Family</h3>
-          <div>
-            <Input
-              label="1st family member name"
-              id="1stFMName"
-              type="text"
-              value={familyMember1NameValue}
-              onChange={onChangeFamlilyMember1Name}
-            />
-            <Input
-              label="bond"
-              id="1stFMBond"
-              type="text"
-              value={familyMember1bondValue}
-              onChange={onChangeFamlilyMember1Bond}
-            />
-          </div>
-          <div>
-            <Input
-              label="2st family member name"
-              id="2stFMName"
-              type="text"
-              value={familyMember2NameValue}
-              onChange={onChangeFamlilyMember2Name}
-            />
-            <Input
-              label="bond"
-              id="2stFMBond"
-              type="text"
-              value={familyMember2bondValue}
-              onChange={onChangeFamlilyMember2Bond}
-            />
-          </div>
-          <div>
-            <Input
-              label="3st family member name"
-              id="3stFMName"
-              type="text"
-              value={familyMember3NameValue}
-              onChange={onChangeFamlilyMember3Name}
-            />
-            <Input
-              label="bond"
-              id="3stFMBond"
-              type="text"
-              value={familyMember3bondValue}
-              onChange={onChangeFamlilyMember3Bond}
-            />
-          </div>
-          <div>
-            <Input
-              label="4st family member name"
-              id="4stFMName"
-              type="text"
-              value={familyMember4NameValue}
-              onChange={onChangeFamlilyMember4Name}
-            />
-            <Input
-              label="bond"
-              id="4stFMBond"
-              type="text"
-              value={familyMember4bondValue}
-              onChange={onChangeFamlilyMember4Bond}
-            />
-          </div>
+        <div className={styles.sections}>
+          <p>Data of interest</p>
+          <Input
+            label="Languages"
+            id="languages"
+            type="text"
+            value={languagesValue}
+            onChange={onChangeLanguages}
+          />
+          <Input
+            label="Hobbies"
+            id="hobbies"
+            type="text"
+            value={hobbiesValue}
+            onChange={onChangeHobbies}
+          />
+          <Input
+            label="1st family member name"
+            id="1stFMName"
+            type="text"
+            value={familyMember1NameValue}
+            onChange={onChangeFamlilyMember1Name}
+          />
+          <Input
+            label="bond"
+            id="1stFMBond"
+            type="text"
+            value={familyMember1bondValue}
+            onChange={onChangeFamlilyMember1Bond}
+          />
+          <Input
+            label="2st family member name"
+            id="2stFMName"
+            type="text"
+            value={familyMember2NameValue}
+            onChange={onChangeFamlilyMember2Name}
+          />
+          <Input
+            label="bond"
+            id="2stFMBond"
+            type="text"
+            value={familyMember2bondValue}
+            onChange={onChangeFamlilyMember2Bond}
+          />
+          <Input
+            label="3st family member name"
+            id="3stFMName"
+            type="text"
+            value={familyMember3NameValue}
+            onChange={onChangeFamlilyMember3Name}
+          />
+          <Input
+            label="bond"
+            id="3stFMBond"
+            type="text"
+            value={familyMember3bondValue}
+            onChange={onChangeFamlilyMember3Bond}
+          />
+          <Input
+            label="4st family member name"
+            id="4stFMName"
+            type="text"
+            value={familyMember4NameValue}
+            onChange={onChangeFamlilyMember4Name}
+          />
+          <Input
+            label="bond"
+            id="4stFMBond"
+            type="text"
+            value={familyMember4bondValue}
+            onChange={onChangeFamlilyMember4Bond}
+          />
         </div>
-        <div className={styles.availability}>
-          <h3>Availability</h3>
-          <div>
-            <label htmlFor="mondayDay1" /> Mondays
-            <input
-              type="checkbox"
-              id="mondayDay1"
-              checked={availabilityCheckMondayValue}
-              onChange={onChangeMonday}
-            />
-            <Input
-              label="from"
-              id="fromDay1"
-              type="text"
-              value={availabilityFromMondayValue}
-              onChange={onChangeMondayFrom}
-            />
-            <Input
-              label="To"
-              id="ToDay1"
-              type="text"
-              value={availabilityToMondayValue}
-              onChange={onChangeMondayTo}
-            />
-          </div>
-          <div>
-            <label htmlFor="tuesdayDay2" /> Tuesdays
-            <Input
-              type="checkbox"
-              id="tuesdayDay2"
-              checked={availabilityCheckTuesdayValue}
-              onChange={onChangeTuesday}
-            />
-            <Input
-              label="from"
-              id="fromDay2"
-              type="text"
-              value={availabilityFromTuesdayValue}
-              onChange={onChangeTuesdayFrom}
-            />
-            <Input
-              label="To"
-              id="ToDay2"
-              type="text"
-              value={availabilityToTuesdayValue}
-              onChange={onChangeTuesdayTo}
-            />
-          </div>
-          <div>
-            <label htmlFor="WednesdayDay3" /> Wednesdays
-            <input
-              type="checkbox"
-              id="WednesdayDay3"
-              checked={availabilityCheckWednesdayValue}
-              onChange={onChangeWednesday}
-            />
-            <Input
-              label="from"
-              id="fromDay3"
-              type="text"
-              value={availabilityFromWednesdayValue}
-              onChange={onChangeWednesdayFrom}
-            />
-            <Input
-              label="To"
-              id="ToDay3"
-              type="text"
-              value={availabilityToWednesdayValue}
-              onChange={onChangeWednesdayTo}
-            />
-          </div>
-          <div>
-            <label htmlFor="ThursdayDay4" /> Thursdays
-            <input
-              type="checkbox"
-              id="ThursdayDay4"
-              checked={availabilityCheckThursdayValue}
-              onChange={onChangeThursday}
-            />
-            <Input
-              label="from"
-              id="fromDay4"
-              type="text"
-              value={availabilityFromThursdayValue}
-              onChange={onChangeThursdayFrom}
-            />
-            <Input
-              label="To"
-              id="ToDay4"
-              type="text"
-              value={availabilityToThursdayValue}
-              onChange={onChangeThursdayTo}
-            />
-          </div>
-          <div>
-            <label htmlFor="FridayDay5" /> Fridays
-            <input
-              type="checkbox"
-              id="FridayDay5"
-              checked={availabilityCheckFridayValue}
-              onChange={onChangeFriday}
-            />
-            <Input
-              label="from"
-              id="fromDay5"
-              type="text"
-              value={availabilityFromFridayValue}
-              onChange={onChangeFridayFrom}
-            />
-            <Input
-              label="To"
-              id="ToDay5"
-              type="text"
-              value={availabilityToFridayValue}
-              onChange={onChangeFridayTo}
-            />
-          </div>
-          <div>
-            <label htmlFor="SaturdayDay6" /> Saturdays
-            <Input
-              type="checkbox"
-              id="SaturdayDay6"
-              checked={availabilityCheckSaturdayValue}
-              onChange={onChangeSaturday}
-            />
-            <Input
-              label="from"
-              id="fromDay6"
-              type="text"
-              value={availabilityFromSaturdayValue}
-              onChange={onChangeSaturdayFrom}
-            />
-            <Input
-              label="To"
-              id="ToDay6"
-              type="text"
-              value={availabilityToSaturdayValue}
-              onChange={onChangeSaturdayTo}
-            />
-          </div>
-          <div>
-            <label htmlFor="SundayDay7" /> Sundays
-            <Input
-              type="checkbox"
-              id="SundayDay7"
-              checked={availabilityCheckSundayValue}
-              onChange={onChangeSunday}
-            />
-            <Input
-              label="from"
-              id="fromDay7"
-              type="text"
-              value={availabilityFromSundayValue}
-              onChange={onChangeSundayFrom}
-            />
-            <Input
-              label="To"
-              id="ToDay7"
-              type="text"
-              value={availabilityToSundayValue}
-              onChange={onChangeSundayTo}
-            />
-          </div>
+        <div className={styles.sections}>
+          <p>Availability</p>
+          <Input
+            type="checkbox"
+            id="mondayDay1"
+            checked={availabilityCheckMondayValue}
+            onChange={onChangeMonday}
+          />
+          <Input
+            label="from"
+            id="fromDay1"
+            type="text"
+            value={availabilityFromMondayValue}
+            onChange={onChangeMondayFrom}
+          />
+          <Input
+            label="To"
+            id="ToDay1"
+            type="text"
+            value={availabilityToMondayValue}
+            onChange={onChangeMondayTo}
+          />
+          <Input
+            type="checkbox"
+            id="tuesdayDay2"
+            checked={availabilityCheckTuesdayValue}
+            onChange={onChangeTuesday}
+          />
+          <Input
+            label="from"
+            id="fromDay2"
+            type="text"
+            value={availabilityFromTuesdayValue}
+            onChange={onChangeTuesdayFrom}
+          />
+          <Input
+            label="To"
+            id="ToDay2"
+            type="text"
+            value={availabilityToTuesdayValue}
+            onChange={onChangeTuesdayTo}
+          />
+          <Input
+            type="checkbox"
+            id="WednesdayDay3"
+            checked={availabilityCheckWednesdayValue}
+            onChange={onChangeWednesday}
+          />
+          <Input
+            label="from"
+            id="fromDay3"
+            type="text"
+            value={availabilityFromWednesdayValue}
+            onChange={onChangeWednesdayFrom}
+          />
+          <Input
+            label="To"
+            id="ToDay3"
+            type="text"
+            value={availabilityToWednesdayValue}
+            onChange={onChangeWednesdayTo}
+          />
+          <Input
+            type="checkbox"
+            id="ThursdayDay4"
+            checked={availabilityCheckThursdayValue}
+            onChange={onChangeThursday}
+          />
+          <Input
+            label="from"
+            id="fromDay4"
+            type="text"
+            value={availabilityFromThursdayValue}
+            onChange={onChangeThursdayFrom}
+          />
+          <Input
+            label="To"
+            id="ToDay4"
+            type="text"
+            value={availabilityToThursdayValue}
+            onChange={onChangeThursdayTo}
+          />
+          <Input
+            type="checkbox"
+            id="FridayDay5"
+            checked={availabilityCheckFridayValue}
+            onChange={onChangeFriday}
+          />
+          <Input
+            label="from"
+            id="fromDay5"
+            type="text"
+            value={availabilityFromFridayValue}
+            onChange={onChangeFridayFrom}
+          />
+          <Input
+            label="To"
+            id="ToDay5"
+            type="text"
+            value={availabilityToFridayValue}
+            onChange={onChangeFridayTo}
+          />
+          <Input
+            type="checkbox"
+            id="SaturdayDay6"
+            checked={availabilityCheckSaturdayValue}
+            onChange={onChangeSaturday}
+          />
+          <Input
+            label="from"
+            id="fromDay6"
+            type="text"
+            value={availabilityFromSaturdayValue}
+            onChange={onChangeSaturdayFrom}
+          />
+          <Input
+            label="To"
+            id="ToDay6"
+            type="text"
+            value={availabilityToSaturdayValue}
+            onChange={onChangeSaturdayTo}
+          />
+          <Input
+            type="checkbox"
+            id="SundayDay7"
+            checked={availabilityCheckSundayValue}
+            onChange={onChangeSunday}
+          />
+          <Input
+            label="from"
+            id="fromDay7"
+            type="text"
+            value={availabilityFromSundayValue}
+            onChange={onChangeSundayFrom}
+          />
+          <Input
+            label="To"
+            id="ToDay7"
+            type="text"
+            value={availabilityToSundayValue}
+            onChange={onChangeSundayTo}
+          />
         </div>
-        {postulantId ? (
-          <button className={styles.sendFormButton} type="submit">
-            Edit
-          </button>
-        ) : (
-          <button className={styles.sendFormButton} type="submit">
-            Add postulant
-          </button>
-        )}
+        <button className={styles.sendFormButton} type="submit">
+          Add postulant
+        </button>
       </form>
     </div>
   );
