@@ -83,7 +83,7 @@ function Applications() {
         <thead>
           <tr>
             <th>Position</th>
-            <th>Company </th>
+            <th>Client </th>
             <th>Postulant</th>
             <th>State</th>
             <th>Actions</th>
@@ -96,7 +96,7 @@ function Applications() {
               onClick={() => (window.location.href = `/admin/applications/form?id=${a._id}`)}
             >
               <td>{a.positionId ? a.positionId.jobTitle : 'Position not found'}</td>
-              <td>{a.companyId ? a.companyId.companyName : 'Company not found'}</td>
+              <td>{a.clientId ? a.clientId.clientName : 'Client not found'}</td>
               <td>
                 {a.postulantId
                   ? a.postulantId.firstName + ' ' + a.postulantId.lastName

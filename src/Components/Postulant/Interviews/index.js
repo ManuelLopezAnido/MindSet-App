@@ -42,7 +42,7 @@ const Interviews = () => {
         <thead>
           <tr>
             <th>Job Title</th>
-            <th>Company</th>
+            <th>Client</th>
             <th>Date and Hour</th>
             <th>Actions</th>
           </tr>
@@ -51,7 +51,7 @@ const Interviews = () => {
           {filtredInterviews.map((interview) => (
             <tr key={interview._id}>
               <td>{interview.jobTitle}</td>
-              <td>{interview.companyName}</td>
+              <td>{interview.clientName}</td>
               <td>{interview.time}</td>
               <td onClick={() => OnClickDelete(interview._id)}>delete</td>
             </tr>
