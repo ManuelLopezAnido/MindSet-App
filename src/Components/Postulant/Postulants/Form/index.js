@@ -277,10 +277,6 @@ const PostulantsForm = () => {
     }
   }, [selectedPostulant]);
 
-  const handlePersonalInformationData = () => {
-    setOpenPersonalInformationData(!openPersonalInformationData);
-  };
-
   const onChangeFirstName = (event) => {
     setFirstNameValue(event.target.value);
   };
