@@ -686,20 +686,22 @@ const PostulantsForm = () => {
         middleText={errorMessage}
         buttonText="ok"
       />
-      <div className={styles.imagePostulant}>
-        <img
-          className={styles.logoPostulant}
-          src="http://3.bp.blogspot.com/_nKcd5vPHWY4/TJN_ySnkWCI/AAAAAAAAYvs/7h2_Z78Poj4/w1200-h630-p-k-no-nu/timthumb.jpg"
-        />
-      </div>
-      <div className={styles.postulantName}>
-        {`${selectedPostulant.firstName} ${selectedPostulant.lastName}`}
-      </div>
-      <div className={styles.postulantDetails}>
-        {`${selectedPostulant.openToWork ? 'Open to Work' : 'Not Available to Work'}`}
-      </div>
       <form action="" className={styles.form} onSubmit={onSubmit}>
-        <h1>Edit your profile</h1>
+        <div className={styles.header}>
+          <h1>Edit your profile</h1>
+          <div className={styles.imagePostulant}>
+            <img
+              className={styles.logoPostulant}
+              src="http://3.bp.blogspot.com/_nKcd5vPHWY4/TJN_ySnkWCI/AAAAAAAAYvs/7h2_Z78Poj4/w1200-h630-p-k-no-nu/timthumb.jpg"
+            />
+          </div>
+          <div className={styles.postulantName}>
+            {`${selectedPostulant.firstName} ${selectedPostulant.lastName}`}
+          </div>
+          <div className={styles.postulantDetails}>
+            {`${selectedPostulant.openToWork ? 'Open to Work' : 'Not Available to Work'}`}
+          </div>
+        </div>
         <div className={styles.sections}>
           <p>Personal information</p>
           <Input
@@ -778,7 +780,7 @@ const PostulantsForm = () => {
         <div className={styles.sections}>
           <p>Academic Information</p>
           <Input
-            label="Name"
+            label="Elementary School"
             id="elementarySchool"
             type="text"
             value={elementarySchoolNameValue}
@@ -799,7 +801,7 @@ const PostulantsForm = () => {
             onChange={onChangeSchoolGraduateYear}
           />
           <Input
-            label="Name"
+            label="High School"
             id="highSchool"
             type="text"
             value={highSchoolNameValue}
@@ -820,7 +822,7 @@ const PostulantsForm = () => {
             onChange={onChangeHighSchoolGraduate}
           />
           <Input
-            label="Name"
+            label="Junior College"
             id="juniorCollege"
             type="text"
             value={juniorCollegeNameValue}
@@ -841,7 +843,7 @@ const PostulantsForm = () => {
             onChange={onChangeJuniorCollegeGraduate}
           />
           <Input
-            label="Name"
+            label="University"
             id="University"
             type="text"
             value={universityNameValue}
@@ -862,7 +864,6 @@ const PostulantsForm = () => {
             onChange={onChangeUniversityGraduate}
           />
         </div>
-        <Input type="checkbox" id="openToWork" checked={openToWork} onChange={onChangeOpenToWork} />
         <div className={styles.sections}>
           <p>Work experience information</p>
           <Input
@@ -887,7 +888,7 @@ const PostulantsForm = () => {
             onChange={onChangeWorkExperienceEnd}
           />
           <Input
-            label="Client"
+            label="Company"
             id="WorkExpClient"
             type="text"
             value={workExperienceClientValue}
@@ -918,6 +919,13 @@ const PostulantsForm = () => {
         <div className={styles.sections}>
           <p>Data of interest</p>
           <Input
+            label="Open to work"
+            type="checkbox"
+            id="openToWork"
+            checked={openToWork}
+            onChange={onChangeOpenToWork}
+          />
+          <Input
             label="Languages"
             id="languages"
             type="text"
@@ -939,7 +947,7 @@ const PostulantsForm = () => {
             onChange={onChangeFamlilyMember1Name}
           />
           <Input
-            label="bond"
+            label="Bond"
             id="1stFMBond"
             type="text"
             value={familyMember1bondValue}
@@ -953,7 +961,7 @@ const PostulantsForm = () => {
             onChange={onChangeFamlilyMember2Name}
           />
           <Input
-            label="bond"
+            label="Bond"
             id="2stFMBond"
             type="text"
             value={familyMember2bondValue}
@@ -967,7 +975,7 @@ const PostulantsForm = () => {
             onChange={onChangeFamlilyMember3Name}
           />
           <Input
-            label="bond"
+            label="Bond"
             id="3stFMBond"
             type="text"
             value={familyMember3bondValue}
@@ -991,6 +999,7 @@ const PostulantsForm = () => {
         <div className={styles.sections}>
           <p>Availability</p>
           <Input
+            label="Monday"
             type="checkbox"
             id="mondayDay1"
             checked={availabilityCheckMondayValue}
@@ -1011,6 +1020,7 @@ const PostulantsForm = () => {
             onChange={onChangeMondayTo}
           />
           <Input
+            label="Tuesday"
             type="checkbox"
             id="tuesdayDay2"
             checked={availabilityCheckTuesdayValue}
@@ -1031,6 +1041,7 @@ const PostulantsForm = () => {
             onChange={onChangeTuesdayTo}
           />
           <Input
+            label="Wednesday"
             type="checkbox"
             id="WednesdayDay3"
             checked={availabilityCheckWednesdayValue}
@@ -1051,6 +1062,7 @@ const PostulantsForm = () => {
             onChange={onChangeWednesdayTo}
           />
           <Input
+            label="Thursday"
             type="checkbox"
             id="ThursdayDay4"
             checked={availabilityCheckThursdayValue}
@@ -1071,6 +1083,7 @@ const PostulantsForm = () => {
             onChange={onChangeThursdayTo}
           />
           <Input
+            label="Friday"
             type="checkbox"
             id="FridayDay5"
             checked={availabilityCheckFridayValue}
@@ -1091,6 +1104,7 @@ const PostulantsForm = () => {
             onChange={onChangeFridayTo}
           />
           <Input
+            label="Saturday"
             type="checkbox"
             id="SaturdayDay6"
             checked={availabilityCheckSaturdayValue}
@@ -1111,6 +1125,7 @@ const PostulantsForm = () => {
             onChange={onChangeSaturdayTo}
           />
           <Input
+            label="Sunday"
             type="checkbox"
             id="SundayDay7"
             checked={availabilityCheckSundayValue}
@@ -1132,7 +1147,7 @@ const PostulantsForm = () => {
           />
         </div>
         <button className={styles.sendFormButton} type="submit">
-          Add postulant
+          Save Changes
         </button>
       </form>
     </div>

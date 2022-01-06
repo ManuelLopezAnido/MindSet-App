@@ -2,13 +2,32 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.header{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.header h1{
+  padding: 10px 10px 10px 40px;
+  margin-bottom: 20px;
+  height: 20px;
+  width: 100%;
+  background-color: #325477;
+  font-size: 20px ;
+  color:#ffffff;
 }
 
 .form {
   margin-top: 20px;
   margin-bottom: 20px;
   overflow-y: scroll;
-  width: 95%;
+  width:100%;
   box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
 }
 
@@ -31,12 +50,8 @@
   margin-top: 7px;
 }
 
-.form h1{
-  padding: 10px 10px 10px 15px;
-  height: 20px;
-  background-color: #325477;
-  font-size: 20px ;
-  color:#ffffff;
+.postulantDetails {
+  color: #467599;
 }
 
 .form p{
@@ -50,16 +65,22 @@
 .sections {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.input {
+  width: 20px;
 }
 
 .sendFormButton {
-  width: 100px;
-  height: 50px;
-  padding: 5px 15px;
-  margin: 20px 0px;
+  width: 200px;
+  height: 30px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  margin-left: 40%;
   border: none;
-  border-radius: 7px;
-  background-color: #002147;
+  border-radius: 2px;
+  background-color: #9ED8D8;
   color: white;
   font-weight: bold;
   cursor: pointer;
