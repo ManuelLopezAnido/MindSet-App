@@ -10,7 +10,6 @@ import { errorToDefault } from 'redux/postulants/actions';
 import { useHistory } from 'react-router-dom';
 
 const PostulantsForm = () => {
-  const [openPersonalInformationData, setOpenPersonalInformationData] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [firstNameValue, setFirstNameValue] = useState('');
   const [lastNameValue, setLastNameValue] = useState('');
