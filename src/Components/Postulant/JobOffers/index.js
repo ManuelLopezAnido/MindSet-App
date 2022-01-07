@@ -36,7 +36,7 @@ const JobOffers = () => {
             .filter((jobOffer) => {
               if (
                 jobOffer.jobTitle.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
-                // jobOffer.clientName.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+                jobOffer.clientName.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
                 jobOffer.city.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
                 jobOffer.country.toLowerCase().includes(inputSearchBar.toLowerCase())
               ) {
@@ -48,7 +48,7 @@ const JobOffers = () => {
                 <p className={styles.jobTitle}>{jobs.jobTitle}</p>
                 <p className={styles.jobDescription}>{jobs.jobDescription}</p>
                 <div className={styles.footerJobContainer}>
-                  <p className={styles.companyName}>{jobs.companyName}</p>
+                  <p className={styles.clientName}>{jobs.clientName}</p>
                   <p className={styles.jobsLocation}>
                     {jobs.city}, {jobs.country}
                   </p>
