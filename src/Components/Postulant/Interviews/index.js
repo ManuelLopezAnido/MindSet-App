@@ -1,7 +1,7 @@
 import styles from './interviews.module.css';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getInterviews, deleteInterview, getOneInterview } from 'redux/interviews/thunks';
+import { getInterviews, deleteInterview } from 'redux/interviews/thunks';
 import { errorToDefault } from 'redux/admins/actions';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import ErrorModal from 'Components/Shared/ErrorModal';
