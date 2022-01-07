@@ -50,7 +50,7 @@ export const addPosition = (data) => (dispatch) => {
     },
     body: JSON.stringify({
       jobTitle: data.jobTitle,
-      companyName: data.companyName,
+      clientName: data.clientName,
       jobDescription: data.jobDescription,
       city: data.city,
       country: data.country,
@@ -82,7 +82,7 @@ export const updatePosition = (id, data) => (dispatch) => {
     },
     body: JSON.stringify({
       jobTitle: data.jobTitle,
-      companyName: data.companyName,
+      clientName: data.clientName,
       jobDescription: data.jobDescription,
       city: data.city,
       country: data.country,

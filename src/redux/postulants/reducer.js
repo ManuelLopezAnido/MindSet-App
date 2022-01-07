@@ -33,13 +33,14 @@ const reducer = (state = initialState, action) => {
         error: false,
         isLoading: true
       };
-    case GET_POSTULANTS_FULFILLED:
+    case GET_POSTULANTS_FULFILLED: {
       return {
         ...state,
         isLoading: false,
         error: false,
         list: action.payload
       };
+    }
     case GET_POSTULANTS_REJECTED:
       return {
         ...state,

@@ -14,7 +14,8 @@ import {
   DELETE_COUNSELOR_FETCHING,
   DELETE_COUNSELOR_FULFILLED,
   DELETE_COUNSELOR_REJECTED,
-  ERROR_TO_DEFAULT
+  ERROR_TO_DEFAULT,
+  SELECTED_TO_DEFAULT
 } from './constants';
 
 export const getCounselorsFetching = () => {
@@ -79,4 +80,8 @@ export const deleteCounselorRejected = (error) => ({
 
 export const errorToDefault = () => ({
   type: ERROR_TO_DEFAULT
+});
+
+export const selectedToDefault = () => ({
+  type: SELECTED_TO_DEFAULT
 });

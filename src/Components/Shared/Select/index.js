@@ -23,5 +23,4 @@ const Select = (props) => {
     </div>
   );
 };
-
 export default Select;

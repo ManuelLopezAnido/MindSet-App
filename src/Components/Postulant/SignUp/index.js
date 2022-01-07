@@ -142,7 +142,7 @@ const SignUp = () => {
             name="WorkExpEnded"
             type="date" //HERE
           />
-          <Field component={Input} label="Company" name="WorkExpCompany" type="text" />
+          <Field component={Input} label="Client" name="WorkExpClient" type="text" />
           <Field component={Input} label="Description" name="workExpDescription" type="textarea" />
         </div>
         <div>

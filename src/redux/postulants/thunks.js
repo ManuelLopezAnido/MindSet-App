@@ -95,7 +95,7 @@ export const addPostulant = (data) => (dispatch) => {
           title: data.workExperience[0].title,
           start: data.workExperience[0].start,
           end: data.workExperience[0].end,
-          company: data.workExperience[0].company,
+          client: data.workExperience[0].client,
           description: data.workExperience[0].description
         }
       ],
@@ -244,7 +244,7 @@ export const updatePostulant = (id, data) => (dispatch) => {
           title: data.workExperience[0].title,
           start: data.workExperience[0].start,
           end: data.workExperience[0].end,
-          company: data.workExperience[0].company,
+          client: data.workExperience[0].client,
           description: data.workExperience[0].description
         }
       ],
@@ -340,7 +340,7 @@ export const deletePostulant = (id) => (dispatch) => {
     }
   })
     .then((response) => {
-      if (response.status != 200) throw response;
+      if (response.status != 204) throw response;
       dispatch(deletePostulantFulfilled(id));
     })
     .catch((error) => dispatch(deletePostulantRejected(error.statusText)));
