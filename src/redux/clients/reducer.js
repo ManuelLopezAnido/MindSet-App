@@ -67,7 +67,6 @@ const reducer = (state = initialState, action) => {
         error: true,
         errorMessage: action.payload
       };
-
     case ADD_CLIENT_FETCHING:
       return {
         ...state,

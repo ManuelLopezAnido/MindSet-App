@@ -1,15 +1,38 @@
 .interviews{
   display: flex;
   flex-direction: column;
-  border: black 1px solid;
+  align-items: center;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
 }
-.interviews h2{
+
+.interviews table {
+  width: 90%;
+}
+
+.interviews thead{
+  border-bottom: solid 2px #00000033;
+}
+
+.interviews th{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-weight:bolder;
+  color:chocolate;
+}
+
+.interviews td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: solid thin #00000033;
+  text-align: center;
+  color: #1D3354;
+}
+
+.buttons {
+  padding-top: 0%;
+  padding-bottom: 0%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: larger;
-  margin: 10px 0px;
-}
-.interviews th{
-  color:chocolate;
 }
