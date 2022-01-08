@@ -686,22 +686,22 @@ const PostulantsForm = () => {
         middleText={errorMessage}
         buttonText="ok"
       />
-      <form action="" className={styles.form} onSubmit={onSubmit}>
-        <div className={styles.header}>
-          <h1>Edit your profile</h1>
-          <div className={styles.imagePostulant}>
-            <img
-              className={styles.logoPostulant}
-              src="http://3.bp.blogspot.com/_nKcd5vPHWY4/TJN_ySnkWCI/AAAAAAAAYvs/7h2_Z78Poj4/w1200-h630-p-k-no-nu/timthumb.jpg"
-            />
-          </div>
-          <div className={styles.postulantName}>
-            {`${selectedPostulant.firstName} ${selectedPostulant.lastName}`}
-          </div>
-          <div className={styles.postulantDetails}>
-            {`${selectedPostulant.openToWork ? 'Open to Work' : 'Not Available to Work'}`}
-          </div>
+      <div className={styles.header}>
+        <h1>Edit your profile</h1>
+        <div className={styles.imagePostulant}>
+          <img
+            className={styles.logoPostulant}
+            src="http://3.bp.blogspot.com/_nKcd5vPHWY4/TJN_ySnkWCI/AAAAAAAAYvs/7h2_Z78Poj4/w1200-h630-p-k-no-nu/timthumb.jpg"
+          />
         </div>
+        <div className={styles.postulantName}>
+          {`${selectedPostulant.firstName} ${selectedPostulant.lastName}`}
+        </div>
+        <div className={styles.postulantDetails}>
+          {`${selectedPostulant.openToWork ? 'Open to Work' : 'Not Available to Work'}`}
+        </div>
+      </div>
+      <form action="" className={styles.form} onSubmit={onSubmit}>
         <div className={styles.sections}>
           <p>Personal information</p>
           <Input

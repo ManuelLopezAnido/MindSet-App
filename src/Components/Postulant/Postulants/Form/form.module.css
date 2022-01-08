@@ -4,6 +4,10 @@
   justify-content: center;
   flex-direction: column;
   justify-content: space-around;
+  max-height: 580px;
+  box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
+  -webkit-box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
+  -moz-box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
 }
 
 .header{
@@ -17,7 +21,7 @@
   padding: 10px 10px 10px 40px;
   margin-bottom: 20px;
   height: 20px;
-  width: 100%;
+  width: 95%;
   background-color: #325477;
   font-size: 20px ;
   color:#ffffff;
@@ -28,7 +32,6 @@
   margin-bottom: 20px;
   overflow-y: scroll;
   width:100%;
-  box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
 }
 
 .imagePostulant {
