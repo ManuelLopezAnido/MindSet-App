@@ -14,7 +14,8 @@ import {
   DELETE_COUNSELOR_FETCHING,
   DELETE_COUNSELOR_FULFILLED,
   DELETE_COUNSELOR_REJECTED,
-  ERROR_TO_DEFAULT
+  ERROR_TO_DEFAULT,
+  SELECTED_TO_DEFAULT
 } from './constants';
 
 const initialState = {
@@ -53,12 +54,13 @@ const reducer = (state = initialState, action) => {
         error: false,
         isLoading: true
       };
-    case GET_ONE_COUNSELOR_FULFILLED:
+    case GET_ONE_COUNSELOR_FULFILLED: {
       return {
         ...state,
         selected: action.payload,
         isLoading: false
       };
+    }
     case GET_ONE_COUNSELOR_REJECTED:
       return {
         ...state,
@@ -73,12 +75,13 @@ const reducer = (state = initialState, action) => {
         error: false,
         isLoading: true
       };
-    case ADD_COUNSELOR_FULFILLED:
+    case ADD_COUNSELOR_FULFILLED: {
       return {
         ...state,
         isLoading: false,
         list: [...state.list, action.payload.data]
       };
+    }
     case ADD_COUNSELOR_REJECTED:
       return {
         ...state,
@@ -130,6 +133,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         error: false
+      };
+    }
+    case SELECTED_TO_DEFAULT: {
+      return {
+        ...state,
+        selected: {}
       };
     }
     default:

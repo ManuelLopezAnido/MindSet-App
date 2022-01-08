@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import styles from './interviews.module.css';
+import listStyles from 'lists.module.css';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
@@ -76,7 +76,7 @@ function Interviews() {
   if (isLoading) return <IsLoading />;
 
   return (
-    <section className={styles.container}>
+    <section className={listStyles.container}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -98,26 +98,28 @@ function Interviews() {
         middleText={showErrorModalMessage}
         buttonText="ok"
       />
-      <div className={styles.titleAndButton}>
+      <div className={listStyles.titleAndButton}>
         <h3>Interviews</h3>
         <Button onClick={addInterview} value="Interview" />
       </div>
-      <table className={styles.list}>
+      <table className={listStyles.list}>
         <thead>
-          <th>Job Title</th>
-          <th>Company Name</th>
-          <th>Date</th>
-          <th>Time</th>
+          <tr>
+            <th>Job Title</th>
+            <th>Client Name</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Actions</th>
+          </tr>
         </thead>
         <tbody>
           {interviews.map((interview) => (
             <tr
-              className={styles.interviewRow}
               key={interview._id}
               onClick={() => (window.location.href = `/admin/interviews/form?id=${interview._id}`)}
             >
               <td>{interview.jobTitle}</td>
-              <td>{interview.companyName}</td>
+              <td>{interview.clientName}</td>
               <td>{interview.date.substring(0, 10)}</td>
               <td>{interview.time}</td>
               <td>

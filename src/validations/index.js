@@ -13,6 +13,11 @@ export const validatePassword = (password) => {
   }
 };
 
+export const validatePhone = (phone) => {
+  if (!phone) return;
+  if (phone.length < 8) return 'At least 8 numbers and cannot include -';
+};
+
 export const validateMongoID = (id) => {
   //this short circuit is needed bc this validation is performed on load.
   if (id && id.length < 24) {

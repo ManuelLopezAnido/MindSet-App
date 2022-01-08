@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import styles from './admins.module.css';
+import listStyles from 'lists.module.css';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
@@ -49,7 +49,7 @@ const Admins = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={listStyles.container}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -71,11 +71,11 @@ const Admins = () => {
         middleText={errorMessage}
         buttonText="ok"
       />
-      <div className={styles.titleAndButton}>
+      <div className={listStyles.titleAndButton}>
         <h3>Admin</h3>
         <Button onClick={() => history.push('/admin/admins/form')} value="Admin" />
       </div>
-      <table className={styles.list}>
+      <table className={listStyles.list}>
         <thead>
           <tr>
             <th> Email </th>

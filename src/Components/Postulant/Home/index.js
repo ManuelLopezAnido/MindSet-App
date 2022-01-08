@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOnePostulant } from 'redux/postulants/thunks';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
+import EditButton from 'Components/Shared/EditButton';
 
 function Home() {
   const [openPersonalInformationData, setOpenPersonalInformationData] = useState(false);
@@ -54,12 +55,17 @@ function Home() {
         <div className={styles.postulantDetails}>
           {`${selectedPostulant.openToWork ? 'Open to Work' : 'Not Available to Work'}`}
         </div>
+        <EditButton
+          onClick={() =>
+            (window.location.href = `/postulant/postulants/form?id=${selectedPostulant._id}`)
+          }
+        />
       </div>
       <div className={styles.informationField}>
         <div className={styles.titleField}>
           <p>Personal Information</p>
           <button className={styles.collapseButton} onClick={handlePersonalInformationData}>
-            +
+            {openPersonalInformationData ? '-' : '+'}
           </button>
         </div>
         {openPersonalInformationData ? (
@@ -115,7 +121,7 @@ function Home() {
         <div className={styles.titleField}>
           <p>Academic Information</p>
           <button className={styles.collapseButton} onClick={handleAcademicInformationData}>
-            +
+            {openAcademicInformationData ? '-' : '+'}
           </button>
         </div>
         {openAcademicInformationData ? (
@@ -169,7 +175,7 @@ function Home() {
         <div className={styles.titleField}>
           <p>Work Experience Information</p>
           <button className={styles.collapseButton} onClick={handleWorkExperienceData}>
-            +
+            {openWorkExperienceData ? '-' : '+'}
           </button>
         </div>
         {openWorkExperienceData ? (
@@ -180,7 +186,7 @@ function Home() {
                 <table className={styles.table}>
                   <thead className={styles.tableHead}>
                     <td className={styles.tableTitle}>Title</td>
-                    <td className={styles.tableTitle}>Company</td>
+                    <td className={styles.tableTitle}>Client</td>
                     <td className={styles.tableTitle}>Start</td>
                     <td className={styles.tableTitle}>End</td>
                   </thead>
@@ -190,7 +196,7 @@ function Home() {
                         <p>{selectedPostulant.workExperience[0].title}</p>
                       </td>
                       <td>
-                        <p>{selectedPostulant.workExperience[0].company}</p>
+                        <p>{selectedPostulant.workExperience[0].client}</p>
                       </td>
                       <td>
                         <p>{selectedPostulant.workExperience[0].start}</p>
@@ -210,7 +216,7 @@ function Home() {
         <div className={styles.titleField}>
           <p>Data of Interest</p>
           <button className={styles.collapseButton} onClick={handleDataOfInterestData}>
-            +
+            {openDataOfInterestData ? '-' : '+'}
           </button>
         </div>
         {openDataOfInterestData ? (

@@ -50,8 +50,8 @@ export const addClient = (data) => (dispatch) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      companyName: data.companyName,
-      companyType: data.companyType,
+      clientName: data.clientName,
+      clientType: data.clientType,
       city: data.city,
       country: data.country,
       email: data.email,
@@ -88,8 +88,8 @@ export const updateClient = (id, data) => (dispatch) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      companyName: data.companyName,
-      companyType: data.companyType,
+      clientName: data.clientName,
+      clientType: data.clientType,
       city: data.city,
       country: data.country,
       email: data.email,

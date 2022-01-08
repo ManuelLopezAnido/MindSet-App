@@ -14,7 +14,8 @@ import {
   DELETE_CLIENT_FETCHING,
   DELETE_CLIENT_FULFILLED,
   DELETE_CLIENT_REJECTED,
-  ERROR_TO_DEFAULT
+  ERROR_TO_DEFAULT,
+  SELECTED_TO_DEFAULT
 } from './constants';
 
 export const getClientsFetching = () => {
@@ -79,4 +80,8 @@ export const deleteClientRejected = (error) => ({
 
 export const errorToDefault = () => ({
   type: ERROR_TO_DEFAULT
+});
+
+export const selectedToDefault = () => ({
+  type: SELECTED_TO_DEFAULT
 });

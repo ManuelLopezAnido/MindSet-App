@@ -1,22 +1,31 @@
 .input {
+  display:flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  width: 250px;
+  font-size: 0.8rem;
+  font-weight:bolder;
+  border: 2px solid rgba(0, 0, 0, 0);
+}
+
+.input:focus {
+  outline: none;
+}
+
+.input label {
+  margin-bottom: 5px;
+}
+
+.inputError {
+  border: 2px solid red;
+}
+
+.errorMessage {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 6px;
-  width: 80%;
-  margin-bottom: 25px;
+  align-items: center;
+  height: 21px;
+  width: 12rem;
+  font-size: 0.7rem;
+  color: #F00;
 }
-
-.input label{
-  width: 100%;
-  margin: 2px 0px 2px 0px;
-  color:black;
-}
-
-.input input{
-  width: 100%;
-  margin: 0;
-  height: 20px;
-}
-
 

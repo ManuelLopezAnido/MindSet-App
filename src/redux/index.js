@@ -6,6 +6,7 @@ import sessionsReducer from './sessions/reducer';
 import clientsReducer from './clients/reducer';
 import uiReducer from './ui/reducer';
 import applicationsReducers from './applications/reducer';
+import interviewsReducers from './interviews/reducer';
 import positionsReducer from './positions/reducer';
 
 const rootReducer = combineReducers({
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   counselors: counselorsReducer,
   ui: uiReducer,
   applications: applicationsReducers,
+  interviews: interviewsReducers,
   positions: positionsReducer
 });
 

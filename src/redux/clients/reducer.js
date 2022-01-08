@@ -14,7 +14,8 @@ import {
   DELETE_CLIENT_FETCHING,
   DELETE_CLIENT_FULFILLED,
   DELETE_CLIENT_REJECTED,
-  ERROR_TO_DEFAULT
+  ERROR_TO_DEFAULT,
+  SELECTED_TO_DEFAULT
 } from './constants';
 
 const initialState = {
@@ -66,7 +67,6 @@ const reducer = (state = initialState, action) => {
         error: true,
         errorMessage: action.payload
       };
-
     case ADD_CLIENT_FETCHING:
       return {
         ...state,
@@ -125,11 +125,16 @@ const reducer = (state = initialState, action) => {
         error: true,
         errorMessage: action.payload
       };
-
     case ERROR_TO_DEFAULT: {
       return {
         ...state,
         error: false
+      };
+    }
+    case SELECTED_TO_DEFAULT: {
+      return {
+        ...state,
+        selected: {}
       };
     }
     default:
