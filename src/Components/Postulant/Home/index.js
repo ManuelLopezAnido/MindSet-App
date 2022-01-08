@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOnePostulant } from 'redux/postulants/thunks';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
+import EditButton from 'Components/Shared/EditButton';
 
 function Home() {
   const [openPersonalInformationData, setOpenPersonalInformationData] = useState(false);
@@ -54,6 +55,11 @@ function Home() {
         <div className={styles.postulantDetails}>
           {`${selectedPostulant.openToWork ? 'Open to Work' : 'Not Available to Work'}`}
         </div>
+        <EditButton
+          onClick={() =>
+            (window.location.href = `/postulant/postulants/form?id=${selectedPostulant._id}`)
+          }
+        />
       </div>
       <div className={styles.informationField}>
         <div className={styles.titleField}>

@@ -1,0 +1,12 @@
+.visualizeButton {
+  background-color: #fff;
+  border: none;
+  cursor: pointer;
+  width: 24px;
+  height: 17px;
+}
+
+.visualizeButton img{
+  width: 14px;
+  height: 14px;
+}
