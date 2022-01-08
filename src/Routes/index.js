@@ -13,7 +13,7 @@ const Routes = () => {
         <Switch>
           <Route path="/postulant" component={PostulantRoutes} />
           <Route path="/admin" component={AdminRoutes} />
-          <Route path="/" component={HomeRoutes} />
+          <Route path="/" exact component={HomeRoutes} />
           <Redirect to="/" />
         </Switch>
       </Suspense>
