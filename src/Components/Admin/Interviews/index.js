@@ -106,7 +106,7 @@ function Interviews() {
         <thead>
           <tr>
             <th>Job Title</th>
-            <th>Company Name</th>
+            <th>Client Name</th>
             <th>Date</th>
             <th>Time</th>
             <th>Actions</th>
@@ -119,7 +119,7 @@ function Interviews() {
               onClick={() => (window.location.href = `/admin/interviews/form?id=${interview._id}`)}
             >
               <td>{interview.jobTitle}</td>
-              <td>{interview.companyName}</td>
+              <td>{interview.clientName}</td>
               <td>{interview.date.substring(0, 10)}</td>
               <td>{interview.time}</td>
               <td>

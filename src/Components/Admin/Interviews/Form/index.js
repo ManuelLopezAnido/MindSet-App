@@ -7,7 +7,7 @@ import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 
 const InterviewsForm = () => {
   const [jobTitle, setJobTitle] = useState('');
-  const [companyName, setCompanyName] = useState('');
+  const [clientName, setClientName] = useState('');
   const [dateValue, setDate] = useState('');
   const [timeValue, setTime] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -18,8 +18,8 @@ const InterviewsForm = () => {
   const onChangeJobTitle = (event) => {
     setJobTitle(event.target.value);
   };
-  const onChangeCompanyName = (event) => {
-    setCompanyName(event.target.value);
+  const onChangeClientName = (event) => {
+    setClientName(event.target.value);
   };
   const onChangeDate = (event) => {
     setDate(event.target.value);
@@ -45,7 +45,7 @@ const InterviewsForm = () => {
         })
         .then((response) => {
           setJobTitle(response.jobTitle);
-          setCompanyName(response.companyName);
+          setClientName(response.clientName);
           setDate(response.date);
           setTime(response.time);
         })
@@ -68,7 +68,7 @@ const InterviewsForm = () => {
       },
       body: JSON.stringify({
         jobTitle: jobTitle,
-        companyName: companyName,
+        clientName: clientName,
         date: dateValue,
         time: timeValue
       })
@@ -150,13 +150,13 @@ const InterviewsForm = () => {
           placeholder="Job"
         />
         <Input
-          label="Company"
-          id="companyName"
-          name="companyName"
+          label="Client"
+          id="clientName"
+          name="clientName"
           required
-          value={companyName}
-          onChange={onChangeCompanyName}
-          placeholder="Company Name"
+          value={clientName}
+          onChange={onChangeClientName}
+          placeholder="Client Name"
         />
         <Input
           label="Date"

@@ -54,7 +54,7 @@ const PositionsForm = () => {
 
   useEffect(() => {
     const cli = clients.map((client) => {
-      return { value: client.companyName, toShow: client.companyName };
+      return { value: client.clientName, toShow: client.clientName };
     });
     setClientsToMap(cli);
   }, [clients]);
@@ -104,14 +104,14 @@ const PositionsForm = () => {
               validate={(value) => (value ? undefined : 'please enter the job title')}
             />
             <Field
-              label="Company Name"
-              id="companyName"
-              name="companyName"
+              label="Client Name"
+              id="clientName"
+              name="clientName"
               type="checkbox"
               options={clientsToMap}
               component={Select}
               disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please enter the company name')}
+              validate={(value) => (value ? undefined : 'please enter the client name')}
             />
             <Field
               label="Job Description"

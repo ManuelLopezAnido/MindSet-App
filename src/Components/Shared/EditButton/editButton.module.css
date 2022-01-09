@@ -1,0 +1,10 @@
+.editButton{
+  margin-top: 10px;
+  background-color: #ffffff;
+  border:none;
+}
+
+.editButton img {
+  width:20px;
+  height: 20px;
+}

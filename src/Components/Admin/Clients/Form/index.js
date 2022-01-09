@@ -104,22 +104,22 @@ const ClientsForm = () => {
         render={(formProps) => (
           <form className={styles.form} onSubmit={formProps.handleSubmit}>
             <Field
-              label="Company Name"
-              id="companyName"
-              name="companyName"
+              label="Client Name"
+              id="clientName"
+              name="clientName"
               type="string"
               component={Input}
               disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please enter the company name')}
+              validate={(value) => (value ? undefined : 'please enter the client name')}
             />
             <Field
-              label="Company Type"
-              id="companyType"
-              name="companyType"
+              label="Client Type"
+              id="clientType"
+              name="clientType"
               type="string"
               component={Input}
               disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please enter the company type')}
+              validate={(value) => (value ? undefined : 'please enter the client type')}
             />
             <Field
               label="City"
