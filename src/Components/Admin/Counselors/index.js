@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import listStyles from 'lists.module.css';
+import styles from './counselors.module.css';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import Button from 'Components/Shared/Button/Button';
-import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
+//import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCounselors, deleteCounselor } from 'redux/counselors/thunks';
 import { useHistory } from 'react-router-dom';
@@ -12,7 +12,7 @@ import { errorToDefault } from 'redux/counselors/actions';
 
 const Counselor = () => {
   const [showModal, setShowModal] = useState(false);
-  const [selectedId, setSelectedId] = useState('');
+  //const [selectedId, setSelectedId] = useState('');
   const history = useHistory();
 
   const dispatch = useDispatch();
@@ -28,16 +28,16 @@ const Counselor = () => {
     }
   }, [counselors]);
 
-  const onClickDelete = () => {
+  /*const onClickDelete = () => {
     dispatch(deleteCounselor(selectedId));
     setShowModal(false);
   };
 
-  const handleIdCounselor = (event, id) => {
+ /* const handleIdCounselor = (event, id) => {
     event.stopPropagation();
     setShowModal(true);
     setSelectedId(id);
-  };
+  };*/
 
   const closeModal = () => {
     setShowModal(false);
@@ -46,12 +46,12 @@ const Counselor = () => {
   if (isLoading) return <IsLoading />;
 
   return (
-    <section className={listStyles.container}>
+    <section className={styles.mainContainer}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
-        actionEntity={onClickDelete}
-        selectedId={selectedId}
+        //actionEntity={onClickDelete}
+        //selectedId={selectedId}
         titleText="Delete a counselor"
         spanObjectArray={[
           {
@@ -68,37 +68,28 @@ const Counselor = () => {
         middleText={errorMessage}
         buttonText="ok"
       />
-      <div className={listStyles.titleAndButton}>
-        <h3>Counselors</h3>
+      <div>
         <Button onClick={() => history.push('/admin/counselors/form')} value="Counselor" />
       </div>
-      <table className={listStyles.list}>
-        <thead>
-          <tr>
-            <th> First Name </th>
-            <th> Last Name </th>
-            <th> Actions </th>
-          </tr>
-        </thead>
-        <tbody>
-          {counselors.map((counselor) => {
-            return (
-              <tr
-                key={counselor._id}
-                onClick={() => {
-                  window.location.replace(`counselors/form?id=${counselor._id}`);
-                }}
-              >
-                <td>{counselor.firstName}</td>
-                <td>{counselor.lastName}</td>
-                <td>
-                  <DeleteButton onClick={(event) => handleIdCounselor(event, counselor._id)} />
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className={styles.counselorsList}>
+        {counselors.map((counselor) => (
+          <div className={styles.counselorContainer} key={counselor._id}>
+            <p className={styles.title}>
+              {counselor.firstName} {counselor.lastName}
+            </p>
+            <p className={styles.description}>{counselor.email}</p>
+            <p className={styles.description}>{counselor.phone}</p>
+            <div className={styles.footerContainer}>
+              <p className={styles.location}>
+                {counselor.city}, {counselor.country}
+              </p>
+              <button className={styles.buttonShow} type="submit">
+                +
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
     </section>
   );
 };
