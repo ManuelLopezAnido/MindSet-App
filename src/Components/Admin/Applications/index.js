@@ -85,7 +85,6 @@ function Applications() {
             <th>Position</th>
             <th>Client </th>
             <th>Postulant</th>
-            <th>State</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -102,7 +101,6 @@ function Applications() {
                   ? a.postulantId.firstName + ' ' + a.postulantId.lastName
                   : 'Postulant not found'}
               </td>
-              <td>{a.applicationState}</td>
               <td>
                 <DeleteButton onClick={(e) => handleIdApplication(e, a._id)} />
               </td>
