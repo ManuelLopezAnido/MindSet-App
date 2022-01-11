@@ -72,7 +72,9 @@ const Interviews = () => {
           <tr>
             <th>Job Title</th>
             <th>Client</th>
-            <th>Date and Hour</th>
+            <th>Date</th>
+            <th>Hour</th>
+            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -81,7 +83,9 @@ const Interviews = () => {
             <tr key={interview._id}>
               <td>{interview.jobTitle}</td>
               <td>{interview.clientName}</td>
+              <td>{interview.date}</td>
               <td>{interview.time}</td>
+              <td>{interview.state}</td>
               <td>
                 <VisualizeButton
                   onClick={() =>
@@ -89,7 +93,8 @@ const Interviews = () => {
                       interview.jobTitle,
                       interview.clientName,
                       interview.time,
-                      interview.date
+                      interview.date,
+                      interview.state
                     )
                   }
                 />

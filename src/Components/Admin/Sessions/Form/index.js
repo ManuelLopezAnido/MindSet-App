@@ -6,7 +6,7 @@ import Checkbox from 'Components/Shared/Checkbox';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
-import Button from 'Components/Admin/Admins/Button';
+import AddButton from 'Components/Shared/AddButton';
 import { getOneSession, addSession, updateSession } from 'redux/sessions/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 import { errorToDefault } from 'redux/sessions/actions';
@@ -151,11 +151,7 @@ const SessionsForm = () => {
               component={Checkbox}
               disabled={formProps.submitting}
             />
-            <Button
-              type="submit"
-              className={StyleSheet.submitButton}
-              disabled={formProps.submitting || formProps.pristine}
-            />
+            <AddButton type="submit" disabled={formProps.submitting || formProps.pristine} />
           </form>
         )}
       />

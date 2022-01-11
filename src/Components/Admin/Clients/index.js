@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
-import listStyles from 'lists.module.css';
+import styles from './clients.module.css';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
-import Button from 'Components/Shared/Button/Button';
+import AddButton from 'Components/Shared/AddButton';
+import Entity from 'Components/Shared/Entity';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
+import locationIcon from 'assets/images/location.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { getClients, deleteClient } from 'redux/clients/thunks';
 import { useHistory } from 'react-router-dom';
@@ -47,7 +49,7 @@ function Clients() {
   if (isLoading) return <IsLoading />;
 
   return (
-    <section className={listStyles.container}>
+    <section className={styles.mainContainer}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -69,39 +71,38 @@ function Clients() {
         middleText={errorMessage}
         buttonText="ok"
       />
-      <div className={listStyles.titleAndButton}>
-        <h3>Clients</h3>
-        <Button onClick={() => history.push('/admin/clients/form')} value="Client" />
+      <div>
+        <AddButton onClick={() => history.push('/admin/clients/form')} />
+        <Entity value="Client" />
       </div>
-      <table className={listStyles.list}>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Client Type</th>
-            <th>Email</th>
-            <th>Country</th>
-            <th>Phone</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {clients.map((client) => (
-            <tr
-              key={client._id}
-              onClick={() => (window.location.href = `clients/form?id=${client._id}`)}
-            >
-              <td>{client.clientName}</td>
-              <td>{client.clientType}</td>
-              <td>{client.email}</td>
-              <td>{client.country}</td>
-              <td>{client.phone}</td>
-              <td>
-                <DeleteButton onClick={(event) => handleIdClient(event, client._id)} />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className={styles.clientList}>
+        {clients.map((client) => (
+          <div className={styles.clientContainer} key={client._id}>
+            <div className={styles.title}>
+              <p> {client.clientName} </p>
+              <DeleteButton onClick={(event) => handleIdClient(event, client._id)} />
+            </div>
+            <p className={styles.description}>{client.clientType}</p>
+            <p className={styles.description}>{client.email}</p>
+            <p className={styles.description}>{client.phone}</p>
+            <div className={styles.footerContainer}>
+              <div className={styles.location}>
+                <img src={locationIcon} />
+                <p>
+                  {client.city}, {client.country}
+                </p>
+              </div>
+              <button
+                onClick={() => (window.location.href = `clients/form?id=${client._id}`)}
+                className={styles.button}
+                type="submit"
+              >
+                +
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
     </section>
   );
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import Input from 'Components/Shared/FormInput';
-import Button from 'Components/Admin/Admins/Button';
+import SaveButton from 'Components/Shared/SaveButton';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
@@ -114,11 +114,7 @@ const AdminsForm = () => {
               disabled={formProps.submitting}
               validate={(value) => (value ? undefined : 'please enter your password')}
             />
-            <Button
-              type="submit"
-              className={styles.submitButton}
-              disabled={formProps.submitting || formProps.pristine}
-            />
+            <SaveButton type="submit" disabled={formProps.submitting || formProps.pristine} />
           </form>
         )}
       />

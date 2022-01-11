@@ -32,7 +32,9 @@
 }
 
 .title {
-  margin: 0px 0px 14px 15px;
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 20px 14px 15px;
   font-size: 22px;
   font-weight: bold;
   color: #477599;
@@ -41,9 +43,10 @@
 .description {
   margin: 0px 0px 18px 15px;
   font-size: 15px;
+  color: #707070;
 }
 
-.buttonShow {
+.button{
   width: 30px;
   height: 30px;
   border: none;
@@ -52,11 +55,18 @@
   background: #9ed8d8;
 }
 
-.location {
-  font-weight: bold;
-  color: #7c7c7c;
+.button:hover {
+  cursor: pointer;
 }
 
-.buttonShow:hover {
-  cursor: pointer;
+.location >img {
+  width: 20px;
+  height: 20px;
+}
+
+.location {
+  display: flex;
+  flex-direction: row;
+  font-weight: bold;
+  color: #7c7c7c;
 }

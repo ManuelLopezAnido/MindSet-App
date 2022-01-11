@@ -3,6 +3,7 @@ import styles from './form.module.css';
 import Input from 'Components/Shared/Input';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
+import SaveButton from 'Components/Shared/SaveButton';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import { getOnePostulant, addPostulant, updatePostulant } from 'redux/postulants/thunks';
 import { useSelector, useDispatch } from 'react-redux';
@@ -1146,9 +1147,7 @@ const PostulantsForm = () => {
             onChange={onChangeSundayTo}
           />
         </div>
-        <button className={styles.sendFormButton} type="submit">
-          Save Changes
-        </button>
+        <SaveButton type="submit" />
       </form>
     </div>
   );

@@ -1,0 +1,72 @@
+.mainContainer {
+  max-height: 580px;
+  box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
+  -webkit-box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
+  -moz-box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
+}
+
+.clientList {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 40px;
+  margin-left: 50px;
+  max-height: 440px;
+  overflow-y: scroll;
+}
+
+.clientContainer {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  margin: 25px;
+  box-shadow: 1px 2px 2px 1px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 1px 2px 2px 1px rgba(0,0,0,0.1);
+  -moz-box-shadow: 1px 2px 2px 1px rgba(0,0,0,0.1);
+}
+
+.footerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px 20px 8px 15px;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 20px 14px 15px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #477599;
+}
+
+.description {
+  margin: 0px 0px 18px 15px;
+  font-size: 15px;
+  color: #707070;
+}
+
+.button{
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 100%;
+  color: #FFF;
+  background: #9ed8d8;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.location >img {
+  width: 20px;
+  height: 20px;
+}
+
+.location {
+  display: flex;
+  flex-direction: row;
+  font-weight: bold;
+  color: #7c7c7c;
+}

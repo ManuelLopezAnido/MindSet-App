@@ -7,7 +7,7 @@ import { errorToDefault } from 'redux/admins/actions';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
-import Button from 'Components/Shared/Button/Button';
+import Button from 'Components/Shared/AddButton';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 
 function Applications() {

@@ -3,7 +3,7 @@ import listStyles from 'lists.module.css';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
-import Button from 'Components/Shared/Button/Button';
+import AddButton from 'Components/Shared/AddButton';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAdmins, deleteAdmin } from 'redux/admins/thunks';
@@ -73,7 +73,7 @@ const Admins = () => {
       />
       <div className={listStyles.titleAndButton}>
         <h3>Admin</h3>
-        <Button onClick={() => history.push('/admin/admins/form')} value="Admin" />
+        <AddButton onClick={() => history.push('/admin/admins/form')} value="Admin" />
       </div>
       <table className={listStyles.list}>
         <thead>
