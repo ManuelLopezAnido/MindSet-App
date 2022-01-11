@@ -28,6 +28,7 @@ const Candidates = () => {
     const postName = postulants.filter((postulant) => {
       postulant._id == councelor?.postulantId?._Id;
     });
+    console.log('PsyId: ', councelor?.postulantId?._id);
     console.log('PostName: ', postName);
     return postName.firstName;
   };
