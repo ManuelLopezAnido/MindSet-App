@@ -103,9 +103,6 @@ const PostulantsForm = () => {
   const params = new URLSearchParams(window.location.search);
   const postulantId = params.get('id');
 
-  console.log('params ', params);
-  console.log('postulantId: ', params.get('_id'));
-
   if (postulantId) {
     useEffect(() => {
       dispatch(getOnePostulant(postulantId));
