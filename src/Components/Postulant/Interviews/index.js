@@ -2,7 +2,7 @@ import styles from './interviews.module.css';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getInterviews, deleteInterview } from 'redux/interviews/thunks';
-import { getSessions } from 'redux/sessions/thunks';
+import { getSessions, updateSession } from 'redux/sessions/thunks';
 import { errorToDefault } from 'redux/admins/actions';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import ErrorModal from 'Components/Shared/ErrorModal';
@@ -51,8 +51,17 @@ const Interviews = () => {
     }
   });
 
-  const selectedSession = (sessionId) => {
-    console.log(sessionId);
+  const selectedSession = (sessionId, postulantId, counselorId, date, time, accomplished) => {
+    postulantHasSessionsAccomplished = false;
+    const data = {
+      postulantId: postulantId,
+      counselorId: counselorId,
+      date: date,
+      time: time,
+      accomplished: accomplished
+    };
+    dispatch(updateSession(sessionId, data));
+    location.reload();
   };
 
   if (Loading) {
@@ -104,7 +113,19 @@ const Interviews = () => {
                   </tr>
                 </thead>
                 {filterSessionsWithOutPostulant.map((session) => (
-                  <tr key={session._id} onClick={() => selectedSession(session._id)}>
+                  <tr
+                    key={session._id}
+                    onClick={() =>
+                      selectedSession(
+                        session._id,
+                        selectedPostulantId,
+                        session.counselorId,
+                        session.date,
+                        session.time,
+                        session.accomplished
+                      )
+                    }
+                  >
                     <td>{session.counselorId.firstName}</td>
                     <td>{session.date}</td>
                     <td>{session.time}</td>
