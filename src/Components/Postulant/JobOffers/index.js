@@ -17,6 +17,7 @@ const JobOffers = () => {
   if (isLoading) {
     return <IsLoading />;
   }
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.container}>

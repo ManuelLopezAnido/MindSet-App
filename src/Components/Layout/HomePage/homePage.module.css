@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 15vh;
+  color: #FFF;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 2.5rem;
+  width: 20vw;
+  height: 100%;
+  background-color: #9ED8D8;
+  color: #3A5374;
+}
+
+.mainHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  background-color: #325477;
+}
+
+.title {
+  margin: auto;
+  font-weight: bold;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.mainHead > div {
+  padding: 2rem;
+}
+
+.signUp {
+  margin-right: 20px;
+  color: #FFF;
+  text-decoration: none;
+}
+
+.signUp:hover {
+  color: grey;
+}
