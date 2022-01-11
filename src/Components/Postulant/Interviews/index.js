@@ -26,6 +26,10 @@ const Interviews = () => {
     return interview.postulantId === selectedPostulantId;
   });
 
+  let filterSessionsWithOutPostulant = sessions.filter((session) => {
+    return session.postulantId === undefined;
+  });
+
   const OnClickDelete = (id) => {
     dispatch(deleteInterview(id));
   };
@@ -37,15 +41,19 @@ const Interviews = () => {
   let postulantHasSessionsAccomplished = true;
   let sessionDay, sessionTime;
   sessions.map((session) => {
-    if (session.postulantId._id === selectedPostulantId && session.accomplished) {
+    if (session.postulantId?._id === selectedPostulantId && session.accomplished) {
       postulantHasSessions = true;
     }
-    if (session.postulantId._id === selectedPostulantId && !session.accomplished) {
+    if (session.postulantId?._id === selectedPostulantId && !session.accomplished) {
       postulantHasSessionsAccomplished = false;
       sessionDay = session.date;
       sessionTime = session.time;
     }
   });
+
+  const selectedSession = (sessionId) => {
+    console.log(sessionId);
+  };
 
   if (Loading) {
     return <IsLoading />;
@@ -83,11 +91,26 @@ const Interviews = () => {
           </tbody>
         </table>
       ) : (
-        <div className={styles.sessionUnaccomplishedContainer}>
+        <div>
           {postulantHasSessionsAccomplished ? (
             <div>
               Please choise a date for the Session with the Counselor
-              {console.log(sessions)}
+              <table>
+                <thead>
+                  <tr>
+                    <th>Counselor Name</th>
+                    <th>Day</th>
+                    <th>Time</th>
+                  </tr>
+                </thead>
+                {filterSessionsWithOutPostulant.map((session) => (
+                  <tr key={session._id} onClick={() => selectedSession(session._id)}>
+                    <td>{session.counselorId.firstName}</td>
+                    <td>{session.date}</td>
+                    <td>{session.time}</td>
+                  </tr>
+                ))}
+              </table>
             </div>
           ) : (
             <div>

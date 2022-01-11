@@ -118,7 +118,7 @@ const SessionsForm = () => {
               options={postulantsToMap}
               component={Select}
               disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please choose a postulant')}
+              // validate={(value) => (value ? undefined : 'please choose a postulant')}
             />
             <Field
               name="counselorId"
