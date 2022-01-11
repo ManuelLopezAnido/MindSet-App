@@ -77,7 +77,6 @@ const SessionsForm = () => {
   };
 
   const onSubmit = (formValues) => {
-    console.log('formValues', formValues);
     setFormValues(formValues);
     setShowModal(true);
   };
