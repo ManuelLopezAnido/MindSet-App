@@ -4,16 +4,33 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostulants } from 'redux/postulants/thunks';
 import { errorToDefault } from 'redux/admins/actions';
+import { getSessions } from 'redux/sessions/thunks';
 
 const Candidates = () => {
   const dispatch = useDispatch();
   const postulants = useSelector((store) => store.postulants.list);
+  const sessions = useSelector((store) => store.sessions.list);
   const loading = useSelector((store) => store.postulants.isLoading);
   const errMessage = useSelector((store) => store.postulants.error);
+  const thisPsychologist = '61b7f956c929a1aa15d03640'; //Id de hardcodeado de Josefina
   useEffect(() => {
     dispatch(getPostulants());
+    dispatch(getSessions());
   }, []);
-  console.log(postulants);
+  console.log('Postulants: ', postulants);
+  console.log('Sessions: ', sessions[0]?.counselorId);
+  console.log('Sessions: ', sessions);
+  const sessionsFiltred = sessions.filter((session) =>
+    session?.counselorId ? session.counselorId._id == thisPsychologist : false
+  );
+  console.log('filtred', sessionsFiltred);
+  const postName = (councelor) => {
+    const postName = postulants.filter((postulant) => {
+      postulant._id == councelor?.postulantId?._Id;
+    });
+    console.log('PostName: ', postName);
+    return postName.firstName;
+  };
   const closeErrorMessage = () => {
     dispatch(errorToDefault());
   };
@@ -34,18 +51,20 @@ const Candidates = () => {
         <thead>
           <tr>
             <th>Candidate</th>
-            <th>Position</th>
-            <th>Job Title</th>
-            <th>Session</th>
+            <th>Profile</th>
+            <th>Date</th>
+            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {postulants.map((postulant) => {
+          {sessionsFiltred.map((sessionFil) => {
             return (
-              <tr key={postulant._id}>
-                <td>{postulant.firstName + ' ' + postulant.lastName}</td>
-                <td> Profile ¿? </td>
+              <tr key={sessionFil._id}>
+                <td>
+                  {sessionFil.postulantId?.firstName + ' ' + sessionFil.postulantId?.lastName}
+                </td>
+                <td>{postName(sessionFil)}</td>
                 <td> Job title ¿? </td>
                 <td> Interview ¿? </td>
                 <td> Change Profile </td>
