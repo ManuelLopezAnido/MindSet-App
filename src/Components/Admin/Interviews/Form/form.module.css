@@ -23,3 +23,8 @@ h1 {
   color: white;
   font-weight: bold;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
