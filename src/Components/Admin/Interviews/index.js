@@ -84,6 +84,7 @@ function Interviews() {
             <th>Client Name</th>
             <th>Date</th>
             <th>Time</th>
+            <th>State</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -99,6 +100,7 @@ function Interviews() {
               <td>{interview.clientId.clientName}</td>
               <td>{interview.date.substring(0, 10)}</td>
               <td>{interview.time}</td>
+              <td>{interview.state}</td>
               <td>
                 <DeleteButton onClick={(event) => handleIdInterview(event, interview._id)} />
               </td>
