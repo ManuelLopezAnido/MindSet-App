@@ -8,7 +8,6 @@ import { errorToDefault } from 'redux/positions/actions';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
-import Button from 'Components/Shared/Entity';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 
 function Positions() {
@@ -27,10 +26,6 @@ function Positions() {
       dispatch(getPositions());
     }
   }, [listPositions]);
-
-  const addPositions = () => {
-    history.push('/admin/positions/form');
-  };
 
   const OnClickDeletePosition = () => {
     setShowModal(false);
