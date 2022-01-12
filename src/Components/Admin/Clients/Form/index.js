@@ -124,9 +124,6 @@ const ClientsForm = () => {
         buttonText="ok"
       />
       <h2> {`${clientId == null ? 'Add a new Client' : 'Client Profile'}`} </h2>
-      <button onClick={() => (window.location.href = `./`)} className={styles.button}>
-        X
-      </button>
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.imageClient}>

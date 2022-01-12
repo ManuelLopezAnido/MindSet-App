@@ -8,7 +8,7 @@ import { errorToDefault } from 'redux/positions/actions';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
-import Button from 'Components/Shared/AddButton';
+import Button from 'Components/Shared/Entity';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 
 function Positions() {
@@ -74,10 +74,6 @@ function Positions() {
         titleText="Error"
         buttonText="ok"
       />
-      <div className={listStyles.titleAndButton}>
-        <h3>Positions</h3>
-        <Button onClick={addPositions} value="Positions" />
-      </div>
       <table className={listStyles.list}>
         <thead>
           <tr>

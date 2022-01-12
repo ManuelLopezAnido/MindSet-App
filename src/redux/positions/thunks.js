@@ -42,7 +42,7 @@ export const getOnePosition = (id) => (dispatch) => {
     });
 };
 
-export const addPosition = (data) => (dispatch) => {
+export const addPosition = (data, clientName) => (dispatch) => {
   const options = {
     method: 'POST',
     headers: {
@@ -50,7 +50,8 @@ export const addPosition = (data) => (dispatch) => {
     },
     body: JSON.stringify({
       jobTitle: data.jobTitle,
-      clientName: data.clientName,
+      clientName: clientName,
+      clientId: data.clientId,
       jobDescription: data.jobDescription,
       city: data.city,
       country: data.country,

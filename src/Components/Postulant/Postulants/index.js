@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import listStyles from 'lists.module.css';
+import styles from './postulants.module.css';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
+import locationIcon from 'assets/images/location.png';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
-import Button from 'Components/Shared/AddButton';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { getPostulants, deletePostulant } from 'redux/postulants/thunks';
@@ -26,12 +26,6 @@ const Postulants = () => {
     }
   }, [postulants]);
 
-  const redirectToForm = (postulantId) => {
-    postulantId
-      ? (window.location.href = `${window.location.pathname}/form?_id=${postulantId}`)
-      : (window.location.href = `${window.location.pathname}/form`);
-  };
-
   const onDeletePostulant = () => {
     dispatch(deletePostulant(selectedId));
     setShowModal(false);
@@ -50,7 +44,7 @@ const Postulants = () => {
   if (isLoading) return <IsLoading />;
 
   return (
-    <div className={listStyles.container}>
+    <div className={styles.mainContainer}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -72,36 +66,35 @@ const Postulants = () => {
         middleText={errorMessage}
         buttonText="ok"
       />
-      <div className={listStyles.titleAndButton}>
-        <h3>Postulants</h3>
-        <Button value="Postulant" onClick={() => redirectToForm(null)} />
+      <div className={styles.postulantList}>
+        {postulants.map((postulant) => (
+          <div className={styles.postulantContainer} key={postulant._id}>
+            <div className={styles.title}>
+              <p>
+                {postulant.firstName} {postulant.latsName}
+              </p>
+              <DeleteButton onClick={(event) => handleIdPostulant(event, postulant._id)} />
+            </div>
+            <p className={styles.description}>{postulant.email}</p>
+            <p className={styles.description}>{postulant.phone}</p>
+            <div className={styles.footerContainer}>
+              <div className={styles.location}>
+                <img src={locationIcon} />
+                <p>
+                  {postulant.city}, {postulant.country}
+                </p>
+              </div>
+              <button
+                onClick={() => (window.location.href = `postulants/form?id=${postulant._id}`)}
+                className={styles.button}
+                type="submit"
+              >
+                +
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
-      <table className={listStyles.list}>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Country</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {postulants.map((postulant) => (
-            <tr key={postulant._id} onClick={() => redirectToForm(postulant._id)}>
-              <td>
-                <div>
-                  {postulant?.firstName || '-'} {postulant?.lastName || '-'}
-                </div>
-              </td>
-              <td>
-                <div>{postulant?.country || '-'}</div>
-              </td>
-              <td>
-                <DeleteButton onClick={(event) => handleIdPostulant(event, postulant._id)} />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   );
 };
