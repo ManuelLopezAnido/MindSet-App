@@ -2,7 +2,8 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-height: 580px;
+  margin-top: 20px;
+  max-height: 700px;
   box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
   -webkit-box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
   -moz-box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
@@ -20,22 +21,24 @@
 .container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
-  width: 100%;
-  margin-left: 120px;
   margin-top: 10px;
+  width: 100%;
+  overflow-y: scroll;
 }
+
 .header{
   display: flex;
   align-items: center;
   flex-direction: column;
   margin-top: 60px;
-  margin-right: 80px;
+  margin-left: 100px;
   width: 15%;
 }
 
 .form{
-  width: 75%;
+  width:50%;
+  margin-top: 60px;
+  margin-left: 150px;
 }
 
 .imageClient {
@@ -65,4 +68,104 @@
 .inputs {
   display: flex;
   flex-wrap: wrap;
+}
+
+.positionList {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 70px;
+  margin-bottom: 30px;
+  max-height: 300px;
+  width: 85%;
+  border-top: solid 0.1rem #00000024;
+  overflow-y: scroll;
+}
+
+h3 {
+  margin-left: 70px;
+  margin-bottom: 10px;
+  font-size: 25px;
+  color: #325477;
+}
+
+.buttonAdd{
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 100%;
+  color: #FFF;
+  background: #9ed8d8;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.positionContainer {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  margin: 25px;
+  box-shadow: 1px 2px 2px 1px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 1px 2px 2px 1px rgba(0,0,0,0.1);
+  -moz-box-shadow: 1px 2px 2px 1px rgba(0,0,0,0.1);
+}
+
+.headerPosition {
+  display: flex;
+}
+
+.headerPosition > button {
+  margin-left: 10px
+}
+
+.headerPosition > button:hover {
+  cursor: pointer;
+}
+
+.footerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px 20px 8px 15px;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 20px 14px 15px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #477599;
+}
+
+.description {
+  padding: 10px 10px 10px 10px;
+  font-size: 15px;
+  color: #707070;
+}
+
+.button{
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 100%;
+  color: #FFF;
+  background: #9ed8d8;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.location >img {
+  width: 20px;
+  height: 20px;
+}
+
+.location {
+  display: flex;
+  flex-direction: row;
+  font-weight: bold;
+  color: #7c7c7c;
 }

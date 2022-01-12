@@ -4,9 +4,11 @@ import Input from 'Components/Shared/FormInput';
 import SaveButton from 'Components/Shared/SaveButton';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import Modal from 'Components/Shared/Modal';
+import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
+import locationIcon from 'assets/images/location.png';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import { getOneClient, addClient, updateClient } from 'redux/clients/thunks';
-import { getPositions } from 'redux/positions/thunks';
+import { getPositions, deletePosition } from 'redux/positions/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 import { errorToDefault, selectedToDefault } from 'redux/admins/actions';
 import { Field, Form } from 'react-final-form';
@@ -15,8 +17,9 @@ import { validateEmail, validatePhone } from 'validations';
 
 const ClientsForm = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showModalDelete, setShowModalDelete] = useState(false);
   const [formValues, setFormValues] = useState({});
-  //const [positionsToMap, setPositionsToMap] = useState([]);
+  const [selectedId, setSelectedId] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
   const isLoading = useSelector((store) => store.clients.isLoading);
@@ -40,8 +43,6 @@ const ClientsForm = () => {
   let filtredPositions = positions.filter((position) => {
     return position.clientId?._id === clientId;
   });
-
-  console.log(filtredPositions);
 
   const submit = () => {
     if (clientId) {
@@ -73,8 +74,35 @@ const ClientsForm = () => {
 
   if (isLoading) return <IsLoading />;
 
+  const onDeletePosition = () => {
+    console.log('delete', selectedId);
+    dispatch(deletePosition(selectedId));
+    setShowModalDelete(false);
+  };
+
+  const handleIdPosition = (event, selectedId) => {
+    console.log('handle', selectedId);
+    event.stopPropagation();
+    setSelectedId(selectedId);
+    setShowModalDelete(true);
+  };
+
   return (
     <div className={styles.mainContainer}>
+      <Modal
+        showModal={showModalDelete}
+        closeModal={() => setShowModalDelete(false)}
+        actionEntity={onDeletePosition}
+        selectedId={selectedId}
+        titleText="Delete a Position"
+        spanObjectArray={[
+          {
+            span: 'Are you sure you want to delete this position?'
+          }
+        ]}
+        leftButtonText="delete"
+        rightButtonText="cancel"
+      />
       <Modal
         showModal={showModal}
         closeModal={() => setShowModal(false)}
@@ -96,6 +124,9 @@ const ClientsForm = () => {
         buttonText="ok"
       />
       <h2> {`${clientId == null ? 'Add a new Client' : 'Client Profile'}`} </h2>
+      <button onClick={() => (window.location.href = `./`)} className={styles.button}>
+        X
+      </button>
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.imageClient}>
@@ -179,6 +210,43 @@ const ClientsForm = () => {
               </form>
             )}
           />
+        </div>
+        <div className={styles.positionMainContainer}>
+          <div className={styles.headerPosition}>
+            <h3>Company open positions</h3>
+            <button
+              className={styles.buttonAdd}
+              onClick={() => history.push('/admin/positions/form')}
+            >
+              +
+            </button>
+          </div>
+          <div className={styles.positionList}>
+            {filtredPositions.map((position) => (
+              <div className={styles.positionContainer} key={position._id}>
+                <div className={styles.title}>
+                  <p>{position.jobTitle}</p>
+                  <DeleteButton onClick={(event) => handleIdPosition(event, position._id)} />
+                </div>
+                <p className={styles.positionDescription}>{position.jobDescription}</p>
+                <div className={styles.footerContainer}>
+                  <div className={styles.location}>
+                    <img src={locationIcon} />
+                    <p>
+                      {position.city}, {position.country}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => (window.location.href = `../positions/form?id=${position._id}`)}
+                    className={styles.button}
+                    type="submit"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
