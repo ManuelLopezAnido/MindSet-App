@@ -12,8 +12,8 @@ const Header = () => {
         <div className={styles.brand}>MindSet</div>
         <div className={styles.mainHead}>
           <div className={styles.entityName}> {entity} </div>
-          <Link to="/postulant/signUp">
-            <span className={styles.signUp}>Sign Up</span>
+          <Link to="/">
+            <span className={styles.signUp}>Log out</span>
           </Link>
         </div>
       </div>

@@ -12,10 +12,10 @@ const HomePageHeader = () => {
         <div className={styles.mainHead}>
           <div className={styles.title}>MindSet</div>
           <div>
-            <Link to="">
+            <Link to="/login">
               <span className={styles.signUp}>Log In</span>
             </Link>
-            <Link to="">
+            <Link to="/signUp">
               <span className={styles.signUp}>Sign Up</span>
             </Link>
           </div>
