@@ -1,7 +1,6 @@
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   min-height: 100vh;
 }
 .body {
@@ -14,10 +13,11 @@
   justify-content: center;
   align-items: center;
   width: 80vw;
-  background-color: #FFF;
+  background-color: rgb(228, 225, 225);
 }
 
 .content > :nth-child(1) {
   height: 100%;
+  overflow-y: scroll;
   width: 80%;
 }

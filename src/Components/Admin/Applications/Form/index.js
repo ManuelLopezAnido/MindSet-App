@@ -161,14 +161,6 @@ const FormApplication = () => {
               disabled={formProps.submitting}
               validate={(value) => (value ? undefined : 'please choose a postulant')}
             />
-            <Field
-              name="applicationState"
-              label="State"
-              placeholder="completed"
-              component={Input}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please choose a state')}
-            />
             <Button
               type="submit"
               className={styles.submitButton}
