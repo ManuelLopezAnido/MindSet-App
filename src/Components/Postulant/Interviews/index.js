@@ -114,6 +114,7 @@ const Interviews = () => {
                 </thead>
                 {filterSessionsWithOutPostulant.map((session) => (
                   <tr
+                    className={styles.counselorsList}
                     key={session._id}
                     onClick={() =>
                       selectedSession(
@@ -126,7 +127,7 @@ const Interviews = () => {
                       )
                     }
                   >
-                    <td>{session.counselorId.firstName}</td>
+                    <td>{session.counselorId.firstName + ' ' + session.counselorId.lastName}</td>
                     <td>{session.date}</td>
                     <td>{session.time}</td>
                   </tr>
