@@ -1,10 +1,13 @@
+import styles from './candidates.module.css';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
+import Select from 'Components/Shared/Select';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostulants, updatePostulant } from 'redux/postulants/thunks';
 import { errorToDefault } from 'redux/admins/actions';
 import { getSessions } from 'redux/sessions/thunks';
+import Profile from '../Profile';
 
 const Candidates = () => {
   const dispatch = useDispatch();
@@ -43,7 +46,7 @@ const Candidates = () => {
     return <IsLoading />;
   }
   return (
-    <>
+    <section className={styles.Candidates}>
       <ErrorModal
         showModal={errMessage}
         middleText={errMessage}
@@ -52,6 +55,26 @@ const Candidates = () => {
         buttonText="ok"
       />
       <h2>CANDIDATES</h2>
+      <div className={styles.backModal}>
+        <div className={styles.Modal}>
+          <div>Modal Title</div>
+          <div>
+            <Select
+              meta={{
+                touched: false,
+                error: false
+              }}
+              label={'Profile'}
+              placeholder={'Profiles'}
+              options={[
+                { value: '1', toShow: 'Engeenier' },
+                { value: '2', toShow: 'Artist' },
+                { value: '3', toShow: 'Doctor' }
+              ]}
+            />
+          </div>
+        </div>
+      </div>
       <table>
         <thead>
           <tr>
@@ -78,7 +101,7 @@ const Candidates = () => {
           })}
         </tbody>
       </table>
-    </>
+    </section>
   );
 };
 
