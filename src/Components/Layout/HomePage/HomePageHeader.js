@@ -10,7 +10,9 @@ const HomePageHeader = () => {
     <header>
       <div className={styles.container}>
         <div className={styles.mainHead}>
-          <div className={styles.title}>MindSet</div>
+          <div className={styles.title}>
+            <Link to="/">MindSet</Link>
+          </div>
           <div>
             <Link to="/auth/login">
               <span className={styles.signUp}>Log In</span>
