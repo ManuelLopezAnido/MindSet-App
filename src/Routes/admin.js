@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
+import { Switch, useRouteMatch, Redirect } from 'react-router-dom';
 import Layout from 'Components/Layout';
 import Admins from 'Components/Admin/Admins';
 import AdminsForm from 'Components/Admin/Admins/Form';
