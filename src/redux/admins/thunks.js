@@ -19,16 +19,18 @@ import {
 const URL = process.env.REACT_APP_API;
 
 export const getAdmins = () => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(getAdminsFetching());
-  fetch(`${URL}/admins/`)
+  fetch(`${URL}/admins/`, { headers: { token } })
     .then((data) => data.json())
     .then((response) => dispatch(getAdminsFulfilled(response)))
     .catch((error) => dispatch(getAdminsRejected(error)));
 };
 
 export const getOneAdmin = (id) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(getOneAdminFetching());
-  return fetch(`${URL}/admins/${id}`)
+  return fetch(`${URL}/admins/${id}`, { headers: { token } })
     .then((response) => {
       if (response.status != 200) throw response.message;
       return response.json();
@@ -44,10 +46,13 @@ export const getOneAdmin = (id) => (dispatch) => {
 };
 
 export const addAdmin = (data) => (dispatch) => {
+  console.log(data);
+  const token = sessionStorage.getItem('token');
   const options = {
     method: 'POST',
     headers: {
-      'Content-type': 'application/json'
+      'Content-type': 'application/json',
+      token
     },
     body: JSON.stringify({
       email: data.email,
@@ -77,11 +82,13 @@ export const addAdmin = (data) => (dispatch) => {
 };
 
 export const updateAdmin = (id, data) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(updateAdminFetching());
   return fetch(`${URL}/admins/update/${id}`, {
     method: 'PUT',
     headers: {
-      'Content-type': 'application/json'
+      'Content-type': 'application/json',
+      token
     },
     body: JSON.stringify({
       email: data.email,
@@ -100,11 +107,13 @@ export const updateAdmin = (id, data) => (dispatch) => {
 };
 
 export const deleteAdmin = (id) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(deleteAdminFetching());
   return fetch(`${URL}/admins/delete/${id}`, {
     method: 'DELETE',
     headers: {
-      'Content-type': 'application/json'
+      'Content-type': 'application/json',
+      token
     }
   })
     .then((response) => {

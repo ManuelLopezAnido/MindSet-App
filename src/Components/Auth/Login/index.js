@@ -35,7 +35,6 @@ const Login = () => {
 
   return (
     <>
-      <HomePageHeader />
       <Modal
         showModal={!!error}
         closeModal={() => {

@@ -1,7 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { Switch, Route, Redirect, BrowserRouter as Router } from 'react-router-dom';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
-import Login from 'Components/Auth/Login';
 
 const AdminRoutes = lazy(() => import('Routes/admin'));
 const PostulantRoutes = lazy(() => import('Routes/postulant'));
@@ -15,7 +14,7 @@ const Routes = () => {
         <Switch>
           <Route path="/postulant" component={PostulantRoutes} />
           <Route path="/admin" component={AdminRoutes} />
-          <Route path="/login" component={Login} />
+          <Route path="/auth" component={AuthRoutes} />
           <Route path="/" exact component={HomeRoutes} />
           <Redirect to="/" />
         </Switch>
