@@ -6,7 +6,6 @@ import Button from 'Components/Shared/Button/Button.js';
 import { login } from 'redux/auth/thunks';
 import { cleanError } from 'redux/auth/actions';
 import { useDispatch, useSelector } from 'react-redux';
-import HomePageHeader from 'Components/Layout/HomePage/HomePageHeader';
 
 const Login = () => {
   const error = useSelector((store) => store.auth.error);
