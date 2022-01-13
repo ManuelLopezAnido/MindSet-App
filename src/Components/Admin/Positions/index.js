@@ -48,7 +48,7 @@ function Positions() {
   if (isLoading) return <IsLoading />;
 
   return (
-    <section className={listStyles.container}>
+    <section className={listStyles.maincontainer}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -85,7 +85,7 @@ function Positions() {
             >
               <td>{a.jobTitle}</td>
               <td>{a.clientName}</td>
-              <td>
+              <td className={listStyles.button}>
                 <DeleteButton onClick={(e) => handleIdPosition(e, a._id)} />
               </td>
             </tr>

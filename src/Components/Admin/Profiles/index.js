@@ -3,8 +3,11 @@ import listStyles from 'lists.module.css';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
-import Button from 'Components/Shared/AddButton';
+import AddButton from 'Components/Shared/AddButton';
+import Entity from 'Components/Shared/Entity';
+import EditButton from 'Components/Shared/EditButton';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
+import { useHistory } from 'react-router-dom';
 
 function WorkProfiles() {
   const [showModal, setShowModal] = useState(false);
@@ -13,6 +16,7 @@ function WorkProfiles() {
   const [isLoading, setIsLoading] = useState(false);
   const [workProfiles, saveWorkProfiles] = useState([]);
   const [selectedId, setSelectedId] = useState('');
+  const history = useHistory();
 
   useEffect(() => {
     setIsLoading(true);
@@ -27,10 +31,6 @@ function WorkProfiles() {
       })
       .finally(() => setIsLoading(false));
   }, []);
-
-  const addWorkProfile = () => {
-    window.location.href = `/admin/workprofiles/form`;
-  };
 
   const deleteWorkProfile = () => {
     setIsLoading(true);
@@ -76,7 +76,7 @@ function WorkProfiles() {
   if (isLoading) return <IsLoading />;
 
   return (
-    <section className={listStyles.container}>
+    <section className={listStyles.maincontainer}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -98,9 +98,9 @@ function WorkProfiles() {
         middleText={showErrorModalMessage}
         buttonText="ok"
       />
-      <div className={listStyles.titleAndButton}>
-        <h3>Profiles</h3>
-        <Button onClick={addWorkProfile} value="Profile" />
+      <div className={listStyles.addContainer}>
+        <AddButton onClick={() => history.push('/admin/workprofiles/form')} />
+        <Entity value="Profile" />
       </div>
       <table className={listStyles.list}>
         <thead>
@@ -112,15 +112,15 @@ function WorkProfiles() {
         </thead>
         <tbody>
           {workProfiles.map((workProfile) => (
-            <tr
-              key={workProfile._id}
-              onClick={() =>
-                (window.location.href = `/admin/workprofiles/form?id=${workProfile._id}`)
-              }
-            >
+            <tr key={workProfile._id}>
               <td>{workProfile.name}</td>
               <td>{workProfile.description}</td>
               <td className={listStyles.deleteButtonTD}>
+                <EditButton
+                  onClick={() =>
+                    (window.location.href = `/admin/workprofiles/form?id=${workProfile._id}`)
+                  }
+                />
                 <DeleteButton onClick={(event) => handleWorkProfile(event, workProfile._id)} />
               </td>
             </tr>

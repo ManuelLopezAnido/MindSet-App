@@ -1,4 +1,4 @@
-.mainContainer {
+.mainFormContainer {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -8,7 +8,7 @@
   -moz-box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
 }
 
-.mainContainer h2{
+.mainFormContainer h2{
   padding: 10px 9px 10px 40px;
   height: 20px;
   width: 95%;
@@ -17,7 +17,7 @@
   color:#ffffff;
 }
 
-.container {
+.containerForm {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
@@ -25,7 +25,7 @@
   margin-left: 120px;
   margin-top: 10px;
 }
-.header{
+.headerForm{
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -38,7 +38,7 @@
   width: 75%;
 }
 
-.imageCounselor {
+.imageEntity {
   overflow: hidden;
   width: 150px;
   height: 150px;
@@ -47,22 +47,23 @@
   border-radius: 100%;
 }
 
-.logoCounselor{
+.logoEntity{
   width: 100%;
 }
 
-.counselorName {
+.entityName {
   text-align: center;
   margin-top: 7px;
   color: #467599;
   font-weight: bold;
 }
 
-.counselorName > p {
+.entityName > p {
   font-weight: normal;
 }
 
 .inputs {
   display: flex;
   flex-wrap: wrap;
+  width: 80%;
 }

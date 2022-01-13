@@ -69,28 +69,38 @@ const Postulants = () => {
       <div className={styles.postulantList}>
         {postulants.map((postulant) => (
           <div className={styles.postulantContainer} key={postulant._id}>
-            <div className={styles.title}>
-              <p>
-                {postulant.firstName} {postulant.latsName}
-              </p>
-              <DeleteButton onClick={(event) => handleIdPostulant(event, postulant._id)} />
+            <div className={styles.imageCounselor}>
+              <img
+                className={styles.logoCounselor}
+                src={
+                  'http://3.bp.blogspot.com/_nKcd5vPHWY4/TJN_ySnkWCI/AAAAAAAAYvs/7h2_Z78Poj4/w1200-h630-p-k-no-nu/timthumb.jpg'
+                }
+              />
             </div>
-            <p className={styles.description}>{postulant.email}</p>
-            <p className={styles.description}>{postulant.phone}</p>
-            <div className={styles.footerContainer}>
-              <div className={styles.location}>
-                <img src={locationIcon} />
+            <div>
+              <div className={styles.title}>
                 <p>
-                  {postulant.city}, {postulant.country}
+                  {postulant.firstName} {postulant.latsName}
                 </p>
+                <DeleteButton onClick={(event) => handleIdPostulant(event, postulant._id)} />
               </div>
-              <button
-                onClick={() => (window.location.href = `postulants/form?id=${postulant._id}`)}
-                className={styles.button}
-                type="submit"
-              >
-                +
-              </button>
+              <p className={styles.description}>{postulant.email}</p>
+              <p className={styles.description}>{postulant.phone}</p>
+              <div className={styles.footerContainer}>
+                <div className={styles.location}>
+                  <img src={locationIcon} />
+                  <p>
+                    {postulant.city}, {postulant.country}
+                  </p>
+                </div>
+                <button
+                  onClick={() => (window.location.href = `postulants/form?id=${postulant._id}`)}
+                  className={styles.button}
+                  type="submit"
+                >
+                  +
+                </button>
+              </div>
             </div>
           </div>
         ))}

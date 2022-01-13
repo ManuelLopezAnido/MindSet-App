@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from './form.module.css';
+import listStyles from 'lists.module.css';
 import Input from 'Components/Shared/Input';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
@@ -105,7 +105,7 @@ const ProfilesForm = () => {
   if (isLoading) return <IsLoading />;
 
   return (
-    <div>
+    <div className={listStyles.mainFormContainer}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -126,29 +126,29 @@ const ProfilesForm = () => {
         middleText={showErrorModalMessage}
         buttonText="ok"
       />
-      <h1>Form</h1>
-      <form className={styles.container} onSubmit={onSubmit}>
-        <Input
-          label="Profile name"
-          id="name"
-          name="profileName"
-          required
-          value={name}
-          onChange={onChangeName}
-          placeholder="Profile"
-        />
-        <Input
-          label="Profile description"
-          id="description"
-          name="profileDescription"
-          value={description}
-          onChange={onChangeDescription}
-          placeholder="Profile Description"
-        />
-        <button className={styles.sendFormButton} type="submit">
-          SEND
-        </button>
-      </form>
+      <h2> {`${workProfileId == null ? 'Add a new Position' : 'Edit Position'}`} </h2>
+      <div className={listStyles.form}>
+        <form className={listStyles.inputs} onSubmit={onSubmit}>
+          <Input
+            label="Profile name"
+            id="name"
+            name="profileName"
+            required
+            value={name}
+            onChange={onChangeName}
+            placeholder="Profile"
+          />
+          <Input
+            label="Profile description"
+            id="description"
+            name="profileDescription"
+            value={description}
+            onChange={onChangeDescription}
+            placeholder="Profile Description"
+          />
+          <button type="submit"> SEND </button>
+        </form>
+      </div>
     </div>
   );
 };

@@ -40,18 +40,19 @@ const PositionsForm = () => {
     let filtredClients = clients.filter((client) => {
       return client._id === formValues.clientId;
     });
+    console.log(filtredClients);
     if (positionId) {
       dispatch(updatePosition(positionId, formValues, filtredClients[0]?.clientName)).then(
         (response) => {
           if (response) {
-            history.push('/admin/positions');
+            history.push(`/admin/clients`);
           }
         }
       );
     } else {
       dispatch(addPosition(formValues, filtredClients[0]?.clientName)).then((response) => {
         if (response) {
-          history.push('/admin/positions');
+          history.push('/admin/clients');
         }
       });
     }

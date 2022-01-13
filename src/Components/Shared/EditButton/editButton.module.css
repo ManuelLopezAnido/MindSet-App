@@ -2,6 +2,7 @@
   margin-top: 10px;
   background-color: #ffffff;
   border:none;
+  cursor: pointer;
 }
 
 .editButton img {

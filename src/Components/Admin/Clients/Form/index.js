@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import listStyles from 'lists.module.css';
 import styles from './form.module.css';
 import Input from 'Components/Shared/FormInput';
 import SaveButton from 'Components/Shared/SaveButton';
@@ -88,7 +89,7 @@ const ClientsForm = () => {
   };
 
   return (
-    <div className={styles.mainContainer}>
+    <div className={listStyles.mainFormContainer}>
       <Modal
         showModal={showModalDelete}
         closeModal={() => setShowModalDelete(false)}
@@ -124,11 +125,11 @@ const ClientsForm = () => {
         buttonText="ok"
       />
       <h2> {`${clientId == null ? 'Add a new Client' : 'Client Profile'}`} </h2>
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <div className={styles.imageClient}>
+      <div className={listStyles.containerForm}>
+        <div className={listStyles.headerForm}>
+          <div className={listStyles.imageEntity}>
             <img
-              className={styles.logoClient}
+              className={listStyles.logoEntity}
               src={
                 clientId
                   ? 'http://3.bp.blogspot.com/_nKcd5vPHWY4/TJN_ySnkWCI/AAAAAAAAYvs/7h2_Z78Poj4/w1200-h630-p-k-no-nu/timthumb.jpg'
@@ -136,17 +137,17 @@ const ClientsForm = () => {
               }
             />
           </div>
-          <div className={styles.clientName}>
+          <div className={listStyles.entityName}>
             {clientId == null ? '' : `${selectedClient.clientName}`}
           </div>
         </div>
-        <div className={styles.form}>
+        <div className={listStyles.form}>
           <Form
             onSubmit={onSubmit}
             validate={validate}
             initialValues={selectedClient}
             render={(formProps) => (
-              <form className={styles.inputs} onSubmit={formProps.handleSubmit}>
+              <form className={listStyles.inputs} onSubmit={formProps.handleSubmit}>
                 <Field
                   label="Client Name"
                   id="clientName"

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import styles from './form.module.css';
+import listStyles from 'lists.module.css';
 import Input from 'Components/Shared/FormInput';
 import SaveButton from 'Components/Shared/SaveButton';
 import Modal from 'Components/Shared/Modal';
@@ -68,7 +68,7 @@ const CounselorsForm = () => {
   console.log(counselorId);
 
   return (
-    <div className={styles.mainContainer}>
+    <div className={listStyles.mainFormContainer}>
       <Modal
         showModal={showModal}
         closeModal={() => setShowModal(false)}
@@ -89,12 +89,12 @@ const CounselorsForm = () => {
         middleText={errorMessage}
         buttonText="ok"
       />
-      <h2> {`${counselorId == null ? 'Add a new Counselor' : 'Client Profile'}`} </h2>
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <div className={styles.imageCounselor}>
+      <h2> {`${counselorId == null ? 'Add a new Counselor' : 'Edit Counselor Profile'}`} </h2>
+      <div className={listStyles.containerForm}>
+        <div className={listStyles.headerForm}>
+          <div className={listStyles.imageEntity}>
             <img
-              className={styles.logoCounselor}
+              className={listStyles.logoEntity}
               src={
                 counselorId
                   ? 'http://3.bp.blogspot.com/_nKcd5vPHWY4/TJN_ySnkWCI/AAAAAAAAYvs/7h2_Z78Poj4/w1200-h630-p-k-no-nu/timthumb.jpg'
@@ -102,20 +102,20 @@ const CounselorsForm = () => {
               }
             />
           </div>
-          <div className={styles.counselorName}>
+          <div className={listStyles.entityName}>
             {counselorId == null
               ? ''
               : `${selectedCounselor.firstName} ${selectedCounselor.lastName}`}
             <p>MindSet Counselor</p>
           </div>
         </div>
-        <div className={styles.form}>
+        <div className={listStyles.form}>
           <Form
             onSubmit={onSubmit}
             validate={validate}
             initialValues={selectedCounselor}
             render={(formProps) => (
-              <form className={styles.inputs} onSubmit={formProps.handleSubmit}>
+              <form className={listStyles.inputs} onSubmit={formProps.handleSubmit}>
                 <Field
                   label="First Name"
                   name="firstName"
