@@ -33,3 +33,7 @@
   text-align: center;
   color: #1D3354;
 }
+
+.counselorsList:hover {
+  cursor: pointer;
+}
