@@ -11,26 +11,33 @@ const onSubmit = (values) => {
 
 const required = (value) => (value ? undefined : 'Required');
 
-const SignUp = () => {
+const SignUp = ({ register }) => {
   const step = useSelector((store) => store.ui.step);
   return (
     <div className={styles.container}>
-      <div className={styles.stepper}>
-        <div className={`${styles.step} ${step === 0 ? styles.active : ''}`}>1</div>
-        <div className={styles.stepDivisor}></div>
-        <div className={`${styles.step} ${step === 1 ? styles.active : ''}`}>2</div>
-        <div className={styles.stepDivisor}></div>
-        <div className={`${styles.step} ${step === 2 ? styles.active : ''}`}>3</div>
-        <div className={styles.stepDivisor}></div>
-        <div className={`${styles.step} ${step === 3 ? styles.active : ''}`}>4</div>
-        <div className={styles.stepDivisor}></div>
-        <div className={`${styles.step} ${step === 4 ? styles.active : ''}`}>5</div>
-      </div>
-      <div className={styles.personalInfo}>
-        <h2>Personal Information</h2>
-        <img></img>
-      </div>
+      {step === 0 && register ? (
+        <div></div>
+      ) : (
+        <>
+          <div className={styles.stepper}>
+            <div className={`${styles.step} ${step === 1 ? styles.active : ''}`}>1</div>
+            <div className={styles.stepDivisor}></div>
+            <div className={`${styles.step} ${step === 2 ? styles.active : ''}`}>2</div>
+            <div className={styles.stepDivisor}></div>
+            <div className={`${styles.step} ${step === 3 ? styles.active : ''}`}>3</div>
+            <div className={styles.stepDivisor}></div>
+            <div className={`${styles.step} ${step === 4 ? styles.active : ''}`}>4</div>
+            <div className={styles.stepDivisor}></div>
+            <div className={`${styles.step} ${step === 5 ? styles.active : ''}`}>5</div>
+          </div>
+          <div className={styles.personalInfo}>
+            <h2>Personal Information</h2>
+            <img></img>
+          </div>
+        </>
+      )}
       <Wizard initialValues={{}} onSubmit={onSubmit}>
+        <div>Register Here!</div>
         <div className={styles.wizard}>
           <h3>General Information</h3>
           <div className={styles.rowInput}>

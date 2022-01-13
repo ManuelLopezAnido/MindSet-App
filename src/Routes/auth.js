@@ -1,7 +1,7 @@
-import { Switch, Route, useRouteMatch } from 'react-router-dom';
+import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
 import HomePageLayout from 'Components/Layout/HomePage/HomePageLayout';
 import Login from 'Components/Auth/Login';
-import SignUp from 'Components/Postulant/SignUp';
+import Register from 'Components/Auth/Register';
 
 const HomeRoutes = () => {
   const { url } = useRouteMatch();
@@ -9,7 +9,8 @@ const HomeRoutes = () => {
     <HomePageLayout>
       <Switch>
         <Route path={`${url}/login`} exact component={Login} />
-        <Route path={`${url}/signUp`} exact component={SignUp} />
+        <Route path={`${url}/signUp`} exact component={Register} />
+        <Redirect to={`${url}/login`} />
       </Switch>
     </HomePageLayout>
   );
