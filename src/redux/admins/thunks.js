@@ -46,7 +46,6 @@ export const getOneAdmin = (id) => (dispatch) => {
 };
 
 export const addAdmin = (data) => (dispatch) => {
-  console.log(data);
   const token = sessionStorage.getItem('token');
   const options = {
     method: 'POST',
@@ -62,8 +61,9 @@ export const addAdmin = (data) => (dispatch) => {
 
   dispatch(addAdminFetching());
 
-  return fetch(`${URL}/admins/create`, options)
+  return fetch(`${URL}/register/admin`, options)
     .then((data) => {
+      console.log(options);
       if (data.status !== 201) {
         return data.json().then(({ message }) => {
           throw message;
