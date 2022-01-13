@@ -2,7 +2,7 @@ import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPostulants } from 'redux/postulants/thunks';
+import { getPostulants, updatePostulant } from 'redux/postulants/thunks';
 import { errorToDefault } from 'redux/admins/actions';
 import { getSessions } from 'redux/sessions/thunks';
 
@@ -24,13 +24,17 @@ const Candidates = () => {
     session?.counselorId ? session.counselorId._id == thisPsychologist : false
   );
   console.log('filtred', sessionsFiltred);
-  const postName = (councelor) => {
-    const postName = postulants.filter((postulant) => {
-      postulant._id == councelor?.postulantId?._Id;
-    });
-    console.log('PsyId: ', councelor?.postulantId?._id);
-    console.log('PostName: ', postName);
-    return postName.firstName;
+
+  const postulantProfile = (session) => {
+    const postulantName = postulants.filter(
+      (postulant) => postulant._id == session?.postulantId?._id
+    );
+    return postulantName[0]?.email;
+  };
+  const changeProfile = (postId) => {
+    const selectedPostulant = postulants.filter((postulant) => postulant?._id == postId);
+    selectedPostulant[0].email = 'developer2@hotmail.com';
+    dispatch(updatePostulant(postId, selectedPostulant[0]));
   };
   const closeErrorMessage = () => {
     dispatch(errorToDefault());
@@ -65,10 +69,10 @@ const Candidates = () => {
                 <td>
                   {sessionFil.postulantId?.firstName + ' ' + sessionFil.postulantId?.lastName}
                 </td>
-                <td>{postName(sessionFil)}</td>
-                <td> Job title ¿? </td>
-                <td> Interview ¿? </td>
-                <td> Change Profile </td>
+                <td>{postulantProfile(sessionFil)}</td>
+                <td> {sessionFil?.date.substring(6) + ' ' + sessionFil?.time}</td>
+                <td> {sessionFil.accomplished} </td>
+                <td onClick={() => changeProfile(sessionFil.postulantId._id)}> Change Profile </td>
               </tr>
             );
           })}
