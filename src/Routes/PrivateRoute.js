@@ -1,28 +1,28 @@
-import IsLoading from 'Components/Shared/IsLoading/IsLoading';
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
+import { setAuthentication } from 'redux/auth/actions';
 
-const PrivateRoute = ({ component: RouteComponent, ...props }) => {
-  const role = useSelector((state) => state.auth.authenticated?.role);
-  const isFetching = useSelector((state) => state.auth.isFetching);
-  const error = useSelector((state) => state.auth.error);
+const PrivateRoute = ({ component: RouteComponent, ...rest }) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('token');
+    if (token) {
+      dispatch(setAuthentication());
+    }
+  }, []);
 
   return (
     <Route
-      {...props}
-      render={(routeProps) => {
-        if (isFetching) {
-          return <IsLoading />;
-        }
-        if (role === props.role) {
-          return <RouteComponent {...routeProps} />;
-        }
-        if (role && !error) {
-          return <Redirect to={'/auth/notAllowed'} />;
-        }
-        return <Redirect to={'/login'} />;
-      }}
+      {...rest}
+      render={(routeProps) =>
+        sessionStorage.getItem('token') ? (
+          <RouteComponent {...routeProps} />
+        ) : (
+          <Redirect to={'/login'} />
+        )
+      }
     />
   );
 };
