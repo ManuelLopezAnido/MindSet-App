@@ -61,7 +61,7 @@ export const addAdmin = (data) => (dispatch) => {
 
   dispatch(addAdminFetching());
 
-  return fetch(`${URL}/register/admin`, options)
+  return fetch(`${URL}/admins/create`, options)
     .then((data) => {
       console.log(options);
       if (data.status !== 201) {
