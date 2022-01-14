@@ -1,43 +1,37 @@
 import React from 'react';
-import { Field } from 'react-final-form';
-import { useSelector } from 'react-redux';
 import Input from 'Components/Shared/FormInput';
 import Wizard from './Wizard';
 import styles from './signUp.module.css';
+import { useSelector } from 'react-redux';
+import { Field } from 'react-final-form';
 
-const onSubmit = (values) => {
-  window.alert(JSON.stringify(values, 0, 2));
+const onSubmit = (formValues) => {
+  window.alert(JSON.stringify(formValues, 0, 2));
 };
 
 const required = (value) => (value ? undefined : 'Required');
 
-const SignUp = ({ register }) => {
+const SignUp = () => {
   const step = useSelector((store) => store.ui.step);
+
   return (
     <div className={styles.container}>
-      {step === 0 && register ? (
-        <div></div>
-      ) : (
-        <>
-          <div className={styles.stepper}>
-            <div className={`${styles.step} ${step === 1 ? styles.active : ''}`}>1</div>
-            <div className={styles.stepDivisor}></div>
-            <div className={`${styles.step} ${step === 2 ? styles.active : ''}`}>2</div>
-            <div className={styles.stepDivisor}></div>
-            <div className={`${styles.step} ${step === 3 ? styles.active : ''}`}>3</div>
-            <div className={styles.stepDivisor}></div>
-            <div className={`${styles.step} ${step === 4 ? styles.active : ''}`}>4</div>
-            <div className={styles.stepDivisor}></div>
-            <div className={`${styles.step} ${step === 5 ? styles.active : ''}`}>5</div>
-          </div>
-          <div className={styles.personalInfo}>
-            <h2>Personal Information</h2>
-            <img></img>
-          </div>
-        </>
-      )}
+      <div className={styles.stepper}>
+        <div className={`${styles.step} ${step === 1 ? styles.active : ''}`}>1</div>
+        <div className={styles.stepDivisor}></div>
+        <div className={`${styles.step} ${step === 2 ? styles.active : ''}`}>2</div>
+        <div className={styles.stepDivisor}></div>
+        <div className={`${styles.step} ${step === 3 ? styles.active : ''}`}>3</div>
+        <div className={styles.stepDivisor}></div>
+        <div className={`${styles.step} ${step === 4 ? styles.active : ''}`}>4</div>
+        <div className={styles.stepDivisor}></div>
+        <div className={`${styles.step} ${step === 5 ? styles.active : ''}`}>5</div>
+      </div>
+      <div className={styles.personalInfo}>
+        <h2>Personal Information</h2>
+        <img></img>
+      </div>
       <Wizard initialValues={{}} onSubmit={onSubmit}>
-        <div>Register Here!</div>
         <div className={styles.wizard}>
           <h3>General Information</h3>
           <div className={styles.rowInput}>
