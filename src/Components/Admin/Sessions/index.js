@@ -94,7 +94,7 @@ function Sessions() {
               <td>{session.counselorId ? session.counselorId.firstName : 'Not found'}</td>
               <td>{session.date}</td>
               <td>{session.time}</td>
-              <td>{session.accomplished.toString()}</td>
+              <td>{session.accomplished?.toString()}</td>
               <td className={listStyles.deleteButtonTD}>
                 <DeleteButton onClick={(event) => handleSession(event, session._id)} />
               </td>

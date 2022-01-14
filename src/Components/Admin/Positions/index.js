@@ -14,7 +14,6 @@ function Positions() {
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
 
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const listPositions = useSelector((store) => store.positions.list);
