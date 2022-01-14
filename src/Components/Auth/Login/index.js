@@ -51,6 +51,7 @@ const Login = () => {
         onSubmit={onSubmit}
         render={(formProps) => (
           <form onSubmit={formProps.handleSubmit} className={styles.form}>
+            <h2>Log in</h2>
             <Field
               name="email"
               placeholder="Insert Email"
