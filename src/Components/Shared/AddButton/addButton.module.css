@@ -1,10 +1,10 @@
-.button:hover {
+.buttonAdd button:hover {
   cursor: pointer;
 }
 
-.button{
+.buttonAdd>button{
   margin-left:35px;
-  margin-top:30px;
+  margin-top:28px;
   position:absolute;
   z-index: 100;
   width: 30px;
@@ -13,4 +13,20 @@
   border-radius: 100%;
   color: #FFF;
   background: #9ed8d8;
+}
+
+.buttonAdd p {
+  padding-top:0.8rem;
+  padding-bottom:0.8rem;
+  padding-left:1.8rem;
+  padding-right:1.8rem;
+  margin-top: 20px;
+  margin-left: 50px;
+  width: fit-content;
+  height: fit-content;
+  border: none;
+  background-color: #1d3354;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: white;
 }

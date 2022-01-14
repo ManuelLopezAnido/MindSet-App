@@ -94,7 +94,10 @@ const PositionsForm = () => {
         middleText={errorMessage}
         buttonText="ok"
       />
-      <h2> {`${positionId == null ? 'Add a new Job Offer' : 'Edit a Job Offer'}`} </h2>
+      <div className={styles.header}>
+        <h2> {`${positionId == null ? 'Add a new Job Offer' : 'Edit a Job Offer'}`} </h2>
+        <button onClick={() => history.goBack()}>X</button>
+      </div>
       <div className={styles.form}>
         <Form
           onSubmit={onSubmit}

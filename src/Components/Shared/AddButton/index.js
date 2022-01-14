@@ -2,9 +2,10 @@ import styles from './addButton.module.css';
 
 const AddButton = (props) => {
   return (
-    <button className={styles.button} onClick={props.onClick}>
-      +
-    </button>
+    <div className={styles.buttonAdd}>
+      <button onClick={props.onClick}> + </button>
+      <p>Add a new {props.value} </p>
+    </div>
   );
 };
 

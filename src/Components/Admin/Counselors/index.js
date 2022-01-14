@@ -3,9 +3,9 @@ import styles from './counselors.module.css';
 import locationIcon from 'assets/images/location.png';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
+import InputSearch from 'Components/Shared/InputSearch';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import AddButton from 'Components/Shared/AddButton';
-import Entity from 'Components/Shared/Entity';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCounselors, deleteCounselor } from 'redux/counselors/thunks';
@@ -15,6 +15,7 @@ import { errorToDefault } from 'redux/counselors/actions';
 const Counselor = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
+  const [inputSearchBar, setInputSearchBar] = useState('');
   const history = useHistory();
 
   const dispatch = useDispatch();
@@ -70,38 +71,53 @@ const Counselor = () => {
         middleText={errorMessage}
         buttonText="ok"
       />
-      <div>
-        <AddButton onClick={() => history.push('/admin/counselors/form')} />
-        <Entity value="Counselor" />
+      <div className={styles.header}>
+        <AddButton onClick={() => history.push('/admin/counselors/form')} value="Counselor" />
+        <InputSearch
+          type="text"
+          placeholder="Search"
+          onChange={(event) => setInputSearchBar(event.target.value)}
+        />
       </div>
       <div className={styles.counselorsList}>
-        {counselors.map((counselor) => (
-          <div className={styles.counselorContainer} key={counselor._id}>
-            <div className={styles.title}>
-              <p>
-                {counselor.firstName} {counselor.lastName}
-              </p>
-              <DeleteButton onClick={(event) => handleIdCounselor(event, counselor._id)} />
-            </div>
-            <p className={styles.description}>{counselor.email}</p>
-            <p className={styles.description}>{counselor.phone}</p>
-            <div className={styles.footerContainer}>
-              <div className={styles.location}>
-                <img src={locationIcon} />
+        {counselors
+          .filter((counselor) => {
+            if (
+              counselor.firstName.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              counselor.lastName.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              counselor.city.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              counselor.country.toLowerCase().includes(inputSearchBar.toLowerCase())
+            ) {
+              return counselor;
+            }
+          })
+          .map((counselor) => (
+            <div className={styles.counselorContainer} key={counselor._id}>
+              <div className={styles.title}>
                 <p>
-                  {counselor.city}, {counselor.country}
+                  {counselor.firstName} {counselor.lastName}
                 </p>
+                <DeleteButton onClick={(event) => handleIdCounselor(event, counselor._id)} />
               </div>
-              <button
-                onClick={() => (window.location.href = `counselors/form?id=${counselor._id}`)}
-                className={styles.button}
-                type="submit"
-              >
-                +
-              </button>
+              <p className={styles.description}>{counselor.email}</p>
+              <p className={styles.description}>{counselor.phone}</p>
+              <div className={styles.footerContainer}>
+                <div className={styles.location}>
+                  <img src={locationIcon} />
+                  <p>
+                    {counselor.city}, {counselor.country}
+                  </p>
+                </div>
+                <button
+                  onClick={() => (window.location.href = `counselors/form?id=${counselor._id}`)}
+                  className={styles.button}
+                  type="submit"
+                >
+                  +
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import listStyles from 'lists.module.css';
-import NoData from 'Components/Shared/NoData/NoData';
+import NoData from 'Components/Shared/NoData';
 import { getPositions, deletePosition } from 'redux/positions/thunks';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -69,29 +69,31 @@ function Positions() {
         titleText="Error"
         buttonText="ok"
       />
-      <table className={listStyles.list}>
-        <thead>
-          <tr>
-            <th>Job</th>
-            <th>Client</th>
-            <th>Cancel postulation</th>
-          </tr>
-        </thead>
-        <tbody>
-          {listPositions.map((a) => (
-            <tr
-              key={a._id}
-              onClick={() => (window.location.href = `/admin/positions/form?id=${a._id}`)}
-            >
-              <td>{a.jobTitle}</td>
-              <td>{a.clientName}</td>
-              <td className={listStyles.button}>
-                <DeleteButton onClick={(e) => handleIdPosition(e, a._id)} />
-              </td>
+      <div className={listStyles.list}>
+        <table>
+          <thead>
+            <tr>
+              <th>Job</th>
+              <th>Client</th>
+              <th>Cancel postulation</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {listPositions.map((a) => (
+              <tr
+                key={a._id}
+                onClick={() => (window.location.href = `/admin/positions/form?id=${a._id}`)}
+              >
+                <td>{a.jobTitle}</td>
+                <td>{a.clientName}</td>
+                <td className={listStyles.button}>
+                  <DeleteButton onClick={(e) => handleIdPosition(e, a._id)} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <NoData data={listPositions.length} />
     </section>
   );
