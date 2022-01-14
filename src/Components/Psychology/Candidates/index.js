@@ -1,13 +1,12 @@
 import styles from './candidates.module.css';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
-import Select from 'Components/Shared/Select';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostulants, updatePostulant } from 'redux/postulants/thunks';
 import { errorToDefault } from 'redux/admins/actions';
 import { getSessions } from 'redux/sessions/thunks';
-import Profile from '../Profile';
+import ModalProfile from './modalProfile';
 
 const Candidates = () => {
   const dispatch = useDispatch();
@@ -15,6 +14,7 @@ const Candidates = () => {
   const sessions = useSelector((store) => store.sessions.list);
   const loading = useSelector((store) => store.postulants.isLoading);
   const errMessage = useSelector((store) => store.postulants.error);
+  const [showModal, setShowModal] = useState(false);
   const thisPsychologist = '61b7f956c929a1aa15d03640'; //Id de hardcodeado de Josefina
   useEffect(() => {
     dispatch(getPostulants());
@@ -36,8 +36,8 @@ const Candidates = () => {
   };
   const changeProfile = (postId) => {
     const selectedPostulant = postulants.filter((postulant) => postulant?._id == postId);
-    selectedPostulant[0].email = 'developer2@hotmail.com';
-    dispatch(updatePostulant(postId, selectedPostulant[0]));
+    selectedPostulant[0].email = 'developer3@hotmail.com';
+    //dispatch(updatePostulant(postId, selectedPostulant[0]));
   };
   const closeErrorMessage = () => {
     dispatch(errorToDefault());
@@ -54,27 +54,8 @@ const Candidates = () => {
         titleText="Error"
         buttonText="ok"
       />
+      <ModalProfile show={showModal} action={changeProfile} />
       <h2>CANDIDATES</h2>
-      <div className={styles.backModal}>
-        <div className={styles.Modal}>
-          <div>Modal Title</div>
-          <div>
-            <Select
-              meta={{
-                touched: false,
-                error: false
-              }}
-              label={'Profile'}
-              placeholder={'Profiles'}
-              options={[
-                { value: '1', toShow: 'Engeenier' },
-                { value: '2', toShow: 'Artist' },
-                { value: '3', toShow: 'Doctor' }
-              ]}
-            />
-          </div>
-        </div>
-      </div>
       <table>
         <thead>
           <tr>
@@ -95,7 +76,13 @@ const Candidates = () => {
                 <td>{postulantProfile(sessionFil)}</td>
                 <td> {sessionFil?.date.substring(6) + ' ' + sessionFil?.time}</td>
                 <td> {sessionFil.accomplished} </td>
-                <td onClick={() => changeProfile(sessionFil.postulantId._id)}> Change Profile </td>
+                <td
+                  onClick={() => {
+                    setShowModal(true);
+                  }}
+                >
+                  Change Profile
+                </td>
               </tr>
             );
           })}
