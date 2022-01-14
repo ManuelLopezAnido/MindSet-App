@@ -1,8 +1,8 @@
 import { Form, Field } from 'react-final-form';
 import { useHistory } from 'react-router-dom';
-import Input from 'Components/Shared/FormInput';
+import Input from 'Components/Shared/LoginInput';
 import Modal from 'Components/Shared/Modal';
-import Button from 'Components/Shared/Button/Button.js';
+import Button2 from 'Components/Shared/Button2';
 import { login } from 'redux/auth/thunks';
 import { cleanError } from 'redux/auth/actions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -53,7 +53,6 @@ const Login = () => {
           <form onSubmit={formProps.handleSubmit} className={styles.form}>
             <Field
               name="email"
-              label="Email"
               placeholder="Insert Email"
               disabled={formProps.submitting}
               component={Input}
@@ -61,18 +60,17 @@ const Login = () => {
             />
             <Field
               name="password"
-              label="Password"
               placeholder="Insert Password"
               type="password"
               disabled={formProps.submitting}
               component={Input}
               validate={required}
             />
-            <Button
+            <Button2
               type="submit"
-              // className={styles.submitButton}
+              text="Continue"
               disabled={formProps.submitting || formProps.pristine}
-            ></Button>
+            ></Button2>
           </form>
         )}
       />
