@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Field } from 'react-final-form';
 import Input from 'Components/Shared/FormInput';
-import Button from 'Components/Shared/Button/Button';
+import Button2 from 'Components/Shared/Button2';
 import { addAdmin } from 'redux/admins/thunks';
 import { useDispatch } from 'react-redux';
 import { validateEmail, validatePassword } from 'validations';
@@ -64,6 +64,7 @@ const Register = () => {
         validate={validate}
         render={(formProps) => (
           <form onSubmit={formProps.handleSubmit} className={styles.form}>
+            <h2>Register</h2>
             <Field
               name="firstName"
               label="Name"
@@ -127,11 +128,11 @@ const Register = () => {
                 value !== formProps.values.password ? 'does not match' : undefined
               }
             />
-            <Button
+            <Button2
               type="submit"
-              // className={styles.submitButton}
+              text="Continue"
               disabled={formProps.submitting || formProps.pristine}
-            ></Button>
+            ></Button2>
             {/* <pre>{JSON.stringify(formProps.values, 0, 2)}</pre> */}
           </form>
         )}
