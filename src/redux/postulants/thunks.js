@@ -63,110 +63,110 @@ export const addPostulant = (data) => (dispatch) => {
       country: data.country,
       elementarySchool: [
         {
-          name: data.elementarySchool[0].name,
-          degree: data.elementarySchool[0].degree,
-          graduateYear: data.elementarySchool[0].graduateYear
+          name: data.elementarySchool[0]?.name,
+          degree: data.elementarySchool[0]?.degree,
+          graduateYear: data.elementarySchool[0]?.graduateYear
         }
       ],
       highSchool: [
         {
-          name: data.highSchool[0].name,
-          degree: data.highSchool[0].degree,
-          graduateYear: data.highSchool[0].graduateYear
+          name: data.highSchool[0]?.name,
+          degree: data.highSchool[0]?.degree,
+          graduateYear: data.highSchool[0]?.graduateYear
         }
       ],
       juniorCollege: [
         {
-          name: data.juniorCollege[0].name,
-          degree: data.juniorCollege[0].degree,
-          graduateYear: data.juniorCollege[0].graduateYear
+          name: data.juniorCollege[0]?.name,
+          degree: data.juniorCollege[0]?.degree,
+          graduateYear: data.juniorCollege[0]?.graduateYear
         }
       ],
       university: [
         {
-          name: data.university[0].name,
-          degree: data.university[0].degree,
-          graduateYear: data.university[0].graduateYear
+          name: data.university[0]?.name,
+          degree: data.university[0]?.degree,
+          graduateYear: data.university[0]?.graduateYear
         }
       ],
       openToWork: data.openToWork,
       workExperience: [
         {
-          title: data.workExperience[0].title,
-          start: data.workExperience[0].start,
-          end: data.workExperience[0].end,
-          client: data.workExperience[0].client,
-          description: data.workExperience[0].description
+          title: data.workExperience[0]?.title,
+          start: data.workExperience[0]?.start,
+          end: data.workExperience[0]?.end,
+          client: data.workExperience[0]?.client,
+          description: data.workExperience[0]?.description
         }
       ],
       professionalTraining: [
         {
-          description: data.professionalTraining[0].description,
-          year: data.professionalTraining[0].year
+          description: data.professionalTraining[0]?.description,
+          year: data.professionalTraining[0]?.year
         }
       ],
       languages: data.languages,
       hobbies: data.hobbies,
       familyMembers: [
         {
-          name: data.familyMembers[0].name,
-          bond: data.familyMembers[0].bond
+          name: data.familyMembers[0]?.name,
+          bond: data.familyMembers[0]?.bond
         },
         {
-          name: data.familyMembers[1].name,
-          bond: data.familyMembers[1].bond
+          name: data.familyMembers[1]?.name,
+          bond: data.familyMembers[1]?.bond
         },
         {
-          name: data.familyMembers[2].name,
-          bond: data.familyMembers[2].bond
+          name: data.familyMembers[2]?.name,
+          bond: data.familyMembers[2]?.bond
         },
         {
-          name: data.familyMembers[3].name,
-          bond: data.familyMembers[3].bond
+          name: data.familyMembers[3]?.name,
+          bond: data.familyMembers[3]?.bond
         }
       ],
       availability: [
         {
           monday: 'Monday',
-          available: data.availability[0].available,
-          from: data.availability[0].from,
-          to: data.availability[0].to
+          available: data.availability[0]?.available,
+          from: data.availability[0]?.from,
+          to: data.availability[0]?.to
         },
         {
           Tuesday: 'Tuesday',
-          available: data.availability[1].available,
-          from: data.availability[1].from,
-          to: data.availability[1].to
+          available: data.availability[1]?.available,
+          from: data.availability[1]?.from,
+          to: data.availability[1]?.to
         },
         {
           Wednesday: 'Wednesday',
-          available: data.availability[2].available,
-          from: data.availability[2].from,
-          to: data.availability[2].to
+          available: data.availability[2]?.available,
+          from: data.availability[2]?.from,
+          to: data.availability[2]?.to
         },
         {
           Thursday: 'Thursday',
-          available: data.availability[3].available,
-          from: data.availability[3].from,
-          to: data.availability[3].to
+          available: data.availability[3]?.available,
+          from: data.availability[3]?.from,
+          to: data.availability[3]?.to
         },
         {
           Friday: 'Friday',
-          available: data.availability[4].available,
-          from: data.availability[4].from,
-          to: data.availability[4].to
+          available: data.availability[4]?.available,
+          from: data.availability[4]?.from,
+          to: data.availability[4]?.to
         },
         {
           Saturday: 'Saturday',
-          available: data.availability[5].available,
-          from: data.availability[5].from,
-          to: data.availability[5].to
+          available: data.availability[5]?.available,
+          from: data.availability[5]?.from,
+          to: data.availability[5]?.to
         },
         {
           Sunday: 'Sunday',
-          available: data.availability[6].available,
-          from: data.availability[6].from,
-          to: data.availability[6].to
+          available: data.availability[6]?.available,
+          from: data.availability[6]?.from,
+          to: data.availability[6]?.to
         }
       ]
     })
