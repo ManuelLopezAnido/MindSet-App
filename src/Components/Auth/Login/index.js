@@ -6,6 +6,7 @@ import Button from 'Components/Shared/Button/Button.js';
 import { login } from 'redux/auth/thunks';
 import { cleanError } from 'redux/auth/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import styles from './login.module.css';
 
 const Login = () => {
   const error = useSelector((store) => store.auth.error);
@@ -14,9 +15,7 @@ const Login = () => {
   const history = useHistory();
 
   const onSubmit = (formValues) => {
-    console.log(formValues);
     return dispatch(login(formValues)).then((response) => {
-      console.log(response);
       // if (response) {
       //   switch (response.payload?.role) {
       //     case 'POSTULANT':
@@ -33,7 +32,7 @@ const Login = () => {
   const required = (value) => (value ? undefined : 'Required');
 
   return (
-    <>
+    <div className={styles.container}>
       <Modal
         showModal={!!error}
         closeModal={() => {
@@ -51,7 +50,7 @@ const Login = () => {
       <Form
         onSubmit={onSubmit}
         render={(formProps) => (
-          <form onSubmit={formProps.handleSubmit}>
+          <form onSubmit={formProps.handleSubmit} className={styles.form}>
             <Field
               name="email"
               label="Email"
@@ -77,7 +76,7 @@ const Login = () => {
           </form>
         )}
       />
-    </>
+    </div>
   );
 };
 
