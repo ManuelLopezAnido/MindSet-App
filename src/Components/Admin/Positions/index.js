@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import listStyles from 'lists.module.css';
-import NoData from 'Components/Shared/NoData/NoData';
+import NoData from 'Components/Shared/NoData';
 import { getPositions, deletePosition } from 'redux/positions/thunks';
-import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { errorToDefault } from 'redux/positions/actions';
 import Modal from 'Components/Shared/Modal';
@@ -15,7 +14,6 @@ function Positions() {
   const [selectedId, setSelectedId] = useState('');
   const [inputSearchBar, setInputSearchBar] = useState('');
 
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const listPositions = useSelector((store) => store.positions.list);

@@ -100,31 +100,33 @@ function WorkProfiles() {
       <div className={listStyles.addContainer}>
         <AddButton onClick={() => history.push('/admin/workprofiles/form')} value="Profile" />
       </div>
-      <table className={listStyles.list}>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {workProfiles.map((workProfile) => (
-            <tr key={workProfile._id}>
-              <td>{workProfile.name}</td>
-              <td>{workProfile.description}</td>
-              <td className={listStyles.deleteButtonTD}>
-                <EditButton
-                  onClick={() =>
-                    (window.location.href = `/admin/workprofiles/form?id=${workProfile._id}`)
-                  }
-                />
-                <DeleteButton onClick={(event) => handleWorkProfile(event, workProfile._id)} />
-              </td>
+      <div className={listStyles.list}>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {workProfiles.map((workProfile) => (
+              <tr key={workProfile._id}>
+                <td>{workProfile.name}</td>
+                <td>{workProfile.description}</td>
+                <td className={listStyles.deleteButtonTD}>
+                  <EditButton
+                    onClick={() =>
+                      (window.location.href = `/admin/workprofiles/form?id=${workProfile._id}`)
+                    }
+                  />
+                  <DeleteButton onClick={(event) => handleWorkProfile(event, workProfile._id)} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </section>
   );
 }
