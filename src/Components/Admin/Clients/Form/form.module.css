@@ -71,10 +71,13 @@ h3 {
   color: #477599;
 }
 
-.description {
+.positionDescription {
   padding: 10px 10px 10px 10px;
   font-size: 15px;
   color: #707070;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .button{

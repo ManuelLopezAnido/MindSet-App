@@ -4,7 +4,6 @@ import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import AddButton from 'Components/Shared/AddButton';
-import Entity from 'Components/Shared/Entity';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 import locationIcon from 'assets/images/location.png';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,6 +14,7 @@ import { errorToDefault } from 'redux/clients/actions';
 function Clients() {
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
+  const [inputSearchBar, setInputSearchBar] = useState('');
 
   const history = useHistory();
 
@@ -71,37 +71,54 @@ function Clients() {
         middleText={errorMessage}
         buttonText="ok"
       />
-      <div>
-        <AddButton onClick={() => history.push('/admin/clients/form')} />
-        <Entity value="Client" />
+      <div className={styles.headerList}>
+        <AddButton onClick={() => history.push('/admin/counselors/form')} value="Counselor" />
+        <input
+          className={styles.inputSearch}
+          type="text"
+          placeholder="Search"
+          onChange={(event) => setInputSearchBar(event.target.value)}
+        ></input>
       </div>
       <div className={styles.clientList}>
-        {clients.map((client) => (
-          <div className={styles.clientContainer} key={client._id}>
-            <div className={styles.title}>
-              <p> {client.clientName} </p>
-              <DeleteButton onClick={(event) => handleIdClient(event, client._id)} />
-            </div>
-            <p className={styles.description}>{client.clientType}</p>
-            <p className={styles.description}>{client.email}</p>
-            <p className={styles.description}>{client.phone}</p>
-            <div className={styles.footerContainer}>
-              <div className={styles.location}>
-                <img src={locationIcon} />
-                <p>
-                  {client.city}, {client.country}
-                </p>
+        {clients
+          .filter((client) => {
+            if (
+              client.clientName.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              client.clientType.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              client.email.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              client.city.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              client.country.toLowerCase().includes(inputSearchBar.toLowerCase())
+            ) {
+              return client;
+            }
+          })
+          .map((client) => (
+            <div className={styles.clientContainer} key={client._id}>
+              <div className={styles.title}>
+                <p> {client.clientName} </p>
+                <DeleteButton onClick={(event) => handleIdClient(event, client._id)} />
               </div>
-              <button
-                onClick={() => (window.location.href = `clients/form?id=${client._id}`)}
-                className={styles.button}
-                type="submit"
-              >
-                +
-              </button>
+              <p className={styles.description}>{client.clientType}</p>
+              <p className={styles.description}>{client.email}</p>
+              <p className={styles.description}>{client.phone}</p>
+              <div className={styles.footerContainer}>
+                <div className={styles.location}>
+                  <img src={locationIcon} />
+                  <p>
+                    {client.city}, {client.country}
+                  </p>
+                </div>
+                <button
+                  onClick={() => (window.location.href = `clients/form?id=${client._id}`)}
+                  className={styles.button}
+                  type="submit"
+                >
+                  +
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </section>
   );

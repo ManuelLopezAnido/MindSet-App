@@ -65,8 +65,6 @@ const CounselorsForm = () => {
 
   if (isLoading) return <IsLoading />;
 
-  console.log(counselorId);
-
   return (
     <div className={listStyles.mainFormContainer}>
       <Modal

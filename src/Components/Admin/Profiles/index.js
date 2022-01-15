@@ -4,7 +4,6 @@ import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import AddButton from 'Components/Shared/AddButton';
-import Entity from 'Components/Shared/Entity';
 import EditButton from 'Components/Shared/EditButton';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 import { useHistory } from 'react-router-dom';
@@ -99,8 +98,7 @@ function WorkProfiles() {
         buttonText="ok"
       />
       <div className={listStyles.addContainer}>
-        <AddButton onClick={() => history.push('/admin/workprofiles/form')} />
-        <Entity value="Profile" />
+        <AddButton onClick={() => history.push('/admin/workprofiles/form')} value="Profile" />
       </div>
       <table className={listStyles.list}>
         <thead>
