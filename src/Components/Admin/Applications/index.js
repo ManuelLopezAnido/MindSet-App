@@ -68,17 +68,23 @@ function Applications() {
         leftButtonText="delete"
         rightButtonText="cancel"
       />
-      <ErrorModal
-        showModal={showErrorModal}
-        closeModal={closeErrorMessage}
+      <Modal
+        showModal={!!error}
+        closeModal={() => dispatch(errorToDefault())}
         titleText="Error"
-        buttonText="ok"
+        spanObjectArray={[
+          {
+            span: error
+          }
+        ]}
+        leftButtonText="cancel"
+        rightButtonText="Ok"
       />
       <div className={listStyles.titleAndButton}>
         <h3>Applications</h3>
         <Button onClick={addApplication} value="Applications" />
       </div>
-      <NoData data={!listApplications.length} />
+      <NoData data={!listApplications?.length} />
       <table className={listStyles.list}>
         <thead>
           <tr>
@@ -89,7 +95,7 @@ function Applications() {
           </tr>
         </thead>
         <tbody>
-          {listApplications.map((a) => (
+          {listApplications?.map((a) => (
             <tr
               key={a._id}
               onClick={() => (window.location.href = `/admin/applications/form?id=${a._id}`)}

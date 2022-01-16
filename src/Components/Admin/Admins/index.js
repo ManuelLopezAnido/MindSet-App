@@ -24,10 +24,10 @@ const Admins = () => {
   const errorMessage = useSelector((store) => store.admins.errorMessage);
 
   useEffect(() => {
-    if (!admins.length) {
+    if (!admins.list) {
       dispatch(getAdmins());
     }
-  }, [admins]);
+  }, []);
 
   const onClickDelete = () => {
     dispatch(deleteAdmin(selectedId));
@@ -83,7 +83,7 @@ const Admins = () => {
           </tr>
         </thead>
         <tbody>
-          {admins.map((admin) => {
+          {admins?.map((admin) => {
             return (
               <tr
                 key={admin._id}
