@@ -22,9 +22,18 @@ export const getAdmins = () => (dispatch) => {
   const token = sessionStorage.getItem('token');
   dispatch(getAdminsFetching());
   fetch(`${URL}/admins/`, { headers: { token } })
-    .then((data) => data.json())
+    .then((response) => {
+      if (response.status !== 200) {
+        return response.json().then((response) => {
+          throw response;
+        });
+      }
+      return response.json();
+    })
     .then((response) => dispatch(getAdminsFulfilled(response)))
-    .catch((error) => dispatch(getAdminsRejected(error)));
+    .catch((error) => {
+      dispatch(getAdminsRejected(error.message.code));
+    });
 };
 
 export const getOneAdmin = (id) => (dispatch) => {
@@ -61,7 +70,7 @@ export const addAdmin = (data) => (dispatch) => {
 
   dispatch(addAdminFetching());
 
-  return fetch(`${URL}/admins/create`, options)
+  return fetch(`${URL}/auth/register/admin`, options)
     .then((data) => {
       console.log(options);
       if (data.status !== 201) {
