@@ -11,9 +11,9 @@ export const login = (credentials) => {
         const token = await response.user.getIdToken();
         sessionStorage.setItem('token', token);
         const {
-          claims: { role }
+          claims: { role, mongoDBID }
         } = await response.user.getIdTokenResult();
-        return dispatch(loginSuccess({ role, token }));
+        return dispatch(loginSuccess({ role, token, mongoDBID }));
       })
       .catch((error) => {
         return dispatch(loginError(error.toString()));

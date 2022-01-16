@@ -16,16 +16,16 @@ const Login = () => {
 
   const onSubmit = (formValues) => {
     return dispatch(login(formValues)).then((response) => {
-      // if (response) {
-      //   switch (response.payload?.role) {
-      //     case 'POSTULANT':
-      //       return history.push('/postulant');
-      //     case 'ADMIN':
-      //       return history.push('/admin');
-      //     default:
-      //       break;
-      //   }
-      // }
+      if (response) {
+        switch (response.payload?.role) {
+          case 'POSTULANT':
+            return history.push(`/postulant?id=${response.payload?.mongoDBID}`);
+          case 'ADMIN':
+            return history.push(`/admin?id=${response.payload?.mongoDBID}`);
+          default:
+            break;
+        }
+      }
     });
   };
 
