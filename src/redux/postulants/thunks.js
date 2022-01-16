@@ -54,6 +54,7 @@ export const addPostulant = (data) => (dispatch) => {
     body: JSON.stringify({
       firstName: data.firstName,
       lastName: data.lastName,
+      password: data.password,
       email: data.email,
       phone: data.phone,
       dateOfBirth: data.dateOfBirth,
@@ -174,7 +175,7 @@ export const addPostulant = (data) => (dispatch) => {
 
   dispatch(addPostulantFetching());
 
-  return fetch(`${URL}/postulants/add`, options)
+  return fetch(`${URL}/auth/register`, options)
     .then((data) => {
       if (data.status !== 201) {
         return data.json().then(({ message }) => {
