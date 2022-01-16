@@ -45,23 +45,8 @@ const PostulantsForm = () => {
   const [workExperienceClientValue, setWorkExperienceClientValue] = useState('');
   const [workExperienceDescriptionValue, setWorkExperienceDescriptionValue] = useState('');
 
-  const [profTrainingDescriptionValue, setProfTrainingDescriptionValue] = useState('');
-  const [profTrainingYearValue, setProfTrainingYearValue] = useState('');
-
   const [languagesValue, setLanguagesValue] = useState('');
   const [hobbiesValue, setHobbiesValue] = useState('');
-
-  const [familyMember1NameValue, setFamilyMember1NameValue] = useState('');
-  const [familyMember1bondValue, setFamilyMember1bondValue] = useState('');
-
-  const [familyMember2NameValue, setFamilyMember2NameValue] = useState('');
-  const [familyMember2bondValue, setFamilyMember2bondValue] = useState('');
-
-  const [familyMember3NameValue, setFamilyMember3NameValue] = useState('');
-  const [familyMember3bondValue, setFamilyMember3bondValue] = useState('');
-
-  const [familyMember4NameValue, setFamilyMember4NameValue] = useState('');
-  const [familyMember4bondValue, setFamilyMember4bondValue] = useState('');
 
   const [availabilityCheckMondayValue, setAvailabilityCheckMondayValue] = useState(false);
   const [availabilityFromMondayValue, setAvailabilityFromMondayValue] = useState('-');
@@ -148,27 +133,8 @@ const PostulantsForm = () => {
     setWorkExperienceClientValue(selectedPostulant.workExperience[0]?.client || '-');
     setWorkExperienceDescriptionValue(selectedPostulant.workExperience[0]?.description || '-');
 
-    setProfTrainingDescriptionValue(selectedPostulant.professionalTraining[0]?.description || '-');
-    setProfTrainingYearValue(selectedPostulant.professionalTraining[0]?.year || 0);
-
     setLanguagesValue(selectedPostulant.languages || '');
     setHobbiesValue(selectedPostulant.hobbies || '');
-
-    setFamilyMember1NameValue(selectedPostulant.familyMembers[0]?.name || '-');
-    setFamilyMember1bondValue(selectedPostulant.familyMembers[0]?.bond || '-');
-
-    setFamilyMember2NameValue(selectedPostulant.familyMembers[1]?.name || '-');
-    setFamilyMember2bondValue(selectedPostulant.familyMembers[1]?.bond || '-');
-
-    setFamilyMember3NameValue(selectedPostulant.familyMembers[2]?.name || '-');
-    setFamilyMember3bondValue(selectedPostulant.familyMembers[2]?.bond || '-');
-
-    setFamilyMember4NameValue(selectedPostulant.familyMembers[3]?.name || '-');
-    setFamilyMember4bondValue(selectedPostulant.familyMembers[3]?.bond || '-');
-
-    setAvailabilityCheckMondayValue(selectedPostulant.availability[0]?.available);
-    setAvailabilityFromMondayValue(selectedPostulant.availability[0]?.from || '-');
-    setAvailabilityToMondayValue(selectedPostulant.availability[0]?.to || '-');
 
     setAvailabilityCheckTuesdayValue(selectedPostulant.availability[1]?.available);
     setAvailabilityFromTuesdayValue(selectedPostulant.availability[1]?.from || '-');
@@ -228,23 +194,8 @@ const PostulantsForm = () => {
       setWorkExperienceClientValue('');
       setWorkExperienceDescriptionValue('');
 
-      setProfTrainingDescriptionValue('');
-      setProfTrainingYearValue('');
-
       setLanguagesValue('');
       setHobbiesValue('');
-
-      setFamilyMember1NameValue('');
-      setFamilyMember1bondValue('');
-
-      setFamilyMember2NameValue('');
-      setFamilyMember2bondValue('');
-
-      setFamilyMember3NameValue('');
-      setFamilyMember3bondValue('');
-
-      setFamilyMember4NameValue('');
-      setFamilyMember4bondValue('');
 
       setAvailabilityCheckMondayValue(false);
       setAvailabilityFromMondayValue('');
@@ -384,52 +335,12 @@ const PostulantsForm = () => {
     setWorkExperienceDescriptionValue(event.target.value);
   };
 
-  const onChangeProfTrainingDescription = (event) => {
-    setProfTrainingDescriptionValue(event.target.value);
-  };
-
-  const onChangeProfTrainingYear = (event) => {
-    setProfTrainingYearValue(event.target.value);
-  };
-
   const onChangeLanguages = (event) => {
     setLanguagesValue(event.target.value);
   };
 
   const onChangeHobbies = (event) => {
     setHobbiesValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember1Name = (event) => {
-    setFamilyMember1NameValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember1Bond = (event) => {
-    setFamilyMember1bondValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember2Name = (event) => {
-    setFamilyMember2NameValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember2Bond = (event) => {
-    setFamilyMember2bondValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember3Name = (event) => {
-    setFamilyMember3NameValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember3Bond = (event) => {
-    setFamilyMember3bondValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember4Name = (event) => {
-    setFamilyMember4NameValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember4Bond = (event) => {
-    setFamilyMember4bondValue(event.target.value);
   };
 
   const onChangeMonday = (event) => {
