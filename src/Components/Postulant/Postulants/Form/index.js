@@ -565,32 +565,8 @@ const PostulantsForm = () => {
           description: workExperienceDescriptionValue
         }
       ],
-      professionalTraining: [
-        {
-          description: profTrainingDescriptionValue,
-          year: profTrainingYearValue
-        }
-      ],
       languages: languagesValue,
       hobbies: hobbiesValue,
-      familyMembers: [
-        {
-          name: familyMember1NameValue,
-          bond: familyMember1bondValue
-        },
-        {
-          name: familyMember2NameValue,
-          bond: familyMember2bondValue
-        },
-        {
-          name: familyMember3NameValue,
-          bond: familyMember3bondValue
-        },
-        {
-          name: familyMember4NameValue,
-          bond: familyMember4bondValue
-        }
-      ],
       availability: [
         {
           monday: 'Monday',
@@ -901,20 +877,6 @@ const PostulantsForm = () => {
             value={workExperienceDescriptionValue}
             onChange={onChangeWorkExperienceDescription}
           />
-          <Input
-            label="Description"
-            id="profTrainDescription"
-            type="text"
-            value={profTrainingDescriptionValue}
-            onChange={onChangeProfTrainingDescription}
-          />
-          <Input
-            label="Year"
-            id="profTrainStarted"
-            type="number"
-            value={profTrainingYearValue}
-            onChange={onChangeProfTrainingYear}
-          />
         </div>
         <div className={styles.sections}>
           <p>Data of interest</p>
@@ -938,62 +900,6 @@ const PostulantsForm = () => {
             type="text"
             value={hobbiesValue}
             onChange={onChangeHobbies}
-          />
-          <Input
-            label="1st family member name"
-            id="1stFMName"
-            type="text"
-            value={familyMember1NameValue}
-            onChange={onChangeFamlilyMember1Name}
-          />
-          <Input
-            label="Bond"
-            id="1stFMBond"
-            type="text"
-            value={familyMember1bondValue}
-            onChange={onChangeFamlilyMember1Bond}
-          />
-          <Input
-            label="2st family member name"
-            id="2stFMName"
-            type="text"
-            value={familyMember2NameValue}
-            onChange={onChangeFamlilyMember2Name}
-          />
-          <Input
-            label="Bond"
-            id="2stFMBond"
-            type="text"
-            value={familyMember2bondValue}
-            onChange={onChangeFamlilyMember2Bond}
-          />
-          <Input
-            label="3st family member name"
-            id="3stFMName"
-            type="text"
-            value={familyMember3NameValue}
-            onChange={onChangeFamlilyMember3Name}
-          />
-          <Input
-            label="Bond"
-            id="3stFMBond"
-            type="text"
-            value={familyMember3bondValue}
-            onChange={onChangeFamlilyMember3Bond}
-          />
-          <Input
-            label="4st family member name"
-            id="4stFMName"
-            type="text"
-            value={familyMember4NameValue}
-            onChange={onChangeFamlilyMember4Name}
-          />
-          <Input
-            label="bond"
-            id="4stFMBond"
-            type="text"
-            value={familyMember4bondValue}
-            onChange={onChangeFamlilyMember4Bond}
           />
         </div>
         <div className={styles.sections}>
