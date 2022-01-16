@@ -2,7 +2,6 @@ import React from 'react';
 import { Form, Field } from 'react-final-form';
 import Input from 'Components/Shared/FormInput';
 import Button2 from 'Components/Shared/Button2';
-import { addAdmin } from 'redux/admins/thunks';
 import { useDispatch } from 'react-redux';
 import { validateEmail, validatePassword } from 'validations';
 import styles from './register.module.css';
