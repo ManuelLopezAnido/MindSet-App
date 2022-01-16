@@ -167,11 +167,7 @@ const PositionsForm = () => {
               disabled={formProps.submitting}
               validate={(value) => (value ? undefined : 'please enter the closing date')}
             />
-            <SaveButton
-              type="submit"
-              className={StyleSheet.submitButton}
-              disabled={formProps.submitting || formProps.pristine}
-            />
+            <SaveButton type="submit" disabled={formProps.submitting || formProps.pristine} />
           </form>
         )}
       />

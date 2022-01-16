@@ -59,6 +59,7 @@ const PostulantsForm = () => {
   };
 
   const onSubmit = (formValues) => {
+    console.log('onsubmit');
     setFormValues(formValues);
     setShowModal(true);
   };
