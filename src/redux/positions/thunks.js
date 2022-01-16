@@ -55,7 +55,8 @@ export const addPosition = (data) => (dispatch) => {
       city: data.city,
       country: data.country,
       datePosted: data.datePosted,
-      closingDate: data.closingDate
+      closingDate: data.closingDate,
+      profile: data.profile
     })
   };
   dispatch(addPositionFetching());
@@ -87,7 +88,8 @@ export const updatePosition = (id, data) => (dispatch) => {
       city: data.city,
       country: data.country,
       datePosted: data.datePosted,
-      closingDate: data.closingDate
+      closingDate: data.closingDate,
+      profile: data.profile
     })
   })
     .then((data) => {
