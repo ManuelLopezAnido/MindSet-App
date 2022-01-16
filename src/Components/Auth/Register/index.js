@@ -38,10 +38,6 @@ const Register = () => {
     };
     dispatch(addPostulant(formValuesOk)).then((response) => {
       if (response) {
-        console.log(response);
-        // sessionStorage.setItem('token', 123);
-        // here there, when adding a postulant. we should have a token so that we can access the url.
-        // Also. we need this token to contain a role.
         history.push('/postulant/signUp');
       }
     });
