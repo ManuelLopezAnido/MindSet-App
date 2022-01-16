@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import styles from './clients.module.css';
+import listStyles from 'lists.module.css';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import AddButton from 'Components/Shared/AddButton';
+import InputSearch from 'Components/Shared/InputSearch';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 import locationIcon from 'assets/images/location.png';
 import { useSelector, useDispatch } from 'react-redux';
@@ -49,7 +50,7 @@ function Clients() {
   if (isLoading) return <IsLoading />;
 
   return (
-    <section className={styles.mainContainer}>
+    <section className={listStyles.mainContainer}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -71,16 +72,15 @@ function Clients() {
         middleText={errorMessage}
         buttonText="ok"
       />
-      <div className={styles.headerList}>
-        <AddButton onClick={() => history.push('/admin/counselors/form')} value="Counselor" />
-        <input
-          className={styles.inputSearch}
+      <div className={listStyles.headerList}>
+        <AddButton onClick={() => history.push('/admin/clients/form')} value="Client" />
+        <InputSearch
           type="text"
           placeholder="Search"
           onChange={(event) => setInputSearchBar(event.target.value)}
-        ></input>
+        />
       </div>
-      <div className={styles.clientList}>
+      <div className={listStyles.containerList}>
         {clients
           .filter((client) => {
             if (
@@ -94,16 +94,16 @@ function Clients() {
             }
           })
           .map((client) => (
-            <div className={styles.clientContainer} key={client._id}>
-              <div className={styles.title}>
+            <div className={listStyles.container} key={client._id}>
+              <div className={listStyles.title}>
                 <p> {client.clientName} </p>
                 <DeleteButton onClick={(event) => handleIdClient(event, client._id)} />
               </div>
-              <p className={styles.description}>{client.clientType}</p>
-              <p className={styles.description}>{client.email}</p>
-              <p className={styles.description}>{client.phone}</p>
-              <div className={styles.footerContainer}>
-                <div className={styles.location}>
+              <p className={listStyles.description}>{client.clientType}</p>
+              <p className={listStyles.description}>{client.email}</p>
+              <p className={listStyles.description}>{client.phone}</p>
+              <div className={listStyles.footerContainer}>
+                <div className={listStyles.location}>
                   <img src={locationIcon} />
                   <p>
                     {client.city}, {client.country}
@@ -111,7 +111,7 @@ function Clients() {
                 </div>
                 <button
                   onClick={() => (window.location.href = `clients/form?id=${client._id}`)}
-                  className={styles.button}
+                  className={listStyles.buttonPlus}
                   type="submit"
                 >
                   +

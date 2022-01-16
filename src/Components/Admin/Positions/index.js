@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
+import styles from './positions.module.css';
 import listStyles from 'lists.module.css';
-import NoData from 'Components/Shared/NoData';
 import { getPositions, deletePosition } from 'redux/positions/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 import { errorToDefault } from 'redux/positions/actions';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
+import InputSearch from 'Components/Shared/InputSearch';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 
@@ -47,7 +48,7 @@ function Positions() {
   if (isLoading) return <IsLoading />;
 
   return (
-    <section className={listStyles.maincontainer}>
+    <section className={listStyles.mainContainer}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -68,44 +69,44 @@ function Positions() {
         titleText="Error"
         buttonText="ok"
       />
-      <input
-        type="text"
-        placeholder="Search"
-        onChange={(event) => setInputSearchBar(event.target.value)}
-      ></input>
-      <table className={listStyles.list}>
-        <thead>
-          <tr>
-            <th>Job</th>
-            <th>Client</th>
-            <th>Cancel postulation</th>
-          </tr>
-        </thead>
-        <tbody>
-          {listPositions
-            .filter((position) => {
-              if (
-                position.jobTitle.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
-                position.clientName.toLowerCase().includes(inputSearchBar.toLowerCase())
-              ) {
-                return position;
-              }
-            })
-            .map((a) => (
-              <tr
-                key={a._id}
-                onClick={() => (window.location.href = `/admin/positions/form?id=${a._id}`)}
-              >
-                <td>{a.jobTitle}</td>
-                <td>{a.clientName}</td>
-                <td className={listStyles.button}>
-                  <DeleteButton onClick={(e) => handleIdPosition(e, a._id)} />
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
-      <NoData data={listPositions.length} />
+      <div className={styles.inputSearch}>
+        <InputSearch
+          type="text"
+          placeholder="Search"
+          onChange={(event) => setInputSearchBar(event.target.value)}
+        />
+      </div>
+      <div className={listStyles.list}>
+        <table>
+          <thead>
+            <tr>
+              <th>Job</th>
+              <th>Client</th>
+              <th>Cancel postulation</th>
+            </tr>
+          </thead>
+          <tbody>
+            {listPositions
+              .filter((position) => {
+                if (
+                  position.jobTitle.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+                  position.clientName.toLowerCase().includes(inputSearchBar.toLowerCase())
+                ) {
+                  return position;
+                }
+              })
+              .map((a) => (
+                <tr key={a._id}>
+                  <td>{a.jobTitle}</td>
+                  <td>{a.clientName}</td>
+                  <td>
+                    <DeleteButton onClick={(e) => handleIdPosition(e, a._id)} />
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
     </section>
   );
 }

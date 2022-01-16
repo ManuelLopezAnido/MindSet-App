@@ -1,4 +1,4 @@
-.maincontainer {
+.mainContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,22 +8,90 @@
   -moz-box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
 }
 
-.addContainer {
+.headerList {
   display: flex;
-  justify-content: start;
-  margin-top: 10px;
   width: 100%;
+  justify-content: space-between;
+}
+
+.containerList {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 40px;
+  margin-left: 50px;
+  max-height: 440px;
+  overflow-y: scroll;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  margin: 25px;
+  box-shadow: 1px 2px 2px 1px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 1px 2px 2px 1px rgba(0,0,0,0.1);
+  -moz-box-shadow: 1px 2px 2px 1px rgba(0,0,0,0.1);
+}
+
+.footerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px 20px 8px 15px;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 20px 14px 15px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #477599;
+}
+
+.description {
+  margin: 0px 0px 18px 15px;
+  font-size: 15px;
+  color: #707070;
+}
+
+.buttonPlus{
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 100%;
+  color: #FFF;
+  background: #9ed8d8;
+}
+
+.buttonPlus:hover {
+  cursor: pointer;
+}
+
+.location >img {
+  width: 20px;
+  height: 20px;
+}
+
+.location {
+  display: flex;
+  flex-direction: row;
+  font-weight: bold;
+  color: #7c7c7c;
 }
 
 .list {
-  margin-top: 80px;
-  min-width: 600px;
-  max-width: 800px;
+  margin-top: 25px;
   max-height: 450px;
+  width: 90%;
   background-color: rgb(255, 255, 255);
   font-size: 1.3rem;
   color: #5C6C84;
   overflow-y: scroll;
+}
+
+.list table {
+  width: 100%;
 }
 
 .list thead {
@@ -38,44 +106,13 @@
 
 .list th,
 .list td {
-  padding: 12px 15px;
+  padding: 10px;
+  text-align: center;
   white-space: nowrap
-}
-
-.list td {
-  cursor: pointer;
-  padding-left: 80px;
 }
 
 .list tbody tr {
   border-bottom: 2px solid #DCDCDC;
-}
-
-.list tbody tr.active-row {
-  font-weight: bold;
-  color: #002147;
-}
-
-.list button {
-  color: #f3f3f3;
-  font-weight: bold;
-}
-
-.button {
-  text-align: center;
-}
-
-.titleAndButton {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  border-bottom: 2px solid #dedede;
-}
-
-.titleAndButton h3 {
-  font-size: 1.5rem;
-  font-weight: 700;
 }
 
 .mainFormContainer {
@@ -147,3 +184,9 @@
   flex-wrap: wrap;
   width: 80%;
 }
+
+.inputSearch {
+  display: flex;
+  justify-content: end;
+}
+

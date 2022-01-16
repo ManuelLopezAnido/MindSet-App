@@ -5,19 +5,23 @@
   -moz-box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
 }
 
+.inputSearch {
+  display: flex;
+  justify-content: end;
+}
+
 .postulantList {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 35px;
-  margin-left: 50px;
-  max-height: 515px;
+  margin-top: 20px;
+  max-height: 450px;
   overflow-y: scroll;
 }
 
 .postulantContainer {
   display: flex;
   justify-content: space-around;
-  width: 40%;
+  width: 42%;
   margin: 25px;
   margin-top: 1px;
   box-shadow: 1px 2px 2px 1px rgba(0,0,0,0.1);

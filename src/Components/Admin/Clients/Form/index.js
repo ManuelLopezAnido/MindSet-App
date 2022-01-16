@@ -147,63 +147,65 @@ const ClientsForm = () => {
             validate={validate}
             initialValues={selectedClient}
             render={(formProps) => (
-              <form className={listStyles.inputs} onSubmit={formProps.handleSubmit}>
-                <Field
-                  label="Client Name"
-                  id="clientName"
-                  name="clientName"
-                  type="string"
-                  component={Input}
-                  disabled={formProps.submitting}
-                  validate={(value) => (value ? undefined : 'please enter the client name')}
-                />
-                <Field
-                  label="Client Type"
-                  id="clientType"
-                  name="clientType"
-                  type="string"
-                  component={Input}
-                  disabled={formProps.submitting}
-                  validate={(value) => (value ? undefined : 'please enter the client type')}
-                />
-                <Field
-                  label="City"
-                  id="city"
-                  name="city"
-                  type="string"
-                  component={Input}
-                  disabled={formProps.submitting}
-                  validate={(value) => (value ? undefined : 'please enter a city')}
-                />
-                <Field
-                  label="Country"
-                  id="country"
-                  name="country"
-                  type="string"
-                  component={Input}
-                  disabled={formProps.submitting}
-                  validate={(value) => (value ? undefined : 'please enter a country')}
-                />
-                <Field
-                  label="Email"
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  component={Input}
-                  disabled={formProps.submitting}
-                  validate={(value) => (value ? undefined : 'please enter an email')}
-                />
-                <Field
-                  label="Phone"
-                  id="phone"
-                  name="phone"
-                  type="number"
-                  required
-                  component={Input}
-                  disabled={formProps.submitting}
-                  validate={(value) => (value ? undefined : 'please enter a number phone')}
-                />
+              <form className={styles.inputs} onSubmit={formProps.handleSubmit}>
+                <div className={styles.fields}>
+                  <Field
+                    label="Client Name"
+                    id="clientName"
+                    name="clientName"
+                    type="string"
+                    component={Input}
+                    disabled={formProps.submitting}
+                    validate={(value) => (value ? undefined : 'please enter the client name')}
+                  />
+                  <Field
+                    label="Client Type"
+                    id="clientType"
+                    name="clientType"
+                    type="string"
+                    component={Input}
+                    disabled={formProps.submitting}
+                    validate={(value) => (value ? undefined : 'please enter the client type')}
+                  />
+                  <Field
+                    label="City"
+                    id="city"
+                    name="city"
+                    type="string"
+                    component={Input}
+                    disabled={formProps.submitting}
+                    validate={(value) => (value ? undefined : 'please enter a city')}
+                  />
+                  <Field
+                    label="Country"
+                    id="country"
+                    name="country"
+                    type="string"
+                    component={Input}
+                    disabled={formProps.submitting}
+                    validate={(value) => (value ? undefined : 'please enter a country')}
+                  />
+                  <Field
+                    label="Email"
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    component={Input}
+                    disabled={formProps.submitting}
+                    validate={(value) => (value ? undefined : 'please enter an email')}
+                  />
+                  <Field
+                    label="Phone"
+                    id="phone"
+                    name="phone"
+                    type="number"
+                    required
+                    component={Input}
+                    disabled={formProps.submitting}
+                    validate={(value) => (value ? undefined : 'please enter a number phone')}
+                  />
+                </div>
                 <SaveButton type="submit" disabled={formProps.submitting || formProps.pristine} />
               </form>
             )}
@@ -221,14 +223,14 @@ const ClientsForm = () => {
           </div>
           <div className={styles.positionList}>
             {filtredPositions.map((position) => (
-              <div className={styles.positionContainer} key={position._id}>
-                <div className={styles.title}>
+              <div className={listStyles.container} key={position._id}>
+                <div className={listStyles.title}>
                   <p>{position.jobTitle}</p>
                   <DeleteButton onClick={(event) => handleIdPosition(event, position._id)} />
                 </div>
                 <p className={styles.positionDescription}>{position.jobDescription}</p>
-                <div className={styles.footerContainer}>
-                  <div className={styles.location}>
+                <div className={listStyles.footerContainer}>
+                  <div className={listStyles.location}>
                     <img src={locationIcon} />
                     <p>
                       {position.city}, {position.country}
@@ -236,7 +238,7 @@ const ClientsForm = () => {
                   </div>
                   <button
                     onClick={() => (window.location.href = `../positions/form?id=${position._id}`)}
-                    className={styles.button}
+                    className={listStyles.buttonPlus}
                     type="submit"
                   >
                     +

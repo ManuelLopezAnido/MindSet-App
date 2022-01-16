@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import styles from './counselors.module.css';
+import listStyles from 'lists.module.css';
 import locationIcon from 'assets/images/location.png';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
+import InputSearch from 'Components/Shared/InputSearch';
 import AddButton from 'Components/Shared/AddButton';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 import { useSelector, useDispatch } from 'react-redux';
@@ -48,7 +49,7 @@ const Counselor = () => {
   if (isLoading) return <IsLoading />;
 
   return (
-    <section className={styles.mainContainer}>
+    <section className={listStyles.mainContainer}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -70,16 +71,15 @@ const Counselor = () => {
         middleText={errorMessage}
         buttonText="ok"
       />
-      <div className={styles.headerList}>
+      <div className={listStyles.headerList}>
         <AddButton onClick={() => history.push('/admin/counselors/form')} value="Counselor" />
-        <input
-          className={styles.inputSearch}
+        <InputSearch
           type="text"
           placeholder="Search"
           onChange={(event) => setInputSearchBar(event.target.value)}
-        ></input>
+        />
       </div>
-      <div className={styles.counselorsList}>
+      <div className={listStyles.containerList}>
         {counselors
           .filter((counselor) => {
             if (
@@ -93,17 +93,17 @@ const Counselor = () => {
             }
           })
           .map((counselor) => (
-            <div className={styles.counselorContainer} key={counselor._id}>
-              <div className={styles.title}>
+            <div className={listStyles.container} key={counselor._id}>
+              <div className={listStyles.title}>
                 <p>
                   {counselor.firstName} {counselor.lastName}
                 </p>
                 <DeleteButton onClick={(event) => handleIdCounselor(event, counselor._id)} />
               </div>
-              <p className={styles.description}>{counselor.email}</p>
-              <p className={styles.description}>{counselor.phone}</p>
-              <div className={styles.footerContainer}>
-                <div className={styles.location}>
+              <p className={listStyles.description}>{counselor.email}</p>
+              <p className={listStyles.description}>{counselor.phone}</p>
+              <div className={listStyles.footerContainer}>
+                <div className={listStyles.location}>
                   <img src={locationIcon} />
                   <p>
                     {counselor.city}, {counselor.country}
@@ -111,7 +111,7 @@ const Counselor = () => {
                 </div>
                 <button
                   onClick={() => (window.location.href = `counselors/form?id=${counselor._id}`)}
-                  className={styles.button}
+                  className={listStyles.buttonPlus}
                   type="submit"
                 >
                   +

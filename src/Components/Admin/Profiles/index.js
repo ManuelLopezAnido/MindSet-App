@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import listStyles from 'lists.module.css';
+import styles from './workProfiles.module.css';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
@@ -97,7 +98,7 @@ function WorkProfiles() {
         middleText={showErrorModalMessage}
         buttonText="ok"
       />
-      <div className={listStyles.addContainer}>
+      <div className={styles.addContainer}>
         <AddButton onClick={() => history.push('/admin/workprofiles/form')} value="Profile" />
       </div>
       <div className={listStyles.list}>
@@ -114,7 +115,7 @@ function WorkProfiles() {
               <tr key={workProfile._id}>
                 <td>{workProfile.name}</td>
                 <td>{workProfile.description}</td>
-                <td className={listStyles.deleteButtonTD}>
+                <td>
                   <EditButton
                     onClick={() =>
                       (window.location.href = `/admin/workprofiles/form?id=${workProfile._id}`)

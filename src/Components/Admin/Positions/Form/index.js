@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import listStyles from 'lists.module.css';
 import styles from './form.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
@@ -73,7 +74,7 @@ const PositionsForm = () => {
   if (isLoading) return <IsLoading />;
 
   return (
-    <div className={styles.mainContainer}>
+    <div className={listStyles.mainContainer}>
       <Modal
         showModal={showModal}
         closeModal={() => setShowModal(false)}
@@ -142,15 +143,6 @@ const PositionsForm = () => {
                 validate={(value) => (value ? undefined : 'please enter a city')}
               />
               <Field
-                label="Country"
-                id="country"
-                name="country"
-                type="string"
-                component={Input}
-                disabled={formProps.submitting}
-                validate={(value) => (value ? undefined : 'please enter a country')}
-              />
-              <Field
                 label="Date Posted"
                 id="datePosted"
                 name="datePosted"
@@ -158,6 +150,15 @@ const PositionsForm = () => {
                 component={Input}
                 disabled={formProps.submitting}
                 validate={(value) => (value ? undefined : 'please enter the date posted')}
+              />
+              <Field
+                label="Country"
+                id="country"
+                name="country"
+                type="string"
+                component={Input}
+                disabled={formProps.submitting}
+                validate={(value) => (value ? undefined : 'please enter a country')}
               />
               <Field
                 label="Closing Date"
@@ -168,11 +169,13 @@ const PositionsForm = () => {
                 disabled={formProps.submitting}
                 validate={(value) => (value ? undefined : 'please enter the closing date')}
               />
-              <SaveButton
-                type="submit"
-                className={StyleSheet.submitButton}
-                disabled={formProps.submitting || formProps.pristine}
-              />
+              <div className={styles.saveButton}>
+                <SaveButton
+                  type="submit"
+                  className={StyleSheet.submitButton}
+                  disabled={formProps.submitting || formProps.pristine}
+                />
+              </div>
             </form>
           )}
         />

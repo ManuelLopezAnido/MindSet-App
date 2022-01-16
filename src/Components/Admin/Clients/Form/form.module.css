@@ -1,3 +1,17 @@
+.inputs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.fields {
+  display: flex;
+  flex-wrap: wrap;
+  width: 80%;
+}
+
 .positionMainContainer {
   margin-left: -250px;
   width: 85%;
@@ -29,18 +43,8 @@ h3 {
   background: #9ed8d8;
 }
 
-.button:hover {
+.buttonAdd:hover {
   cursor: pointer;
-}
-
-.positionContainer {
-  display: flex;
-  flex-direction: column;
-  width: 40%;
-  margin: 25px;
-  box-shadow: 1px 2px 2px 1px rgba(0,0,0,0.1);
-  -webkit-box-shadow: 1px 2px 2px 1px rgba(0,0,0,0.1);
-  -moz-box-shadow: 1px 2px 2px 1px rgba(0,0,0,0.1);
 }
 
 .headerPosition {
@@ -55,22 +59,6 @@ h3 {
   cursor: pointer;
 }
 
-.footerContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0px 20px 8px 15px;
-}
-
-.title {
-  display: flex;
-  justify-content: space-between;
-  margin: 15px 20px 14px 15px;
-  font-size: 22px;
-  font-weight: bold;
-  color: #477599;
-}
-
 .positionDescription {
   padding: 10px 10px 10px 10px;
   font-size: 15px;
@@ -78,29 +66,4 @@ h3 {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-}
-
-.button{
-  width: 30px;
-  height: 30px;
-  border: none;
-  border-radius: 100%;
-  color: #FFF;
-  background: #9ed8d8;
-}
-
-.button:hover {
-  cursor: pointer;
-}
-
-.location >img {
-  width: 20px;
-  height: 20px;
-}
-
-.location {
-  display: flex;
-  flex-direction: row;
-  font-weight: bold;
-  color: #7c7c7c;
 }

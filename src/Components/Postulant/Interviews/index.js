@@ -7,7 +7,7 @@ import { errorToDefault } from 'redux/admins/actions';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import ModalInfo from 'Components/Shared/ModalInfo';
-import DeleteButton from 'Components/Shared/DeleteButton';
+import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 import VisualizeButton from 'Components/Shared/VisualizeButton';
 
 const Interviews = () => {

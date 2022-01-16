@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import listStyles from 'lists.module.css';
+import styles from './form.module.css';
 import Input from 'Components/Shared/Input';
 import Modal from 'Components/Shared/Modal';
+import SaveButton from 'Components/Shared/SaveButton';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
+import { Field, Form } from 'react-final-form';
 
 const ProfilesForm = () => {
   const [name, setName] = useState('');
@@ -105,7 +107,7 @@ const ProfilesForm = () => {
   if (isLoading) return <IsLoading />;
 
   return (
-    <div className={listStyles.mainFormContainer}>
+    <div className={styles.mainFormContainer}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -127,26 +129,28 @@ const ProfilesForm = () => {
         buttonText="ok"
       />
       <h2> {`${workProfileId == null ? 'Add a new Position' : 'Edit Position'}`} </h2>
-      <div className={listStyles.form}>
-        <form className={listStyles.inputs} onSubmit={onSubmit}>
-          <Input
-            label="Profile name"
-            id="name"
-            name="profileName"
-            required
-            value={name}
-            onChange={onChangeName}
-            placeholder="Profile"
-          />
-          <Input
-            label="Profile description"
-            id="description"
-            name="profileDescription"
-            value={description}
-            onChange={onChangeDescription}
-            placeholder="Profile Description"
-          />
-          <button type="submit"> SEND </button>
+      <div>
+        <form className={styles.form} onSubmit={onSubmit}>
+          <div className={styles.inputs}>
+            <Input
+              label="Profile name"
+              id="name"
+              name="profileName"
+              required
+              value={name}
+              onChange={onChangeName}
+              placeholder="Profile"
+            />
+            <Input
+              label="Profile description"
+              id="description"
+              name="profileDescription"
+              value={description}
+              onChange={onChangeDescription}
+              placeholder="Profile Description"
+            />
+          </div>
+          <SaveButton type="submit" />
         </form>
       </div>
     </div>
