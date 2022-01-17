@@ -22,14 +22,12 @@ const Sessions = () => {
   const [postIdSelected, setPostIdSelected] = useState(undefined);
   const [sessionSelected, setSessionsSelected] = useState(undefined);
   const thisPsychologist = '61b7f956c929a1aa15d03640'; //Id de hardcodeado de Josefina
-  console.log(positions);
   useEffect(() => {
     dispatch(getPostulants());
     dispatch(getSessions());
     dispatch(getPositions());
     dispatch(getApplications());
   }, []);
-  console.log('Applciations are: ', applications);
   const sessionsFiltred = sessions.filter((session) =>
     session?.counselorId
       ? session.counselorId._id == thisPsychologist && session.postulantId
@@ -42,13 +40,13 @@ const Sessions = () => {
     );
     return postulantName?.profile.name ?? 'Not defind';
   };
+
   const changeProfile = (postulantProfile, postId, sessionToModify) => {
     const selectedPostulant = postulants.find((postulant) => postulant?._id == postId);
     selectedPostulant.profile = postulantProfile;
     dispatch(updatePostulant(postId, selectedPostulant)).then(() => dispatch(getPostulants()));
     applications.forEach((application) => {
       if (postId == application.postulantId?._id) {
-        console.log('Eliminate: ', application);
         dispatch(deleteApplication(application._id));
       }
     });
@@ -62,14 +60,13 @@ const Sessions = () => {
         });
       }
     });
-    console.log('Application to be created: ', applicationsToCreate);
     applicationsToCreate.forEach((app) => {
       dispatch(addApplication(app));
     });
-    console.log('sesion to modify: ', sessionToModify);
     sessionToModify.accomplished = true;
     dispatch(updateSession(sessionToModify._id, sessionToModify));
   };
+
   const closeErrorMessage = () => {
     dispatch(errorToDefault());
   };
