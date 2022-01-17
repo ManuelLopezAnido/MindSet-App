@@ -40,13 +40,13 @@ const PostulantsForm = () => {
     if (postulantId) {
       dispatch(updatePostulant(postulantId, formValues)).then((response) => {
         if (response) {
-          history.push('/postulants');
+          history.push('/postulant');
         }
       });
     } else {
       dispatch(addPostulant(formValues)).then((response) => {
         if (response) {
-          history.push('/postulants');
+          history.push('/postulant');
         }
       });
     }
@@ -162,7 +162,8 @@ const PostulantsForm = () => {
               />
               <Field
                 label="City"
-                name="text"
+                name="city"
+                type="text"
                 component={Input}
                 disabled={formProps.submitting}
                 validate={(value) => (value ? undefined : 'please enter a city')}
