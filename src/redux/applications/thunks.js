@@ -34,8 +34,7 @@ export const getApplications = () => (dispatch) => {
       dispatch(getApplicationsFulfilled(response.data));
     })
     .catch((error) => {
-      console.log('error', error);
-      dispatch(getApplicationsRejected(error.message.code));
+      dispatch(getApplicationsRejected(error.message));
     });
 };
 
