@@ -4,9 +4,6 @@ import styles from './navbar.module.css';
 const PsychologyNavbar = () => (
   <div className={styles.navBar}>
     <ul className={styles.items}>
-      <Link to="/psychologists/candidates">
-        <li className={styles.itemsBodyContent}>Candidates</li>
-      </Link>
       <Link to="/psychologists/sessions">
         <li className={styles.itemsBodyContent}>Sessions</li>
       </Link>

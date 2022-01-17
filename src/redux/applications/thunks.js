@@ -66,12 +66,7 @@ export const addApplication = (data) => (dispatch) => {
     headers: {
       'Content-type': 'application/json'
     },
-    body: JSON.stringify({
-      positionId: data.positionId,
-      companyId: data.companyId,
-      postulantId: data.postulantId,
-      applicationState: data.applicationState
-    })
+    body: JSON.stringify(data)
   };
 
   dispatch(addApplicationFetching());
