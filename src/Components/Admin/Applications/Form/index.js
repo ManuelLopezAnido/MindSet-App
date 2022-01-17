@@ -54,7 +54,7 @@ const FormApplication = () => {
     setPositionsToMap(poss);
 
     const cli = clients.map((client) => {
-      return { value: client._id, toShow: client.companyName };
+      return { value: client._id, toShow: client.clientName };
     });
     setClientsToMap(cli);
 
@@ -91,7 +91,7 @@ const FormApplication = () => {
   const onSubmit = (formValues) => {
     const formValuesOk = {
       positionId: formValues.positionId,
-      companyId: formValues.companyId,
+      clientId: formValues.clientId,
       postulantId: formValues.postulantId,
       applicationState: formValues.applicationState
     };
@@ -102,7 +102,7 @@ const FormApplication = () => {
   const validate = (formValues) => {
     const errors = {};
     errors.positionId = validateMongoID(formValues.positionId);
-    errors.companyId = validateMongoID(formValues.companyId);
+    errors.clientId = validateMongoID(formValues.clientId);
     errors.postulantId = validateMongoID(formValues.postulantId);
     return errors;
   };
@@ -146,12 +146,12 @@ const FormApplication = () => {
               validate={(value) => (value ? undefined : 'please choose a position')}
             />
             <Field
-              name="companyId"
-              label="Company name"
+              name="clientId"
+              label="Client name"
               options={clientsToMap}
               component={Select}
               disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please choose a company')}
+              validate={(value) => (value ? undefined : 'please choose a client')}
             />
             <Field
               name="postulantId"
@@ -160,14 +160,6 @@ const FormApplication = () => {
               component={Select}
               disabled={formProps.submitting}
               validate={(value) => (value ? undefined : 'please choose a postulant')}
-            />
-            <Field
-              name="applicationState"
-              label="State"
-              placeholder="completed"
-              component={Input}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please choose a state')}
             />
             <Button
               type="submit"

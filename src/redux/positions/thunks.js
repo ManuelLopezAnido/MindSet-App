@@ -50,12 +50,13 @@ export const addPosition = (data) => (dispatch) => {
     },
     body: JSON.stringify({
       jobTitle: data.jobTitle,
-      companyName: data.companyName,
+      clientName: data.clientName,
       jobDescription: data.jobDescription,
       city: data.city,
       country: data.country,
       datePosted: data.datePosted,
-      closingDate: data.closingDate
+      closingDate: data.closingDate,
+      profile: data.profile
     })
   };
   dispatch(addPositionFetching());
@@ -82,12 +83,13 @@ export const updatePosition = (id, data) => (dispatch) => {
     },
     body: JSON.stringify({
       jobTitle: data.jobTitle,
-      companyName: data.companyName,
+      clientName: data.clientName,
       jobDescription: data.jobDescription,
       city: data.city,
       country: data.country,
       datePosted: data.datePosted,
-      closingDate: data.closingDate
+      closingDate: data.closingDate,
+      profile: data.profile
     })
   })
     .then((data) => {

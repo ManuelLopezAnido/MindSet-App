@@ -1,15 +1,39 @@
 .interviews{
   display: flex;
   flex-direction: column;
-  border: black 1px solid;
-}
-.interviews h2{
-  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: larger;
-  margin: 10px 0px;
+  width:100%;
+  max-height: 580px;
+  box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
+  -webkit-box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
+  -moz-box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
 }
+
+.interviews table {
+  margin-top: 40px;
+  width: 90%;
+  max-height: 10px;
+}
+
+.interviews thead{
+  border-bottom: solid 2px #00000033;
+}
+
 .interviews th{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-weight:bolder;
   color:chocolate;
+}
+
+.interviews td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: solid thin #00000033;
+  text-align: center;
+  color: #1D3354;
+}
+
+.counselorsList:hover {
+  cursor: pointer;
 }

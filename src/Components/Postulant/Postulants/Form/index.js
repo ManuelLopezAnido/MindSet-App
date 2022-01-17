@@ -42,26 +42,11 @@ const PostulantsForm = () => {
   const [workExperienceTitleValue, setWorkExperienceTitleValue] = useState('');
   const [workExperienceStartValue, setWorkExperienceStartValue] = useState('');
   const [workExperienceEndValue, setWorkExperienceEndValue] = useState('');
-  const [workExperienceCompanyValue, setWorkExperienceCompanyValue] = useState('');
+  const [workExperienceClientValue, setWorkExperienceClientValue] = useState('');
   const [workExperienceDescriptionValue, setWorkExperienceDescriptionValue] = useState('');
-
-  const [profTrainingDescriptionValue, setProfTrainingDescriptionValue] = useState('');
-  const [profTrainingYearValue, setProfTrainingYearValue] = useState('');
 
   const [languagesValue, setLanguagesValue] = useState('');
   const [hobbiesValue, setHobbiesValue] = useState('');
-
-  const [familyMember1NameValue, setFamilyMember1NameValue] = useState('');
-  const [familyMember1bondValue, setFamilyMember1bondValue] = useState('');
-
-  const [familyMember2NameValue, setFamilyMember2NameValue] = useState('');
-  const [familyMember2bondValue, setFamilyMember2bondValue] = useState('');
-
-  const [familyMember3NameValue, setFamilyMember3NameValue] = useState('');
-  const [familyMember3bondValue, setFamilyMember3bondValue] = useState('');
-
-  const [familyMember4NameValue, setFamilyMember4NameValue] = useState('');
-  const [familyMember4bondValue, setFamilyMember4bondValue] = useState('');
 
   const [availabilityCheckMondayValue, setAvailabilityCheckMondayValue] = useState(false);
   const [availabilityFromMondayValue, setAvailabilityFromMondayValue] = useState('-');
@@ -101,7 +86,7 @@ const PostulantsForm = () => {
   const selectedPostulant = useSelector((store) => store.postulants.selected);
 
   const params = new URLSearchParams(window.location.search);
-  const postulantId = params.get('_id');
+  const postulantId = params.get('id');
 
   if (postulantId) {
     useEffect(() => {
@@ -142,30 +127,11 @@ const PostulantsForm = () => {
     setWorkExperienceTitleValue(selectedPostulant.workExperience[0]?.title || '-');
     setWorkExperienceStartValue(selectedPostulant.workExperience[0]?.start || '2000-05-20');
     setWorkExperienceEndValue(selectedPostulant.workExperience[0]?.end || '2000-02-20');
-    setWorkExperienceCompanyValue(selectedPostulant.workExperience[0]?.company || '-');
+    setWorkExperienceClientValue(selectedPostulant.workExperience[0]?.client || '-');
     setWorkExperienceDescriptionValue(selectedPostulant.workExperience[0]?.description || '-');
-
-    setProfTrainingDescriptionValue(selectedPostulant.professionalTraining[0]?.description || '-');
-    setProfTrainingYearValue(selectedPostulant.professionalTraining[0]?.year || 0);
 
     setLanguagesValue(selectedPostulant.languages || '');
     setHobbiesValue(selectedPostulant.hobbies || '');
-
-    setFamilyMember1NameValue(selectedPostulant.familyMembers[0]?.name || '-');
-    setFamilyMember1bondValue(selectedPostulant.familyMembers[0]?.bond || '-');
-
-    setFamilyMember2NameValue(selectedPostulant.familyMembers[1]?.name || '-');
-    setFamilyMember2bondValue(selectedPostulant.familyMembers[1]?.bond || '-');
-
-    setFamilyMember3NameValue(selectedPostulant.familyMembers[2]?.name || '-');
-    setFamilyMember3bondValue(selectedPostulant.familyMembers[2]?.bond || '-');
-
-    setFamilyMember4NameValue(selectedPostulant.familyMembers[3]?.name || '-');
-    setFamilyMember4bondValue(selectedPostulant.familyMembers[3]?.bond || '-');
-
-    setAvailabilityCheckMondayValue(selectedPostulant.availability[0]?.available);
-    setAvailabilityFromMondayValue(selectedPostulant.availability[0]?.from || '-');
-    setAvailabilityToMondayValue(selectedPostulant.availability[0]?.to || '-');
 
     setAvailabilityCheckTuesdayValue(selectedPostulant.availability[1]?.available);
     setAvailabilityFromTuesdayValue(selectedPostulant.availability[1]?.from || '-');
@@ -222,26 +188,11 @@ const PostulantsForm = () => {
       setWorkExperienceTitleValue('');
       setWorkExperienceStartValue('');
       setWorkExperienceEndValue('');
-      setWorkExperienceCompanyValue('');
+      setWorkExperienceClientValue('');
       setWorkExperienceDescriptionValue('');
-
-      setProfTrainingDescriptionValue('');
-      setProfTrainingYearValue('');
 
       setLanguagesValue('');
       setHobbiesValue('');
-
-      setFamilyMember1NameValue('');
-      setFamilyMember1bondValue('');
-
-      setFamilyMember2NameValue('');
-      setFamilyMember2bondValue('');
-
-      setFamilyMember3NameValue('');
-      setFamilyMember3bondValue('');
-
-      setFamilyMember4NameValue('');
-      setFamilyMember4bondValue('');
 
       setAvailabilityCheckMondayValue(false);
       setAvailabilityFromMondayValue('');
@@ -373,20 +324,12 @@ const PostulantsForm = () => {
     setWorkExperienceEndValue(event.target.value);
   };
 
-  const onChangeWorkExperienceCompany = (event) => {
-    setWorkExperienceCompanyValue(event.target.value);
+  const onChangeWorkExperienceClient = (event) => {
+    setWorkExperienceClientValue(event.target.value);
   };
 
   const onChangeWorkExperienceDescription = (event) => {
     setWorkExperienceDescriptionValue(event.target.value);
-  };
-
-  const onChangeProfTrainingDescription = (event) => {
-    setProfTrainingDescriptionValue(event.target.value);
-  };
-
-  const onChangeProfTrainingYear = (event) => {
-    setProfTrainingYearValue(event.target.value);
   };
 
   const onChangeLanguages = (event) => {
@@ -395,38 +338,6 @@ const PostulantsForm = () => {
 
   const onChangeHobbies = (event) => {
     setHobbiesValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember1Name = (event) => {
-    setFamilyMember1NameValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember1Bond = (event) => {
-    setFamilyMember1bondValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember2Name = (event) => {
-    setFamilyMember2NameValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember2Bond = (event) => {
-    setFamilyMember2bondValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember3Name = (event) => {
-    setFamilyMember3NameValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember3Bond = (event) => {
-    setFamilyMember3bondValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember4Name = (event) => {
-    setFamilyMember4NameValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember4Bond = (event) => {
-    setFamilyMember4bondValue(event.target.value);
   };
 
   const onChangeMonday = (event) => {
@@ -558,36 +469,12 @@ const PostulantsForm = () => {
           title: workExperienceTitleValue,
           start: workExperienceStartValue,
           end: workExperienceEndValue,
-          company: workExperienceCompanyValue,
+          client: workExperienceClientValue,
           description: workExperienceDescriptionValue
-        }
-      ],
-      professionalTraining: [
-        {
-          description: profTrainingDescriptionValue,
-          year: profTrainingYearValue
         }
       ],
       languages: languagesValue,
       hobbies: hobbiesValue,
-      familyMembers: [
-        {
-          name: familyMember1NameValue,
-          bond: familyMember1bondValue
-        },
-        {
-          name: familyMember2NameValue,
-          bond: familyMember2bondValue
-        },
-        {
-          name: familyMember3NameValue,
-          bond: familyMember3bondValue
-        },
-        {
-          name: familyMember4NameValue,
-          bond: familyMember4bondValue
-        }
-      ],
       availability: [
         {
           monday: 'Monday',
@@ -683,9 +570,24 @@ const PostulantsForm = () => {
         middleText={errorMessage}
         buttonText="ok"
       />
+      <div className={styles.header}>
+        <h1>Edit your profile</h1>
+        <div className={styles.imagePostulant}>
+          <img
+            className={styles.logoPostulant}
+            src="http://3.bp.blogspot.com/_nKcd5vPHWY4/TJN_ySnkWCI/AAAAAAAAYvs/7h2_Z78Poj4/w1200-h630-p-k-no-nu/timthumb.jpg"
+          />
+        </div>
+        <div className={styles.postulantName}>
+          {`${selectedPostulant.firstName} ${selectedPostulant.lastName}`}
+        </div>
+        <div className={styles.postulantDetails}>
+          {`${selectedPostulant.openToWork ? 'Open to Work' : 'Not Available to Work'}`}
+        </div>
+      </div>
       <form action="" className={styles.form} onSubmit={onSubmit}>
-        <div className={styles.generalInformation}>
-          <h3>General Information</h3>
+        <div className={styles.sections}>
+          <p>Personal information</p>
           <Input
             label="First Name"
             id="firstName"
@@ -759,11 +661,10 @@ const PostulantsForm = () => {
             required
           />
         </div>
-        <div className={styles.studies}>
-          <h3>Studies</h3>
-          <h4>Elementary School</h4>
+        <div className={styles.sections}>
+          <p>Academic Information</p>
           <Input
-            label="Name"
+            label="Elementary School"
             id="elementarySchool"
             type="text"
             value={elementarySchoolNameValue}
@@ -783,9 +684,8 @@ const PostulantsForm = () => {
             value={elementarySchoolGraduateYearValue}
             onChange={onChangeSchoolGraduateYear}
           />
-          <h4>High School</h4>
           <Input
-            label="Name"
+            label="High School"
             id="highSchool"
             type="text"
             value={highSchoolNameValue}
@@ -805,9 +705,8 @@ const PostulantsForm = () => {
             value={highSchoolGraduateYearValue}
             onChange={onChangeHighSchoolGraduate}
           />
-          <h4>Junior College</h4>
           <Input
-            label="Name"
+            label="Junior College"
             id="juniorCollege"
             type="text"
             value={juniorCollegeNameValue}
@@ -827,9 +726,8 @@ const PostulantsForm = () => {
             value={juniorCollegeGraduateYearValue}
             onChange={onChangeJuniorCollegeGraduate}
           />
-          <h4>University</h4>
           <Input
-            label="Name"
+            label="University"
             id="University"
             type="text"
             value={universityNameValue}
@@ -850,20 +748,8 @@ const PostulantsForm = () => {
             onChange={onChangeUniversityGraduate}
           />
         </div>
-        <div className={styles.openForWork}>
-          <h3>
-            Open for Work
-            <input
-              type="checkbox"
-              id="openToWork"
-              checked={openToWork}
-              onChange={onChangeOpenToWork}
-            />
-          </h3>
-          <label htmlFor="openToWork" />
-        </div>
-        <div className={styles.workExperience}>
-          <h3>Work Experience</h3>
+        <div className={styles.sections}>
+          <p>Work experience information</p>
           <Input
             label="Title"
             id="workExperience"
@@ -881,16 +767,16 @@ const PostulantsForm = () => {
           <Input
             label="Ended"
             id="WorkExpEnded"
-            type="date" //HERE
+            type="date"
             value={workExperienceEndValue}
             onChange={onChangeWorkExperienceEnd}
           />
           <Input
             label="Company"
-            id="WorkExpCompany"
+            id="WorkExpClient"
             type="text"
-            value={workExperienceCompanyValue}
-            onChange={onChangeWorkExperienceCompany}
+            value={workExperienceClientValue}
+            onChange={onChangeWorkExperienceClient}
           />
           <Input
             label="Description"
@@ -900,277 +786,183 @@ const PostulantsForm = () => {
             onChange={onChangeWorkExperienceDescription}
           />
         </div>
-        <div className={styles.professionalTraining}>
-          <h3>Professional Training</h3>
+        <div className={styles.sections}>
+          <p>Data of interest</p>
           <Input
-            label="Description"
-            id="profTrainDescription"
+            label="Open to work"
+            type="checkbox"
+            id="openToWork"
+            checked={openToWork}
+            onChange={onChangeOpenToWork}
+          />
+          <Input
+            label="Languages"
+            id="languages"
             type="text"
-            value={profTrainingDescriptionValue}
-            onChange={onChangeProfTrainingDescription}
+            value={languagesValue}
+            onChange={onChangeLanguages}
           />
           <Input
-            label="Year"
-            id="profTrainStarted"
-            type="number"
-            value={profTrainingYearValue}
-            onChange={onChangeProfTrainingYear}
+            label="Hobbies"
+            id="hobbies"
+            type="text"
+            value={hobbiesValue}
+            onChange={onChangeHobbies}
           />
         </div>
-        <Input
-          label="Languages"
-          id="languages"
-          type="text"
-          value={languagesValue}
-          onChange={onChangeLanguages}
-        />
-        <Input
-          label="Hobbies"
-          id="hobbies"
-          type="text"
-          value={hobbiesValue}
-          onChange={onChangeHobbies}
-        />
-        <div className={styles.family}>
-          <h3>Family</h3>
-          <div>
-            <Input
-              label="1st family member name"
-              id="1stFMName"
-              type="text"
-              value={familyMember1NameValue}
-              onChange={onChangeFamlilyMember1Name}
-            />
-            <Input
-              label="bond"
-              id="1stFMBond"
-              type="text"
-              value={familyMember1bondValue}
-              onChange={onChangeFamlilyMember1Bond}
-            />
-          </div>
-          <div>
-            <Input
-              label="2st family member name"
-              id="2stFMName"
-              type="text"
-              value={familyMember2NameValue}
-              onChange={onChangeFamlilyMember2Name}
-            />
-            <Input
-              label="bond"
-              id="2stFMBond"
-              type="text"
-              value={familyMember2bondValue}
-              onChange={onChangeFamlilyMember2Bond}
-            />
-          </div>
-          <div>
-            <Input
-              label="3st family member name"
-              id="3stFMName"
-              type="text"
-              value={familyMember3NameValue}
-              onChange={onChangeFamlilyMember3Name}
-            />
-            <Input
-              label="bond"
-              id="3stFMBond"
-              type="text"
-              value={familyMember3bondValue}
-              onChange={onChangeFamlilyMember3Bond}
-            />
-          </div>
-          <div>
-            <Input
-              label="4st family member name"
-              id="4stFMName"
-              type="text"
-              value={familyMember4NameValue}
-              onChange={onChangeFamlilyMember4Name}
-            />
-            <Input
-              label="bond"
-              id="4stFMBond"
-              type="text"
-              value={familyMember4bondValue}
-              onChange={onChangeFamlilyMember4Bond}
-            />
-          </div>
+        <div className={styles.sections}>
+          <p>Availability</p>
+          <Input
+            label="Monday"
+            type="checkbox"
+            id="mondayDay1"
+            checked={availabilityCheckMondayValue}
+            onChange={onChangeMonday}
+          />
+          <Input
+            label="from"
+            id="fromDay1"
+            type="text"
+            value={availabilityFromMondayValue}
+            onChange={onChangeMondayFrom}
+          />
+          <Input
+            label="To"
+            id="ToDay1"
+            type="text"
+            value={availabilityToMondayValue}
+            onChange={onChangeMondayTo}
+          />
+          <Input
+            label="Tuesday"
+            type="checkbox"
+            id="tuesdayDay2"
+            checked={availabilityCheckTuesdayValue}
+            onChange={onChangeTuesday}
+          />
+          <Input
+            label="from"
+            id="fromDay2"
+            type="text"
+            value={availabilityFromTuesdayValue}
+            onChange={onChangeTuesdayFrom}
+          />
+          <Input
+            label="To"
+            id="ToDay2"
+            type="text"
+            value={availabilityToTuesdayValue}
+            onChange={onChangeTuesdayTo}
+          />
+          <Input
+            label="Wednesday"
+            type="checkbox"
+            id="WednesdayDay3"
+            checked={availabilityCheckWednesdayValue}
+            onChange={onChangeWednesday}
+          />
+          <Input
+            label="from"
+            id="fromDay3"
+            type="text"
+            value={availabilityFromWednesdayValue}
+            onChange={onChangeWednesdayFrom}
+          />
+          <Input
+            label="To"
+            id="ToDay3"
+            type="text"
+            value={availabilityToWednesdayValue}
+            onChange={onChangeWednesdayTo}
+          />
+          <Input
+            label="Thursday"
+            type="checkbox"
+            id="ThursdayDay4"
+            checked={availabilityCheckThursdayValue}
+            onChange={onChangeThursday}
+          />
+          <Input
+            label="from"
+            id="fromDay4"
+            type="text"
+            value={availabilityFromThursdayValue}
+            onChange={onChangeThursdayFrom}
+          />
+          <Input
+            label="To"
+            id="ToDay4"
+            type="text"
+            value={availabilityToThursdayValue}
+            onChange={onChangeThursdayTo}
+          />
+          <Input
+            label="Friday"
+            type="checkbox"
+            id="FridayDay5"
+            checked={availabilityCheckFridayValue}
+            onChange={onChangeFriday}
+          />
+          <Input
+            label="from"
+            id="fromDay5"
+            type="text"
+            value={availabilityFromFridayValue}
+            onChange={onChangeFridayFrom}
+          />
+          <Input
+            label="To"
+            id="ToDay5"
+            type="text"
+            value={availabilityToFridayValue}
+            onChange={onChangeFridayTo}
+          />
+          <Input
+            label="Saturday"
+            type="checkbox"
+            id="SaturdayDay6"
+            checked={availabilityCheckSaturdayValue}
+            onChange={onChangeSaturday}
+          />
+          <Input
+            label="from"
+            id="fromDay6"
+            type="text"
+            value={availabilityFromSaturdayValue}
+            onChange={onChangeSaturdayFrom}
+          />
+          <Input
+            label="To"
+            id="ToDay6"
+            type="text"
+            value={availabilityToSaturdayValue}
+            onChange={onChangeSaturdayTo}
+          />
+          <Input
+            label="Sunday"
+            type="checkbox"
+            id="SundayDay7"
+            checked={availabilityCheckSundayValue}
+            onChange={onChangeSunday}
+          />
+          <Input
+            label="from"
+            id="fromDay7"
+            type="text"
+            value={availabilityFromSundayValue}
+            onChange={onChangeSundayFrom}
+          />
+          <Input
+            label="To"
+            id="ToDay7"
+            type="text"
+            value={availabilityToSundayValue}
+            onChange={onChangeSundayTo}
+          />
         </div>
-        <div className={styles.availability}>
-          <h3>Availability</h3>
-          <div>
-            <label htmlFor="mondayDay1" /> Mondays
-            <input
-              type="checkbox"
-              id="mondayDay1"
-              checked={availabilityCheckMondayValue}
-              onChange={onChangeMonday}
-            />
-            <Input
-              label="from"
-              id="fromDay1"
-              type="text"
-              value={availabilityFromMondayValue}
-              onChange={onChangeMondayFrom}
-            />
-            <Input
-              label="To"
-              id="ToDay1"
-              type="text"
-              value={availabilityToMondayValue}
-              onChange={onChangeMondayTo}
-            />
-          </div>
-          <div>
-            <label htmlFor="tuesdayDay2" /> Tuesdays
-            <Input
-              type="checkbox"
-              id="tuesdayDay2"
-              checked={availabilityCheckTuesdayValue}
-              onChange={onChangeTuesday}
-            />
-            <Input
-              label="from"
-              id="fromDay2"
-              type="text"
-              value={availabilityFromTuesdayValue}
-              onChange={onChangeTuesdayFrom}
-            />
-            <Input
-              label="To"
-              id="ToDay2"
-              type="text"
-              value={availabilityToTuesdayValue}
-              onChange={onChangeTuesdayTo}
-            />
-          </div>
-          <div>
-            <label htmlFor="WednesdayDay3" /> Wednesdays
-            <input
-              type="checkbox"
-              id="WednesdayDay3"
-              checked={availabilityCheckWednesdayValue}
-              onChange={onChangeWednesday}
-            />
-            <Input
-              label="from"
-              id="fromDay3"
-              type="text"
-              value={availabilityFromWednesdayValue}
-              onChange={onChangeWednesdayFrom}
-            />
-            <Input
-              label="To"
-              id="ToDay3"
-              type="text"
-              value={availabilityToWednesdayValue}
-              onChange={onChangeWednesdayTo}
-            />
-          </div>
-          <div>
-            <label htmlFor="ThursdayDay4" /> Thursdays
-            <input
-              type="checkbox"
-              id="ThursdayDay4"
-              checked={availabilityCheckThursdayValue}
-              onChange={onChangeThursday}
-            />
-            <Input
-              label="from"
-              id="fromDay4"
-              type="text"
-              value={availabilityFromThursdayValue}
-              onChange={onChangeThursdayFrom}
-            />
-            <Input
-              label="To"
-              id="ToDay4"
-              type="text"
-              value={availabilityToThursdayValue}
-              onChange={onChangeThursdayTo}
-            />
-          </div>
-          <div>
-            <label htmlFor="FridayDay5" /> Fridays
-            <input
-              type="checkbox"
-              id="FridayDay5"
-              checked={availabilityCheckFridayValue}
-              onChange={onChangeFriday}
-            />
-            <Input
-              label="from"
-              id="fromDay5"
-              type="text"
-              value={availabilityFromFridayValue}
-              onChange={onChangeFridayFrom}
-            />
-            <Input
-              label="To"
-              id="ToDay5"
-              type="text"
-              value={availabilityToFridayValue}
-              onChange={onChangeFridayTo}
-            />
-          </div>
-          <div>
-            <label htmlFor="SaturdayDay6" /> Saturdays
-            <Input
-              type="checkbox"
-              id="SaturdayDay6"
-              checked={availabilityCheckSaturdayValue}
-              onChange={onChangeSaturday}
-            />
-            <Input
-              label="from"
-              id="fromDay6"
-              type="text"
-              value={availabilityFromSaturdayValue}
-              onChange={onChangeSaturdayFrom}
-            />
-            <Input
-              label="To"
-              id="ToDay6"
-              type="text"
-              value={availabilityToSaturdayValue}
-              onChange={onChangeSaturdayTo}
-            />
-          </div>
-          <div>
-            <label htmlFor="SundayDay7" /> Sundays
-            <Input
-              type="checkbox"
-              id="SundayDay7"
-              checked={availabilityCheckSundayValue}
-              onChange={onChangeSunday}
-            />
-            <Input
-              label="from"
-              id="fromDay7"
-              type="text"
-              value={availabilityFromSundayValue}
-              onChange={onChangeSundayFrom}
-            />
-            <Input
-              label="To"
-              id="ToDay7"
-              type="text"
-              value={availabilityToSundayValue}
-              onChange={onChangeSundayTo}
-            />
-          </div>
-        </div>
-        {postulantId ? (
-          <button className={styles.sendFormButton} type="submit">
-            Edit
-          </button>
-        ) : (
-          <button className={styles.sendFormButton} type="submit">
-            Add postulant
-          </button>
-        )}
+        <button className={styles.sendFormButton} type="submit">
+          Save Changes
+        </button>
       </form>
     </div>
   );

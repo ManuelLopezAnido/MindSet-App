@@ -82,7 +82,7 @@ function Positions() {
         <thead>
           <tr>
             <th>Job</th>
-            <th>company</th>
+            <th>Client</th>
             <th>Cancel postulation</th>
           </tr>
         </thead>
@@ -93,7 +93,7 @@ function Positions() {
               onClick={() => (window.location.href = `/admin/positions/form?id=${a._id}`)}
             >
               <td>{a.jobTitle}</td>
-              <td>{a.companyName}</td>
+              <td>{a.clientName}</td>
               <td>
                 <DeleteButton onClick={(e) => handleIdPosition(e, a._id)} />
               </td>

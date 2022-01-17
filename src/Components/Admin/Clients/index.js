@@ -77,7 +77,7 @@ function Clients() {
         <thead>
           <tr>
             <th>Name</th>
-            <th>Company Type</th>
+            <th>Client Type</th>
             <th>Email</th>
             <th>Country</th>
             <th>Phone</th>
@@ -90,8 +90,8 @@ function Clients() {
               key={client._id}
               onClick={() => (window.location.href = `clients/form?id=${client._id}`)}
             >
-              <td>{client.companyName}</td>
-              <td>{client.companyType}</td>
+              <td>{client.clientName}</td>
+              <td>{client.clientType}</td>
               <td>{client.email}</td>
               <td>{client.country}</td>
               <td>{client.phone}</td>
