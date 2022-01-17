@@ -5,6 +5,7 @@ import { logOutUser } from 'helper/firebase';
 const Header = () => {
   const logOut = () => {
     sessionStorage.removeItem('token');
+    sessionStorage.removeItem('id');
     logOutUser();
   };
 

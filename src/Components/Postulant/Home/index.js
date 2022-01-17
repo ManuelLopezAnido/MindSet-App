@@ -12,10 +12,19 @@ function Home() {
   const [openDataOfInterestData, setDataOfInterestData] = useState(false);
 
   const params = new URLSearchParams(window.location.search);
-  const postulantId = params.get('id');
+  let postulantId = params.get('id');
 
   useEffect(() => {
-    dispatch(getOnePostulant(postulantId));
+    console.log(postulantId);
+    if (postulantId) {
+      dispatch(getOnePostulant(postulantId));
+      sessionStorage.setItem('id', postulantId);
+    } else {
+      console.log('entre aca');
+      postulantId = sessionStorage.getItem('id');
+      console.log(postulantId);
+      dispatch(getOnePostulant(postulantId));
+    }
   }, []);
 
   const handlePersonalInformationData = () => {
