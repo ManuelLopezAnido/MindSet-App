@@ -23,7 +23,9 @@ export const getProfiles = () => (dispatch) => {
   dispatch(getProfilesFetching());
   fetch(`${URL}/workProfiles/`, { headers: { token } })
     .then((data) => data.json())
-    .then((response) => dispatch(getProfilesFulfilled(response)))
+    .then((response) => {
+      dispatch(getProfilesFulfilled(response));
+    })
     .catch((error) => dispatch(getProfilesRejected(error)));
 };
 

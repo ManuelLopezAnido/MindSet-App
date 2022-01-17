@@ -24,10 +24,10 @@ function Clients() {
   const errorMessage = useSelector((store) => store.clients.errorMessage);
 
   useEffect(() => {
-    if (!clients?.list) {
+    if (!clients.list) {
       dispatch(getClients());
     }
-  }, [clients]);
+  }, []);
 
   const onDeleteClient = () => {
     dispatch(deleteClient(selectedId));
