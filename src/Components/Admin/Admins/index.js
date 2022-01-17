@@ -64,12 +64,17 @@ const Admins = () => {
         leftButtonText="delete"
         rightButtonText="cancel"
       />
-      <ErrorModal
+      <Modal
         showModal={error}
         closeModal={() => dispatch(errorToDefault())}
         titleText="Error"
-        middleText={errorMessage}
-        buttonText="ok"
+        spanObjectArray={[
+          {
+            span: errorMessage
+          }
+        ]}
+        leftButtonText=""
+        rightButtonText="Ok"
       />
       <div className={listStyles.titleAndButton}>
         <h3>Admin</h3>
