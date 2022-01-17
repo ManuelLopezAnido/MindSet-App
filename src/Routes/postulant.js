@@ -1,4 +1,5 @@
-import { Switch, Route, useRouteMatch } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Switch, useRouteMatch } from 'react-router-dom';
 import Home from 'Components/Postulant/Home';
 import PostulantLayout from 'Components/Layout/PostulantLayout';
 import SignUp from 'Components/Postulant/SignUp';
@@ -7,9 +8,11 @@ import PostulantsForm from 'Components/Postulant/Postulants/Form';
 import Interviews from 'Components/Postulant/Interviews';
 import JobOffers from 'Components/Postulant/JobOffers';
 import PrivateRoute from './PrivateRoute';
+import { tokenListener } from 'helper/firebase';
 
 const PostulantRoutes = () => {
   const { url } = useRouteMatch();
+  useEffect(() => tokenListener(), []);
   return (
     <PostulantLayout>
       <Switch>
