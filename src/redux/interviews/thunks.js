@@ -18,8 +18,9 @@ import {
 const URL = process.env.REACT_APP_API;
 
 export const getInterviews = () => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(getInterviewsFetching());
-  fetch(`${URL}/interviews/`)
+  fetch(`${URL}/interviews/`, { headers: { token } })
     .then((data) => data.json())
     .then((response) => dispatch(getInterviewsFulfilled(response)))
     .catch((error) => {
@@ -28,8 +29,9 @@ export const getInterviews = () => (dispatch) => {
 };
 
 export const getOneInterview = (id) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(getOneInterviewFetching());
-  return fetch(`${URL}/interviews/${id}`)
+  return fetch(`${URL}/interviews/${id}`, { headers: { token } })
     .then((response) => {
       if (response.status != 200) throw response.message;
       return response.json();
@@ -45,10 +47,12 @@ export const getOneInterview = (id) => (dispatch) => {
 };
 
 export const addInterview = (data) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   const options = {
     method: 'POST',
     headers: {
-      'Content-type': 'application/json'
+      'Content-type': 'application/json',
+      token
     },
     body: JSON.stringify({
       jobTitle: data.jobTitle,
@@ -82,11 +86,13 @@ export const addInterview = (data) => (dispatch) => {
 };
 
 export const updateInterview = (id, data) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(updateInterviewFetching());
   return fetch(`${URL}/interviews/update/${id}`, {
     method: 'PUT',
     headers: {
-      'Content-type': 'application/json'
+      'Content-type': 'application/json',
+      token
     },
     body: JSON.stringify({
       jobTitle: data.jobTitle,
@@ -109,11 +115,13 @@ export const updateInterview = (id, data) => (dispatch) => {
 };
 
 export const deleteInterview = (id) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(deleteInterviewFetching());
   const body = {
     method: 'DELETE',
     headers: {
-      'Content-type': 'application/json'
+      'Content-type': 'application/json',
+      token
     }
   };
   fetch(`${URL}/interviews/delete/${id}`, body)

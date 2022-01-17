@@ -19,8 +19,9 @@ import {
 const URL = process.env.REACT_APP_API;
 
 export const getPostulants = () => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(getPostulantsFetching());
-  return fetch(`${URL}/postulants/`)
+  return fetch(`${URL}/postulants/`, { headers: { token } })
     .then((data) => data.json())
     .then((response) => {
       dispatch(getPostulantsFulfilled(response));
@@ -29,8 +30,9 @@ export const getPostulants = () => (dispatch) => {
 };
 
 export const getOnePostulant = (id) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(getOnePostulantFetching());
-  return fetch(`${URL}/postulants/${id}`)
+  return fetch(`${URL}/postulants/${id}`, { headers: { token } })
     .then((response) => {
       if (response.status != 200) throw response.message;
       return response.json();
@@ -46,10 +48,12 @@ export const getOnePostulant = (id) => (dispatch) => {
 };
 
 export const addPostulant = (data) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   const options = {
     method: 'POST',
     headers: {
-      'Content-type': 'application/json'
+      'Content-type': 'application/json',
+      token
     },
     body: JSON.stringify({
       firstName: data.firstName,
@@ -172,11 +176,13 @@ export const addPostulant = (data) => (dispatch) => {
 };
 
 export const updatePostulant = (id, data) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(updatePostulantFetching());
   return fetch(`${URL}/postulants/update/${id}`, {
     method: 'PUT',
     headers: {
-      'Content-type': 'application/json'
+      'Content-type': 'application/json',
+      token
     },
     body: JSON.stringify({
       firstName: data.firstName,
@@ -287,11 +293,13 @@ export const updatePostulant = (id, data) => (dispatch) => {
 };
 
 export const deletePostulant = (id) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(deletePostulantFetching());
   return fetch(`${URL}/postulants/delete/${id}`, {
     method: 'DELETE',
     headers: {
-      'Content-type': 'application/json'
+      'Content-type': 'application/json',
+      token
     }
   })
     .then((response) => {

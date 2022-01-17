@@ -19,16 +19,28 @@ import {
 const URL = process.env.REACT_APP_API;
 
 export const getClients = () => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(getClientsFetching());
-  return fetch(`${URL}/clients/`)
-    .then((data) => data.json())
+  return fetch(`${URL}/clients/`, { headers: { token } })
+    .then((response) => {
+      if (response.status !== 200) {
+        return response.json().then((response) => {
+          throw response;
+        });
+      }
+      return response.json();
+    })
     .then((response) => dispatch(getClientsFulfilled(response)))
-    .catch((error) => dispatch(getClientsRejected(error)));
+    .catch((error) => {
+      console.log('error', error);
+      dispatch(getClientsRejected(error.message));
+    });
 };
 
 export const getOneClient = (id) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(getOneClientFetching());
-  return fetch(`${URL}/clients/id/${id}`)
+  return fetch(`${URL}/clients/id/${id}`, { headers: token })
     .then((response) => {
       if (response.status != 200) throw response.message;
       return response.json();
@@ -44,10 +56,12 @@ export const getOneClient = (id) => (dispatch) => {
 };
 
 export const addClient = (data) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   const options = {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      token
     },
     body: JSON.stringify({
       clientName: data.clientName,
@@ -81,11 +95,13 @@ export const addClient = (data) => (dispatch) => {
 };
 
 export const updateClient = (id, data) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(updateClientFetching());
   return fetch(`${URL}/clients/update/${id}`, {
     method: 'PUT',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      token
     },
     body: JSON.stringify({
       clientName: data.clientName,
@@ -112,11 +128,13 @@ export const updateClient = (id, data) => (dispatch) => {
 };
 
 export const deleteClient = (id) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(deleteClientFetching());
   return fetch(`${URL}/clients/delete/${id}`, {
     method: 'DELETE',
     headers: {
-      'Content-type': 'application/json'
+      'Content-type': 'application/json',
+      token
     }
   })
     .then((response) => {
