@@ -17,7 +17,7 @@ const HomePageHeader = () => {
             <Link to="/auth/login">
               <span className={styles.signUp}>Log In</span>
             </Link>
-            <Link to="/auth/signUp">
+            <Link to="/auth/register">
               <span className={styles.signUp}>Sign Up</span>
             </Link>
           </div>
