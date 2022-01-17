@@ -9,6 +9,7 @@ import applicationsReducers from './applications/reducer';
 import interviewsReducers from './interviews/reducer';
 import positionsReducer from './positions/reducer';
 import authReducer from './auth/reducer';
+import profilesReducer from './profiles/reducer';
 
 const rootReducer = combineReducers({
   admins: adminsReducer,
@@ -18,9 +19,10 @@ const rootReducer = combineReducers({
   counselors: counselorsReducer,
   ui: uiReducer,
   applications: applicationsReducers,
-  positions: positionsReducer,
   auth: authReducer,
-  interviews: interviewsReducers
+  interviews: interviewsReducers,
+  positions: positionsReducer,
+  profiles: profilesReducer
 });
 
 export default rootReducer;

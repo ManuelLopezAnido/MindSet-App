@@ -141,6 +141,15 @@ const PositionsForm = () => {
               validate={(value) => (value ? undefined : 'please enter a country')}
             />
             <Field
+              label="Profile"
+              id="profile"
+              name="profil"
+              type="string"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please enter a profile')}
+            />
+            <Field
               label="Date Posted"
               id="datePosted"
               name="datePosted"
