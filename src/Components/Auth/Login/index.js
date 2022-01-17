@@ -18,9 +18,9 @@ const Login = () => {
     return dispatch(login(formValues)).then((response) => {
       if (response) {
         switch (response.payload?.role) {
-          case 'POSTULANT':
+          case 'postulant':
             return history.push(`/postulant?id=${response.payload?.mongoDBID}`);
-          case 'ADMIN':
+          case 'admin':
             return history.push(`/admin?id=${response.payload?.mongoDBID}`);
           default:
             break;
