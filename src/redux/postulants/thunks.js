@@ -22,7 +22,14 @@ export const getPostulants = () => (dispatch) => {
   const token = sessionStorage.getItem('token');
   dispatch(getPostulantsFetching());
   return fetch(`${URL}/postulants/`, { headers: { token } })
-    .then((data) => data.json())
+    .then((response) => {
+      if (response.status !== 200) {
+        return response.json().then((response) => {
+          throw response;
+        });
+      }
+      return response.json();
+    })
     .then((response) => {
       dispatch(getPostulantsFulfilled(response));
     })

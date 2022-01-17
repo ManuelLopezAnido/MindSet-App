@@ -1,10 +1,4 @@
-import {
-  LOGIN_PENDING,
-  LOGIN_SUCCESS,
-  LOGIN_ERROR,
-  CLEAN_ERROR,
-  SET_AUTHENTICATION
-} from './constants';
+import { LOGIN_PENDING, LOGIN_SUCCESS, LOGIN_ERROR, CLEAN_ERROR } from './constants';
 
 const initialState = {
   isLoading: false,
@@ -22,10 +16,12 @@ const reducer = (state = initialState, action) => {
       };
     }
     case LOGIN_SUCCESS: {
+      console.log('action payload login Success', action.payload);
       return {
         ...state,
         isFetching: false,
-        authenticated: action.payload
+        authenticated: action.payload,
+        error: ''
       };
     }
     case LOGIN_ERROR: {
@@ -40,13 +36,6 @@ const reducer = (state = initialState, action) => {
         ...state,
         isFetching: false,
         error: initialState.error
-      };
-    }
-    case SET_AUTHENTICATION: {
-      return {
-        ...state,
-        isFetching: false,
-        authenticated: action.payload
       };
     }
     default: {

@@ -126,12 +126,15 @@ export const deleteInterview = (id) => (dispatch) => {
   };
   fetch(`${URL}/interviews/delete/${id}`, body)
     .then((response) => {
-      if (response.status !== 200) {
-        throw response;
+      if (response.status !== 201) {
+        return response.json().then(({ message }) => {
+          console.log(message);
+          throw message;
+        });
       }
       dispatch(deleteInterviewFulfilled(id));
     })
     .catch((error) => {
-      dispatch(deleteInterviewRejected(error.msg));
+      dispatch(deleteInterviewRejected(error));
     });
 };

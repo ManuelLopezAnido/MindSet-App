@@ -121,10 +121,15 @@ export const deletePosition = (id) => (dispatch) => {
     }
   })
     .then((response) => {
-      if (response.status != 200) throw response;
+      if (response.status !== 201) {
+        return response.json().then(({ message }) => {
+          console.log(message);
+          throw message;
+        });
+      }
       dispatch(deletePositionFulfilled(id));
     })
     .catch((error) => {
-      dispatch(deletePositionRejected(error.statusText));
+      dispatch(deletePositionRejected(error));
     });
 };
