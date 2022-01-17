@@ -20,10 +20,10 @@ const Register = () => {
       lastName: formValues.lastName,
       address: formValues.address,
       phone: formValues.phone,
-      dateOfBirth: 'blank', //these are here because the server was throwing an error.
-      city: 'blank',
-      state: 'blank',
-      country: 'blank',
+      dateOfBirth: '-',
+      city: '-',
+      state: '-',
+      country: '-',
       elementarySchool: '',
       highSchool: '',
       juniorCollege: '',
@@ -38,7 +38,7 @@ const Register = () => {
     };
     dispatch(addPostulant(formValuesOk)).then((response) => {
       if (response) {
-        history.push('/postulant/signUp');
+        history.push(`/auth/signUp?id=${response.data.mongoDBID}`);
       }
     });
   };
