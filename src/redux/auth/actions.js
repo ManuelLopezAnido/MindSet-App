@@ -1,10 +1,4 @@
-import {
-  LOGIN_PENDING,
-  LOGIN_SUCCESS,
-  LOGIN_ERROR,
-  CLEAN_ERROR,
-  SET_AUTHENTICATION
-} from './constants';
+import { LOGIN_PENDING, LOGIN_SUCCESS, LOGIN_ERROR, CLEAN_ERROR } from './constants';
 
 export const loginPending = () => {
   return { type: LOGIN_PENDING };
@@ -17,7 +11,4 @@ export const loginError = (error) => {
 };
 export const cleanError = () => {
   return { type: CLEAN_ERROR };
-};
-export const setAuthentication = (user) => {
-  return { type: SET_AUTHENTICATION, payload: user };
 };
