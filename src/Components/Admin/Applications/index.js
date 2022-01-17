@@ -3,6 +3,7 @@ import listStyles from 'lists.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { getApplications, deleteApplication } from 'redux/applications/thunks.js';
 import { errorToDefault } from 'redux/admins/actions';
+import { useHistory } from 'react-router-dom';
 import Modal from 'Components/Shared/Modal';
 import AddButton from 'Components/Shared/AddButton';
 import EditButton from 'Components/Shared/EditButton';
@@ -14,7 +15,7 @@ function Applications() {
   const [selectedId, setSelectedId] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState('');
-
+  const history = useHistory();
   const dispatch = useDispatch();
   const listApplications = useSelector((store) => store.applications.list);
   const error = useSelector((store) => store.applications.error);
@@ -70,9 +71,6 @@ function Applications() {
         titleText="Error"
         buttonText="ok"
       />
-      <div className={listStyles.headerList}>
-        <AddButton onClick={() => history.push('/admin/clients/form')} value="Application" />
-      </div>
       <div className={listStyles.list}>
         <table>
           <thead>
@@ -85,10 +83,7 @@ function Applications() {
           </thead>
           <tbody>
             {listApplications.map((a) => (
-              <tr
-                key={a._id}
-                onClick={() => (window.location.href = `/admin/applications/form?id=${a._id}`)}
-              >
+              <tr key={a._id}>
                 <td>{a.positionId ? a.positionId.jobTitle : 'Position not found'}</td>
                 <td>{a.clientId ? a.clientId.clientName : 'Client not found'}</td>
                 <td>
@@ -101,9 +96,20 @@ function Applications() {
                     onClick={() => (window.location.href = `/admin/applications/form?id=${a._id}`)}
                   />
                   <DeleteButton onClick={(event) => handleIdApplication(event, a._id)} />
+                  <button
+                    onClick={() =>
+                      history.push(
+                        `/admin/interviews/form?client=${a.clientId.clientName}&postulant=${a.postulantId.firstName}`
+                      )
+                    }
+                    value="Application"
+                  >
+                    +
+                  </button>
                 </td>
               </tr>
             ))}
+            3
           </tbody>
         </table>
       </div>
