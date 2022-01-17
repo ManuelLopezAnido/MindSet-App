@@ -1,117 +1,87 @@
 import React, { useEffect, useState } from 'react';
 import listStyles from 'lists.module.css';
-import Input from 'Components/Shared/Input';
 import Modal from 'Components/Shared/Modal';
 import SaveButton from 'Components/Shared/SaveButton';
-import ErrorModal from 'Components/Shared/ErrorModal';
+import Input from 'Components/Shared/FormInput';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
+import Select from 'Components/Shared/Select';
+import { useHistory } from 'react-router-dom';
+import { Field, Form } from 'react-final-form';
+import { useSelector, useDispatch } from 'react-redux';
+import { errorToDefault, selectedToDefault } from 'redux/admins/actions';
+import { getOneInterview, addInterview, updateInterview } from 'redux/interviews/thunks';
+import { getPostulants } from 'redux/postulants/thunks';
+import { getClients } from 'redux/clients/thunks';
 
 const InterviewsForm = () => {
-  const [jobTitle, setJobTitle] = useState('');
-  const [clientName, setClientName] = useState('');
-  const [dateValue, setDate] = useState('');
-  const [timeValue, setTime] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  const onChangeJobTitle = (event) => {
-    setJobTitle(event.target.value);
-  };
-  const onChangeClientName = (event) => {
-    setClientName(event.target.value);
-  };
-  const onChangeDate = (event) => {
-    setDate(event.target.value);
-  };
-  const onChangeTime = (event) => {
-    setTime(event.target.value);
-  };
+  const [formValues, setFormValues] = useState({});
+  const [clientsToMap, setClientsToMap] = useState([]);
+  const [postulantsToMap, setPostulantsToMap] = useState([]);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const isLoading = useSelector((store) => store.interviews.isLoading);
+  const error = useSelector((store) => store.interviews.error);
+  const selectedInterview = useSelector((store) => store.interviews.selected);
+  const clients = useSelector((store) => store.clients.list);
+  const postulants = useSelector((store) => store.postulants.list);
 
   const params = new URLSearchParams(window.location.search);
   const interviewId = params.get('id');
 
   useEffect(() => {
+    dispatch(getClients());
+    dispatch(getPostulants());
     if (interviewId) {
-      setIsLoading(true);
-      fetch(`${process.env.REACT_APP_API}/interviews/${interviewId}`)
-        .then((response) => {
-          if (response.status !== 200) {
-            return response.json().then(({ message }) => {
-              throw new Error(message);
-            });
-          }
-          return response.json();
-        })
-        .then((response) => {
-          setJobTitle(response.jobTitle);
-          setClientName(response.clientName);
-          setDate(response.date);
-          setTime(response.time);
-        })
-        .catch((error) => {
-          setShowErrorModal(true);
-          setShowErrorModalMessage(JSON.stringify(error.message));
-        })
-        .finally(() => setIsLoading(false));
+      dispatch(getOneInterview(interviewId));
+    } else {
+      dispatch(selectedToDefault());
     }
   }, []);
 
-  const submit = (event) => {
-    event.preventDefault();
-    setIsLoading(true);
-    let url;
+  //setting up selects
+  useEffect(() => {
+    const cli = clients.map((client) => {
+      return { value: client._id, toShow: client.clientName };
+    });
+    setClientsToMap(cli);
 
-    const options = {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        jobTitle: jobTitle,
-        clientName: clientName,
-        date: dateValue,
-        time: timeValue
-      })
-    };
+    const post = postulants.map((postulant) => {
+      return { value: postulant._id, toShow: postulant.firstName };
+    });
+    setPostulantsToMap(post);
+  }, [clients, postulants]);
 
-    if (interviewId === null) {
-      options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/interviews/create`;
-    } else {
-      options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/interviews/update/${interviewId}`;
-    }
-
-    fetch(url, options)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
-          return response.json().then(({ msg }) => {
-            throw new Error(msg);
-          });
+  const submit = () => {
+    if (interviewId) {
+      dispatch(updateInterview(interviewId, formValues)).then((response) => {
+        if (response) {
+          history.push('/admin/interviews');
         }
-        return (window.location.href = `/admin/interviews`);
-      })
-      .catch((error) => {
-        setShowErrorModalMessage(error.toString());
-        setShowErrorModal(true);
-      })
-      .finally(() => {
-        setShowModal(false);
-        setIsLoading(false);
       });
-  };
-
-  const closeErrorMessage = () => {
-    setShowErrorModal(false);
+    } else {
+      dispatch(addInterview(formValues)).then((response) => {
+        if (response) {
+          history.push('/admin/interviews');
+        }
+      });
+    }
   };
 
   const closeModal = () => {
     setShowModal(false);
   };
 
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const onSubmit = (formValues) => {
+    const formValuesOk = {
+      jobTitle: formValues.jobTitle,
+      postulantId: formValues.postulantId,
+      clientId: formValues.clientId,
+      date: formValues.date,
+      time: formValues.time,
+      state: formValues.state
+    };
+    setFormValues(formValuesOk);
     setShowModal(true);
   };
 
@@ -132,53 +102,84 @@ const InterviewsForm = () => {
         leftButtonText="save"
         rightButtonText="cancel"
       />
-      <ErrorModal
-        showModal={showErrorModal}
-        closeModal={closeErrorMessage}
-        titleText="Error"
-        middleText={showErrorModalMessage}
-        buttonText="ok"
+      <Modal
+        showModal={!!error}
+        closeModal={() => errorToDefault()}
+        actionEntity={submit}
+        titleText="Save"
+        spanObjectArray={[
+          {
+            span: error
+          }
+        ]}
+        leftButtonText="OK"
+        rightButtonText="CLOSE"
       />
       <h2> {`${interviewId == null ? 'Add a new Interview' : 'Edit the interview'}`} </h2>
-      <form className={listStyles.inputs} onSubmit={onSubmit}>
-        <Input
-          label="Job"
-          id="jobTitle"
-          name="jobTitleName"
-          required
-          value={jobTitle}
-          onChange={onChangeJobTitle}
-          placeholder="Job"
-        />
-        <Input
-          label="Client"
-          id="clientName"
-          name="clientName"
-          required
-          value={clientName}
-          onChange={onChangeClientName}
-          placeholder="Client Name"
-        />
-        <Input
-          label="Date"
-          id="date"
-          name="date"
-          required
-          value={dateValue.substring(0, 10)}
-          onChange={onChangeDate}
-          placeholder="E.G. 07/12/2021"
-        />
-        <Input
-          label="Time"
-          id="time"
-          name="time"
-          required
-          value={timeValue}
-          onChange={onChangeTime}
-          placeholder="Type the hour"
-        />
-        <SaveButton type="submit" />
-      </form>
+      <Form
+        onSubmit={onSubmit}
+        initialValues={selectedInterview}
+        render={(formProps) => (
+          <form className={listStyles.form} onSubmit={formProps.handleSubmit}>
+            <Field
+              name="jobTitle"
+              label="jobTitle"
+              placeholder="Electrical engineer"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please state the job  offer')}
+            />
+            <Field
+              name="clientId"
+              label="Client"
+              placeholder="Coca-cola"
+              options={clientsToMap}
+              component={Select}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please select a client')}
+            />
+            <Field
+              name="postulantId"
+              label="Postulant"
+              placeholder="Jorge"
+              options={postulantsToMap}
+              component={Select}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please select a postulant')}
+            />
+            <Field
+              name="date"
+              label="Date"
+              type="date"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please select a date')}
+            />
+            <Field
+              name="time"
+              label="Time"
+              type="time"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please select a time')}
+            />
+            <Field
+              name="state"
+              label="State"
+              options={[
+                { value: 'FULFILLED', toShow: 'FULFILLED' },
+                { value: 'PENDING', toShow: 'PENDING' },
+                { value: 'REJECTED', toShow: 'REJECTED' },
+                { value: 'HIRED', toShow: 'HIRED' }
+              ]}
+              component={Select}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please select a time')}
+            />
+            <SaveButton type="submit" disabled={formProps.submitting || formProps.pristine} />
+          </form>
+        )}
+      />
     </section>
   );
 };

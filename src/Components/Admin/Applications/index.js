@@ -5,7 +5,6 @@ import { getApplications, deleteApplication } from 'redux/applications/thunks.js
 import { errorToDefault } from 'redux/admins/actions';
 import { useHistory } from 'react-router-dom';
 import Modal from 'Components/Shared/Modal';
-import AddButton from 'Components/Shared/AddButton';
 import EditButton from 'Components/Shared/EditButton';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 import ErrorModal from 'Components/Shared/ErrorModal';

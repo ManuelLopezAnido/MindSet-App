@@ -46,23 +46,8 @@ const PostulantsForm = () => {
   const [workExperienceClientValue, setWorkExperienceClientValue] = useState('');
   const [workExperienceDescriptionValue, setWorkExperienceDescriptionValue] = useState('');
 
-  const [profTrainingDescriptionValue, setProfTrainingDescriptionValue] = useState('');
-  const [profTrainingYearValue, setProfTrainingYearValue] = useState('');
-
   const [languagesValue, setLanguagesValue] = useState('');
   const [hobbiesValue, setHobbiesValue] = useState('');
-
-  const [familyMember1NameValue, setFamilyMember1NameValue] = useState('');
-  const [familyMember1bondValue, setFamilyMember1bondValue] = useState('');
-
-  const [familyMember2NameValue, setFamilyMember2NameValue] = useState('');
-  const [familyMember2bondValue, setFamilyMember2bondValue] = useState('');
-
-  const [familyMember3NameValue, setFamilyMember3NameValue] = useState('');
-  const [familyMember3bondValue, setFamilyMember3bondValue] = useState('');
-
-  const [familyMember4NameValue, setFamilyMember4NameValue] = useState('');
-  const [familyMember4bondValue, setFamilyMember4bondValue] = useState('');
 
   const [availabilityCheckMondayValue, setAvailabilityCheckMondayValue] = useState(false);
   const [availabilityFromMondayValue, setAvailabilityFromMondayValue] = useState('-');
@@ -103,9 +88,6 @@ const PostulantsForm = () => {
 
   const params = new URLSearchParams(window.location.search);
   const postulantId = params.get('id');
-
-  console.log('params ', params);
-  console.log('postulantId: ', params.get('_id'));
 
   if (postulantId) {
     useEffect(() => {
@@ -149,27 +131,8 @@ const PostulantsForm = () => {
     setWorkExperienceClientValue(selectedPostulant.workExperience[0]?.client || '-');
     setWorkExperienceDescriptionValue(selectedPostulant.workExperience[0]?.description || '-');
 
-    setProfTrainingDescriptionValue(selectedPostulant.professionalTraining[0]?.description || '-');
-    setProfTrainingYearValue(selectedPostulant.professionalTraining[0]?.year || 0);
-
     setLanguagesValue(selectedPostulant.languages || '');
     setHobbiesValue(selectedPostulant.hobbies || '');
-
-    setFamilyMember1NameValue(selectedPostulant.familyMembers[0]?.name || '-');
-    setFamilyMember1bondValue(selectedPostulant.familyMembers[0]?.bond || '-');
-
-    setFamilyMember2NameValue(selectedPostulant.familyMembers[1]?.name || '-');
-    setFamilyMember2bondValue(selectedPostulant.familyMembers[1]?.bond || '-');
-
-    setFamilyMember3NameValue(selectedPostulant.familyMembers[2]?.name || '-');
-    setFamilyMember3bondValue(selectedPostulant.familyMembers[2]?.bond || '-');
-
-    setFamilyMember4NameValue(selectedPostulant.familyMembers[3]?.name || '-');
-    setFamilyMember4bondValue(selectedPostulant.familyMembers[3]?.bond || '-');
-
-    setAvailabilityCheckMondayValue(selectedPostulant.availability[0]?.available);
-    setAvailabilityFromMondayValue(selectedPostulant.availability[0]?.from || '-');
-    setAvailabilityToMondayValue(selectedPostulant.availability[0]?.to || '-');
 
     setAvailabilityCheckTuesdayValue(selectedPostulant.availability[1]?.available);
     setAvailabilityFromTuesdayValue(selectedPostulant.availability[1]?.from || '-');
@@ -229,23 +192,8 @@ const PostulantsForm = () => {
       setWorkExperienceClientValue('');
       setWorkExperienceDescriptionValue('');
 
-      setProfTrainingDescriptionValue('');
-      setProfTrainingYearValue('');
-
       setLanguagesValue('');
       setHobbiesValue('');
-
-      setFamilyMember1NameValue('');
-      setFamilyMember1bondValue('');
-
-      setFamilyMember2NameValue('');
-      setFamilyMember2bondValue('');
-
-      setFamilyMember3NameValue('');
-      setFamilyMember3bondValue('');
-
-      setFamilyMember4NameValue('');
-      setFamilyMember4bondValue('');
 
       setAvailabilityCheckMondayValue(false);
       setAvailabilityFromMondayValue('');
@@ -385,52 +333,12 @@ const PostulantsForm = () => {
     setWorkExperienceDescriptionValue(event.target.value);
   };
 
-  const onChangeProfTrainingDescription = (event) => {
-    setProfTrainingDescriptionValue(event.target.value);
-  };
-
-  const onChangeProfTrainingYear = (event) => {
-    setProfTrainingYearValue(event.target.value);
-  };
-
   const onChangeLanguages = (event) => {
     setLanguagesValue(event.target.value);
   };
 
   const onChangeHobbies = (event) => {
     setHobbiesValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember1Name = (event) => {
-    setFamilyMember1NameValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember1Bond = (event) => {
-    setFamilyMember1bondValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember2Name = (event) => {
-    setFamilyMember2NameValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember2Bond = (event) => {
-    setFamilyMember2bondValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember3Name = (event) => {
-    setFamilyMember3NameValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember3Bond = (event) => {
-    setFamilyMember3bondValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember4Name = (event) => {
-    setFamilyMember4NameValue(event.target.value);
-  };
-
-  const onChangeFamlilyMember4Bond = (event) => {
-    setFamilyMember4bondValue(event.target.value);
   };
 
   const onChangeMonday = (event) => {
@@ -566,32 +474,8 @@ const PostulantsForm = () => {
           description: workExperienceDescriptionValue
         }
       ],
-      professionalTraining: [
-        {
-          description: profTrainingDescriptionValue,
-          year: profTrainingYearValue
-        }
-      ],
       languages: languagesValue,
       hobbies: hobbiesValue,
-      familyMembers: [
-        {
-          name: familyMember1NameValue,
-          bond: familyMember1bondValue
-        },
-        {
-          name: familyMember2NameValue,
-          bond: familyMember2bondValue
-        },
-        {
-          name: familyMember3NameValue,
-          bond: familyMember3bondValue
-        },
-        {
-          name: familyMember4NameValue,
-          bond: familyMember4bondValue
-        }
-      ],
       availability: [
         {
           monday: 'Monday',
@@ -902,20 +786,6 @@ const PostulantsForm = () => {
             value={workExperienceDescriptionValue}
             onChange={onChangeWorkExperienceDescription}
           />
-          <Input
-            label="Description"
-            id="profTrainDescription"
-            type="text"
-            value={profTrainingDescriptionValue}
-            onChange={onChangeProfTrainingDescription}
-          />
-          <Input
-            label="Year"
-            id="profTrainStarted"
-            type="number"
-            value={profTrainingYearValue}
-            onChange={onChangeProfTrainingYear}
-          />
         </div>
         <div className={styles.sections}>
           <p>Data of interest</p>
@@ -939,62 +809,6 @@ const PostulantsForm = () => {
             type="text"
             value={hobbiesValue}
             onChange={onChangeHobbies}
-          />
-          <Input
-            label="1st family member name"
-            id="1stFMName"
-            type="text"
-            value={familyMember1NameValue}
-            onChange={onChangeFamlilyMember1Name}
-          />
-          <Input
-            label="Bond"
-            id="1stFMBond"
-            type="text"
-            value={familyMember1bondValue}
-            onChange={onChangeFamlilyMember1Bond}
-          />
-          <Input
-            label="2st family member name"
-            id="2stFMName"
-            type="text"
-            value={familyMember2NameValue}
-            onChange={onChangeFamlilyMember2Name}
-          />
-          <Input
-            label="Bond"
-            id="2stFMBond"
-            type="text"
-            value={familyMember2bondValue}
-            onChange={onChangeFamlilyMember2Bond}
-          />
-          <Input
-            label="3st family member name"
-            id="3stFMName"
-            type="text"
-            value={familyMember3NameValue}
-            onChange={onChangeFamlilyMember3Name}
-          />
-          <Input
-            label="Bond"
-            id="3stFMBond"
-            type="text"
-            value={familyMember3bondValue}
-            onChange={onChangeFamlilyMember3Bond}
-          />
-          <Input
-            label="4st family member name"
-            id="4stFMName"
-            type="text"
-            value={familyMember4NameValue}
-            onChange={onChangeFamlilyMember4Name}
-          />
-          <Input
-            label="bond"
-            id="4stFMBond"
-            type="text"
-            value={familyMember4bondValue}
-            onChange={onChangeFamlilyMember4Bond}
           />
         </div>
         <div className={styles.sections}>

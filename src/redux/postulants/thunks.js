@@ -99,32 +99,9 @@ export const addPostulant = (data) => (dispatch) => {
           description: data.workExperience[0].description
         }
       ],
-      professionalTraining: [
-        {
-          description: data.professionalTraining[0].description,
-          year: data.professionalTraining[0].year
-        }
-      ],
       languages: data.languages,
       hobbies: data.hobbies,
-      familyMembers: [
-        {
-          name: data.familyMembers[0].name,
-          bond: data.familyMembers[0].bond
-        },
-        {
-          name: data.familyMembers[1].name,
-          bond: data.familyMembers[1].bond
-        },
-        {
-          name: data.familyMembers[2].name,
-          bond: data.familyMembers[2].bond
-        },
-        {
-          name: data.familyMembers[3].name,
-          bond: data.familyMembers[3].bond
-        }
-      ],
+      profile: data.profile,
       availability: [
         {
           monday: 'Monday',
@@ -248,32 +225,9 @@ export const updatePostulant = (id, data) => (dispatch) => {
           description: data.workExperience[0].description
         }
       ],
-      professionalTraining: [
-        {
-          description: data.professionalTraining[0].description,
-          year: data.professionalTraining[0].year
-        }
-      ],
       languages: data.languages,
       hobbies: data.hobbies,
-      familyMembers: [
-        {
-          name: data.familyMembers[0].name,
-          bond: data.familyMembers[0].bond
-        },
-        {
-          name: data.familyMembers[1].name,
-          bond: data.familyMembers[1].bond
-        },
-        {
-          name: data.familyMembers[2].name,
-          bond: data.familyMembers[2].bond
-        },
-        {
-          name: data.familyMembers[3].name,
-          bond: data.familyMembers[3].bond
-        }
-      ],
+      profile: data.profile,
       availability: [
         {
           monday: 'Monday',
