@@ -116,70 +116,74 @@ const InterviewsForm = () => {
         rightButtonText="CLOSE"
       />
       <h2> {`${interviewId == null ? 'Add a new Interview' : 'Edit the interview'}`} </h2>
-      <Form
-        onSubmit={onSubmit}
-        initialValues={selectedInterview}
-        render={(formProps) => (
-          <form className={listStyles.form} onSubmit={formProps.handleSubmit}>
-            <Field
-              name="jobTitle"
-              label="jobTitle"
-              placeholder="Electrical engineer"
-              component={Input}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please state the job  offer')}
-            />
-            <Field
-              name="clientId"
-              label="Client"
-              placeholder="Coca-cola"
-              options={clientsToMap}
-              component={Select}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please select a client')}
-            />
-            <Field
-              name="postulantId"
-              label="Postulant"
-              placeholder="Jorge"
-              options={postulantsToMap}
-              component={Select}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please select a postulant')}
-            />
-            <Field
-              name="date"
-              label="Date"
-              type="date"
-              component={Input}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please select a date')}
-            />
-            <Field
-              name="time"
-              label="Time"
-              type="time"
-              component={Input}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please select a time')}
-            />
-            <Field
-              name="state"
-              label="State"
-              options={[
-                { value: 'FULFILLED', toShow: 'FULFILLED' },
-                { value: 'PENDING', toShow: 'PENDING' },
-                { value: 'REJECTED', toShow: 'REJECTED' },
-                { value: 'HIRED', toShow: 'HIRED' }
-              ]}
-              component={Select}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please select a time')}
-            />
-            <SaveButton type="submit" disabled={formProps.submitting || formProps.pristine} />
-          </form>
-        )}
-      />
+      <div className={listStyles.form}>
+        <Form
+          onSubmit={onSubmit}
+          initialValues={selectedInterview}
+          render={(formProps) => (
+            <form className={listStyles.inputs} onSubmit={formProps.handleSubmit}>
+              <div className={listStyles.fields}>
+                <Field
+                  name="jobTitle"
+                  label="jobTitle"
+                  placeholder="Electrical engineer"
+                  component={Input}
+                  disabled={formProps.submitting}
+                  validate={(value) => (value ? undefined : 'please state the job  offer')}
+                />
+                <Field
+                  name="clientId"
+                  label="Client"
+                  placeholder="Coca-cola"
+                  options={clientsToMap}
+                  component={Select}
+                  disabled={formProps.submitting}
+                  validate={(value) => (value ? undefined : 'please select a client')}
+                />
+                <Field
+                  name="postulantId"
+                  label="Postulant"
+                  placeholder="Jorge"
+                  options={postulantsToMap}
+                  component={Select}
+                  disabled={formProps.submitting}
+                  validate={(value) => (value ? undefined : 'please select a postulant')}
+                />
+                <Field
+                  name="date"
+                  label="Date"
+                  type="date"
+                  component={Input}
+                  disabled={formProps.submitting}
+                  validate={(value) => (value ? undefined : 'please select a date')}
+                />
+                <Field
+                  name="time"
+                  label="Time"
+                  type="time"
+                  component={Input}
+                  disabled={formProps.submitting}
+                  validate={(value) => (value ? undefined : 'please select a time')}
+                />
+                <Field
+                  name="state"
+                  label="State"
+                  options={[
+                    { value: 'FULFILLED', toShow: 'FULFILLED' },
+                    { value: 'PENDING', toShow: 'PENDING' },
+                    { value: 'REJECTED', toShow: 'REJECTED' },
+                    { value: 'HIRED', toShow: 'HIRED' }
+                  ]}
+                  component={Select}
+                  disabled={formProps.submitting}
+                  validate={(value) => (value ? undefined : 'please select a time')}
+                />
+              </div>
+              <SaveButton type="submit" disabled={formProps.submitting || formProps.pristine} />
+            </form>
+          )}
+        />
+      </div>
     </section>
   );
 };
