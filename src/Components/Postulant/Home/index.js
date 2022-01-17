@@ -11,6 +11,13 @@ function Home() {
   const [openWorkExperienceData, setWorkExperienceData] = useState(false);
   const [openDataOfInterestData, setDataOfInterestData] = useState(false);
 
+  const params = new URLSearchParams(window.location.search);
+  const postulantId = params.get('id');
+
+  useEffect(() => {
+    dispatch(getOnePostulant(postulantId));
+  }, []);
+
   const handlePersonalInformationData = () => {
     setOpenPersonalInformationData(!openPersonalInformationData);
   };
@@ -27,12 +34,7 @@ function Home() {
     setDataOfInterestData(!openDataOfInterestData);
   };
 
-  useEffect(() => {
-    dispatch(getOnePostulant(postulantId));
-  }, []);
-
   const dispatch = useDispatch();
-  const postulantId = '61a4398da318de40f22eba2c';
   const selectedPostulant = useSelector((store) => store.postulants.selected);
   const isLoading = useSelector((store) => store.postulants.isLoading);
 
