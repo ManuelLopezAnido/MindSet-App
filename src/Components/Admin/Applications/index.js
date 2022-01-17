@@ -72,7 +72,7 @@ function Applications() {
             span: error
           }
         ]}
-        leftButtonText="cancel"
+        leftButtonText=""
         rightButtonText="Ok"
       />
       <div className={listStyles.titleAndButton}>
