@@ -1,106 +1,57 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
-import Input from 'Components/Shared/Input';
-import Modal from 'Components/Shared/Modal';
+import Input from 'Components/Shared/FormInput';
 import SaveButton from 'Components/Shared/SaveButton';
+import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
+import { getOneProfile, addProfile, updateProfile } from 'redux/profiles/thunks';
+import { useSelector, useDispatch } from 'react-redux';
+import { errorToDefault, selectedToDefault } from 'redux/profiles/actions';
 import { Field, Form } from 'react-final-form';
+import { useHistory } from 'react-router-dom';
 
 const ProfilesForm = () => {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  const onChangeName = (event) => {
-    setName(event.target.value);
-  };
-  const onChangeDescription = (event) => {
-    setDescription(event.target.value);
-  };
+  const [formValues, setFormValues] = useState({});
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const isLoading = useSelector((store) => store.profiles.isLoading);
+  const error = useSelector((store) => store.profiles.error);
+  const errorMessage = useSelector((store) => store.profiles.errorMessage);
+  const selectedProfile = useSelector((store) => store.profiles.selected);
 
   const params = new URLSearchParams(window.location.search);
-  const workProfileId = params.get('id');
+  const profileId = params.get('id');
 
-  useEffect(() => {
-    if (workProfileId) {
-      setIsLoading(true);
-      fetch(`${process.env.REACT_APP_API}/workprofiles/${workProfileId}`)
-        .then((response) => {
-          if (response.status !== 200) {
-            return response.json().then(({ message }) => {
-              throw new Error(message);
-            });
-          }
-          return response.json();
-        })
-        .then((response) => {
-          setName(response.workProfile.name);
-          setDescription(response.workProfile.description);
-        })
-        .catch((error) => {
-          setShowErrorModal(true);
-          setShowErrorModalMessage(JSON.stringify(error.message));
-        })
-        .finally(() => setIsLoading(false));
-    }
-  }, []);
+  if (profileId) {
+    useEffect(() => {
+      dispatch(getOneProfile(profileId));
+    }, []);
+  } else {
+    useEffect(() => {
+      dispatch(selectedToDefault());
+    }, []);
+  }
 
-  const submit = (event) => {
-    event.preventDefault();
-    setIsLoading(true);
-    let url;
-
-    const options = {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: name,
-        description: description
-      })
-    };
-
-    if (workProfileId === null) {
-      options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/workprofiles/create`;
-    } else {
-      options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/workprofiles/update/${workProfileId}`;
-    }
-
-    fetch(url, options)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
-          return response.json().then(({ msg }) => {
-            throw new Error(msg);
-          });
+  const submit = () => {
+    if (profileId) {
+      dispatch(updateProfile(profileId, formValues)).then((response) => {
+        if (response) {
+          history.push('/admin/profiles');
         }
-        return (window.location.href = `/admin/profiles`);
-      })
-      .catch((error) => {
-        setShowErrorModalMessage(error.toString());
-        setShowErrorModal(true);
-      })
-      .finally(() => {
-        setShowModal(false);
-        setIsLoading(false);
       });
+    } else {
+      dispatch(addProfile(formValues)).then((response) => {
+        if (response) {
+          history.push('/admin/profiles');
+        }
+      });
+    }
   };
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const closeErrorMessage = () => {
-    setShowErrorModal(false);
-  };
-
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const onSubmit = (formValues) => {
+    setFormValues(formValues);
     setShowModal(true);
   };
 
@@ -110,7 +61,7 @@ const ProfilesForm = () => {
     <div className={styles.mainFormContainer}>
       <Modal
         showModal={showModal}
-        closeModal={closeModal}
+        closeModal={() => setShowModal(false)}
         actionEntity={submit}
         titleText="Save"
         spanObjectArray={[
@@ -122,37 +73,38 @@ const ProfilesForm = () => {
         rightButtonText="cancel"
       />
       <ErrorModal
-        showModal={showErrorModal}
-        closeModal={closeErrorMessage}
+        showModal={error}
+        closeModal={() => errorToDefault()}
         titleText="Error"
-        middleText={showErrorModalMessage}
+        middleText={errorMessage}
         buttonText="ok"
       />
-      <h2> {`${workProfileId == null ? 'Add a new Position' : 'Edit Position'}`} </h2>
-      <div>
-        <form className={styles.form} onSubmit={onSubmit}>
-          <div className={styles.inputs}>
-            <Input
-              label="Profile name"
-              id="name"
-              name="profileName"
-              required
-              value={name}
-              onChange={onChangeName}
-              placeholder="Profile"
+      <Form
+        onSubmit={onSubmit}
+        initialValues={selectedProfile}
+        render={(formProps) => (
+          <form className={styles.form} onSubmit={formProps.handleSubmit}>
+            <h2>Form</h2>
+            <Field
+              name="name"
+              label="Name"
+              type="string"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please enter the name of the profile')}
             />
-            <Input
-              label="Profile description"
-              id="description"
-              name="profileDescription"
-              value={description}
-              onChange={onChangeDescription}
-              placeholder="Profile Description"
+            <Field
+              name="description"
+              label="Description"
+              type="string"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please enter a description')}
             />
-          </div>
-          <SaveButton type="submit" />
-        </form>
-      </div>
+            <SaveButton type="submit" disabled={formProps.submitting || formProps.pristine} />
+          </form>
+        )}
+      />
     </div>
   );
 };

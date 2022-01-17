@@ -95,91 +95,93 @@ const PositionsForm = () => {
         middleText={errorMessage}
         buttonText="ok"
       />
-      <div className={styles.headerForm}>
-        <h2> {`${positionId == null ? 'Add a new Job Offer' : 'Edit a Job Offer'}`} </h2>
-        <button onClick={history.goBack}>X</button>
-      </div>
-      <div className={styles.form}>
-        <Form
-          onSubmit={onSubmit}
-          initialValues={selectedPosition}
-          render={(formProps) => (
-            <form className={styles.inputs} onSubmit={formProps.handleSubmit}>
-              <Field
-                label="Job"
-                id="jobTitle"
-                name="jobTitle"
-                type="string"
-                component={Input}
-                disabled={formProps.submitting}
-                validate={(value) => (value ? undefined : 'please enter the job title')}
-              />
-              <Field
-                label="Client Name"
-                id="clientId"
-                name="clientId"
-                type="checkbox"
-                options={clientsToMap}
-                component={Select}
-                disabled={formProps.submitting}
-                validate={(value) => (value ? undefined : 'please enter the client name')}
-              />
-              <Field
-                label="Job Description"
-                id="jobDescription"
-                name="jobDescription"
-                type="string"
-                component={Input}
-                disabled={formProps.submitting}
-                validate={(value) => (value ? undefined : 'please enter the job description')}
-              />
-              <Field
-                label="City"
-                id="city"
-                name="city"
-                type="string"
-                component={Input}
-                disabled={formProps.submitting}
-                validate={(value) => (value ? undefined : 'please enter a city')}
-              />
-              <Field
-                label="Date Posted"
-                id="datePosted"
-                name="datePosted"
-                type="date"
-                component={Input}
-                disabled={formProps.submitting}
-                validate={(value) => (value ? undefined : 'please enter the date posted')}
-              />
-              <Field
-                label="Country"
-                id="country"
-                name="country"
-                type="string"
-                component={Input}
-                disabled={formProps.submitting}
-                validate={(value) => (value ? undefined : 'please enter a country')}
-              />
-              <Field
-                label="Closing Date"
-                id="closingDate"
-                name="closingDate"
-                type="date"
-                component={Input}
-                disabled={formProps.submitting}
-                validate={(value) => (value ? undefined : 'please enter the closing date')}
-              />
-              <div className={styles.saveButton}>
-                <SaveButton
-                  type="submit"
-                  className={StyleSheet.submitButton}
-                  disabled={formProps.submitting || formProps.pristine}
-                />
-              </div>
-            </form>
-          )}
-        />
-      </div>
+      <Form
+        onSubmit={onSubmit}
+        initialValues={selectedPosition}
+        render={(formProps) => (
+          <form className={styles.form} onSubmit={formProps.handleSubmit}>
+            <h2>Form</h2>
+            <Field
+              label="Job"
+              id="jobTitle"
+              name="jobTitle"
+              type="string"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please enter the job title')}
+            />
+            <Field
+              label="Client Name"
+              id="clientName"
+              name="clientName"
+              type="checkbox"
+              options={clientsToMap}
+              component={Select}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please enter the client name')}
+            />
+            <Field
+              label="Job Description"
+              id="jobDescription"
+              name="jobDescription"
+              type="string"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please enter the job description')}
+            />
+            <Field
+              label="City"
+              id="city"
+              name="city"
+              type="string"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please enter a city')}
+            />
+            <Field
+              label="Country"
+              id="country"
+              name="country"
+              type="string"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please enter a country')}
+            />
+            <Field
+              label="Profile"
+              id="profile"
+              name="profil"
+              type="string"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please enter a profile')}
+            />
+            <Field
+              label="Date Posted"
+              id="datePosted"
+              name="datePosted"
+              type="date"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please enter the date posted')}
+            />
+            <Field
+              label="Closing Date"
+              id="closingDate"
+              name="closingDate"
+              type="date"
+              component={Input}
+              disabled={formProps.submitting}
+              validate={(value) => (value ? undefined : 'please enter the closing date')}
+            />
+            <SaveButton
+              type="submit"
+              className={StyleSheet.submitButton}
+              disabled={formProps.submitting || formProps.pristine}
+            />
+          </form>
+        )}
+      />
     </div>
   );
 };
