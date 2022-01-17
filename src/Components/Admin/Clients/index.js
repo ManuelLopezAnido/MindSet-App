@@ -24,7 +24,7 @@ function Clients() {
   const errorMessage = useSelector((store) => store.clients.errorMessage);
 
   useEffect(() => {
-    if (!clients.length) {
+    if (!clients?.list) {
       dispatch(getClients());
     }
   }, [clients]);
@@ -85,7 +85,7 @@ function Clients() {
           </tr>
         </thead>
         <tbody>
-          {clients.map((client) => (
+          {clients?.map((client) => (
             <tr
               key={client._id}
               onClick={() => (window.location.href = `clients/form?id=${client._id}`)}
