@@ -32,7 +32,7 @@ export const getAdmins = () => (dispatch) => {
     })
     .then((response) => dispatch(getAdminsFulfilled(response)))
     .catch((error) => {
-      dispatch(getAdminsRejected(error.message.code));
+      dispatch(getAdminsRejected(error.message));
     });
 };
 
