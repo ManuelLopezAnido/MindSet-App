@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import styles from './form.module.css';
+import listStyles from 'lists.module.css';
 import Input from 'Components/Shared/Input';
 import Modal from 'Components/Shared/Modal';
+import SaveButton from 'Components/Shared/SaveButton';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 
@@ -117,7 +118,7 @@ const InterviewsForm = () => {
   if (isLoading) return <IsLoading />;
 
   return (
-    <div>
+    <section className={listStyles.mainFormContainer}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -138,8 +139,8 @@ const InterviewsForm = () => {
         middleText={showErrorModalMessage}
         buttonText="ok"
       />
-      <h1>Form</h1>
-      <form className={styles.container} onSubmit={onSubmit}>
+      <h2> {`${interviewId == null ? 'Add a new Interview' : 'Edit the interview'}`} </h2>
+      <form className={listStyles.inputs} onSubmit={onSubmit}>
         <Input
           label="Job"
           id="jobTitle"
@@ -176,11 +177,9 @@ const InterviewsForm = () => {
           onChange={onChangeTime}
           placeholder="Type the hour"
         />
-        <button className={styles.sendFormButton} type="submit">
-          SEND
-        </button>
+        <SaveButton type="submit" />
       </form>
-    </div>
+    </section>
   );
 };
 

@@ -84,11 +84,11 @@ function Clients() {
         {clients
           .filter((client) => {
             if (
-              client.clientName.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
-              client.clientType.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
-              client.email.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
-              client.city.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
-              client.country.toLowerCase().includes(inputSearchBar.toLowerCase())
+              client.clientName?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              client.clientType?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              client.email?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              client.city?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              client.country?.toLowerCase().includes(inputSearchBar.toLowerCase())
             ) {
               return client;
             }

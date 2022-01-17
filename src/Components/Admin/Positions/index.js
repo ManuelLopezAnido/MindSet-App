@@ -5,6 +5,7 @@ import { getPositions, deletePosition } from 'redux/positions/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 import { errorToDefault } from 'redux/positions/actions';
 import Modal from 'Components/Shared/Modal';
+import EditButton from 'Components/Shared/EditButton';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import InputSearch from 'Components/Shared/InputSearch';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
@@ -89,18 +90,23 @@ function Positions() {
             {listPositions
               .filter((position) => {
                 if (
-                  position.jobTitle.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
-                  position.clientName.toLowerCase().includes(inputSearchBar.toLowerCase())
+                  position.jobTitle?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+                  position.clientName?.toLowerCase().includes(inputSearchBar.toLowerCase())
                 ) {
                   return position;
                 }
               })
-              .map((a) => (
-                <tr key={a._id}>
-                  <td>{a.jobTitle}</td>
-                  <td>{a.clientName}</td>
+              .map((position) => (
+                <tr key={position._id}>
+                  <td>{position.jobTitle}</td>
+                  <td>{position.clientName}</td>
                   <td>
-                    <DeleteButton onClick={(e) => handleIdPosition(e, a._id)} />
+                    <EditButton
+                      onClick={() =>
+                        (window.location.href = `/admin/positions/form?id=${position._id}`)
+                      }
+                    />
+                    <DeleteButton onClick={(event) => handleIdPosition(event, position._id)} />
                   </td>
                 </tr>
               ))}

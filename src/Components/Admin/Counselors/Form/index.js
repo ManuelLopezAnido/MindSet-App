@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import listStyles from 'lists.module.css';
-import styles from './form.module.css';
 import Input from 'Components/Shared/FormInput';
 import SaveButton from 'Components/Shared/SaveButton';
 import Modal from 'Components/Shared/Modal';
@@ -114,8 +113,8 @@ const CounselorsForm = () => {
             validate={validate}
             initialValues={selectedCounselor}
             render={(formProps) => (
-              <form className={styles.inputs} onSubmit={formProps.handleSubmit}>
-                <div className={styles.fields}>
+              <form className={listStyles.inputs} onSubmit={formProps.handleSubmit}>
+                <div className={listStyles.fields}>
                   <Field
                     label="First Name"
                     name="firstName"

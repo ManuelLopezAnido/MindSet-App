@@ -69,7 +69,7 @@ const AdminsForm = () => {
   if (isLoading) return <IsLoading />;
 
   return (
-    <div className={styles.container}>
+    <div className={styles.mainFormContainer}>
       <Modal
         showModal={showModal}
         closeModal={() => setShowModal(false)}
@@ -90,16 +90,16 @@ const AdminsForm = () => {
         middleText={errorMessage}
         buttonText="ok"
       />
+      <h2> {`${adminId == null ? 'Add a new Admin' : 'Edit the Admin profile'}`} </h2>
       <Form
         onSubmit={onSubmit}
         validate={validate}
         initialValues={selectedAdmin}
         render={(formProps) => (
           <form className={styles.form} onSubmit={formProps.handleSubmit}>
-            <h2>Form</h2>
             <Field
               name="email"
-              label="email"
+              label="Email"
               placeholder="example@geemail.com"
               component={Input}
               disabled={formProps.submitting}

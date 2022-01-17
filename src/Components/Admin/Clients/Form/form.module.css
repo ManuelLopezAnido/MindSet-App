@@ -1,17 +1,3 @@
-.inputs {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-  width: 100%;
-}
-
-.fields {
-  display: flex;
-  flex-wrap: wrap;
-  width: 80%;
-}
-
 .positionMainContainer {
   margin-left: -250px;
   width: 85%;

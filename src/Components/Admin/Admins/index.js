@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import listStyles from 'lists.module.css';
 import Modal from 'Components/Shared/Modal';
+import EditButton from 'Components/Shared/EditButton';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
+import InputSearch from 'Components/Shared/InputSearch';
 import AddButton from 'Components/Shared/AddButton';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 import { useSelector, useDispatch } from 'react-redux';
@@ -13,6 +15,7 @@ import { errorToDefault } from 'redux/admins/actions';
 const Admins = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
+  const [inputSearchBar, setInputSearchBar] = useState('');
 
   const history = useHistory();
 
@@ -49,7 +52,7 @@ const Admins = () => {
   }
 
   return (
-    <div className={listStyles.container}>
+    <div className={listStyles.mainContainer}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -71,35 +74,52 @@ const Admins = () => {
         middleText={errorMessage}
         buttonText="ok"
       />
-      <div className={listStyles.titleAndButton}>
-        <h3>Admin</h3>
+      <div className={listStyles.headerList}>
         <AddButton onClick={() => history.push('/admin/admins/form')} value="Admin" />
+        <InputSearch
+          type="text"
+          placeholder="Search"
+          onChange={(event) => setInputSearchBar(event.target.value)}
+        />
       </div>
-      <table className={listStyles.list}>
-        <thead>
-          <tr>
-            <th> Email </th>
-            <th> Actions </th>
-          </tr>
-        </thead>
-        <tbody>
-          {admins.map((admin) => {
-            return (
-              <tr
-                key={admin._id}
-                onClick={() => {
-                  window.location.replace(`admins/form?id=${admin._id}`);
-                }}
-              >
-                <td>{admin.email}</td>
-                <td>
-                  <DeleteButton onClick={(event) => handleIdAdmin(event, admin._id)} />
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className={listStyles.list}>
+        <table>
+          <thead>
+            <tr>
+              <th> Email </th>
+              <th> Actions </th>
+            </tr>
+          </thead>
+          <tbody>
+            {admins
+              .filter((admin) => {
+                if (admin.email?.toLowerCase().includes(inputSearchBar.toLowerCase())) {
+                  return admin;
+                }
+              })
+              .map((admin) => {
+                return (
+                  <tr
+                    key={admin._id}
+                    onClick={() => {
+                      window.location.replace(`admins/form?id=${admin._id}`);
+                    }}
+                  >
+                    <td>{admin.email}</td>
+                    <td>
+                      <EditButton
+                        onClick={() =>
+                          (window.location.href = `/admin/admins/form?id=${admin._id}`)
+                        }
+                      />
+                      <DeleteButton onClick={(event) => handleIdAdmin(event, admin._id)} />
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import listStyles from 'lists.module.css';
-import NoData from 'Components/Shared/NoData';
 import { useSelector, useDispatch } from 'react-redux';
 import { getApplications, deleteApplication } from 'redux/applications/thunks.js';
 import { errorToDefault } from 'redux/admins/actions';
 import Modal from 'Components/Shared/Modal';
+import AddButton from 'Components/Shared/AddButton';
+import EditButton from 'Components/Shared/EditButton';
+import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
-import Button from 'Components/Shared/AddButton';
-import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 
 function Applications() {
   const [selectedId, setSelectedId] = useState('');
@@ -27,10 +27,6 @@ function Applications() {
   useEffect(() => {
     setShowErrorModal(error);
   }, [error]);
-
-  const addApplication = () => {
-    window.location.href = `/admin/applications/form`;
-  };
 
   const clickDeleteApplication = () => {
     dispatch(deleteApplication(selectedId));
@@ -53,7 +49,7 @@ function Applications() {
 
   if (isLoading) return <IsLoading />;
   return (
-    <section className={listStyles.container}>
+    <section className={listStyles.mainContainer}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -74,40 +70,43 @@ function Applications() {
         titleText="Error"
         buttonText="ok"
       />
-      <div className={listStyles.titleAndButton}>
-        <h3>Applications</h3>
-        <Button onClick={addApplication} value="Applications" />
+      <div className={listStyles.headerList}>
+        <AddButton onClick={() => history.push('/admin/clients/form')} value="Application" />
       </div>
-      <NoData data={!listApplications.length} />
-      <table className={listStyles.list}>
-        <thead>
-          <tr>
-            <th>Position</th>
-            <th>Client </th>
-            <th>Postulant</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {listApplications.map((a) => (
-            <tr
-              key={a._id}
-              onClick={() => (window.location.href = `/admin/applications/form?id=${a._id}`)}
-            >
-              <td>{a.positionId ? a.positionId.jobTitle : 'Position not found'}</td>
-              <td>{a.clientId ? a.clientId.clientName : 'Client not found'}</td>
-              <td>
-                {a.postulantId
-                  ? a.postulantId.firstName + ' ' + a.postulantId.lastName
-                  : 'Postulant not found'}
-              </td>
-              <td>
-                <DeleteButton onClick={(e) => handleIdApplication(e, a._id)} />
-              </td>
+      <div className={listStyles.list}>
+        <table>
+          <thead>
+            <tr>
+              <th>Position</th>
+              <th>Client </th>
+              <th>Postulant</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {listApplications.map((a) => (
+              <tr
+                key={a._id}
+                onClick={() => (window.location.href = `/admin/applications/form?id=${a._id}`)}
+              >
+                <td>{a.positionId ? a.positionId.jobTitle : 'Position not found'}</td>
+                <td>{a.clientId ? a.clientId.clientName : 'Client not found'}</td>
+                <td>
+                  {a.postulantId
+                    ? a.postulantId.firstName + ' ' + a.postulantId.lastName
+                    : 'Postulant not found'}
+                </td>
+                <td>
+                  <EditButton
+                    onClick={() => (window.location.href = `/admin/applications/form?id=${a._id}`)}
+                  />
+                  <DeleteButton onClick={(event) => handleIdApplication(event, a._id)} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </section>
   );
 }

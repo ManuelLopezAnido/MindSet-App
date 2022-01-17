@@ -89,7 +89,7 @@ const ClientsForm = () => {
   };
 
   return (
-    <div className={listStyles.mainFormContainer}>
+    <section className={listStyles.mainFormContainer}>
       <Modal
         showModal={showModalDelete}
         closeModal={() => setShowModalDelete(false)}
@@ -147,8 +147,8 @@ const ClientsForm = () => {
             validate={validate}
             initialValues={selectedClient}
             render={(formProps) => (
-              <form className={styles.inputs} onSubmit={formProps.handleSubmit}>
-                <div className={styles.fields}>
+              <form className={listStyles.inputs} onSubmit={formProps.handleSubmit}>
+                <div className={listStyles.fields}>
                   <Field
                     label="Client Name"
                     id="clientName"
@@ -249,7 +249,7 @@ const ClientsForm = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -49,9 +49,6 @@ const AdminRoutes = () => {
         <Route exact path={`${url}/counselors`} component={Counselors} />
         <Route path={`${url}/counselors/form`} component={CounselorsForm} />
         <Route path={`${url}/counselors/form/:id`} component={CounselorsForm} />
-        <Route exact path={`${url}/sessions`} component={Sessions} />
-        <Route path={`${url}/sessions/form`} component={SessionsForm} />
-        <Route path={`${url}/sessions/form/:id`} component={SessionsForm} />
         <Redirect to={`${url}/admins`} />
       </Switch>
     </Layout>

@@ -83,11 +83,11 @@ const Counselor = () => {
         {counselors
           .filter((counselor) => {
             if (
-              counselor.firstName.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
-              counselor.lastName.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
-              counselor.email.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
-              counselor.city.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
-              counselor.country.toLowerCase().includes(inputSearchBar.toLowerCase())
+              counselor.firstName?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              counselor.lastName?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              counselor.email?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              counselor.city?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              counselor.country?.toLowerCase().includes(inputSearchBar.toLowerCase())
             ) {
               return counselor;
             }

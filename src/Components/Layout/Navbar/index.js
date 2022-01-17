@@ -19,17 +19,14 @@ const Navbar = () => (
       <Link to="/admin/profiles">
         <li className={styles.itemsBodyContent}>Profiles</li>
       </Link>
-      <Link to="/admin/admins">
-        <li className={styles.itemsBodyContent}>Admins</li>
-      </Link>
       <Link to="/admin/applications">
         <li className={styles.itemsBodyContent}>Applications</li>
       </Link>
       <Link to="/admin/interviews">
         <li className={styles.itemsBodyContent}>Interviews</li>
       </Link>
-      <Link to="/admin/sessions">
-        <li className={styles.itemsBodyContent}>Sessions</li>
+      <Link to="/admin/admins">
+        <li className={styles.itemsBodyContent}>Admins</li>
       </Link>
     </ul>
   </div>

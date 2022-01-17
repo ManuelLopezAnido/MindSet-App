@@ -79,10 +79,10 @@ const Postulants = () => {
         {postulants
           .filter((postulant) => {
             if (
-              postulant.firstName.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
-              postulant.lastName.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
-              postulant.city.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
-              postulant.country.toLowerCase().includes(inputSearchBar.toLowerCase())
+              postulant.firstName?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              postulant.lastName?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              postulant.city?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              postulant.country?.toLowerCase().includes(inputSearchBar.toLowerCase())
             ) {
               return postulant;
             }
