@@ -1,4 +1,5 @@
 import styles from './modal.module.css';
+import { useHistory } from 'react-router-dom';
 
 const Modal = ({
   titleText,
@@ -12,6 +13,7 @@ const Modal = ({
   if (!showModal) {
     return null;
   }
+  const history = useHistory();
   return (
     <div className={styles.container}>
       <div className={styles.modal}>
@@ -31,7 +33,18 @@ const Modal = ({
           {leftButtonText ? (
             <button onClick={actionEntity}>{leftButtonText.toUpperCase()}</button>
           ) : null}
-          <button onClick={closeModal}>{rightButtonText.toUpperCase()}</button>
+          <button
+            onClick={() => {
+              console.log('spanObjectArray[0].span', spanObjectArray[0].span);
+              if (spanObjectArray[0].span === 'No User Privileges') {
+                history.goBack();
+              } else {
+                actionEntity;
+              }
+            }}
+          >
+            {rightButtonText.toUpperCase()}
+          </button>
         </div>
       </div>
     </div>
