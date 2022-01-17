@@ -72,7 +72,6 @@ export const addAdmin = (data) => (dispatch) => {
 
   return fetch(`${URL}/auth/register/admin`, options)
     .then((data) => {
-      console.log(options);
       if (data.status !== 201) {
         return data.json().then(({ message }) => {
           throw message;
