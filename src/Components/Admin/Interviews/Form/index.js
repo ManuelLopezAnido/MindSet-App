@@ -13,6 +13,7 @@ import { errorToDefault, selectedToDefault } from 'redux/admins/actions';
 import { getOneInterview, addInterview, updateInterview } from 'redux/interviews/thunks';
 import { getPostulants } from 'redux/postulants/thunks';
 import { getClients } from 'redux/clients/thunks';
+import { getPositions } from 'redux/positions/thunks';
 
 const InterviewsForm = () => {
   const [showModal, setShowModal] = useState(false);
@@ -30,14 +31,13 @@ const InterviewsForm = () => {
   const params = new URLSearchParams(window.location.search);
   const thisClient = params.get('clientId');
   const thisPostulant = params.get('postulantId');
-  const thisPosition = params.get('positionId');
+  const thisPosition = params.get('position');
   const interviewId = params.get('id');
-
-  console.log(thisPostulant);
 
   useEffect(() => {
     dispatch(getClients());
     dispatch(getPostulants());
+    dispatch(getPositions());
     if (interviewId) {
       dispatch(getOneInterview(interviewId));
     } else {
@@ -132,9 +132,9 @@ const InterviewsForm = () => {
                   initialValue={thisPosition}
                   name="jobTitle"
                   label="Position"
-                  component={Select}
-                  disabled={formProps.submitting}
-                  validate={(value) => (value ? undefined : 'please state the job  offer')}
+                  type="string"
+                  component={Input}
+                  disabled={true}
                 />
                 <Field
                   name="clientId"
@@ -143,7 +143,6 @@ const InterviewsForm = () => {
                   initialValue={thisClient}
                   component={Select}
                   disabled={true}
-                  validate={(value) => (value ? undefined : 'please select a client')}
                 />
                 <Field
                   name="postulantId"
@@ -152,7 +151,6 @@ const InterviewsForm = () => {
                   initialValue={thisPostulant}
                   component={Select}
                   disabled={true}
-                  validate={(value) => (value ? undefined : 'please select a postulant')}
                 />
                 <Field
                   name="date"
@@ -174,7 +172,7 @@ const InterviewsForm = () => {
                   ]}
                   component={Select}
                   disabled={formProps.submitting}
-                  validate={(value) => (value ? undefined : 'please select a time')}
+                  validate={(value) => (value ? undefined : 'please select a state')}
                 />
                 <Field
                   name="time"

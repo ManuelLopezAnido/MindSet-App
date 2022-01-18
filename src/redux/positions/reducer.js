@@ -69,6 +69,7 @@ const reducer = (state = initialState, action) => {
         isLoading: true
       };
     case ADD_POSITION_FULFILLED: {
+      console.log(action.payload);
       return {
         ...state,
         isLoading: false,

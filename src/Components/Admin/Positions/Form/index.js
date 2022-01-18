@@ -18,6 +18,7 @@ const PositionsForm = () => {
   const [showModal, setShowModal] = useState(false);
   const [formValues, setFormValues] = useState({});
   const [profilesToMap, setProfilesToMap] = useState([]);
+  const [clientsToMap, setClientsToMap] = useState([]);
   const dispatch = useDispatch();
   const history = useHistory();
   const isLoading = useSelector((store) => store.positions.isLoading);
@@ -40,23 +41,15 @@ const PositionsForm = () => {
     }
   }, []);
 
-  const clientFound = clients.find((client) => clientId === client._id);
-  const clientFindName = clientFound?.clientName;
-
   const submit = () => {
-    let filtredClients = clients.filter((client) => {
-      return client._id === formValues.clientId;
-    });
     if (positionId) {
-      dispatch(updatePosition(positionId, formValues, filtredClients[0]?.clientName)).then(
-        (response) => {
-          if (response) {
-            history.push(`/admin/clients`);
-          }
+      dispatch(updatePosition(positionId, formValues)).then((response) => {
+        if (response) {
+          history.push(`/admin/clients`);
         }
-      );
+      });
     } else {
-      dispatch(addPosition(formValues, filtredClients[0]?.clientName)).then((response) => {
+      dispatch(addPosition(formValues)).then((response) => {
         if (response) {
           history.push('/admin/clients');
         }
@@ -66,10 +59,14 @@ const PositionsForm = () => {
 
   useEffect(() => {
     const prof = profiles.map((profile) => {
-      return { value: profile._id, toShow: profile.name };
+      return { value: profile.name, toShow: profile.name };
     });
     setProfilesToMap(prof);
-  }, [profiles]);
+    const cli = clients.map((client) => {
+      return { value: client._id, toShow: client.clientName };
+    });
+    setClientsToMap(cli);
+  }, [profiles, clients]);
 
   const onSubmit = (formValues) => {
     console.log(formValues);
@@ -110,7 +107,6 @@ const PositionsForm = () => {
             <div className={listStyles.fields}>
               <Field
                 label="Job"
-                id="jobTitle"
                 name="jobTitle"
                 type="string"
                 component={Input}
@@ -119,16 +115,14 @@ const PositionsForm = () => {
               />
               <Field
                 label="Client Name"
-                id="clientName"
-                name="clientName"
-                type="text"
-                initialValue={clientFindName}
-                component={Input}
-                disabled={true}
+                name="clientId"
+                initialValue={clientId}
+                options={clientsToMap}
+                component={Select}
+                disabled={formProps.submitting}
               />
               <Field
                 label="Job Description"
-                id="jobDescription"
                 name="jobDescription"
                 type="string"
                 component={Input}
@@ -137,7 +131,6 @@ const PositionsForm = () => {
               />
               <Field
                 label="City"
-                id="city"
                 name="city"
                 type="string"
                 component={Input}
@@ -146,7 +139,6 @@ const PositionsForm = () => {
               />
               <Field
                 label="Country"
-                id="country"
                 name="country"
                 type="string"
                 component={Input}
@@ -155,9 +147,7 @@ const PositionsForm = () => {
               />
               <Field
                 label="Profile"
-                id="profile"
                 name="profile"
-                type="checkbox"
                 options={profilesToMap}
                 component={Select}
                 disabled={formProps.submitting}
@@ -165,7 +155,6 @@ const PositionsForm = () => {
               />
               <Field
                 label="Date Posted"
-                id="datePosted"
                 name="datePosted"
                 type="date"
                 component={Input}
@@ -174,7 +163,6 @@ const PositionsForm = () => {
               />
               <Field
                 label="Closing Date"
-                id="closingDate"
                 name="closingDate"
                 type="date"
                 component={Input}

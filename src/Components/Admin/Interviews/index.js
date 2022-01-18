@@ -97,8 +97,8 @@ const Interviews = () => {
               .filter((interview) => {
                 if (
                   interview.jobTitle?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
-                  interview.clientId.clientName
-                    ?.toLowerCase()
+                  interview.clientId?.clientName
+                    .toLowerCase()
                     .includes(inputSearchBar.toLowerCase()) ||
                   interview.state?.toLowerCase().includes(inputSearchBar.toLowerCase())
                 ) {

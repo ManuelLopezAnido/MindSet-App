@@ -95,7 +95,7 @@ function Applications() {
                   <DeleteButton onClick={(event) => handleIdApplication(event, a._id)} />
                   <button
                     onClick={() =>
-                      (window.location.href = `/admin/interviews/form?postulantId=${a.postulantId._id}&clientId=${a.clientId._id}&positionId=${a.positionId._id}`)
+                      (window.location.href = `/admin/interviews/form?postulantId=${a.postulantId._id}&clientId=${a.clientId._id}&position=${a.positionId?.jobTitle}`)
                     }
                   >
                     +

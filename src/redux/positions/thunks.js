@@ -42,7 +42,8 @@ export const getOnePosition = (id) => (dispatch) => {
     });
 };
 
-export const addPosition = (data, clientName) => (dispatch) => {
+export const addPosition = (data) => (dispatch) => {
+  console.log(data);
   const options = {
     method: 'POST',
     headers: {
@@ -50,7 +51,6 @@ export const addPosition = (data, clientName) => (dispatch) => {
     },
     body: JSON.stringify({
       jobTitle: data.jobTitle,
-      clientName: clientName,
       clientId: data.clientId,
       jobDescription: data.jobDescription,
       city: data.city,
@@ -64,6 +64,7 @@ export const addPosition = (data, clientName) => (dispatch) => {
 
   return fetch(`${URL}/positions/create`, options)
     .then((data) => {
+      console.log('data', data);
       if (data.status != 201) throw data;
       return data.json();
     })
@@ -84,7 +85,7 @@ export const updatePosition = (id, data) => (dispatch) => {
     },
     body: JSON.stringify({
       jobTitle: data.jobTitle,
-      clientName: data.clientName,
+      clientId: data.clientId,
       jobDescription: data.jobDescription,
       city: data.city,
       country: data.country,
