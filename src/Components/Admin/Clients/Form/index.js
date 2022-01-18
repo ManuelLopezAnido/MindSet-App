@@ -237,7 +237,9 @@ const ClientsForm = () => {
                     </p>
                   </div>
                   <button
-                    onClick={() => (window.location.href = `../positions/form?id=${position._id}`)}
+                    onClick={() =>
+                      (window.location.href = `../positions/form?id=${position._id}&client=${clientId}`)
+                    }
                     className={listStyles.buttonPlus}
                     type="submit"
                   >
