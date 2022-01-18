@@ -43,7 +43,7 @@ const JobOffers = () => {
                 return jobOffer;
               }
             })
-            .map((jobs) => (
+            ?.map((jobs) => (
               <div className={styles.jobContainer} key={jobs._id}>
                 <p className={styles.jobTitle}>{jobs.jobTitle}</p>
                 <p className={styles.jobDescription}>{jobs.jobDescription}</p>

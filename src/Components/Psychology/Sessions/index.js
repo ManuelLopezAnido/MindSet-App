@@ -9,6 +9,7 @@ import { getSessions, updateSession } from 'redux/sessions/thunks';
 import ModalProfile from './modalProfile';
 import { getPositions } from 'redux/positions/thunks';
 import { addApplication, deleteApplication, getApplications } from 'redux/applications/thunks';
+import { getOneCounselor } from 'redux/counselors/thunks';
 
 const Sessions = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,18 @@ const Sessions = () => {
   const [showModalProfile, setShowModalProfile] = useState(false);
   const [postIdSelected, setPostIdSelected] = useState(undefined);
   const [sessionSelected, setSessionsSelected] = useState(undefined);
-  const thisPsychologist = '61b7f956c929a1aa15d03640'; //Id de hardcodeado de Josefina
+
+  const params = new URLSearchParams(window.location.search);
+  let thisPsychologist = params.get('id');
+
+  useEffect(() => {
+    if (thisPsychologist) {
+      sessionStorage.setItem('id', thisPsychologist);
+    } else {
+      thisPsychologist = sessionStorage.getItem('id');
+    }
+  }, []);
+
   useEffect(() => {
     dispatch(getPostulants());
     dispatch(getSessions());

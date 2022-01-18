@@ -85,7 +85,7 @@ const Postulants = () => {
           </tr>
         </thead>
         <tbody>
-          {postulants.map((postulant) => (
+          {postulants?.map((postulant) => (
             <tr key={postulant._id} onClick={() => redirectToForm(postulant._id)}>
               <td>
                 <div>
