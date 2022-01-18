@@ -15,13 +15,11 @@ function Home() {
   let postulantId = params.get('id');
 
   useEffect(() => {
-    console.log(postulantId);
     if (postulantId) {
       dispatch(getOnePostulant(postulantId));
       sessionStorage.setItem('id', postulantId);
     } else {
       postulantId = sessionStorage.getItem('id');
-      console.log(postulantId);
       dispatch(getOnePostulant(postulantId));
     }
   }, []);

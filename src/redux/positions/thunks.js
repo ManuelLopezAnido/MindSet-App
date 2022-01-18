@@ -123,7 +123,6 @@ export const deletePosition = (id) => (dispatch) => {
     .then((response) => {
       if (response.status !== 201) {
         return response.json().then(({ message }) => {
-          console.log(message);
           throw message;
         });
       }

@@ -32,7 +32,6 @@ export const getClients = () => (dispatch) => {
     })
     .then((response) => dispatch(getClientsFulfilled(response)))
     .catch((error) => {
-      console.log('error', error);
       dispatch(getClientsRejected(error.message));
     });
 };
