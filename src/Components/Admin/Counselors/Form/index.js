@@ -111,6 +111,13 @@ const CounselorsForm = () => {
               validate={(value) => (value ? undefined : 'please enter your last name')}
             />
             <Field
+              label="Password"
+              name="password"
+              type="password"
+              component={Input}
+              disabled={formProps.submitting}
+            />
+            <Field
               label="Email"
               name="email"
               type="email"
@@ -166,153 +173,6 @@ const CounselorsForm = () => {
               disabled={formProps.submitting}
               validate={(value) => (value ? undefined : 'please enter your number phone')}
             />
-            <div className={styles.availabilityContainer}>
-              <div className={styles.day}>
-                <div className={styles.eachDay}>
-                  <Field
-                    label="Monday"
-                    name="availability[0].available"
-                    type="checkbox"
-                    component={Input}
-                    disabled={formProps.submitting}
-                  />
-                </div>
-                <div>
-                  <Field
-                    label="From"
-                    name="availability[0].from"
-                    type="string"
-                    component={Input}
-                    disabled={formProps.submitting}
-                  />
-                </div>
-                <div>
-                  <Field
-                    label="To"
-                    name="availability[0].to"
-                    type="string"
-                    component={Input}
-                    disabled={formProps.submitting}
-                  />
-                </div>
-              </div>
-              <div className={styles.day}>
-                <div className={styles.eachDay}>
-                  <Field
-                    label="Tuesday"
-                    type="checkbox"
-                    name="availability[1].available"
-                    component={Input}
-                    disabled={formProps.submitting}
-                  />
-                </div>
-                <div>
-                  <Field
-                    label="From"
-                    name="availability[1].from"
-                    type="string"
-                    component={Input}
-                    disabled={formProps.submitting}
-                  />
-                </div>
-                <div>
-                  <Field
-                    label="To"
-                    name="availability[1].to"
-                    type="string"
-                    component={Input}
-                    disabled={formProps.submitting}
-                  />
-                </div>
-              </div>
-              <div className={styles.day}>
-                <div className={styles.eachDay}>
-                  <Field
-                    label="Wednesday"
-                    type="checkbox"
-                    name="availability[2].available"
-                    component={Input}
-                    disabled={formProps.submitting}
-                  />
-                </div>
-                <div>
-                  <Field
-                    label="From"
-                    name="availability[2].from"
-                    type="string"
-                    component={Input}
-                    disabled={formProps.submitting}
-                  />
-                </div>
-                <div>
-                  <Field
-                    label="To"
-                    name="availability[2].to"
-                    type="string"
-                    component={Input}
-                    disabled={formProps.submitting}
-                  />
-                </div>
-              </div>
-              <div className={styles.day}>
-                <div className={styles.eachDay}>
-                  <Field
-                    label="Thursday"
-                    type="checkbox"
-                    name="availability[3].available"
-                    component={Input}
-                    disabled={formProps.submitting}
-                  />
-                </div>
-                <div>
-                  <Field
-                    label="From"
-                    name="availability[3].from"
-                    type="string"
-                    component={Input}
-                    disabled={formProps.submitting}
-                  />
-                </div>
-                <div>
-                  <Field
-                    label="To"
-                    name="availability[3].to"
-                    type="string"
-                    component={Input}
-                    disabled={formProps.submitting}
-                  />
-                </div>
-              </div>
-              <div className={styles.day}>
-                <div className={styles.eachDay}>
-                  <Field
-                    label="Friday"
-                    name="availability[4].available"
-                    type="checkbox"
-                    component={Input}
-                    disabled={formProps.submitting}
-                  />
-                </div>
-                <div>
-                  <Field
-                    label="From"
-                    name="availability[4].from"
-                    type="string"
-                    component={Input}
-                    disabled={formProps.submitting}
-                  />
-                </div>
-                <div>
-                  <Field
-                    label="To"
-                    name="availability[4].to"
-                    type="string"
-                    component={Input}
-                    disabled={formProps.submitting}
-                  />
-                </div>
-              </div>
-            </div>
             <Button
               type="submit"
               className={StyleSheet.submitButton}
