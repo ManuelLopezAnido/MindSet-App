@@ -309,20 +309,6 @@ const PostulantsForm = () => {
                 component={Input}
                 disabled={formProps.submitting}
               />
-              <Field
-                label="Description"
-                name="profTrainDescription"
-                type="text"
-                component={Input}
-                disabled={formProps.submitting}
-              />
-              <Field
-                label="Year"
-                name="profTrainStarted"
-                type="number"
-                component={Input}
-                disabled={formProps.submitting}
-              />
             </div>
             <div className={styles.sections}>
               <p>Data of interest</p>
@@ -343,62 +329,6 @@ const PostulantsForm = () => {
               <Field
                 label="Hobbies"
                 name="hobbies"
-                type="text"
-                component={Input}
-                disabled={formProps.submitting}
-              />
-              <Field
-                label="1st family member name"
-                name="1stFMName"
-                type="text"
-                component={Input}
-                disabled={formProps.submitting}
-              />
-              <Field
-                label="Bond"
-                name="1stFMBond"
-                type="text"
-                component={Input}
-                disabled={formProps.submitting}
-              />
-              <Field
-                label="2st family member name"
-                name="2stFMName"
-                type="text"
-                component={Input}
-                disabled={formProps.submitting}
-              />
-              <Field
-                label="Bond"
-                name="2stFMBond"
-                type="text"
-                component={Input}
-                disabled={formProps.submitting}
-              />
-              <Field
-                label="3st family member name"
-                name="3stFMName"
-                type="text"
-                component={Input}
-                disabled={formProps.submitting}
-              />
-              <Field
-                label="Bond"
-                name="3stFMBond"
-                type="text"
-                component={Input}
-                disabled={formProps.submitting}
-              />
-              <Field
-                label="4st family member name"
-                name="4stFMName"
-                type="text"
-                component={Input}
-                disabled={formProps.submitting}
-              />
-              <Field
-                label="bond"
-                name="4stFMBond"
                 type="text"
                 component={Input}
                 disabled={formProps.submitting}
