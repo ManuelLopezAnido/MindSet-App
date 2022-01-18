@@ -141,64 +141,25 @@ const Interviews = () => {
         text4={time}
       />
       {postulantHasSessions ? (
-        <div className={styles.mainContainer}>
-          <div className={styles.inputSearch}>
-            <InputSearch
-              type="text"
-              placeholder="Search"
-              onChange={(event) => setInputSearchBar(event.target.value)}
-            />
-          </div>
-          <div className={listStyles.list}>
-            <table>
-              <thead>
-                <tr>
-                  <th>Job Title</th>
-                  <th>Client</th>
-                  <th>Date</th>
-                  <th>Hour</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtredInterviews
-                  .filter((interview) => {
-                    if (
-                      interview.jobTitle?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
-                      interview.clientName?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
-                      interview.date?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
-                      interview.time?.toLowerCase().includes(inputSearchBar.toLowerCase())
-                    ) {
-                      return interview;
-                    }
-                  })
-                  .map((interview) => (
-                    <tr key={interview._id}>
-                      <td>{interview.jobTitle}</td>
-                      <td>{interview.clientName}</td>
-                      <td>{interview.date}</td>
-                      <td>{interview.time}</td>
-                      <td>
-                        <DeleteButton
-                          onClick={(event) => handleIdInterview(event, interview._id)}
-                        />
-                        <VisualizeButton
-                          onClick={() =>
-                            Visualize(
-                              interview.jobTitle,
-                              interview.clientName,
-                              interview.time,
-                              interview.date
-                            )
-                          }
-                        />
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Job Title</th>
+              <th>Client</th>
+              <th>Date and Hour</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtredInterviews.map((interview) => (
+              <tr key={interview._id}>
+                <td>{interview.jobTitle}</td>
+                <td>{interview.clientId.clientName}</td>
+                <td>{interview.time}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       ) : (
         <div>
           {postulantHasSessionsAccomplished ? (
