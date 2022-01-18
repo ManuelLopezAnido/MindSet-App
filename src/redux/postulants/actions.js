@@ -14,7 +14,8 @@ import {
   DELETE_POSTULANT_FETCHING,
   DELETE_POSTULANT_FULFILLED,
   DELETE_POSTULANT_REJECTED,
-  ERROR_TO_DEFAULT
+  ERROR_TO_DEFAULT,
+  SELECTED_TO_DEFAULT
 } from './constants';
 
 export const getPostulantsFetching = () => {
@@ -79,4 +80,8 @@ export const deletePostulantRejected = (error) => ({
 
 export const errorToDefault = () => ({
   type: ERROR_TO_DEFAULT
+});
+
+export const selectedToDefault = () => ({
+  type: SELECTED_TO_DEFAULT
 });
