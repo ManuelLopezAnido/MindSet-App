@@ -77,26 +77,26 @@ export const addPostulant = (data) => (dispatch) => {
       ],
       juniorCollege: [
         {
-          name: data.juniorCollege[0].name,
-          degree: data.juniorCollege[0].degree,
-          graduateYear: data.juniorCollege[0].graduateYear
+          name: data.juniorCollege[0]?.name,
+          degree: data.juniorCollege[0]?.degree,
+          graduateYear: data.juniorCollege[0]?.graduateYear
         }
       ],
       university: [
         {
-          name: data.university[0].name,
-          degree: data.university[0].degree,
-          graduateYear: data.university[0].graduateYear
+          name: data.university[0]?.name,
+          degree: data.university[0]?.degree,
+          graduateYear: data.university[0]?.graduateYear
         }
       ],
       openToWork: data.openToWork,
       workExperience: [
         {
-          title: data.workExperience[0].title,
-          start: data.workExperience[0].start,
-          end: data.workExperience[0].end,
-          client: data.workExperience[0].client,
-          description: data.workExperience[0].description
+          title: data.workExperience[0]?.title,
+          start: data.workExperience[0]?.start,
+          end: data.workExperience[0]?.end,
+          client: data.workExperience[0]?.client,
+          description: data.workExperience[0]?.description
         }
       ],
       languages: data.languages,
@@ -105,7 +105,7 @@ export const addPostulant = (data) => (dispatch) => {
       availability: [
         {
           monday: 'Monday',
-          available: data.availability[0].available,
+          available: data.availability[0]?.available,
           from: data.availability[0].from,
           to: data.availability[0].to
         },
