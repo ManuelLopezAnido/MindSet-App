@@ -68,9 +68,9 @@ export const addCounselor = (data) => (dispatch) => {
 
   dispatch(addCounselorFetching());
 
-  return fetch(`${URL}/counselors/add`, options)
+  return fetch(`${URL}/auth/register/psychologist`, options)
     .then((data) => {
-      if (data.status !== 200) {
+      if (data.status !== 201) {
         return data.json().then(({ message }) => {
           throw message;
         });

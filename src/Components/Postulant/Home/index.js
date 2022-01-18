@@ -20,7 +20,6 @@ function Home() {
       dispatch(getOnePostulant(postulantId));
       sessionStorage.setItem('id', postulantId);
     } else {
-      console.log('entre aca');
       postulantId = sessionStorage.getItem('id');
       console.log(postulantId);
       dispatch(getOnePostulant(postulantId));
