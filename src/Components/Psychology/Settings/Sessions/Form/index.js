@@ -34,6 +34,8 @@ const SessionsForm = () => {
   const params = new URLSearchParams(window.location.search);
   const sessionId = params.get('id');
 
+  let thisPsychologist = sessionStorage.getItem('id');
+
   useEffect(() => {
     dispatch(getPostulants());
     dispatch(getCounselors());
@@ -60,13 +62,13 @@ const SessionsForm = () => {
     if (sessionId) {
       dispatch(updateSession(sessionId, formValues)).then((response) => {
         if (response) {
-          history.push('/admin/sessions');
+          history.push('/psychologists/settings');
         }
       });
     } else {
       dispatch(addSession(formValues)).then((response) => {
         if (response) {
-          history.push('/admin/sessions');
+          history.push('/psychologists/settings');
         }
       });
     }
@@ -112,19 +114,12 @@ const SessionsForm = () => {
         render={(formProps) => (
           <form className={styles.container} onSubmit={formProps.handleSubmit}>
             <Field
-              name="postulantId"
-              label="Postulant"
-              options={postulantsToMap}
-              component={Select}
-              disabled={formProps.submitting}
-            />
-            <Field
+              initialValue={thisPsychologist}
               name="counselorId"
               label="Counselor"
               options={counselorsToMap}
               component={Select}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please choose a counselor')}
+              disabled={true}
             />
             <Field
               name="date"
@@ -141,13 +136,6 @@ const SessionsForm = () => {
               component={Input}
               disabled={formProps.submitting}
               validate={(value) => (value ? undefined : 'please choose a time')}
-            />
-            <Field
-              name="accomplished"
-              label="Accomplished"
-              type="checkbox"
-              component={Checkbox}
-              disabled={formProps.submitting}
             />
             <Button
               type="submit"
