@@ -1,70 +1,40 @@
 import { useEffect, useState } from 'react';
 import listStyles from 'lists.module.css';
 import Modal from 'Components/Shared/Modal';
-import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import Button from 'Components/Shared/Button/Button';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
+import { useSelector, useDispatch } from 'react-redux';
+import { getInterviews, deleteInterview } from 'redux/interviews/thunks';
+import { useHistory } from 'react-router-dom';
+import { errorToDefault } from 'redux/interviews/actions';
 
 function Interviews() {
   const [showModal, setShowModal] = useState(false);
-  const [interviews, saveInterviews] = useState([]);
   const [selectedId, setSelectedId] = useState('');
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showErrorModalMessage, setShowErrorModalMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const interviews = useSelector((store) => store.interviews.list);
+  const isLoading = useSelector((store) => store.interviews.isLoading);
+  const error = useSelector((store) => store.interviews.error);
 
   useEffect(() => {
-    setIsLoading(true);
-    fetch(`${process.env.REACT_APP_API}/interviews`)
-      .then((response) => response.json())
-      .then((response) => {
-        saveInterviews(response);
-      })
-      .catch((error) => {
-        setShowErrorModal(true);
-        setShowErrorModalMessage(JSON.stringify(error.message));
-      })
-      .finally(() => setIsLoading(false));
-  }, []);
+    if (!interviews.length) {
+      dispatch(getInterviews());
+    }
+  }, [interviews]);
 
   const addInterview = () => {
     window.location.href = `/admin/interviews/form`;
-  };
-
-  const deleteInterview = () => {
-    setIsLoading(true);
-    const url = `${process.env.REACT_APP_API}/interviews/delete/${selectedId}`;
-    fetch(url, {
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json'
-      }
-    })
-      .then((res) => {
-        if ((res.status !== 204) & (res.status !== 200)) {
-          return res.json().then((message) => {
-            throw new Error(message);
-          });
-        }
-        saveInterviews(interviews.filter((interview) => interview._id !== selectedId));
-      })
-      .catch((error) => {
-        setShowErrorModal(true);
-        setShowErrorModalMessage(JSON.stringify(error.message));
-      })
-      .finally(() => {
-        setShowModal(false);
-        setIsLoading(false);
-      });
   };
 
   const closeModal = () => {
     setShowModal(false);
   };
 
-  const closeErrorMessage = () => {
-    setShowErrorModal(false);
+  const onClickDelete = () => {
+    dispatch(deleteInterview(selectedId));
+    setShowModal(false);
   };
 
   const handleIdInterview = (event, id) => {
@@ -80,7 +50,7 @@ function Interviews() {
       <Modal
         showModal={showModal}
         closeModal={closeModal}
-        actionEntity={deleteInterview}
+        actionEntity={onClickDelete}
         selectedId={selectedId}
         titleText="Delete an interview"
         spanObjectArray={[
@@ -91,12 +61,17 @@ function Interviews() {
         leftButtonText="delete"
         rightButtonText="cancel"
       />
-      <ErrorModal
-        showModal={showErrorModal}
-        closeModal={closeErrorMessage}
+      <Modal
+        showModal={!!error}
+        closeModal={() => dispatch(errorToDefault())}
         titleText="Error"
-        middleText={showErrorModalMessage}
-        buttonText="ok"
+        spanObjectArray={[
+          {
+            span: error
+          }
+        ]}
+        leftButtonText="OK"
+        rightButtonText="CLOSE"
       />
       <div className={listStyles.titleAndButton}>
         <h3>Interviews</h3>
@@ -117,10 +92,12 @@ function Interviews() {
           {interviews.map((interview) => (
             <tr
               key={interview._id}
-              onClick={() => (window.location.href = `/admin/interviews/form?id=${interview._id}`)}
+              onClick={() => {
+                window.location.replace(`interviews/form?id=${interview._id}`);
+              }}
             >
               <td>{interview.jobTitle}</td>
-              <td>{interview.clientName}</td>
+              <td>{interview.clientId.clientName}</td>
               <td>{interview.date.substring(0, 10)}</td>
               <td>{interview.time}</td>
               <td>{interview.state}</td>

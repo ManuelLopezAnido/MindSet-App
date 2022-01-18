@@ -36,7 +36,6 @@ const PostulantsForm = () => {
   }
 
   const submit = () => {
-    console.log('submit');
     if (postulantId) {
       dispatch(updatePostulant(postulantId, formValues)).then((response) => {
         if (response) {
