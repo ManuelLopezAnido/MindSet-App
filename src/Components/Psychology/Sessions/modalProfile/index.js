@@ -23,9 +23,9 @@ const modalProfile = (props) => {
   return (
     <div className={styles.backModal}>
       <div className={styles.Modal}>
-        <div>Change profile</div>
+        <div className={styles.changeProfile}>Change profile</div>
         <div className={styles.container}>
-          <label>Please select profile for the postulant</label>
+          <p className={styles.pleaseSelectProfile}>Please select profile for the postulant</p>
           <select onChange={giveValue} className={styles.select} defaultValue={''}>
             <option value="" disabled hidden>
               Choose a profile..
@@ -37,25 +37,27 @@ const modalProfile = (props) => {
             ))}
           </select>
         </div>
-        <div>
-          <button
-            onClick={() => {
-              props.close();
-            }}
-          >
-            Cancel
-          </button>
-        </div>
-        <div>
-          <button
-            disabled={!selectedProfile}
-            onClick={() => {
-              props.close();
-              props.action(selectedProfile, props.postId, props.sessionSelected);
-            }}
-          >
-            Change
-          </button>
+        <div className={styles.buttonsContainer}>
+          <div>
+            <button
+              onClick={() => {
+                props.close();
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+          <div>
+            <button
+              disabled={!selectedProfile}
+              onClick={() => {
+                props.close();
+                props.action(selectedProfile, props.postId, props.sessionSelected);
+              }}
+            >
+              Change
+            </button>
+          </div>
         </div>
       </div>
     </div>

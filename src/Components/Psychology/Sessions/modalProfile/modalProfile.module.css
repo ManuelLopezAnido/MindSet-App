@@ -5,22 +5,30 @@
   bottom:0px;
   left:0px;
   background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 .Modal{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  text-align: center;
   position: relative;
-  background-color: honeydew;
-  top:10vh;
-  left:15vw;
-  right:15vw;
+  background-color: #FFFFFF;
   height: 40vh;
-  width: 70vw;
+  width: 50vw;
   padding: 5px;
   border: solid 1px black;
 }
+
 .container {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin: 0 auto;
   width: 100%;
   margin: 0 1rem 0;
@@ -37,6 +45,36 @@
   color: black;
 }
 .select {
+  text-align: center;
   padding: 10px;
   border-radius: 2px;
+  width: 50%;
+}
+
+.buttonsContainer{
+  display: flex;
+  justify-content: center;
+}
+
+.buttonsContainer button{
+  margin: 0px 15px;
+  width: 6rem;
+  height: 2rem;
+  padding: 3px 9px;
+  margin: 20px 20px;
+  border: none;
+  border-radius: 3px;
+  background-color: #F0FAF9;
+  color: #9ED8D8;
+  font-weight: bold;
+  border: 2px solid #9ED8D8;
+  cursor: pointer;
+}
+
+.changeProfile{
+  font-size: 25px;
+}
+
+.pleaseSelectProfile {
+  margin: 30px;
 }

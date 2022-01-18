@@ -91,7 +91,6 @@ const Sessions = () => {
           setShowModalProfile(false);
         }}
       />
-      <h2>CANDIDATES</h2>
       <table className={styles.list}>
         <thead>
           <tr>
