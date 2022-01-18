@@ -39,8 +39,9 @@ export const getClients = () => (dispatch) => {
 export const getOneClient = (id) => (dispatch) => {
   const token = sessionStorage.getItem('token');
   dispatch(getOneClientFetching());
-  return fetch(`${URL}/clients/id/${id}`, { headers: token })
+  return fetch(`${URL}/clients/id/${id}`, { headers: { token } })
     .then((response) => {
+      console.log('response', response);
       if (response.status != 200) throw response.message;
       return response.json();
     })
@@ -49,6 +50,7 @@ export const getOneClient = (id) => (dispatch) => {
       return response;
     })
     .catch((error) => {
+      console.log('error', error);
       dispatch(getOneClientRejected(error));
       return error;
     });
