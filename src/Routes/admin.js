@@ -17,8 +17,6 @@ import Profiles from 'Components/Admin/Profiles';
 import ProfilesForm from 'Components/Admin/Profiles/Form';
 import Counselors from 'Components/Admin/Counselors';
 import CounselorsForm from 'Components/Admin/Counselors/Form';
-import Sessions from 'Components/Admin/Sessions';
-import SessionsForm from 'Components/Admin/Sessions/Form';
 
 const AdminRoutes = () => {
   const { url } = useRouteMatch();

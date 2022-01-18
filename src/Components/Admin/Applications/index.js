@@ -5,7 +5,6 @@ import { getApplications, deleteApplication } from 'redux/applications/thunks.js
 import { errorToDefault } from 'redux/admins/actions';
 import { useHistory } from 'react-router-dom';
 import Modal from 'Components/Shared/Modal';
-import EditButton from 'Components/Shared/EditButton';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
@@ -19,6 +18,8 @@ function Applications() {
   const listApplications = useSelector((store) => store.applications.list);
   const error = useSelector((store) => store.applications.error);
   const isLoading = useSelector((store) => store.applications.isLoading);
+
+  console.log(listApplications);
 
   useEffect(() => {
     dispatch(getApplications());
@@ -92,6 +93,13 @@ function Applications() {
                 </td>
                 <td>
                   <DeleteButton onClick={(event) => handleIdApplication(event, a._id)} />
+                  <button
+                    onClick={() =>
+                      (window.location.href = `/admin/interviews/form?postulantId=${a.postulantId._id}&clientId=${a.clientId._id}&positionId=${a.positionId._id}`)
+                    }
+                  >
+                    +
+                  </button>
                 </td>
               </tr>
             ))}

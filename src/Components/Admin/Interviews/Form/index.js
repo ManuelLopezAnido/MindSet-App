@@ -28,7 +28,12 @@ const InterviewsForm = () => {
   const postulants = useSelector((store) => store.postulants.list);
 
   const params = new URLSearchParams(window.location.search);
+  const thisClient = params.get('clientId');
+  const thisPostulant = params.get('postulantId');
+  const thisPosition = params.get('positionId');
   const interviewId = params.get('id');
+
+  console.log(thisPostulant);
 
   useEffect(() => {
     dispatch(getClients());
@@ -40,7 +45,6 @@ const InterviewsForm = () => {
     }
   }, []);
 
-  //setting up selects
   useEffect(() => {
     const cli = clients.map((client) => {
       return { value: client._id, toShow: client.clientName };
@@ -125,29 +129,29 @@ const InterviewsForm = () => {
             <form className={styles.inputs} onSubmit={formProps.handleSubmit}>
               <div className={listStyles.fields}>
                 <Field
+                  initialValue={thisPosition}
                   name="jobTitle"
-                  label="jobTitle"
-                  placeholder="Electrical engineer"
-                  component={Input}
+                  label="Position"
+                  component={Select}
                   disabled={formProps.submitting}
                   validate={(value) => (value ? undefined : 'please state the job  offer')}
                 />
                 <Field
                   name="clientId"
                   label="Client"
-                  placeholder="Coca-cola"
                   options={clientsToMap}
+                  initialValue={thisClient}
                   component={Select}
-                  disabled={formProps.submitting}
+                  disabled={true}
                   validate={(value) => (value ? undefined : 'please select a client')}
                 />
                 <Field
                   name="postulantId"
                   label="Postulant"
-                  placeholder="Jorge"
                   options={postulantsToMap}
+                  initialValue={thisPostulant}
                   component={Select}
-                  disabled={formProps.submitting}
+                  disabled={true}
                   validate={(value) => (value ? undefined : 'please select a postulant')}
                 />
                 <Field
@@ -159,16 +163,9 @@ const InterviewsForm = () => {
                   validate={(value) => (value ? undefined : 'please select a date')}
                 />
                 <Field
-                  name="time"
-                  label="Time"
-                  type="time"
-                  component={Input}
-                  disabled={formProps.submitting}
-                  validate={(value) => (value ? undefined : 'please select a time')}
-                />
-                <Field
                   name="state"
                   label="State"
+                  initialValue="PENDING"
                   options={[
                     { value: 'FULFILLED', toShow: 'FULFILLED' },
                     { value: 'PENDING', toShow: 'PENDING' },
@@ -176,6 +173,14 @@ const InterviewsForm = () => {
                     { value: 'HIRED', toShow: 'HIRED' }
                   ]}
                   component={Select}
+                  disabled={formProps.submitting}
+                  validate={(value) => (value ? undefined : 'please select a time')}
+                />
+                <Field
+                  name="time"
+                  label="Time"
+                  type="time"
+                  component={Input}
                   disabled={formProps.submitting}
                   validate={(value) => (value ? undefined : 'please select a time')}
                 />
