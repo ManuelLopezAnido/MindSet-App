@@ -1,7 +1,6 @@
 import styles from './select.module.css';
 
 const Select = (props) => {
-  props.optionSelected();
   const hasError = !!(props.meta.touched && props.meta.error);
   return (
     <div className={styles.container}>
@@ -24,4 +23,5 @@ const Select = (props) => {
     </div>
   );
 };
+
 export default Select;

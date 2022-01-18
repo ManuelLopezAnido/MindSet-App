@@ -216,7 +216,7 @@ const ClientsForm = () => {
             <h3>Company open positions</h3>
             <button
               className={styles.buttonAdd}
-              onClick={() => history.push('/admin/positions/form')}
+              onClick={() => history.push(`/admin/positions/form?client=${clientId}`)}
             >
               +
             </button>

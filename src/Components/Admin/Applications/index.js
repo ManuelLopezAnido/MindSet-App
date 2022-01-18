@@ -91,24 +91,10 @@ function Applications() {
                     : 'Postulant not found'}
                 </td>
                 <td>
-                  <EditButton
-                    onClick={() => (window.location.href = `/admin/applications/form?id=${a._id}`)}
-                  />
                   <DeleteButton onClick={(event) => handleIdApplication(event, a._id)} />
-                  <button
-                    onClick={() =>
-                      history.push(
-                        `/admin/interviews/form?client=${a.clientId.clientName}&postulant=${a.postulantId.firstName}`
-                      )
-                    }
-                    value="Application"
-                  >
-                    +
-                  </button>
                 </td>
               </tr>
             ))}
-            3
           </tbody>
         </table>
       </div>

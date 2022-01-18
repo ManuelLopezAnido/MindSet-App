@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import styles from './form.module.css';
 import listStyles from 'lists.module.css';
 import Modal from 'Components/Shared/Modal';
 import SaveButton from 'Components/Shared/SaveButton';
@@ -116,12 +117,12 @@ const InterviewsForm = () => {
         rightButtonText="CLOSE"
       />
       <h2> {`${interviewId == null ? 'Add a new Interview' : 'Edit the interview'}`} </h2>
-      <div className={listStyles.form}>
+      <div className={styles.form}>
         <Form
           onSubmit={onSubmit}
           initialValues={selectedInterview}
           render={(formProps) => (
-            <form className={listStyles.inputs} onSubmit={formProps.handleSubmit}>
+            <form className={styles.inputs} onSubmit={formProps.handleSubmit}>
               <div className={listStyles.fields}>
                 <Field
                   name="jobTitle"

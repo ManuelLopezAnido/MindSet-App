@@ -17,7 +17,6 @@ import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 const PositionsForm = () => {
   const [showModal, setShowModal] = useState(false);
   const [formValues, setFormValues] = useState({});
-  const [clientsToMap, setClientsToMap] = useState([]);
   const [profilesToMap, setProfilesToMap] = useState([]);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -29,6 +28,7 @@ const PositionsForm = () => {
   const profiles = useSelector((store) => store.profiles.list);
   const params = new URLSearchParams(window.location.search);
   const positionId = params.get('id');
+  const clientId = params.get('client');
 
   useEffect(() => {
     dispatch(getClients());
@@ -40,11 +40,13 @@ const PositionsForm = () => {
     }
   }, []);
 
+  const clientFound = clients.find((client) => clientId === client._id);
+  const clientFindName = clientFound?.clientName;
+
   const submit = () => {
     let filtredClients = clients.filter((client) => {
       return client._id === formValues.clientId;
     });
-    console.log(filtredClients);
     if (positionId) {
       dispatch(updatePosition(positionId, formValues, filtredClients[0]?.clientName)).then(
         (response) => {
@@ -63,15 +65,6 @@ const PositionsForm = () => {
   };
 
   useEffect(() => {
-    const cli = clients.map((client) => {
-      return { value: client._id, toShow: client.clientName };
-    });
-    setClientsToMap(cli);
-  }, [clients]);
-
-  console.log(profiles);
-
-  useEffect(() => {
     const prof = profiles.map((profile) => {
       return { value: profile._id, toShow: profile.name };
     });
@@ -79,6 +72,7 @@ const PositionsForm = () => {
   }, [profiles]);
 
   const onSubmit = (formValues) => {
+    console.log(formValues);
     setFormValues(formValues);
     setShowModal(true);
   };
@@ -127,11 +121,10 @@ const PositionsForm = () => {
                 label="Client Name"
                 id="clientName"
                 name="clientName"
-                type="checkbox"
-                options={clientsToMap}
-                component={Select}
-                disabled={formProps.submitting}
-                validate={(value) => (value ? undefined : 'please enter the client name')}
+                type="text"
+                initialValue={clientFindName}
+                component={Input}
+                disabled={true}
               />
               <Field
                 label="Job Description"

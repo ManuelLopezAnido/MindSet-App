@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import listStyles from 'lists.module.css';
+import styles from './interviews.module.css';
 import Modal from 'Components/Shared/Modal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import InputSearch from 'Components/Shared/InputSearch';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
-import AddButton from 'Components/Shared/AddButton';
 import EditButton from 'Components/Shared/EditButton';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,7 +15,6 @@ const Interviews = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
   const [inputSearchBar, setInputSearchBar] = useState('');
-  const history = useHistory();
   const dispatch = useDispatch();
   const interviews = useSelector((store) => store.interviews.list);
   const isLoading = useSelector((store) => store.interviews.isLoading);
@@ -26,6 +25,8 @@ const Interviews = () => {
       dispatch(getInterviews());
     }
   }, [interviews]);
+
+  console.log(interviews);
 
   const closeModal = () => {
     setShowModal(false);
@@ -72,8 +73,7 @@ const Interviews = () => {
         leftButtonText="OK"
         rightButtonText="CLOSE"
       />
-      <div className={listStyles.headerList}>
-        <AddButton onClick={() => history.push('/admin/interviews/form')} value="Interview" />
+      <div className={styles.inputSearch}>
         <InputSearch
           type="text"
           placeholder="Search"
@@ -97,7 +97,9 @@ const Interviews = () => {
               .filter((interview) => {
                 if (
                   interview.jobTitle?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
-                  interview.clientName?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+                  interview.clientId.clientName
+                    ?.toLowerCase()
+                    .includes(inputSearchBar.toLowerCase()) ||
                   interview.state?.toLowerCase().includes(inputSearchBar.toLowerCase())
                 ) {
                   return interview;
@@ -111,7 +113,7 @@ const Interviews = () => {
                   }
                 >
                   <td>{interview.jobTitle}</td>
-                  <td>{interview.clientName}</td>
+                  <td>{interview.clientId.clientName}</td>
                   <td>{interview.date.substring(0, 10)}</td>
                   <td>{interview.time}</td>
                   <td>{interview.state}</td>
