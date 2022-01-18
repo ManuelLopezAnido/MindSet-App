@@ -22,6 +22,8 @@ const Login = () => {
             return history.push(`/postulant?id=${response.payload?.mongoDBID}`);
           case 'admin':
             return history.push(`/admin?id=${response.payload?.mongoDBID}`);
+          case 'psychologist':
+            return history.push(`/psychologists?id=${response.payload?.mongoDBID}`);
           default:
             break;
         }
