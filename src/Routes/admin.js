@@ -17,8 +17,6 @@ import Profiles from 'Components/Admin/Profiles';
 import ProfilesForm from 'Components/Admin/Profiles/Form';
 import Counselors from 'Components/Admin/Counselors';
 import CounselorsForm from 'Components/Admin/Counselors/Form';
-import Sessions from 'Components/Admin/Sessions';
-import SessionsForm from 'Components/Admin/Sessions/Form';
 import { tokenListener } from 'helper/firebase';
 import { useEffect } from 'react';
 import PrivateRoute from './PrivateRoute';
@@ -53,9 +51,6 @@ const AdminRoutes = () => {
         <PrivateRoute exact path={`${url}/counselors`} component={Counselors} />
         <PrivateRoute path={`${url}/counselors/form`} component={CounselorsForm} />
         <PrivateRoute path={`${url}/counselors/form/:id`} component={CounselorsForm} />
-        <PrivateRoute exact path={`${url}/sessions`} component={Sessions} />
-        <PrivateRoute path={`${url}/sessions/form`} component={SessionsForm} />
-        <PrivateRoute path={`${url}/sessions/form/:id`} component={SessionsForm} />
         <Redirect to={`${url}/admins`} />
       </Switch>
     </Layout>
