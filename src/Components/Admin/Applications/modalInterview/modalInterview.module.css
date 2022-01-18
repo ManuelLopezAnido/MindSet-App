@@ -1,0 +1,42 @@
+.backModal{
+  position: absolute;
+  top:0px;
+  right:0px;
+  bottom:0px;
+  left:0px;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.Modal{
+  position: relative;
+  background-color: honeydew;
+  top:10vh;
+  left:15vw;
+  right:15vw;
+  height: 40vh;
+  width: 70vw;
+  padding: 5px;
+  border: solid 1px black;
+}
+.container {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 100%;
+  margin: 0 1rem 0;
+  padding: 1rem 1rem 0rem;
+}
+
+.container label {
+  width: 100%;
+  margin: 2px 0px 2px 0px;
+  color: black;
+}
+
+.container option {
+  color: black;
+}
+.select {
+  padding: 10px;
+  border-radius: 2px;
+}

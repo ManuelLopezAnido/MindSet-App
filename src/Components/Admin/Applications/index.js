@@ -9,8 +9,11 @@ import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import Button from 'Components/Shared/Button/Button';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
+import ModalInterview from './modalInterview';
 
 function Applications() {
+  const [showModalInterview, setShowModalInterview] = useState(false);
+  const [postIdSelected, setPostIdSelected] = useState('');
   const [selectedId, setSelectedId] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState('');
@@ -46,7 +49,14 @@ function Applications() {
     setSelectedId(id);
     setShowModal(true);
   };
-
+  const makeAnInterview = (event, postId) => {
+    event.stopPropagation();
+    setShowModalInterview(true);
+    setPostIdSelected(postId);
+  };
+  const makeInterview = () => {
+    console.log('Clicked on make an interview');
+  };
   const closeErrorMessage = () => {
     dispatch(errorToDefault());
   };
@@ -73,6 +83,14 @@ function Applications() {
         closeModal={closeErrorMessage}
         titleText="Error"
         buttonText="ok"
+      />
+      <ModalInterview
+        show={showModalInterview}
+        close={() => {
+          setShowModalInterview(false);
+        }}
+        action={makeInterview}
+        postId={postIdSelected}
       />
       <div className={listStyles.titleAndButton}>
         <h3>Applications</h3>
@@ -103,6 +121,9 @@ function Applications() {
               </td>
               <td>
                 <DeleteButton onClick={(e) => handleIdApplication(e, a._id)} />
+                <button onClick={(e) => makeAnInterview(e, a.postulantId._id)}>
+                  Make an interview
+                </button>
               </td>
             </tr>
           ))}
