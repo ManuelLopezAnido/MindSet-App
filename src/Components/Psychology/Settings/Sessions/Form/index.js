@@ -34,7 +34,7 @@ const SessionsForm = () => {
   const params = new URLSearchParams(window.location.search);
   const sessionId = params.get('id');
 
-  const thisPsychologist = '61e5fe2e51e6dc79e789300c'; //Id de hardcodeado de Josefina
+  let thisPsychologist = sessionStorage.getItem('id');
 
   useEffect(() => {
     dispatch(getPostulants());

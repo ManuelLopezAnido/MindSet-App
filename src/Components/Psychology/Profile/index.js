@@ -5,7 +5,7 @@ import styles from './profile.module.css';
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const thisPsychologist = '61e5fe2e51e6dc79e789300c'; //Id de hardcodeado de Josefina
+  let thisPsychologist = sessionStorage.getItem('id');
 
   useEffect(() => {
     dispatch(getOneCounselor(thisPsychologist));
