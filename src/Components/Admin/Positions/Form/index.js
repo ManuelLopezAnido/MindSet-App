@@ -59,7 +59,7 @@ const PositionsForm = () => {
 
   useEffect(() => {
     const prof = profiles.map((profile) => {
-      return { value: profile.name, toShow: profile.name };
+      return { value: profile._id, toShow: profile.name };
     });
     setProfilesToMap(prof);
     const cli = clients.map((client) => {

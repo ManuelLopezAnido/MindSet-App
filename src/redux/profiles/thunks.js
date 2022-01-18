@@ -19,8 +19,9 @@ import {
 const URL = process.env.REACT_APP_API;
 
 export const getProfiles = () => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(getProfilesFetching());
-  fetch(`${URL}/workProfiles/`)
+  fetch(`${URL}/workProfiles/`, { headers: { token } })
     .then((data) => data.json())
     .then((response) => {
       dispatch(getProfilesFulfilled(response));
@@ -29,8 +30,9 @@ export const getProfiles = () => (dispatch) => {
 };
 
 export const getOneProfile = (id) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(getOneProfileFetching());
-  return fetch(`${URL}/workProfiles/${id}`)
+  return fetch(`${URL}/workProfiles/${id}`, { headers: { token } })
     .then((response) => {
       if (response.status != 200) throw response.message;
       return response.json();
@@ -46,10 +48,12 @@ export const getOneProfile = (id) => (dispatch) => {
 };
 
 export const addProfile = (data) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   const options = {
     method: 'POST',
     headers: {
-      'Content-type': 'application/json'
+      'Content-type': 'application/json',
+      token
     },
     body: JSON.stringify({
       name: data.name,
@@ -79,11 +83,13 @@ export const addProfile = (data) => (dispatch) => {
 };
 
 export const updateProfile = (id, data) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(updateProfileFetching());
   return fetch(`${URL}/workProfiles/update/${id}`, {
     method: 'PUT',
     headers: {
-      'Content-type': 'application/json'
+      'Content-type': 'application/json',
+      token
     },
     body: JSON.stringify({
       name: data.name,
@@ -102,11 +108,13 @@ export const updateProfile = (id, data) => (dispatch) => {
 };
 
 export const deleteProfile = (id) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(deleteProfileFetching());
   return fetch(`${URL}/workProfiles/delete/${id}`, {
     method: 'DELETE',
     headers: {
-      'Content-type': 'application/json'
+      'Content-type': 'application/json',
+      token
     }
   })
     .then((response) => {

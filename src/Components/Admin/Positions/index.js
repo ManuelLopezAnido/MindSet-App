@@ -43,9 +43,6 @@ function Positions() {
     setShowModal(false);
   };
 
-  const closeErrorMessage = () => {
-    dispatch(errorToDefault());
-  };
   if (isLoading) return <IsLoading />;
 
   return (
@@ -64,11 +61,17 @@ function Positions() {
         leftButtonText="delete"
         rightButtonText="cancel"
       />
-      <ErrorModal
-        showModal={error}
-        closeModal={closeErrorMessage}
+      <Modal
+        showModal={!!error}
+        closeModal={() => dispatch(errorToDefault())}
         titleText="Error"
-        buttonText="ok"
+        spanObjectArray={[
+          {
+            span: error
+          }
+        ]}
+        leftButtonText=""
+        rightButtonText="OK"
       />
       <div className={styles.inputSearch}>
         <InputSearch

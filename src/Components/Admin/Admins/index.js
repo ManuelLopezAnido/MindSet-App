@@ -27,10 +27,10 @@ const Admins = () => {
   const errorMessage = useSelector((store) => store.admins.errorMessage);
 
   useEffect(() => {
-    if (!admins.length) {
+    if (!admins.list) {
       dispatch(getAdmins());
     }
-  }, [admins]);
+  }, []);
 
   const onClickDelete = () => {
     dispatch(deleteAdmin(selectedId));
@@ -67,12 +67,17 @@ const Admins = () => {
         leftButtonText="delete"
         rightButtonText="cancel"
       />
-      <ErrorModal
+      <Modal
         showModal={error}
         closeModal={() => dispatch(errorToDefault())}
         titleText="Error"
-        middleText={errorMessage}
-        buttonText="ok"
+        spanObjectArray={[
+          {
+            span: errorMessage
+          }
+        ]}
+        leftButtonText=""
+        rightButtonText="Ok"
       />
       <div className={listStyles.headerList}>
         <AddButton onClick={() => history.push('/admin/admins/form')} value="Admin" />
@@ -120,6 +125,31 @@ const Admins = () => {
           </tbody>
         </table>
       </div>
+      <table className={listStyles.list}>
+        <thead>
+          <tr>
+            <th> Email </th>
+            <th> Actions </th>
+          </tr>
+        </thead>
+        <tbody>
+          {admins?.map((admin) => {
+            return (
+              <tr
+                key={admin._id}
+                onClick={() => {
+                  window.location.replace(`admins/form?id=${admin._id}`);
+                }}
+              >
+                <td>{admin.email}</td>
+                <td>
+                  <DeleteButton onClick={(event) => handleIdAdmin(event, admin._id)} />
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 };

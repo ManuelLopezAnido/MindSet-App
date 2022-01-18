@@ -1,7 +1,14 @@
 import styles from './header.module.css';
 import { useLocation, Link } from 'react-router-dom';
+import { logOutUser } from 'helper/firebase';
 
 const Header = () => {
+  const logOut = () => {
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('id');
+    logOutUser();
+  };
+
   const location = useLocation();
   let entity = location.pathname;
   entity = entity.charAt(1).toUpperCase() + entity.slice(2);
@@ -12,8 +19,10 @@ const Header = () => {
         <div className={styles.brand}>MindSet</div>
         <div className={styles.mainHead}>
           <div className={styles.entityName}> {entity} </div>
-          <Link to="/postulant/signUp">
-            <span className={styles.signUp}>Sign Up</span>
+          <Link to="/">
+            <span onClick={logOut} className={styles.signUp}>
+              Log out
+            </span>
           </Link>
         </div>
       </div>

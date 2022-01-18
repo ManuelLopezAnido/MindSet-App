@@ -44,10 +44,6 @@ function Applications() {
     setShowModal(true);
   };
 
-  const closeErrorMessage = () => {
-    dispatch(errorToDefault());
-  };
-
   if (isLoading) return <IsLoading />;
   return (
     <section className={listStyles.mainContainer}>
@@ -65,11 +61,17 @@ function Applications() {
         leftButtonText="delete"
         rightButtonText="cancel"
       />
-      <ErrorModal
-        showModal={showErrorModal}
-        closeModal={closeErrorMessage}
+      <Modal
+        showModal={!!error}
+        closeModal={() => dispatch(errorToDefault())}
         titleText="Error"
-        buttonText="ok"
+        spanObjectArray={[
+          {
+            span: error
+          }
+        ]}
+        leftButtonText=""
+        rightButtonText="Ok"
       />
       <div className={listStyles.list}>
         <table>

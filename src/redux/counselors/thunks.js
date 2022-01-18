@@ -19,17 +19,18 @@ import {
 const URL = process.env.REACT_APP_API;
 
 export const getCounselors = () => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(getCounselorsFetching());
-  console.log(`${URL}/counselors/`);
-  return fetch(`${URL}/counselors/`)
+  return fetch(`${URL}/counselors/`, { headers: { token } })
     .then((data) => data.json())
     .then((response) => dispatch(getCounselorsFulfilled(response)))
     .catch((error) => dispatch(getCounselorsRejected(error)));
 };
 
 export const getOneCounselor = (id) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(getOneCounselorFetching());
-  return fetch(`${URL}/counselors/id/${id}`)
+  return fetch(`${URL}/counselors/id/${id}`, { headers: { token } })
     .then((response) => {
       if (response.status != 200) throw response.message;
       return response.json();
@@ -45,10 +46,12 @@ export const getOneCounselor = (id) => (dispatch) => {
 };
 
 export const addCounselor = (data) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   const options = {
     method: 'POST',
     headers: {
-      'Content-type': 'application/json'
+      'Content-type': 'application/json',
+      token
     },
     body: JSON.stringify({
       firstName: data.firstName,
@@ -65,9 +68,9 @@ export const addCounselor = (data) => (dispatch) => {
 
   dispatch(addCounselorFetching());
 
-  return fetch(`${URL}/counselors/add`, options)
+  return fetch(`${URL}/auth/register/psychologist`, options)
     .then((data) => {
-      if (data.status !== 200) {
+      if (data.status !== 201) {
         return data.json().then(({ message }) => {
           throw message;
         });
@@ -85,11 +88,13 @@ export const addCounselor = (data) => (dispatch) => {
 };
 
 export const updateCounselor = (id, data) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(updateCounselorFetching());
   return fetch(`${URL}/counselors/update/${id}`, {
     method: 'PUT',
     headers: {
-      'Content-type': 'application/json'
+      'Content-type': 'application/json',
+      token
     },
     body: JSON.stringify({
       firstName: data.firstName,
@@ -117,11 +122,13 @@ export const updateCounselor = (id, data) => (dispatch) => {
 };
 
 export const deleteCounselor = (id) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(deleteCounselorFetching());
   return fetch(`${URL}/counselors/delete/${id}`, {
     method: 'DELETE',
     headers: {
-      'Content-type': 'application/json'
+      'Content-type': 'application/json',
+      token
     }
   })
     .then((response) => {

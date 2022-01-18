@@ -1,86 +1,22 @@
 import { useEffect, useState } from 'react';
 import styles from './form.module.css';
-import Input from 'Components/Shared/Input';
+import Input from 'Components/Shared/FormInput';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import SaveButton from 'Components/Shared/SaveButton';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import { getOnePostulant, addPostulant, updatePostulant } from 'redux/postulants/thunks';
 import { useSelector, useDispatch } from 'react-redux';
-import { errorToDefault } from 'redux/postulants/actions';
+import { errorToDefault, selectedToDefault } from 'redux/postulants/actions';
 import { useHistory } from 'react-router-dom';
+import { Field, Form } from 'react-final-form';
+import { validateEmail } from 'validations';
 
 const PostulantsForm = () => {
   const [showModal, setShowModal] = useState(false);
-  const [firstNameValue, setFirstNameValue] = useState('');
-  const [lastNameValue, setLastNameValue] = useState('');
-  const [emailValue, setEmailValue] = useState('');
-  const [phoneValue, setPhoneValue] = useState('');
-  const [dateOfBirthValue, setDateOfBirthValue] = useState('');
-  const [genderValue, setGenderValue] = useState('');
-  const [cityValue, setCityValue] = useState('');
-  const [stateValue, setStateValue] = useState('');
-  const [countryValue, setCountryValue] = useState('');
-
-  const [elementarySchoolNameValue, setElementarySchoolNameValue] = useState('');
-  const [elementarySchoolDegreeValue, setElementarySchoolDegreeValue] = useState('');
-  const [elementarySchoolGraduateYearValue, setElementarySchoolGraduateYearValue] = useState(0);
-
-  const [highSchoolNameValue, setHighSchoolNameValue] = useState('');
-  const [highSchoolDegreeValue, setHighSchoolDegreeValue] = useState('');
-  const [highSchoolGraduateYearValue, setHighSchoolGraduateYearValue] = useState(0);
-
-  const [juniorCollegeNameValue, setJuniorCollegeNameValue] = useState('');
-  const [juniorCollegeDegreeValue, setJuniorCollegeDegreeValue] = useState('');
-  const [juniorCollegeGraduateYearValue, setJuniorCollegeGraduateYearValue] = useState(0);
-
-  const [universityNameValue, setUniversityNameValue] = useState('');
-  const [universityDegreeValue, setUniversityDegreeValue] = useState('');
-  const [universityGraduateYearValue, setUniversityGraduateYearValue] = useState(0);
-
-  const [openToWork, setOpenToWork] = useState(false);
-
-  const [workExperienceTitleValue, setWorkExperienceTitleValue] = useState('');
-  const [workExperienceStartValue, setWorkExperienceStartValue] = useState('');
-  const [workExperienceEndValue, setWorkExperienceEndValue] = useState('');
-  const [workExperienceClientValue, setWorkExperienceClientValue] = useState('');
-  const [workExperienceDescriptionValue, setWorkExperienceDescriptionValue] = useState('');
-
-  const [languagesValue, setLanguagesValue] = useState('');
-  const [hobbiesValue, setHobbiesValue] = useState('');
-
-  const [availabilityCheckMondayValue, setAvailabilityCheckMondayValue] = useState(false);
-  const [availabilityFromMondayValue, setAvailabilityFromMondayValue] = useState('-');
-  const [availabilityToMondayValue, setAvailabilityToMondayValue] = useState('-');
-
-  const [availabilityCheckTuesdayValue, setAvailabilityCheckTuesdayValue] = useState(false);
-  const [availabilityFromTuesdayValue, setAvailabilityFromTuesdayValue] = useState('-');
-  const [availabilityToTuesdayValue, setAvailabilityToTuesdayValue] = useState('-');
-
-  const [availabilityCheckWednesdayValue, setAvailabilityCheckWednesdayValue] = useState(false);
-  const [availabilityFromWednesdayValue, setAvailabilityFromWednesdayValue] = useState('-');
-  const [availabilityToWednesdayValue, setAvailabilityToWednesdayValue] = useState('-');
-
-  const [availabilityCheckThursdayValue, setAvailabilityCheckThursdayValue] = useState(false);
-  const [availabilityFromThursdayValue, setAvailabilityFromThursdayValue] = useState('-');
-  const [availabilityToThursdayValue, setAvailabilityToThursdayValue] = useState('-');
-
-  const [availabilityCheckFridayValue, setAvailabilityCheckFridayValue] = useState(false);
-  const [availabilityFromFridayValue, setAvailabilityFromFridayValue] = useState('-');
-  const [availabilityToFridayValue, setAvailabilityToFridayValue] = useState('-');
-
-  const [availabilityCheckSaturdayValue, setAvailabilityCheckSaturdayValue] = useState(false);
-  const [availabilityFromSaturdayValue, setAvailabilityFromSaturdayValue] = useState('-');
-  const [availabilityToSaturdayValue, setAvailabilityToSaturdayValue] = useState('-');
-
-  const [availabilityCheckSundayValue, setAvailabilityCheckSundayValue] = useState(false);
-  const [availabilityFromSundayValue, setAvailabilityFromSundayValue] = useState('-');
-  const [availabilityToSundayValue, setAvailabilityToSundayValue] = useState('-');
-
+  const [formValues, setFormValues] = useState({});
   const dispatch = useDispatch();
-
   const history = useHistory();
-
   const isLoading = useSelector((store) => store.postulants.isLoading);
   const error = useSelector((store) => store.postulants.error);
   const errorMessage = useSelector((store) => store.postulants.errorMessage);
@@ -93,467 +29,47 @@ const PostulantsForm = () => {
     useEffect(() => {
       dispatch(getOnePostulant(postulantId));
     }, []);
+  } else {
+    useEffect(() => {
+      dispatch(selectedToDefault());
+    }, []);
   }
 
-  useEffect(() => {
-    if (Object.keys(selectedPostulant).length <= 0) return;
-    setFirstNameValue(selectedPostulant.firstName ?? '-');
-    setLastNameValue(selectedPostulant.lastName ?? '-');
-    setEmailValue(selectedPostulant.email ?? '-');
-    setPhoneValue(selectedPostulant.phone ?? '-');
-    setDateOfBirthValue(selectedPostulant.dateOfBirth ?? '-');
-    setGenderValue(selectedPostulant.gender ?? '-');
-    setCityValue(selectedPostulant.city ?? '-');
-    setStateValue(selectedPostulant.state ?? '-');
-    setCountryValue(selectedPostulant.country ?? '-');
-
-    setElementarySchoolNameValue(selectedPostulant.elementarySchool[0]?.name || '-');
-    setElementarySchoolDegreeValue(selectedPostulant.elementarySchool[0]?.degree || '-');
-    setElementarySchoolGraduateYearValue(selectedPostulant.elementarySchool[0]?.graduateYear || 0);
-
-    setHighSchoolNameValue(selectedPostulant.highSchool[0]?.name || '-');
-    setHighSchoolDegreeValue(selectedPostulant.highSchool[0]?.degree || '-');
-    setHighSchoolGraduateYearValue(selectedPostulant.highSchool[0]?.graduateYear || 0);
-
-    setJuniorCollegeNameValue(selectedPostulant.juniorCollege[0]?.name || '-');
-    setJuniorCollegeDegreeValue(selectedPostulant.juniorCollege[0]?.degree || '-');
-    setJuniorCollegeGraduateYearValue(selectedPostulant.juniorCollege[0]?.graduateYear || 0);
-
-    setUniversityNameValue(selectedPostulant.university[0]?.name || '-');
-    setUniversityDegreeValue(selectedPostulant.university[0]?.degree || '-');
-    setUniversityGraduateYearValue(selectedPostulant.university[0]?.graduateYear || 0);
-
-    setOpenToWork(selectedPostulant.openToWork);
-
-    setWorkExperienceTitleValue(selectedPostulant.workExperience[0]?.title || '-');
-    setWorkExperienceStartValue(selectedPostulant.workExperience[0]?.start || '2000-05-20');
-    setWorkExperienceEndValue(selectedPostulant.workExperience[0]?.end || '2000-02-20');
-    setWorkExperienceClientValue(selectedPostulant.workExperience[0]?.client || '-');
-    setWorkExperienceDescriptionValue(selectedPostulant.workExperience[0]?.description || '-');
-
-    setLanguagesValue(selectedPostulant.languages || '');
-    setHobbiesValue(selectedPostulant.hobbies || '');
-
-    setAvailabilityCheckTuesdayValue(selectedPostulant.availability[1]?.available);
-    setAvailabilityFromTuesdayValue(selectedPostulant.availability[1]?.from || '-');
-    setAvailabilityToTuesdayValue(selectedPostulant.availability[1]?.to || '-');
-
-    setAvailabilityCheckWednesdayValue(selectedPostulant.availability[2]?.available);
-    setAvailabilityFromWednesdayValue(selectedPostulant.availability[2]?.from || '-');
-    setAvailabilityToWednesdayValue(selectedPostulant.availability[2]?.to || '-');
-
-    setAvailabilityCheckThursdayValue(selectedPostulant.availability[3]?.available);
-    setAvailabilityFromThursdayValue(selectedPostulant.availability[3]?.from || '-');
-    setAvailabilityToThursdayValue(selectedPostulant.availability[3]?.to || '-');
-
-    setAvailabilityCheckFridayValue(selectedPostulant.availability[4]?.available);
-    setAvailabilityFromFridayValue(selectedPostulant.availability[4]?.from || '-');
-    setAvailabilityToFridayValue(selectedPostulant.availability[4]?.to || '-');
-
-    setAvailabilityCheckSaturdayValue(selectedPostulant.availability[5]?.available);
-    setAvailabilityFromSaturdayValue(selectedPostulant.availability[5]?.from || '-');
-    setAvailabilityToSaturdayValue(selectedPostulant.availability[5]?.to || '-');
-
-    setAvailabilityCheckSundayValue(selectedPostulant.availability[6]?.available);
-    setAvailabilityFromSundayValue(selectedPostulant.availability[6]?.from || '-');
-    setAvailabilityToSundayValue(selectedPostulant.availability[6]?.to || '-');
-    if (!postulantId) {
-      setFirstNameValue('');
-      setLastNameValue('');
-      setEmailValue('');
-      setPhoneValue('');
-      setDateOfBirthValue('');
-      setGenderValue('');
-      setCityValue('');
-      setStateValue('');
-      setCountryValue('');
-
-      setElementarySchoolNameValue('');
-      setElementarySchoolDegreeValue('');
-      setElementarySchoolGraduateYearValue('');
-
-      setHighSchoolNameValue('');
-      setHighSchoolDegreeValue('');
-      setHighSchoolGraduateYearValue('');
-
-      setJuniorCollegeNameValue('');
-      setJuniorCollegeDegreeValue('');
-      setJuniorCollegeGraduateYearValue('');
-
-      setUniversityNameValue('');
-      setUniversityDegreeValue('');
-      setUniversityGraduateYearValue('');
-
-      setOpenToWork(false);
-
-      setWorkExperienceTitleValue('');
-      setWorkExperienceStartValue('');
-      setWorkExperienceEndValue('');
-      setWorkExperienceClientValue('');
-      setWorkExperienceDescriptionValue('');
-
-      setLanguagesValue('');
-      setHobbiesValue('');
-
-      setAvailabilityCheckMondayValue(false);
-      setAvailabilityFromMondayValue('');
-      setAvailabilityToMondayValue('');
-
-      setAvailabilityCheckTuesdayValue(false);
-      setAvailabilityFromTuesdayValue('');
-      setAvailabilityToTuesdayValue('');
-
-      setAvailabilityCheckWednesdayValue(false);
-      setAvailabilityFromWednesdayValue('');
-      setAvailabilityToWednesdayValue('');
-
-      setAvailabilityCheckThursdayValue(false);
-      setAvailabilityFromThursdayValue('');
-      setAvailabilityToThursdayValue('');
-
-      setAvailabilityCheckFridayValue(false);
-      setAvailabilityFromFridayValue('');
-      setAvailabilityToFridayValue('');
-
-      setAvailabilityCheckSaturdayValue(false);
-      setAvailabilityFromSaturdayValue('');
-      setAvailabilityToSaturdayValue('');
-
-      setAvailabilityCheckSundayValue(false);
-      setAvailabilityFromSundayValue('');
-      setAvailabilityToSundayValue('');
-    }
-  }, [selectedPostulant]);
-
-  const onChangeFirstName = (event) => {
-    setFirstNameValue(event.target.value);
-  };
-
-  const onChangeLastName = (event) => {
-    setLastNameValue(event.target.value);
-  };
-
-  const onChangeEmail = (event) => {
-    setEmailValue(event.target.value);
-  };
-
-  const onChangePhone = (event) => {
-    setPhoneValue(event.target.value);
-  };
-
-  const onChangeBirth = (event) => {
-    setDateOfBirthValue(event.target.value);
-  };
-
-  const onChangeGender = (event) => {
-    setGenderValue(event.target.value);
-  };
-
-  const onChangeCity = (event) => {
-    setCityValue(event.target.value);
-  };
-
-  const onChangeState = (event) => {
-    setStateValue(event.target.value);
-  };
-
-  const onChangeCountry = (event) => {
-    setCountryValue(event.target.value);
-  };
-
-  const onChangeSchoolName = (event) => {
-    setElementarySchoolNameValue(event.target.value);
-  };
-
-  const onChangeSchoolDegree = (event) => {
-    setElementarySchoolDegreeValue(event.target.value);
-  };
-
-  const onChangeSchoolGraduateYear = (event) => {
-    setElementarySchoolGraduateYearValue(event.target.value);
-  };
-
-  const onChangeHighSchool = (event) => {
-    setHighSchoolNameValue(event.target.value);
-  };
-
-  const onChangeHighSchoolDegree = (event) => {
-    setHighSchoolDegreeValue(event.target.value);
-  };
-
-  const onChangeHighSchoolGraduate = (event) => {
-    setHighSchoolGraduateYearValue(event.target.value);
-  };
-
-  const onChangeJuniorCollege = (event) => {
-    setJuniorCollegeNameValue(event.target.value);
-  };
-
-  const onChangeJuniorCollegeDegree = (event) => {
-    setJuniorCollegeDegreeValue(event.target.value);
-  };
-
-  const onChangeJuniorCollegeGraduate = (event) => {
-    setJuniorCollegeGraduateYearValue(event.target.value);
-  };
-
-  const onChangeUniversity = (event) => {
-    setUniversityNameValue(event.target.value);
-  };
-
-  const onChangeUniversityDegree = (event) => {
-    setUniversityDegreeValue(event.target.value);
-  };
-
-  const onChangeUniversityGraduate = (event) => {
-    setUniversityGraduateYearValue(event.target.value);
-  };
-
-  const onChangeOpenToWork = (event) => {
-    setOpenToWork(event.target.checked);
-  };
-
-  const onChangeWorkExperience = (event) => {
-    setWorkExperienceTitleValue(event.target.value);
-  };
-
-  const onChangeWorkExperienceStart = (event) => {
-    setWorkExperienceStartValue(event.target.value);
-  };
-
-  const onChangeWorkExperienceEnd = (event) => {
-    setWorkExperienceEndValue(event.target.value);
-  };
-
-  const onChangeWorkExperienceClient = (event) => {
-    setWorkExperienceClientValue(event.target.value);
-  };
-
-  const onChangeWorkExperienceDescription = (event) => {
-    setWorkExperienceDescriptionValue(event.target.value);
-  };
-
-  const onChangeLanguages = (event) => {
-    setLanguagesValue(event.target.value);
-  };
-
-  const onChangeHobbies = (event) => {
-    setHobbiesValue(event.target.value);
-  };
-
-  const onChangeMonday = (event) => {
-    setAvailabilityCheckMondayValue(event.target.checked);
-  };
-
-  const onChangeTuesday = (event) => {
-    setAvailabilityCheckTuesdayValue(event.target.checked);
-  };
-
-  const onChangeWednesday = (event) => {
-    setAvailabilityCheckWednesdayValue(event.target.checked);
-  };
-
-  const onChangeThursday = (event) => {
-    setAvailabilityCheckThursdayValue(event.target.checked);
-  };
-
-  const onChangeFriday = (event) => {
-    setAvailabilityCheckFridayValue(event.target.checked);
-  };
-
-  const onChangeSaturday = (event) => {
-    setAvailabilityCheckSaturdayValue(event.target.checked);
-  };
-
-  const onChangeSunday = (event) => {
-    setAvailabilityCheckSundayValue(event.target.checked);
-  };
-
-  const onChangeMondayFrom = (event) => {
-    setAvailabilityFromMondayValue(event.target.value);
-  };
-
-  const onChangeTuesdayFrom = (event) => {
-    setAvailabilityFromTuesdayValue(event.target.value);
-  };
-
-  const onChangeWednesdayFrom = (event) => {
-    setAvailabilityFromWednesdayValue(event.target.value);
-  };
-
-  const onChangeThursdayFrom = (event) => {
-    setAvailabilityFromThursdayValue(event.target.value);
-  };
-
-  const onChangeFridayFrom = (event) => {
-    setAvailabilityFromFridayValue(event.target.value);
-  };
-
-  const onChangeSaturdayFrom = (event) => {
-    setAvailabilityFromSaturdayValue(event.target.value);
-  };
-
-  const onChangeSundayFrom = (event) => {
-    setAvailabilityFromSundayValue(event.target.value);
-  };
-
-  const onChangeMondayTo = (event) => {
-    setAvailabilityToMondayValue(event.target.value);
-  };
-
-  const onChangeTuesdayTo = (event) => {
-    setAvailabilityToTuesdayValue(event.target.value);
-  };
-
-  const onChangeWednesdayTo = (event) => {
-    setAvailabilityToWednesdayValue(event.target.value);
-  };
-
-  const onChangeThursdayTo = (event) => {
-    setAvailabilityToThursdayValue(event.target.value);
-  };
-
-  const onChangeFridayTo = (event) => {
-    setAvailabilityToFridayValue(event.target.value);
-  };
-
-  const onChangeSaturdayTo = (event) => {
-    setAvailabilityToSaturdayValue(event.target.value);
-  };
-
-  const onChangeSundayTo = (event) => {
-    setAvailabilityToSundayValue(event.target.value);
-  };
-
   const submit = () => {
-    const data = {
-      firstName: firstNameValue,
-      lastName: lastNameValue,
-      email: emailValue,
-      phone: phoneValue,
-      dateOfBirth: dateOfBirthValue,
-      gender: genderValue,
-      city: cityValue,
-      state: stateValue,
-      country: countryValue,
-      elementarySchool: [
-        {
-          name: elementarySchoolNameValue,
-          degree: elementarySchoolDegreeValue,
-          graduateYear: elementarySchoolGraduateYearValue
-        }
-      ],
-      highSchool: [
-        {
-          name: highSchoolNameValue,
-          degree: highSchoolDegreeValue,
-          graduateYear: highSchoolGraduateYearValue
-        }
-      ],
-      juniorCollege: [
-        {
-          name: juniorCollegeNameValue,
-          degree: juniorCollegeDegreeValue,
-          graduateYear: juniorCollegeGraduateYearValue
-        }
-      ],
-      university: [
-        {
-          name: universityNameValue,
-          degree: universityDegreeValue,
-          graduateYear: universityGraduateYearValue
-        }
-      ],
-      openToWork: openToWork,
-      workExperience: [
-        {
-          title: workExperienceTitleValue,
-          start: workExperienceStartValue,
-          end: workExperienceEndValue,
-          client: workExperienceClientValue,
-          description: workExperienceDescriptionValue
-        }
-      ],
-      languages: languagesValue,
-      hobbies: hobbiesValue,
-      availability: [
-        {
-          monday: 'Monday',
-          available: availabilityCheckMondayValue,
-          from: availabilityFromMondayValue,
-          to: availabilityToMondayValue
-        },
-        {
-          Tuesday: 'Tuesday',
-          available: availabilityCheckTuesdayValue,
-          from: availabilityFromTuesdayValue,
-          to: availabilityToTuesdayValue
-        },
-        {
-          Wednesday: 'Wednesday',
-          available: availabilityCheckWednesdayValue,
-          from: availabilityFromWednesdayValue,
-          to: availabilityToWednesdayValue
-        },
-        {
-          Thursday: 'Thursday',
-          available: availabilityCheckThursdayValue,
-          from: availabilityFromThursdayValue,
-          to: availabilityToThursdayValue
-        },
-        {
-          Friday: 'Friday',
-          available: availabilityCheckFridayValue,
-          from: availabilityFromFridayValue,
-          to: availabilityToFridayValue
-        },
-        {
-          Saturday: 'Saturday',
-          available: availabilityCheckSaturdayValue,
-          from: availabilityFromSaturdayValue,
-          to: availabilityToSaturdayValue
-        },
-        {
-          Sunday: 'Sunday',
-          available: availabilityCheckSundayValue,
-          from: availabilityFromSundayValue,
-          to: availabilityToSundayValue
-        }
-      ]
-    };
     if (postulantId) {
-      dispatch(updatePostulant(postulantId, data)).then((response) => {
+      dispatch(updatePostulant(postulantId, formValues)).then((response) => {
         if (response) {
-          history.push('/postulants');
+          history.push('/postulant');
         }
       });
     } else {
-      dispatch(addPostulant(data)).then((response) => {
+      dispatch(addPostulant(formValues)).then((response) => {
         if (response) {
-          history.push('/postulants');
+          history.push('/postulant');
         }
       });
     }
   };
 
-  const closeModal = () => {
-    setShowModal(false);
+  const validate = (formValues) => {
+    const errors = {};
+    errors.email = validateEmail(formValues.email);
+    return errors;
   };
 
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const onSubmit = (formValues) => {
+    console.log('onsubmit');
+    setFormValues(formValues);
     setShowModal(true);
   };
 
-  if (isLoading) {
-    return <IsLoading />;
-  }
+  if (isLoading) return <IsLoading />;
 
   return (
     <div className={styles.container}>
       <Modal
         showModal={showModal}
-        closeModal={closeModal}
+        closeModal={() => setShowModal(false)}
         actionEntity={submit}
         titleText="Save"
         spanObjectArray={[
@@ -586,383 +102,391 @@ const PostulantsForm = () => {
           {`${selectedPostulant.openToWork ? 'Open to Work' : 'Not Available to Work'}`}
         </div>
       </div>
-      <form action="" className={styles.form} onSubmit={onSubmit}>
-        <div className={styles.sections}>
-          <p>Personal information</p>
-          <Input
-            label="First Name"
-            id="firstName"
-            type="text"
-            value={firstNameValue}
-            onChange={onChangeFirstName}
-            required
-          />
-          <Input
-            label="Last Name"
-            id="lastName"
-            type="text"
-            value={lastNameValue}
-            onChange={onChangeLastName}
-            required
-          />
-          <Input
-            label="Email"
-            id="email"
-            type="email"
-            value={emailValue}
-            onChange={onChangeEmail}
-            required
-          />
-          <Input
-            label="Phone"
-            id="phone"
-            type="number"
-            value={phoneValue}
-            onChange={onChangePhone}
-            required
-          />
-          <Input
-            label="Date Of Birth"
-            id="dateOfBirth"
-            type="date"
-            value={dateOfBirthValue}
-            onChange={onChangeBirth}
-            required
-          />
-          <Input
-            label="Gender"
-            id="gender"
-            type="text"
-            value={genderValue}
-            onChange={onChangeGender}
-            required
-          />
-          <Input
-            label="City"
-            id="city"
-            type="text"
-            value={cityValue}
-            onChange={onChangeCity}
-            required
-          />
-          <Input
-            label="State"
-            id="state"
-            type="text"
-            value={stateValue}
-            onChange={onChangeState}
-            required
-          />
-          <Input
-            label="Country"
-            id="country"
-            type="text"
-            value={countryValue}
-            onChange={onChangeCountry}
-            required
-          />
-        </div>
-        <div className={styles.sections}>
-          <p>Academic Information</p>
-          <Input
-            label="Elementary School"
-            id="elementarySchool"
-            type="text"
-            value={elementarySchoolNameValue}
-            onChange={onChangeSchoolName}
-          />
-          <Input
-            label="Degree"
-            id="elementarySchoolDegree"
-            type="text"
-            value={elementarySchoolDegreeValue}
-            onChange={onChangeSchoolDegree}
-          />
-          <Input
-            label="Graduate Year"
-            id="elementarySchoolGraduateYear"
-            type="text"
-            value={elementarySchoolGraduateYearValue}
-            onChange={onChangeSchoolGraduateYear}
-          />
-          <Input
-            label="High School"
-            id="highSchool"
-            type="text"
-            value={highSchoolNameValue}
-            onChange={onChangeHighSchool}
-          />
-          <Input
-            label="Degree"
-            id="highSchoolDegree"
-            type="text"
-            value={highSchoolDegreeValue}
-            onChange={onChangeHighSchoolDegree}
-          />
-          <Input
-            label="Graduate Year"
-            id="highSchoolGraduateYear"
-            type="text"
-            value={highSchoolGraduateYearValue}
-            onChange={onChangeHighSchoolGraduate}
-          />
-          <Input
-            label="Junior College"
-            id="juniorCollege"
-            type="text"
-            value={juniorCollegeNameValue}
-            onChange={onChangeJuniorCollege}
-          />
-          <Input
-            label="Degree"
-            id="juniorCollegeDegree"
-            type="text"
-            value={juniorCollegeDegreeValue}
-            onChange={onChangeJuniorCollegeDegree}
-          />
-          <Input
-            label="Graduate Year"
-            id="juniorCollegeGraduateYear"
-            type="text"
-            value={juniorCollegeGraduateYearValue}
-            onChange={onChangeJuniorCollegeGraduate}
-          />
-          <Input
-            label="University"
-            id="University"
-            type="text"
-            value={universityNameValue}
-            onChange={onChangeUniversity}
-          />
-          <Input
-            label="Degree"
-            id="UniversityDegree"
-            type="text"
-            value={universityDegreeValue}
-            onChange={onChangeUniversityDegree}
-          />
-          <Input
-            label="Graduate Year"
-            id="UniversityGraduateYear"
-            type="text"
-            value={universityGraduateYearValue}
-            onChange={onChangeUniversityGraduate}
-          />
-        </div>
-        <div className={styles.sections}>
-          <p>Work experience information</p>
-          <Input
-            label="Title"
-            id="workExperience"
-            type="text"
-            value={workExperienceTitleValue}
-            onChange={onChangeWorkExperience}
-          />
-          <Input
-            label="Started"
-            id="WorkExpStarted"
-            type="date"
-            value={workExperienceStartValue}
-            onChange={onChangeWorkExperienceStart}
-          />
-          <Input
-            label="Ended"
-            id="WorkExpEnded"
-            type="date"
-            value={workExperienceEndValue}
-            onChange={onChangeWorkExperienceEnd}
-          />
-          <Input
-            label="Company"
-            id="WorkExpClient"
-            type="text"
-            value={workExperienceClientValue}
-            onChange={onChangeWorkExperienceClient}
-          />
-          <Input
-            label="Description"
-            id="workExpDescription"
-            type="textarea"
-            value={workExperienceDescriptionValue}
-            onChange={onChangeWorkExperienceDescription}
-          />
-        </div>
-        <div className={styles.sections}>
-          <p>Data of interest</p>
-          <Input
-            label="Open to work"
-            type="checkbox"
-            id="openToWork"
-            checked={openToWork}
-            onChange={onChangeOpenToWork}
-          />
-          <Input
-            label="Languages"
-            id="languages"
-            type="text"
-            value={languagesValue}
-            onChange={onChangeLanguages}
-          />
-          <Input
-            label="Hobbies"
-            id="hobbies"
-            type="text"
-            value={hobbiesValue}
-            onChange={onChangeHobbies}
-          />
-        </div>
-        <div className={styles.sections}>
-          <p>Availability</p>
-          <Input
-            label="Monday"
-            type="checkbox"
-            id="mondayDay1"
-            checked={availabilityCheckMondayValue}
-            onChange={onChangeMonday}
-          />
-          <Input
-            label="from"
-            id="fromDay1"
-            type="text"
-            value={availabilityFromMondayValue}
-            onChange={onChangeMondayFrom}
-          />
-          <Input
-            label="To"
-            id="ToDay1"
-            type="text"
-            value={availabilityToMondayValue}
-            onChange={onChangeMondayTo}
-          />
-          <Input
-            label="Tuesday"
-            type="checkbox"
-            id="tuesdayDay2"
-            checked={availabilityCheckTuesdayValue}
-            onChange={onChangeTuesday}
-          />
-          <Input
-            label="from"
-            id="fromDay2"
-            type="text"
-            value={availabilityFromTuesdayValue}
-            onChange={onChangeTuesdayFrom}
-          />
-          <Input
-            label="To"
-            id="ToDay2"
-            type="text"
-            value={availabilityToTuesdayValue}
-            onChange={onChangeTuesdayTo}
-          />
-          <Input
-            label="Wednesday"
-            type="checkbox"
-            id="WednesdayDay3"
-            checked={availabilityCheckWednesdayValue}
-            onChange={onChangeWednesday}
-          />
-          <Input
-            label="from"
-            id="fromDay3"
-            type="text"
-            value={availabilityFromWednesdayValue}
-            onChange={onChangeWednesdayFrom}
-          />
-          <Input
-            label="To"
-            id="ToDay3"
-            type="text"
-            value={availabilityToWednesdayValue}
-            onChange={onChangeWednesdayTo}
-          />
-          <Input
-            label="Thursday"
-            type="checkbox"
-            id="ThursdayDay4"
-            checked={availabilityCheckThursdayValue}
-            onChange={onChangeThursday}
-          />
-          <Input
-            label="from"
-            id="fromDay4"
-            type="text"
-            value={availabilityFromThursdayValue}
-            onChange={onChangeThursdayFrom}
-          />
-          <Input
-            label="To"
-            id="ToDay4"
-            type="text"
-            value={availabilityToThursdayValue}
-            onChange={onChangeThursdayTo}
-          />
-          <Input
-            label="Friday"
-            type="checkbox"
-            id="FridayDay5"
-            checked={availabilityCheckFridayValue}
-            onChange={onChangeFriday}
-          />
-          <Input
-            label="from"
-            id="fromDay5"
-            type="text"
-            value={availabilityFromFridayValue}
-            onChange={onChangeFridayFrom}
-          />
-          <Input
-            label="To"
-            id="ToDay5"
-            type="text"
-            value={availabilityToFridayValue}
-            onChange={onChangeFridayTo}
-          />
-          <Input
-            label="Saturday"
-            type="checkbox"
-            id="SaturdayDay6"
-            checked={availabilityCheckSaturdayValue}
-            onChange={onChangeSaturday}
-          />
-          <Input
-            label="from"
-            id="fromDay6"
-            type="text"
-            value={availabilityFromSaturdayValue}
-            onChange={onChangeSaturdayFrom}
-          />
-          <Input
-            label="To"
-            id="ToDay6"
-            type="text"
-            value={availabilityToSaturdayValue}
-            onChange={onChangeSaturdayTo}
-          />
-          <Input
-            label="Sunday"
-            type="checkbox"
-            id="SundayDay7"
-            checked={availabilityCheckSundayValue}
-            onChange={onChangeSunday}
-          />
-          <Input
-            label="from"
-            id="fromDay7"
-            type="text"
-            value={availabilityFromSundayValue}
-            onChange={onChangeSundayFrom}
-          />
-          <Input
-            label="To"
-            id="ToDay7"
-            type="text"
-            value={availabilityToSundayValue}
-            onChange={onChangeSundayTo}
-          />
-        </div>
-        <SaveButton type="submit" />
-      </form>
+      <Form
+        onSubmit={onSubmit}
+        validate={validate}
+        initialValues={selectedPostulant}
+        render={(formProps) => (
+          <form className={styles.form} onSubmit={formProps.handleSubmit}>
+            <div className={styles.sections}>
+              <p>Personal information</p>
+              <Field
+                name="firstName"
+                label="First Name"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+                validate={(value) => (value ? undefined : 'please enter your first name')}
+              />
+              <Field
+                label="Last Name"
+                name="lastName"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+                validate={(value) => (value ? undefined : 'please enter your last name')}
+              />
+              <Field
+                label="Email"
+                name="email"
+                type="email"
+                placeholder="example@geemail.com"
+                component={Input}
+                disabled={formProps.submitting}
+                validate={(value) => (value ? undefined : 'please enter an email')}
+              />
+              <Field
+                label="Phone"
+                name="phone"
+                type="number"
+                component={Input}
+                disabled={formProps.submitting}
+                validate={(value) => (value ? undefined : 'please enter a phone')}
+              />
+              <Field
+                label="Date Of Birth"
+                name="dateOfBirth"
+                type="date"
+                component={Input}
+                disabled={formProps.submitting}
+                validate={(value) => (value ? undefined : 'please enter a date')}
+              />
+              <Field
+                label="Gender"
+                name="gender"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+                validate={(value) => (value ? undefined : 'please enter a gender')}
+              />
+              <Field
+                label="City"
+                name="city"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+                validate={(value) => (value ? undefined : 'please enter a city')}
+              />
+              <Field
+                label="State"
+                name="state"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+                validate={(value) => (value ? undefined : 'please enter a state')}
+              />
+              <Field
+                label="Country"
+                name="country"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+                validate={(value) => (value ? undefined : 'please enter a country')}
+              />
+            </div>
+            <div className={styles.sections}>
+              <p>Academic Information</p>
+              <Field
+                label="Elementary School"
+                name="elementarySchool"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="Degree"
+                name="elementarySchoolDegree"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="Graduate Year"
+                name="elementarySchoolGraduateYear"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="High School"
+                name="highSchool"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="Degree"
+                name="highSchoolDegree"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="Graduate Year"
+                name="highSchoolGraduateYear"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="Junior College"
+                name="juniorCollege"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="Degree"
+                name="juniorCollegeDegree"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="Graduate Year"
+                name="juniorCollegeGraduateYear"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="University"
+                name="University"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="Degree"
+                name="UniversityDegree"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="Graduate Year"
+                name="UniversityGraduateYear"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+            </div>
+            <div className={styles.sections}>
+              <p>Work experience information</p>
+              <Field
+                label="Title"
+                name="workExperience"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="Started"
+                name="WorkExpStarted"
+                type="date"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="Ended"
+                name="WorkExpEnded"
+                type="date"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="Company"
+                name="WorkExpClient"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="Description"
+                name="workExpDescription"
+                type="textarea"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+            </div>
+            <div className={styles.sections}>
+              <p>Data of interest</p>
+              <Field
+                label="Open to work"
+                type="checkbox"
+                name="openToWork"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="Languages"
+                name="languages"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="Hobbies"
+                name="hobbies"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+            </div>
+            <div className={styles.sections}>
+              <p>Availability</p>
+              <Field
+                label="Monday"
+                type="checkbox"
+                name="mondayDay1"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="from"
+                name="fromDay1"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="To"
+                name="ToDay1"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="Tuesday"
+                type="checkbox"
+                name="tuesdayDay2"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="from"
+                name="fromDay2"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="To"
+                name="ToDay2"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="Wednesday"
+                name="checkbox"
+                id="WednesdayDay3"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="from"
+                name="fromDay3"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="To"
+                name="ToDay3"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="Thursday"
+                name="checkbox"
+                id="ThursdayDay4"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="from"
+                name="fromDay4"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="To"
+                name="ToDay4"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="Friday"
+                type="checkbox"
+                name="FridayDay5"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="from"
+                name="fromDay5"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="To"
+                name="ToDay5"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="Saturday"
+                type="checkbox"
+                name="SaturdayDay6"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="from"
+                name="fromDay6"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="To"
+                name="ToDay6"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="Sunday"
+                type="checkbox"
+                name="SundayDay7"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="from"
+                name="fromDay7"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+              <Field
+                label="To"
+                name="ToDay7"
+                type="text"
+                component={Input}
+                disabled={formProps.submitting}
+              />
+            </div>
+            <SaveButton type="submit" disabled={formProps.submitting || formProps.pristine} />
+          </form>
+        )}
+      />
     </div>
   );
 };

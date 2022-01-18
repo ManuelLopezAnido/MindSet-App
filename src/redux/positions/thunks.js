@@ -64,7 +64,6 @@ export const addPosition = (data) => (dispatch) => {
 
   return fetch(`${URL}/positions/create`, options)
     .then((data) => {
-      console.log('data', data);
       if (data.status != 201) throw data;
       return data.json();
     })

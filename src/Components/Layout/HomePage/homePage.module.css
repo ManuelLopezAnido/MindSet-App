@@ -6,6 +6,11 @@
   color: #FFF;
 }
 
+.container a {
+  text-decoration: none;
+  color: #FFF;
+}
+
 .brand {
   display: flex;
   align-items: center;
