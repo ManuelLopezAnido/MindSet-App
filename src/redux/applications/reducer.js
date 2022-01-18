@@ -43,7 +43,8 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: action.payload,
+        list: []
       };
     }
     case GET_ONE_APPLICATION_FETCHING:

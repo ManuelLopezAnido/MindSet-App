@@ -20,7 +20,7 @@ const Interviews = () => {
     dispatch(getSessions());
   }, []);
 
-  const selectedPostulantId = '61a4398da318de40f22eba2c';
+  const selectedPostulantId = sessionStorage.getItem('id');
 
   let filtredInterviews = interviews.filter((interview) => {
     return interview.postulantId === selectedPostulantId;

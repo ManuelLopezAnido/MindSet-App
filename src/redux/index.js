@@ -8,6 +8,7 @@ import uiReducer from './ui/reducer';
 import applicationsReducers from './applications/reducer';
 import interviewsReducers from './interviews/reducer';
 import positionsReducer from './positions/reducer';
+import authReducer from './auth/reducer';
 import profilesReducer from './profiles/reducer';
 
 const rootReducer = combineReducers({
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   counselors: counselorsReducer,
   ui: uiReducer,
   applications: applicationsReducers,
+  auth: authReducer,
   interviews: interviewsReducers,
   positions: positionsReducer,
   profiles: profilesReducer

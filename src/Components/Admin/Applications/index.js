@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getApplications, deleteApplication } from 'redux/applications/thunks.js';
 import { errorToDefault } from 'redux/admins/actions';
 import Modal from 'Components/Shared/Modal';
-import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import Button from 'Components/Shared/Button/Button';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
@@ -47,10 +46,6 @@ function Applications() {
     setShowModal(true);
   };
 
-  const closeErrorMessage = () => {
-    dispatch(errorToDefault());
-  };
-
   if (isLoading) return <IsLoading />;
   return (
     <section className={listStyles.container}>
@@ -68,17 +63,23 @@ function Applications() {
         leftButtonText="delete"
         rightButtonText="cancel"
       />
-      <ErrorModal
-        showModal={showErrorModal}
-        closeModal={closeErrorMessage}
+      <Modal
+        showModal={!!error}
+        closeModal={() => dispatch(errorToDefault())}
         titleText="Error"
-        buttonText="ok"
+        spanObjectArray={[
+          {
+            span: error
+          }
+        ]}
+        leftButtonText=""
+        rightButtonText="Ok"
       />
       <div className={listStyles.titleAndButton}>
         <h3>Applications</h3>
         <Button onClick={addApplication} value="Applications" />
       </div>
-      <NoData data={!listApplications.length} />
+      <NoData data={!listApplications?.length} />
       <table className={listStyles.list}>
         <thead>
           <tr>
@@ -89,7 +90,7 @@ function Applications() {
           </tr>
         </thead>
         <tbody>
-          {listApplications.map((a) => (
+          {listApplications?.map((a) => (
             <tr
               key={a._id}
               onClick={() => (window.location.href = `/admin/applications/form?id=${a._id}`)}

@@ -10,7 +10,7 @@ const modalProfile = (props) => {
   useEffect(() => {
     dispatch(getProfiles());
   }, []);
-  const options = profiles.map((profile) => ({
+  const options = profiles?.map((profile) => ({
     value: profile._id,
     toShow: profile.name
   }));
