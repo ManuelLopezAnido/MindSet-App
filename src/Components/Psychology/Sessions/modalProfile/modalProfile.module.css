@@ -19,7 +19,6 @@
   background-color: #FFFFFF;
   height: 40vh;
   width: 50vw;
-  padding: 5px;
   border: solid 1px black;
 }
 
@@ -72,7 +71,13 @@
 }
 
 .changeProfile{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70px;
+  margin-top: -42px;
   font-size: 25px;
+  background-color: #325477;
 }
 
 .pleaseSelectProfile {
