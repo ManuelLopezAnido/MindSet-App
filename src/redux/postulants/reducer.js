@@ -14,7 +14,8 @@ import {
   DELETE_POSTULANT_FETCHING,
   DELETE_POSTULANT_FULFILLED,
   DELETE_POSTULANT_REJECTED,
-  ERROR_TO_DEFAULT
+  ERROR_TO_DEFAULT,
+  SELECTED_TO_DEFAULT
 } from './constants';
 
 const initialState = {
@@ -131,6 +132,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         error: false
+      };
+    }
+    case SELECTED_TO_DEFAULT: {
+      return {
+        ...state,
+        selected: {}
       };
     }
     default:

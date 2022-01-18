@@ -24,10 +24,10 @@ const Admins = () => {
   const errorMessage = useSelector((store) => store.admins.errorMessage);
 
   useEffect(() => {
-    if (!admins.length) {
+    if (!admins.list) {
       dispatch(getAdmins());
     }
-  }, [admins]);
+  }, []);
 
   const onClickDelete = () => {
     dispatch(deleteAdmin(selectedId));
@@ -64,12 +64,17 @@ const Admins = () => {
         leftButtonText="delete"
         rightButtonText="cancel"
       />
-      <ErrorModal
+      <Modal
         showModal={error}
         closeModal={() => dispatch(errorToDefault())}
         titleText="Error"
-        middleText={errorMessage}
-        buttonText="ok"
+        spanObjectArray={[
+          {
+            span: errorMessage
+          }
+        ]}
+        leftButtonText=""
+        rightButtonText="Ok"
       />
       <div className={listStyles.titleAndButton}>
         <h3>Admin</h3>
@@ -83,7 +88,7 @@ const Admins = () => {
           </tr>
         </thead>
         <tbody>
-          {admins.map((admin) => {
+          {admins?.map((admin) => {
             return (
               <tr
                 key={admin._id}

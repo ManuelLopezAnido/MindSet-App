@@ -6,7 +6,6 @@ import { getApplications, deleteApplication } from 'redux/applications/thunks.js
 import { addInterview } from 'redux/interviews/thunks.js';
 import { errorToDefault } from 'redux/admins/actions';
 import Modal from 'Components/Shared/Modal';
-import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import Button from 'Components/Shared/Button/Button';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
@@ -19,7 +18,6 @@ function Applications() {
   const [clientId, setClientId] = useState('');
   const [selectedId, setSelectedId] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [showErrorModal, setShowErrorModal] = useState('');
 
   const dispatch = useDispatch();
   const listApplications = useSelector((store) => store.applications.list);
@@ -29,10 +27,6 @@ function Applications() {
   useEffect(() => {
     dispatch(getApplications());
   }, []);
-
-  useEffect(() => {
-    setShowErrorModal(error);
-  }, [error]);
 
   const addApplication = () => {
     window.location.href = `/admin/applications/form`;
@@ -72,9 +66,7 @@ function Applications() {
     dispatch(addInterview(newInterview));
     dispatch(deleteApplication(application));
   };
-  const closeErrorMessage = () => {
-    dispatch(errorToDefault());
-  };
+
   if (isLoading) return <IsLoading />;
   return (
     <section className={listStyles.container}>
@@ -92,11 +84,17 @@ function Applications() {
         leftButtonText="delete"
         rightButtonText="cancel"
       />
-      <ErrorModal
-        showModal={showErrorModal}
-        closeModal={closeErrorMessage}
+      <Modal
+        showModal={!!error}
+        closeModal={() => dispatch(errorToDefault())}
         titleText="Error"
-        buttonText="ok"
+        spanObjectArray={[
+          {
+            span: error
+          }
+        ]}
+        leftButtonText=""
+        rightButtonText="Ok"
       />
       <ModalInterview
         show={showModalInterview}
@@ -113,7 +111,7 @@ function Applications() {
         <h3>Applications</h3>
         <Button onClick={addApplication} value="Applications" />
       </div>
-      <NoData data={!listApplications.length} />
+      <NoData data={!listApplications?.length} />
       <table className={listStyles.list}>
         <thead>
           <tr>
@@ -124,7 +122,7 @@ function Applications() {
           </tr>
         </thead>
         <tbody>
-          {listApplications.map((a) => (
+          {listApplications?.map((a) => (
             <tr
               key={a._id}
               onClick={() => (window.location.href = `/admin/applications/form?id=${a._id}`)}

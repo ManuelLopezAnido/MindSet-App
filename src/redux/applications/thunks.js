@@ -19,20 +19,29 @@ import {
 const URL = process.env.REACT_APP_API;
 
 export const getApplications = () => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(getApplicationsFetching());
-  fetch(`${URL}/applications`)
-    .then((data) => data.json())
+  fetch(`${URL}/applications`, { headers: { token } })
+    .then((response) => {
+      if (response.status !== 200) {
+        return response.json().then((response) => {
+          throw response;
+        });
+      }
+      return response.json();
+    })
     .then((response) => {
       dispatch(getApplicationsFulfilled(response.data));
     })
     .catch((error) => {
-      dispatch(getApplicationsRejected(error.toString()));
+      dispatch(getApplicationsRejected(error.message));
     });
 };
 
 export const getOneApplication = (id) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(getOneApplicationFetching());
-  fetch(`${URL}/applications/id/${id}`)
+  fetch(`${URL}/applications/id/${id}`, { headers: { token } })
     .then((response) => {
       if (response.status != 200) throw response;
       return response.json();
@@ -46,11 +55,13 @@ export const getOneApplication = (id) => (dispatch) => {
 };
 
 export const deleteApplication = (id) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(deleteApplicationFetching());
   return fetch(`${URL}/applications/delete/${id}`, {
     method: 'DELETE',
     headers: {
-      'Content-type': 'application/json'
+      'Content-type': 'application/json',
+      token
     }
   })
     .then((response) => {
@@ -61,10 +72,12 @@ export const deleteApplication = (id) => (dispatch) => {
 };
 
 export const addApplication = (data) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   const options = {
     method: 'POST',
     headers: {
-      'Content-type': 'application/json'
+      'Content-type': 'application/json',
+      token
     },
     body: JSON.stringify(data)
   };
@@ -91,12 +104,13 @@ export const addApplication = (data) => (dispatch) => {
 };
 
 export const updateApplication = (id, data) => (dispatch) => {
+  const token = sessionStorage.getItem('token');
   dispatch(updateApplicationFetching());
-
   return fetch(`${URL}/applications/update/${id}`, {
     method: 'PUT',
     headers: {
-      'Content-type': 'application/json'
+      'Content-type': 'application/json',
+      token
     },
     body: JSON.stringify({
       positionId: data.positionId,
