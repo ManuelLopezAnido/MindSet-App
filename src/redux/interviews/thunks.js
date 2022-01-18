@@ -50,14 +50,7 @@ export const addInterview = (data) => (dispatch) => {
     headers: {
       'Content-type': 'application/json'
     },
-    body: JSON.stringify({
-      jobTitle: data.jobTitle,
-      postulantId: data.postulantId,
-      clientId: data.clientId,
-      date: data.date,
-      time: data.time,
-      state: data.state
-    })
+    body: JSON.stringify(data)
   };
 
   dispatch(addInterviewFetching());

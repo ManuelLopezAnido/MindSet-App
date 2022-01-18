@@ -17,7 +17,7 @@ function Interviews() {
   const interviews = useSelector((store) => store.interviews.list);
   const isLoading = useSelector((store) => store.interviews.isLoading);
   const error = useSelector((store) => store.interviews.error);
-
+  console.log(interviews);
   useEffect(() => {
     if (!interviews.length) {
       dispatch(getInterviews());
@@ -96,7 +96,7 @@ function Interviews() {
                 window.location.replace(`interviews/form?id=${interview._id}`);
               }}
             >
-              <td>{interview.jobTitle}</td>
+              <td>{interview.positionId?.jobTitle}</td>
               <td>{interview.clientId.clientName}</td>
               <td>{interview.date.substring(0, 10)}</td>
               <td>{interview.time}</td>

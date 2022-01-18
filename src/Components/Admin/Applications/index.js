@@ -3,6 +3,7 @@ import listStyles from 'lists.module.css';
 import NoData from 'Components/Shared/NoData';
 import { useSelector, useDispatch } from 'react-redux';
 import { getApplications, deleteApplication } from 'redux/applications/thunks.js';
+import { addInterview } from 'redux/interviews/thunks.js';
 import { errorToDefault } from 'redux/admins/actions';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
@@ -13,7 +14,9 @@ import ModalInterview from './modalInterview';
 
 function Applications() {
   const [showModalInterview, setShowModalInterview] = useState(false);
+  const [positionId, setPositionId] = useState('');
   const [postIdSelected, setPostIdSelected] = useState('');
+  const [clientId, setClientId] = useState('');
   const [selectedId, setSelectedId] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState('');
@@ -23,6 +26,7 @@ function Applications() {
   const error = useSelector((store) => store.applications.error);
   const isLoading = useSelector((store) => store.applications.isLoading);
 
+  console.log('position ', positionId);
   useEffect(() => {
     dispatch(getApplications());
   }, []);
@@ -49,18 +53,34 @@ function Applications() {
     setSelectedId(id);
     setShowModal(true);
   };
-  const makeAnInterview = (event, postId) => {
+  const makeAnInterview = (event, position, post, client, appId) => {
+    console.log('3', position);
     event.stopPropagation();
     setShowModalInterview(true);
-    setPostIdSelected(postId);
+    setPositionId(position);
+    setPostIdSelected(post);
+    setClientId(client);
+    setSelectedId(appId);
   };
-  const makeInterview = () => {
-    console.log('Clicked on make an interview');
+  const loadInterview = (day, time, position, postulant, client, application) => {
+    console.log('1', position);
+    const newInterview = {
+      positionId: position,
+      postulantId: postulant,
+      clientId: client,
+      date: day,
+      time: time,
+      state: 'PENDING'
+    };
+    console.log('Interview to create', newInterview);
+    console.log('Application selected: ', application);
+    dispatch(addInterview(newInterview));
+    dispatch(deleteApplication(application));
   };
   const closeErrorMessage = () => {
     dispatch(errorToDefault());
   };
-
+  console.log('App are: ', listApplications);
   if (isLoading) return <IsLoading />;
   return (
     <section className={listStyles.container}>
@@ -89,8 +109,11 @@ function Applications() {
         close={() => {
           setShowModalInterview(false);
         }}
-        action={makeInterview}
+        action={loadInterview}
+        positionId={positionId}
         postId={postIdSelected}
+        clientId={clientId}
+        appId={selectedId}
       />
       <div className={listStyles.titleAndButton}>
         <h3>Applications</h3>
@@ -121,7 +144,11 @@ function Applications() {
               </td>
               <td>
                 <DeleteButton onClick={(e) => handleIdApplication(e, a._id)} />
-                <button onClick={(e) => makeAnInterview(e, a.postulantId._id)}>
+                <button
+                  onClick={(e) =>
+                    makeAnInterview(e, a.positionId._id, a.postulantId._id, a.clientId._id, a._id)
+                  }
+                >
                   Make an interview
                 </button>
               </td>

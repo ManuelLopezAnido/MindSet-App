@@ -5,18 +5,19 @@ import { getPostulants } from 'redux/postulants/thunks';
 
 const modalInterview = (props) => {
   const [selectedDay, setSelectedDay] = useState(undefined);
+  const [selectedTime, setSelectedTime] = useState(undefined);
   const postulants = useSelector((store) => store.postulants.list);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getPostulants());
   }, []);
-  console.log('Postulants: ', postulants);
-  console.log('ID traida: ', props.postId);
 
   const postulantSelected = postulants.find((postulant) => props.postId == postulant._id);
-  console.log('postulant selected', postulantSelected);
   let options = [];
+  let fromTime = undefined;
+  let toTime = undefined;
   let options2 = [];
+
   let day = undefined;
   if (postulantSelected) {
     postulantSelected.availability.forEach((av, i) => {
@@ -45,40 +46,66 @@ const modalInterview = (props) => {
             break;
         }
         options.push({
+          key: av._id,
           value: i,
           toShow: day
         });
       }
     });
-    console.log('options are: ', options);
-    options2 = postulantSelected?.availability.map((av) => ({
-      value: av.from,
-      toShow: av.from
-    }));
+    fromTime = Number(postulantSelected.availability[selectedDay]?.from);
+    toTime = Number(postulantSelected.availability[selectedDay]?.to);
   }
   const giveValue = (event) => {
     setSelectedDay(event.target.value);
+    setSelectedTime(undefined);
   };
-
+  const giveValue2 = (event) => {
+    setSelectedTime(event.target.value);
+  };
+  for (let cont = fromTime; cont <= toTime; cont++) {
+    options2.push({
+      key: cont,
+      value: cont,
+      toShow: cont.toString() + ' Hs'
+    });
+  }
+  console.log(options2);
   if (props.show == false) {
     return null;
   }
   return (
     <div className={styles.backModal}>
       <div className={styles.Modal}>
-        <div>Change profile</div>
+        <div>
+          Availability time of {postulantSelected.firstName + ' ' + postulantSelected.lastName}
+        </div>
         <div className={styles.container}>
-          <label>Please select profile for the postulant</label>
+          <label>Please select the day of the Interview</label>
           <select onChange={giveValue} className={styles.select} defaultValue={''}>
             <option value="" disabled hidden>
               Choose a day..
             </option>
             {options.map((option) => (
-              <option key={new Date().getTime().toString() + option.value} value={option.value}>
+              <option key={option.key} value={option.value}>
                 {option.toShow}
               </option>
             ))}
           </select>
+          {selectedDay ? (
+            <>
+              <label>Please select the time of the Interview</label>
+              <select onChange={giveValue2} className={styles.select} defaultValue={''}>
+                <option value="" disabled hidden>
+                  Choose a time..
+                </option>
+                {options2.map((option) => (
+                  <option key={option.key} value={option.value}>
+                    {option.toShow}
+                  </option>
+                ))}
+              </select>
+            </>
+          ) : null}
         </div>
         <div>
           <button
@@ -91,11 +118,19 @@ const modalInterview = (props) => {
         </div>
         <div>
           <button
-            disabled={!selectedDay}
+            disabled={!selectedDay || !selectedTime}
             onClick={() => {
               props.close();
-              console.log('day: ', selectedDay);
-              // props.action(selectedDay, props.postId, props.sessionSelected);
+              console.log('2', props.positionId);
+              console.log('day: ', selectedDay, ' and time: ', selectedTime);
+              props.action(
+                selectedDay,
+                selectedTime,
+                props.positionId,
+                props.postId,
+                props.clientId,
+                props.appId
+              );
             }}
           >
             Change
