@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Field } from 'react-final-form';
 import { getOnePostulant, updatePostulant } from 'redux/postulants/thunks';
 import Select from 'Components/Shared/Select';
+import { login } from 'redux/auth/thunks';
+import { useHistory } from 'react-router-dom';
 
 const required = (value) => (value ? undefined : 'Required');
 
@@ -28,118 +30,21 @@ const SignUp = () => {
   const params = new URLSearchParams(window.location.search);
   const postulantId = params.get('id');
 
+  const history = useHistory();
+
   useEffect(() => {
     dispatch(getOnePostulant(postulantId));
   }, []);
 
   const onSubmit = (formValues) => {
-    const formValuesOk = {
-      email: formValues.email || '',
-      password: formValues.password || '',
-      firstName: formValues.firstName || '',
-      lastName: formValues.lastName || '',
-      address: formValues.address || '',
-      phone: formValues.phone || '',
-      dateOfBirth: formValues.dateOfBirth || '',
-      city: formValues.city || '',
-      state: formValues.state || '',
-      country: formValues.country || '',
-      elementarySchool: [
-        {
-          name: formValues.elementarySchool,
-          degree: formValues.elementarySchoolDegree,
-          graduateYear: formValues.elementarySchoolGraduateYear
-        }
-      ],
-      highSchool: [
-        {
-          name: formValues.highSchool,
-          degree: formValues.highSchoolDegree,
-          graduateYear: formValues.highSchoolGraduateYear
-        }
-      ],
-      juniorCollege: [
-        {
-          name: formValues.juniorCollege,
-          degree: formValues.juniorCollegeDegree,
-          graduateYear: formValues.juniorCollegeGraduateYear
-        }
-      ],
-      university: [
-        {
-          name: formValues.University,
-          degree: formValues.UniversityDegree,
-          graduateYear: formValues.UniversityGraduateYear
-        }
-      ],
-      openToWork: formValues.openToWork,
-      languages: [
-        formValues.languages1 || '',
-        formValues.languages2 || '',
-        formValues.languages3 || ''
-      ],
-      hobbies: formValues.hobbies,
-      workExperience: [
-        {
-          title: formValues.workExperience,
-          start: formValues.WorkExpStarted,
-          end: formValues.WorkExpEnded,
-          client: formValues.WorkExpClient,
-          description: formValues.workExpDescription
-        }
-      ]
-      // availability: [
-      //   {
-      //     monday: 'Monday',
-      //     available: formValues.availability[0]?.available,
-      //     from: formValues.availability[0]?.from,
-      //     to: formValues.availability[0]?.to
-      //   },
-      //   {
-      //     Tuesday: 'Tuesday',
-      //     available: formValues.availability[1]?.available,
-      //     from: formValues.availability[1]?.from,
-      //     to: formValues.availability[1]?.to
-      //   },
-      //   {
-      //     Wednesday: 'Wednesday',
-      //     available: formValues.availability[2]?.available,
-      //     from: formValues.availability[2]?.from,
-      //     to: formValues.availability[2]?.to
-      //   },
-      //   {
-      //     Thursday: 'Thursday',
-      //     available: formValues.availability[3]?.available,
-      //     from: formValues.availability[3]?.from,
-      //     to: formValues.availability[3]?.to
-      //   },
-      //   {
-      //     Friday: 'Friday',
-      //     available: formValues.availability[4]?.available,
-      //     from: formValues.availability[4]?.from,
-      //     to: formValues.availability[4]?.to
-      //   },
-      //   {
-      //     Saturday: 'Saturday',
-      //     available: formValues.availability[5]?.available,
-      //     from: formValues.availability[5]?.from,
-      //     to: formValues.availability[5]?.to
-      //   },
-      //   {
-      //     Sunday: 'Sunday',
-      //     available: formValues.availability[6]?.available,
-      //     from: formValues.availability[6]?.from,
-      //     to: formValues.availability[6]?.to
-      //   }
-      // ]
-    };
-    console.log('formValues', formValues);
-    console.log('formValuesOk', formValuesOk);
-    // dispatch(updatePostulant(postulantId, formValuesOk)).then((response) => {
-    //   if (response) {
-    //     history.push(`/?registered=true`);
-    //   }
-    // });
+    dispatch(updatePostulant(postulantId, formValues)).then((response) => {
+      if (response) {
+        const formValuesLogin = { email: formValues.email, password: formValues.password };
+        dispatch(login(formValuesLogin)).then((response) => {
+          history.push(`/postulant?id=${response.payload?.mongoDBID}`);
+        });
+      }
+    });
   };
 
   return (
@@ -212,6 +117,15 @@ const SignUp = () => {
               validate={required}
             />
           </div>
+          <div className={styles.rowInput}>
+            <Field
+              component={Input}
+              label="Password"
+              name="password"
+              type="password"
+              validate={required}
+            />
+          </div>
         </div>
         <div className={styles.studies}>
           <h3>Studies</h3>
@@ -269,7 +183,30 @@ const SignUp = () => {
           <Field component={Input} label="Client" name="WorkExpClient" type="text" />
           <Field component={Input} label="Description" name="workExpDescription" type="textarea" />
         </div>
-        <div>availability here</div>
+        <div className={styles.sections}>
+          <p>Availability</p>
+          <Field label="Monday" type="checkbox" name="mondayDay1" component={Input} />
+          <Field label="from" name="fromDay1" type="text" component={Input} />
+          <Field label="To" name="ToDay1" type="text" component={Input} />
+          <Field label="Tuesday" type="checkbox" name="tuesdayDay2" component={Input} />
+          <Field label="from" name="fromDay2" type="text" component={Input} />
+          <Field label="To" name="ToDay2" type="text" component={Input} />
+          <Field label="Wednesday" name="checkbox" id="WednesdayDay3" component={Input} />
+          <Field label="from" name="fromDay3" type="text" component={Input} />
+          <Field label="To" name="ToDay3" type="text" component={Input} />
+          <Field label="Thursday" name="checkbox" id="ThursdayDay4" component={Input} />
+          <Field label="from" name="fromDay4" type="text" component={Input} />
+          <Field label="To" name="ToDay4" type="text" component={Input} />
+          <Field label="Friday" type="checkbox" name="FridayDay5" component={Input} />
+          <Field label="from" name="fromDay5" type="text" component={Input} />
+          <Field label="To" name="ToDay5" type="text" component={Input} />
+          <Field label="Saturday" type="checkbox" name="SaturdayDay6" component={Input} />
+          <Field label="from" name="fromDay6" type="text" component={Input} />
+          <Field label="To" name="ToDay6" type="text" component={Input} />
+          <Field label="Sunday" type="checkbox" name="SundayDay7" component={Input} />
+          <Field label="from" name="fromDay7" type="text" component={Input} />
+          <Field label="To" name="ToDay7" type="text" component={Input} />
+        </div>
       </Wizard>
     </div>
   );
