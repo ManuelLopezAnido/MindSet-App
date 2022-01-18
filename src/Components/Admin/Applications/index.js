@@ -3,16 +3,21 @@ import listStyles from 'lists.module.css';
 import NoData from 'Components/Shared/NoData';
 import { useSelector, useDispatch } from 'react-redux';
 import { getApplications, deleteApplication } from 'redux/applications/thunks.js';
+import { addInterview } from 'redux/interviews/thunks.js';
 import { errorToDefault } from 'redux/admins/actions';
 import Modal from 'Components/Shared/Modal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import Button from 'Components/Shared/Button/Button';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
+import ModalInterview from './modalInterview';
 
 function Applications() {
+  const [showModalInterview, setShowModalInterview] = useState(false);
+  const [positionId, setPositionId] = useState('');
+  const [postIdSelected, setPostIdSelected] = useState('');
+  const [clientId, setClientId] = useState('');
   const [selectedId, setSelectedId] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [showErrorModal, setShowErrorModal] = useState('');
 
   const dispatch = useDispatch();
   const listApplications = useSelector((store) => store.applications.list);
@@ -22,10 +27,6 @@ function Applications() {
   useEffect(() => {
     dispatch(getApplications());
   }, []);
-
-  useEffect(() => {
-    setShowErrorModal(error);
-  }, [error]);
 
   const addApplication = () => {
     window.location.href = `/admin/applications/form`;
@@ -44,6 +45,26 @@ function Applications() {
     event.stopPropagation();
     setSelectedId(id);
     setShowModal(true);
+  };
+  const makeAnInterview = (event, position, post, client, appId) => {
+    event.stopPropagation();
+    setShowModalInterview(true);
+    setPositionId(position);
+    setPostIdSelected(post);
+    setClientId(client);
+    setSelectedId(appId);
+  };
+  const loadInterview = (day, time, position, postulant, client, application) => {
+    const newInterview = {
+      positionId: position,
+      postulantId: postulant,
+      clientId: client,
+      date: day,
+      time: time,
+      state: 'PENDING'
+    };
+    dispatch(addInterview(newInterview));
+    dispatch(deleteApplication(application));
   };
 
   if (isLoading) return <IsLoading />;
@@ -75,6 +96,17 @@ function Applications() {
         leftButtonText=""
         rightButtonText="Ok"
       />
+      <ModalInterview
+        show={showModalInterview}
+        close={() => {
+          setShowModalInterview(false);
+        }}
+        action={loadInterview}
+        positionId={positionId}
+        postId={postIdSelected}
+        clientId={clientId}
+        appId={selectedId}
+      />
       <div className={listStyles.titleAndButton}>
         <h3>Applications</h3>
         <Button onClick={addApplication} value="Applications" />
@@ -104,6 +136,13 @@ function Applications() {
               </td>
               <td>
                 <DeleteButton onClick={(e) => handleIdApplication(e, a._id)} />
+                <button
+                  onClick={(e) =>
+                    makeAnInterview(e, a.positionId._id, a.postulantId._id, a.clientId._id, a._id)
+                  }
+                >
+                  Make an interview
+                </button>
               </td>
             </tr>
           ))}
