@@ -35,11 +35,10 @@ const Modal = ({
           ) : null}
           <button
             onClick={() => {
-              console.log('spanObjectArray[0].span', spanObjectArray[0].span);
               if (spanObjectArray[0].span === 'No User Privileges') {
                 history.goBack();
               } else {
-                actionEntity;
+                closeModal();
               }
             }}
           >
