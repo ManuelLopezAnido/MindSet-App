@@ -17,7 +17,6 @@ function Interviews() {
   const interviews = useSelector((store) => store.interviews.list);
   const isLoading = useSelector((store) => store.interviews.isLoading);
   const error = useSelector((store) => store.interviews.error);
-  console.log(interviews);
   useEffect(() => {
     if (!interviews.length) {
       dispatch(getInterviews());

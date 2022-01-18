@@ -26,7 +26,6 @@ function Applications() {
   const error = useSelector((store) => store.applications.error);
   const isLoading = useSelector((store) => store.applications.isLoading);
 
-  console.log('position ', positionId);
   useEffect(() => {
     dispatch(getApplications());
   }, []);
@@ -54,7 +53,6 @@ function Applications() {
     setShowModal(true);
   };
   const makeAnInterview = (event, position, post, client, appId) => {
-    console.log('3', position);
     event.stopPropagation();
     setShowModalInterview(true);
     setPositionId(position);
@@ -63,7 +61,6 @@ function Applications() {
     setSelectedId(appId);
   };
   const loadInterview = (day, time, position, postulant, client, application) => {
-    console.log('1', position);
     const newInterview = {
       positionId: position,
       postulantId: postulant,
@@ -72,15 +69,12 @@ function Applications() {
       time: time,
       state: 'PENDING'
     };
-    console.log('Interview to create', newInterview);
-    console.log('Application selected: ', application);
     dispatch(addInterview(newInterview));
     dispatch(deleteApplication(application));
   };
   const closeErrorMessage = () => {
     dispatch(errorToDefault());
   };
-  console.log('App are: ', listApplications);
   if (isLoading) return <IsLoading />;
   return (
     <section className={listStyles.container}>

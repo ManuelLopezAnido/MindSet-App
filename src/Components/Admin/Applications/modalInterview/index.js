@@ -56,7 +56,7 @@ const modalInterview = (props) => {
     toTime = Number(postulantSelected.availability[selectedDay]?.to);
   }
   const giveValue = (event) => {
-    setSelectedDay(event.target.value);
+    setSelectedDay(event.target.toShow);
     setSelectedTime(undefined);
   };
   const giveValue2 = (event) => {
@@ -69,7 +69,6 @@ const modalInterview = (props) => {
       toShow: cont.toString() + ' Hs'
     });
   }
-  console.log(options2);
   if (props.show == false) {
     return null;
   }
@@ -121,8 +120,6 @@ const modalInterview = (props) => {
             disabled={!selectedDay || !selectedTime}
             onClick={() => {
               props.close();
-              console.log('2', props.positionId);
-              console.log('day: ', selectedDay, ' and time: ', selectedTime);
               props.action(
                 selectedDay,
                 selectedTime,
