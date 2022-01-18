@@ -1,4 +1,4 @@
-import Sessions from 'Components/Psychology/Settings/Sessions';
+import Sessions from 'Components/Psychology/Settings/Sessions/index';
 
 const Settings = () => {
   return (

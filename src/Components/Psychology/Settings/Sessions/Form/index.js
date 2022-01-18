@@ -113,13 +113,6 @@ const SessionsForm = () => {
         initialValues={selectedSession}
         render={(formProps) => (
           <form className={styles.container} onSubmit={formProps.handleSubmit}>
-            {/* <Field
-              name="postulantId"
-              label="Postulant"
-              options={postulantsToMap}
-              component={Select}
-              disabled={formProps.submitting}
-            /> */}
             <Field
               initialValue={thisPsychologist}
               name="counselorId"
@@ -144,13 +137,6 @@ const SessionsForm = () => {
               disabled={formProps.submitting}
               validate={(value) => (value ? undefined : 'please choose a time')}
             />
-            {/* <Field
-              name="accomplished"
-              label="Accomplished"
-              type="checkbox"
-              component={Checkbox}
-              disabled={formProps.submitting}
-            /> */}
             <Button
               type="submit"
               className={StyleSheet.submitButton}

@@ -76,11 +76,8 @@ function Sessions() {
       <table className={listStyles.list}>
         <thead>
           <tr>
-            {/* <th>Postulant Id</th> */}
-            {/* <th>Counselor Id</th> */}
             <th>Date</th>
             <th>Time</th>
-            {/* <th>Accomplished</th> */}
             <th>Actions</th>
           </tr>
         </thead>
@@ -90,11 +87,8 @@ function Sessions() {
               key={session._id}
               onClick={() => (window.location.href = `sessions/form?id=${session._id}`)}
             >
-              {/* <td>{session.postulantId?.firstName + session.postulantId?.lastName}</td> */}
-              {/* <td>{session.counselorId ? session.counselorId.firstName : 'Not found'}</td> */}
               <td>{session.date}</td>
               <td>{session.time}</td>
-              {/* <td>{session.accomplished?.toString()}</td> */}
               <td className={listStyles.deleteButtonTD}>
                 <DeleteButton onClick={(event) => handleSession(event, session._id)} />
               </td>
