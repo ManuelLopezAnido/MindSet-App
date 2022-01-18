@@ -37,9 +37,106 @@ const SignUp = () => {
   }, []);
 
   const onSubmit = (formValues) => {
-    dispatch(updatePostulant(postulantId, formValues)).then((response) => {
+    const formValuesOk = {
+      firstName: formValues.firstName,
+      lastName: formValues.lastName,
+      password: formValues.password,
+      email: formValues.email,
+      phone: formValues.phone,
+      dateOfBirth: formValues.dateOfBirth || '',
+      gender: formValues.gender || '',
+      city: formValues.city || '',
+      state: formValues.state || '',
+      country: formValues.country || '',
+      elementarySchool: [
+        {
+          name: formValues.elementarySchool[0]?.name || '',
+          degree: formValues.elementarySchool[0]?.degree || '',
+          graduateYear: formValues.elementarySchool[0]?.graduateYear || ''
+        }
+      ],
+      highSchool: [
+        {
+          name: formValues.highSchool[0]?.name || '',
+          degree: formValues.highSchool[0]?.degree || '',
+          graduateYear: formValues.highSchool[0]?.graduateYear || ''
+        }
+      ],
+      juniorCollege: [
+        {
+          name: formValues.juniorCollege[0]?.name || '',
+          degree: formValues.juniorCollege[0]?.degree || '',
+          graduateYear: formValues.juniorCollege[0]?.graduateYear || ''
+        }
+      ],
+      university: [
+        {
+          name: formValues.university[0]?.name || '',
+          degree: formValues.university[0]?.degree || '',
+          graduateYear: formValues.university[0]?.graduateYear || ''
+        }
+      ],
+      openToWork: formValues.openToWork,
+      workExperience: [
+        {
+          title: formValues.workExperience[0]?.title || '',
+          start: formValues.workExperience[0]?.start || '',
+          end: formValues.workExperience[0]?.end || '',
+          client: formValues.workExperience[0]?.client || '',
+          description: formValues.workExperience[0]?.description || ''
+        }
+      ],
+      languages: formValues.languages || [],
+      hobbies: formValues.hobbies || '',
+      profile: formValues.profile || '',
+      availability: [
+        {
+          monday: 'Monday',
+          available: formValues.mondayDay1 || '',
+          from: formValues.fromDay1 || '',
+          to: formValues.ToDay1 || ''
+        },
+        {
+          Tuesday: 'Tuesday',
+          available: formValues.tuesdayDay2 || '',
+          from: formValues.fromDay2 || '',
+          to: formValues.ToDay2 || ''
+        },
+        {
+          Wednesday: 'Wednesday',
+          available: formValues.wednesdayDay3 || '',
+          from: formValues.fromDay3 || '',
+          to: formValues.ToDay3 || ''
+        },
+        {
+          Thursday: 'Thursday',
+          available: formValues.thursdayDay4 || '',
+          from: formValues.fromDay4 || '',
+          to: formValues.ToDay4 || ''
+        },
+        {
+          Friday: 'Friday',
+          available: formValues.FridayDay5 || '',
+          from: formValues.fromDay5 || '',
+          to: formValues.ToDay5 || ''
+        },
+        {
+          Saturday: 'Saturday',
+          available: formValues.SaturdayDay6 || '',
+          from: formValues.fromDay6 || '',
+          to: formValues.ToDay6 || ''
+        },
+        {
+          Sunday: 'Sunday',
+          available: formValues.SundayDay7 || '',
+          from: formValues.fromDay7 || '',
+          to: formValues.ToDay7 || ''
+        }
+      ]
+    };
+    dispatch(updatePostulant(postulantId, formValuesOk)).then((response) => {
       if (response) {
-        const formValuesLogin = { email: formValues.email, password: formValues.password };
+        const formValuesLogin = { email: formValuesOk.email, password: formValuesOk.password };
         dispatch(login(formValuesLogin)).then((response) => {
           history.push(`/postulant?id=${response.payload?.mongoDBID}`);
         });
@@ -88,13 +185,7 @@ const SignUp = () => {
             <Field component={Input} label="Phone" name="phone" type="number" validate={required} />
           </div>
           <div className={styles.rowInput}>
-            <Field
-              component={Input}
-              label="Date Of Birth"
-              name="dateOfBirth"
-              type="date"
-              validate={required}
-            />
+            <Field component={Input} label="Date Of Birth" name="dateOfBirth" type="date" />
             <Field component={Input} label="Gender" name="gender" type="text" validate={required} />
           </div>
           <div className={styles.rowInput}>
@@ -114,15 +205,6 @@ const SignUp = () => {
               label="Country"
               name="country"
               type="text"
-              validate={required}
-            />
-          </div>
-          <div className={styles.rowInput}>
-            <Field
-              component={Input}
-              label="Password"
-              name="password"
-              type="password"
               validate={required}
             />
           </div>
@@ -185,25 +267,25 @@ const SignUp = () => {
         </div>
         <div className={styles.sections}>
           <p>Availability</p>
-          <Field label="Monday" type="checkbox" name="mondayDay1" component={Input} />
+          <Field label="Monday" name="mondayDay1" type="checkbox" component={Input} />
           <Field label="from" name="fromDay1" type="text" component={Input} />
           <Field label="To" name="ToDay1" type="text" component={Input} />
-          <Field label="Tuesday" type="checkbox" name="tuesdayDay2" component={Input} />
+          <Field label="Tuesday" name="tuesdayDay2" type="checkbox" component={Input} />
           <Field label="from" name="fromDay2" type="text" component={Input} />
           <Field label="To" name="ToDay2" type="text" component={Input} />
-          <Field label="Wednesday" name="checkbox" id="WednesdayDay3" component={Input} />
+          <Field label="Wednesday" name="wednesdayDay3" id="WednesdayDay3" component={Input} />
           <Field label="from" name="fromDay3" type="text" component={Input} />
           <Field label="To" name="ToDay3" type="text" component={Input} />
-          <Field label="Thursday" name="checkbox" id="ThursdayDay4" component={Input} />
+          <Field label="Thursday" name="thursdayDay4" id="ThursdayDay4" component={Input} />
           <Field label="from" name="fromDay4" type="text" component={Input} />
           <Field label="To" name="ToDay4" type="text" component={Input} />
-          <Field label="Friday" type="checkbox" name="FridayDay5" component={Input} />
+          <Field label="Friday" name="FridayDay5" type="checkbox" component={Input} />
           <Field label="from" name="fromDay5" type="text" component={Input} />
           <Field label="To" name="ToDay5" type="text" component={Input} />
-          <Field label="Saturday" type="checkbox" name="SaturdayDay6" component={Input} />
+          <Field label="Saturday" name="SaturdayDay6" type="checkbox" component={Input} />
           <Field label="from" name="fromDay6" type="text" component={Input} />
           <Field label="To" name="ToDay6" type="text" component={Input} />
-          <Field label="Sunday" type="checkbox" name="SundayDay7" component={Input} />
+          <Field label="Sunday" name="SundayDay7" type="checkbox" component={Input} />
           <Field label="from" name="fromDay7" type="text" component={Input} />
           <Field label="To" name="ToDay7" type="text" component={Input} />
         </div>
