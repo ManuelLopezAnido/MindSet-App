@@ -2,13 +2,16 @@ import React from 'react';
 import { Form, Field } from 'react-final-form';
 import Input from 'Components/Shared/FormInput';
 import Button2 from 'Components/Shared/Button2';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { validateEmail, validatePassword } from 'validations';
 import styles from './register.module.css';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { addPostulant } from 'redux/postulants/thunks';
+import IsLoading from 'Components/Shared/IsLoading/IsLoading';
+import { login } from 'redux/auth/thunks';
 
 const Register = () => {
+  const isLoading = useSelector((store) => store.postulants.isLoading);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -38,7 +41,12 @@ const Register = () => {
     };
     dispatch(addPostulant(formValuesOk)).then((response) => {
       if (response) {
-        history.push(`/auth/signUp?id=${response.data.mongoDBID}`);
+        const formValuesLogin = { email: formValuesOk.email, password: formValuesOk.password };
+        dispatch(login(formValuesLogin)).then((response) => {
+          if (response) {
+            history.push(`/auth/signUp?id=${response.data.mongoDBID}`);
+          }
+        });
       }
     });
   };
@@ -51,6 +59,10 @@ const Register = () => {
   };
 
   const required = (value) => (value ? undefined : 'Required');
+
+  if (isLoading) {
+    return <IsLoading />;
+  }
 
   return (
     <div className={styles.container}>

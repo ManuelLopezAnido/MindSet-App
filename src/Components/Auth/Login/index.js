@@ -7,9 +7,11 @@ import { login } from 'redux/auth/thunks';
 import { cleanError } from 'redux/auth/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './login.module.css';
+import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 
 const Login = () => {
   const error = useSelector((store) => store.auth.error);
+  const isLoading = useSelector((store) => store.auth.isFetching);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -32,6 +34,10 @@ const Login = () => {
   };
 
   const required = (value) => (value ? undefined : 'Required');
+
+  if (isLoading) {
+    return <IsLoading />;
+  }
 
   return (
     <div className={styles.container}>
