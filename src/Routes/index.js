@@ -15,7 +15,6 @@ const Routes = () => {
           <Route path="/postulant" component={PostulantRoutes} />
           <Route path="/admin" component={AdminRoutes} />
           <Route path="/psychologists" component={PsychologistsRoutes} />
-          <Redirect to="/postulant" />
           <Route path="/" exact component={HomeRoutes} />
           <Redirect to="/" />
         </Switch>

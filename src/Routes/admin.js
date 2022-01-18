@@ -17,8 +17,6 @@ import Profiles from 'Components/Admin/Profiles';
 import ProfilesForm from 'Components/Admin/Profiles/Form';
 import Counselors from 'Components/Admin/Counselors';
 import CounselorsForm from 'Components/Admin/Counselors/Form';
-import Sessions from 'Components/Admin/Sessions';
-import SessionsForm from 'Components/Admin/Sessions/Form';
 
 const AdminRoutes = () => {
   const { url } = useRouteMatch();
@@ -49,9 +47,6 @@ const AdminRoutes = () => {
         <Route exact path={`${url}/counselors`} component={Counselors} />
         <Route path={`${url}/counselors/form`} component={CounselorsForm} />
         <Route path={`${url}/counselors/form/:id`} component={CounselorsForm} />
-        <Route exact path={`${url}/sessions`} component={Sessions} />
-        <Route path={`${url}/sessions/form`} component={SessionsForm} />
-        <Route path={`${url}/sessions/form/:id`} component={SessionsForm} />
         <Redirect to={`${url}/admins`} />
       </Switch>
     </Layout>

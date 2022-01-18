@@ -21,7 +21,7 @@ const Sessions = () => {
   const [showModalProfile, setShowModalProfile] = useState(false);
   const [postIdSelected, setPostIdSelected] = useState(undefined);
   const [sessionSelected, setSessionsSelected] = useState(undefined);
-  const thisPsychologist = '61b7f956c929a1aa15d03640'; //Id de hardcodeado de Josefina
+  const thisPsychologist = '61e5fe2e51e6dc79e789300c'; //Id de hardcodeado de Josefina
   useEffect(() => {
     dispatch(getPostulants());
     dispatch(getSessions());

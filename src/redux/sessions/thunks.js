@@ -50,11 +50,11 @@ export const addSession = (data) => (dispatch) => {
       'Content-type': 'application/json'
     },
     body: JSON.stringify({
-      postulantId: data.postulantId,
+      // postulantId: data.postulantId,
       counselorId: data.counselorId,
       date: data.date,
-      time: data.time,
-      accomplished: data.accomplished
+      time: data.time
+      // accomplished: data.accomplished
     })
   };
 

@@ -1,8 +1,9 @@
+import Sessions from 'Components/Psychology/Settings/Sessions';
+
 const Settings = () => {
   return (
     <>
-      <h2>Settings</h2>
-      <div> insert time aviable for sessions </div>
+      <Sessions />
     </>
   );
 };
