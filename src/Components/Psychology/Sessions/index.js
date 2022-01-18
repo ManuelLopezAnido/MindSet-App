@@ -74,7 +74,7 @@ const Sessions = () => {
     return <IsLoading />;
   }
   return (
-    <section className={styles.Candidates}>
+    <section className={styles.container}>
       <ErrorModal
         showModal={errMessage}
         middleText={errMessage}
@@ -92,7 +92,7 @@ const Sessions = () => {
         }}
       />
       <h2>CANDIDATES</h2>
-      <table>
+      <table className={styles.list}>
         <thead>
           <tr>
             <th>Candidate</th>

@@ -95,24 +95,12 @@ function Home() {
               <p>{selectedPostulant.gender}</p>
             </div>
             <div className={styles.dataField}>
-              <p className={styles.fieldName}>Address</p>
-              <p>???</p>
-            </div>
-            <div className={styles.dataField}>
               <p className={styles.fieldName}>City</p>
               <p>{selectedPostulant.city}</p>
             </div>
             <div className={styles.dataField}>
-              <p className={styles.fieldName}>Postal Code</p>
-              <p>????</p>
-            </div>
-            <div className={styles.dataField}>
               <p className={styles.fieldName}>Country</p>
               <p>{selectedPostulant.country}</p>
-            </div>
-            <div className={styles.dataField}>
-              <p className={styles.fieldName}>Abount Me</p>
-              <p>????</p>
             </div>
           </div>
         ) : null}
