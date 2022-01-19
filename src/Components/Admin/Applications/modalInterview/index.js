@@ -77,7 +77,7 @@ const modalInterview = (props) => {
   return (
     <div className={styles.backModal}>
       <div className={styles.Modal}>
-        <div>
+        <div className={styles.modalTitle}>
           Availability time of {postulantSelected.firstName + ' ' + postulantSelected.lastName}
         </div>
         <div className={styles.container}>
@@ -108,32 +108,34 @@ const modalInterview = (props) => {
             </>
           ) : null}
         </div>
-        <div>
-          <button
-            onClick={() => {
-              props.close();
-            }}
-          >
-            Cancel
-          </button>
-        </div>
-        <div>
-          <button
-            disabled={!selectedDay || !selectedTime}
-            onClick={() => {
-              props.close();
-              props.action(
-                selectedDay,
-                selectedTime,
-                props.positionId,
-                props.postId,
-                props.clientId,
-                props.appId
-              );
-            }}
-          >
-            Change
-          </button>
+        <div className={styles.buttonsContainer}>
+          <div>
+            <button
+              onClick={() => {
+                props.close();
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+          <div>
+            <button
+              disabled={!selectedDay || !selectedTime}
+              onClick={() => {
+                props.close();
+                props.action(
+                  selectedDay,
+                  selectedTime,
+                  props.positionId,
+                  props.postId,
+                  props.clientId,
+                  props.appId
+                );
+              }}
+            >
+              Change
+            </button>
+          </div>
         </div>
       </div>
     </div>
