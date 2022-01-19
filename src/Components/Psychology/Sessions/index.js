@@ -22,6 +22,7 @@ const Sessions = () => {
   const [showModalProfile, setShowModalProfile] = useState(false);
   const [postIdSelected, setPostIdSelected] = useState(undefined);
   const [sessionSelected, setSessionsSelected] = useState(undefined);
+  const [sessionsFiltred, setSessionsFiltred] = useState(undefined);
 
   const params = new URLSearchParams(window.location.search);
   let thisPsychologist = params.get('id');
@@ -32,19 +33,19 @@ const Sessions = () => {
     } else {
       thisPsychologist = sessionStorage.getItem('id');
     }
-  }, []);
-
-  useEffect(() => {
+    dispatch(getSessions()).then((response) => {
+      console.log('response', response);
+      const sessionsFiltredConst = response.payload.Sessions.filter((session) =>
+        session?.counselorId && session.postulantId
+          ? session.counselorId._id == thisPsychologist
+          : false
+      );
+      setSessionsFiltred(sessionsFiltredConst);
+    });
     dispatch(getPostulants());
-    dispatch(getSessions());
     dispatch(getPositions());
     dispatch(getApplications());
   }, []);
-  const sessionsFiltred = sessions.filter((session) =>
-    session?.counselorId
-      ? session.counselorId._id == thisPsychologist && session.postulantId
-      : false
-  );
 
   const postulantProfile = (session) => {
     const postulantName = postulants.find(
@@ -114,7 +115,7 @@ const Sessions = () => {
           </tr>
         </thead>
         <tbody>
-          {sessionsFiltred.map((sessionFil) => {
+          {sessionsFiltred?.map((sessionFil) => {
             return (
               <tr key={sessionFil._id}>
                 <td>
@@ -123,7 +124,7 @@ const Sessions = () => {
                 <td>{postulantProfile(sessionFil)}</td>
                 <td> {sessionFil?.date.substring(6) + ' ' + sessionFil?.time}</td>
                 <td>
-                  {sessionFil.accomplished ? <text>Session done</text> : <text>Pending</text>}
+                  {sessionFil.accomplished ? <span>Session done</span> : <span>Pending</span>}
                 </td>
                 <td
                   onClick={() => {
