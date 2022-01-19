@@ -10,10 +10,10 @@ const Header = () => {
   };
 
   const location = useLocation();
-  let entity = location.pathname;
-  entity = entity.substring(7);
-  entity = entity.charAt(0).toUpperCase() + entity.slice(1);
-  console.log(entity);
+  let entity = location.pathname + '/';
+  const firstLetter = entity.indexOf('/', 1);
+  const lastLetter = entity.indexOf('/', firstLetter + 1);
+  entity = entity.charAt(firstLetter + 1).toUpperCase() + entity.slice(firstLetter + 2, lastLetter);
   entity == '' ? (entity = 'Home') : entity;
   return (
     <header>

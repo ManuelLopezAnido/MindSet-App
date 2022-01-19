@@ -132,7 +132,7 @@ const ClientsForm = () => {
               className={listStyles.logoEntity}
               src={
                 clientId
-                  ? 'http://3.bp.blogspot.com/_nKcd5vPHWY4/TJN_ySnkWCI/AAAAAAAAYvs/7h2_Z78Poj4/w1200-h630-p-k-no-nu/timthumb.jpg'
+                  ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7ku9dSV_ew6Jjl3PqJh-CJwCirx6j8VoTUA&usqp=CAU'
                   : ''
               }
             />

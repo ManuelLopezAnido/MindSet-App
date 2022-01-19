@@ -95,7 +95,7 @@ const CounselorsForm = () => {
               className={listStyles.logoEntity}
               src={
                 counselorId
-                  ? 'http://3.bp.blogspot.com/_nKcd5vPHWY4/TJN_ySnkWCI/AAAAAAAAYvs/7h2_Z78Poj4/w1200-h630-p-k-no-nu/timthumb.jpg'
+                  ? 'https://images.ctfassets.net/wgv5567aci3o/post_1237_afb3a9585d91/d206e0e0798a2510128b0f2c00b100fd/post-1237-afb3a9585d91?w=800&h=800&q=80&fit=fill&f=faces'
                   : ''
               }
             />
