@@ -210,10 +210,10 @@ const Interviews = () => {
                       <VisualizeButton
                         onClick={() =>
                           Visualize(
-                            interview.jobTitle,
+                            interview.positionId?.jobTitle,
                             interview.clientId.clientName,
-                            interview.date,
-                            interview.time
+                            weekDays(interview.date),
+                            `${interview.time}Hs`
                           )
                         }
                       />
