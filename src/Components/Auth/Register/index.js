@@ -11,7 +11,8 @@ import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import { login } from 'redux/auth/thunks';
 
 const Register = () => {
-  const isLoading = useSelector((store) => store.postulants.isLoading);
+  const isLoading1 = useSelector((store) => store.postulants.isLoading);
+  const isLoading2 = useSelector((store) => store.auth.isLoading);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -44,7 +45,7 @@ const Register = () => {
         const formValuesLogin = { email: formValuesOk.email, password: formValuesOk.password };
         dispatch(login(formValuesLogin)).then((response) => {
           if (response) {
-            history.push(`/auth/signUp?id=${response.data.mongoDBID}`);
+            history.push(`/auth/signUp?id=${response.payload.mongoDBID}`);
           }
         });
       }
@@ -60,7 +61,7 @@ const Register = () => {
 
   const required = (value) => (value ? undefined : 'Required');
 
-  if (isLoading) {
+  if (isLoading1 || isLoading2) {
     return <IsLoading />;
   }
 
@@ -130,7 +131,7 @@ const Register = () => {
               />
               <Field
                 name="repeatPassword"
-                label="repeatPassword"
+                label="Repeat password"
                 type="password"
                 autocomplete="current-password"
                 disabled={formProps.submitting}
