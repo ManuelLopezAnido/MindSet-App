@@ -22,9 +22,7 @@ const Interviews = () => {
     if (!interviews.length) {
       dispatch(getInterviews());
     }
-  }, [interviews]);
-
-  console.log(interviews);
+  }, []);
 
   const closeModal = () => {
     setShowModal(false);
