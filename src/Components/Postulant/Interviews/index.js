@@ -101,6 +101,34 @@ const Interviews = () => {
     location.reload();
   };
 
+  const weekDays = (a) => {
+    let day;
+    switch (a) {
+      case '0':
+        day = 'Monday';
+        break;
+      case '1':
+        day = 'Tuesday';
+        break;
+      case '2':
+        day = 'Wednesday';
+        break;
+      case '3':
+        day = 'Thursday';
+        break;
+      case '4':
+        day = 'Friday';
+        break;
+      case '5':
+        day = 'Saturday';
+        break;
+      case '6':
+        day = 'Sunday';
+        break;
+    }
+    return day;
+  };
+
   if (Loading) {
     return <IsLoading />;
   }
@@ -154,7 +182,8 @@ const Interviews = () => {
               <tr>
                 <th>Job Title</th>
                 <th>Client</th>
-                <th>Date and Hour</th>
+                <th>Date</th>
+                <th>Time</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -162,7 +191,7 @@ const Interviews = () => {
               {filtredInterviews
                 .filter((interview) => {
                   if (
-                    interview.jobTitle.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+                    interview.jobTitle?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
                     interview.clientId?.clientName
                       .toLowerCase()
                       .includes(inputSearchBar.toLowerCase())
@@ -172,10 +201,10 @@ const Interviews = () => {
                 })
                 .map((interview) => (
                   <tr key={interview._id}>
-                    <td>{interview.jobTitle}</td>
+                    <td>{interview.positionId.jobTitle}</td>
                     <td>{interview.clientId.clientName}</td>
-                    <td>{interview.date}</td>
-                    <td>{interview.time}</td>
+                    <td>{weekDays(interview.date)}</td>
+                    <td>{interview.time} Hs</td>
                     <td>
                       <DeleteButton onClick={(event) => handleIdInterview(event, interview._id)} />
                       <VisualizeButton

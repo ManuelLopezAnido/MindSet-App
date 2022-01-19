@@ -24,8 +24,6 @@ function Applications() {
   const error = useSelector((store) => store.applications.error);
   const isLoading = useSelector((store) => store.applications.isLoading);
 
-  console.log(listApplications);
-
   useEffect(() => {
     dispatch(getApplications());
   }, []);

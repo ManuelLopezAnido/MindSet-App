@@ -55,9 +55,11 @@ const modalInterview = (props) => {
     fromTime = Number(postulantSelected.availability[selectedDay]?.from);
     toTime = Number(postulantSelected.availability[selectedDay]?.to);
   }
+
   const giveValue = (event) => {
-    setSelectedDay(event.target.toShow);
+    setSelectedDay(event.target.value);
     setSelectedTime(undefined);
+    console.log('ENTRE', selectedDay);
   };
   const giveValue2 = (event) => {
     setSelectedTime(event.target.value);
