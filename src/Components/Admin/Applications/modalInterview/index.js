@@ -78,7 +78,7 @@ const modalInterview = (props) => {
     <div className={styles.backModal}>
       <div className={styles.container}>
         <div className={styles.Modal}>
-          <div className={styles.header}>
+          <div className={styles.modalTitle}>
             Availability time of {postulantSelected.firstName + ' ' + postulantSelected.lastName}
           </div>
           <div className={styles.container}>
@@ -109,7 +109,7 @@ const modalInterview = (props) => {
               </>
             ) : null}
           </div>
-          <div className={styles.buttonContainer}>
+          <div className={styles.buttonsContainer}>
             <div>
               <button
                 onClick={() => {

@@ -5,30 +5,28 @@
   bottom:0px;
   left:0px;
   background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .Modal{
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
+  text-align: center;
   position: relative;
-  background-color: #fff;
-  top:10vh;
-  left:15vw;
-  right:15vw;
-  width: 70vw;
+  background-color: #FFFFFF;
+  height: 40vh;
+  width: 50vw;
   border: solid 1px black;
 }
-.header{
-  background-color: #325477;
-  color: #FFF;
-  text-align: center;
-  font-size: 1.2rem;
-  font-weight: 500;
-  padding: 30px;
-}
+
 .container {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin: 0 auto;
   width: 100%;
   margin: 0 1rem 0;
@@ -45,17 +43,39 @@
   color: black;
 }
 .select {
+  text-align: center;
   padding: 10px;
   border-radius: 2px;
-  margin: 20px;
+  width: 50%;
+  margin: 25px 0px;
 }
-.buttonContainer {
+
+.buttonsContainer{
   display: flex;
-  flex-direction: row;
-  justify-self: end;
-  align-self: flex-end;
-  margin: 0px 20px 0px;
+  justify-content: center;
 }
-.buttonContainer > * {
-  padding: 40px;
+
+.buttonsContainer button{
+  margin: 0px 15px;
+  width: 6rem;
+  height: 2rem;
+  padding: 3px 9px;
+  margin: 20px 20px;
+  border: none;
+  border-radius: 3px;
+  background-color: #F0FAF9;
+  color: #9ED8D8;
+  font-weight: bold;
+  border: 2px solid #9ED8D8;
+  cursor: pointer;
+}
+
+.modalTitle{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70px;
+  margin-top: -50px;
+  font-size: 25px;
+  background-color: #325477;
 }
