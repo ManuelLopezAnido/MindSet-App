@@ -24,8 +24,6 @@ const Interviews = () => {
     }
   }, [interviews]);
 
-  console.log(interviews);
-
   const closeModal = () => {
     setShowModal(false);
   };
