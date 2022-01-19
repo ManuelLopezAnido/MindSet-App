@@ -86,3 +86,18 @@
 .buttonShowJob:hover {
   cursor: pointer;
 }
+
+.inputSearch {
+  display: flex;
+  justify-content: end;
+  width: 100%;
+}
+
+.jobDescription {
+  padding: 10px 10px 10px 10px;
+  font-size: 15px;
+  color: #707070;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

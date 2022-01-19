@@ -1,21 +1,20 @@
 import { useEffect, useState } from 'react';
+import styles from './positions.module.css';
 import listStyles from 'lists.module.css';
-import NoData from 'Components/Shared/NoData/NoData';
 import { getPositions, deletePosition } from 'redux/positions/thunks';
-import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { errorToDefault } from 'redux/positions/actions';
 import Modal from 'Components/Shared/Modal';
-import ErrorModal from 'Components/Shared/ErrorModal';
+import EditButton from 'Components/Shared/EditButton';
+import InputSearch from 'Components/Shared/InputSearch';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
-import Button from 'Components/Shared/Button/Button';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 
 function Positions() {
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
+  const [inputSearchBar, setInputSearchBar] = useState('');
 
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const listPositions = useSelector((store) => store.positions.list);
@@ -27,10 +26,6 @@ function Positions() {
       dispatch(getPositions());
     }
   }, [listPositions]);
-
-  const addPositions = () => {
-    history.push('/admin/positions/form');
-  };
 
   const OnClickDeletePosition = () => {
     setShowModal(false);
@@ -50,7 +45,7 @@ function Positions() {
   if (isLoading) return <IsLoading />;
 
   return (
-    <section className={listStyles.container}>
+    <section className={listStyles.mainContainer}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -77,34 +72,49 @@ function Positions() {
         leftButtonText=""
         rightButtonText="OK"
       />
-      <div className={listStyles.titleAndButton}>
-        <h3>Positions</h3>
-        <Button onClick={addPositions} value="Positions" />
+      <div className={styles.inputSearch}>
+        <InputSearch
+          type="text"
+          placeholder="Search"
+          onChange={(event) => setInputSearchBar(event.target.value)}
+        />
       </div>
-      <table className={listStyles.list}>
-        <thead>
-          <tr>
-            <th>Job</th>
-            <th>Client</th>
-            <th>Cancel postulation</th>
-          </tr>
-        </thead>
-        <tbody>
-          {listPositions.map((a) => (
-            <tr
-              key={a._id}
-              onClick={() => (window.location.href = `/admin/positions/form?id=${a._id}`)}
-            >
-              <td>{a.jobTitle}</td>
-              <td>{a.clientName}</td>
-              <td>
-                <DeleteButton onClick={(e) => handleIdPosition(e, a._id)} />
-              </td>
+      <div className={listStyles.list}>
+        <table>
+          <thead>
+            <tr>
+              <th>Position</th>
+              <th>Client</th>
+              <th>Cancel postulation</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <NoData data={listPositions.length} />
+          </thead>
+          <tbody>
+            {listPositions
+              .filter((position) => {
+                if (
+                  position.jobTitle?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+                  position.clientName?.toLowerCase().includes(inputSearchBar.toLowerCase())
+                ) {
+                  return position;
+                }
+              })
+              .map((position) => (
+                <tr key={position._id}>
+                  <td>{position.jobTitle}</td>
+                  <td>{position.clientName}</td>
+                  <td>
+                    <EditButton
+                      onClick={() =>
+                        (window.location.href = `/admin/positions/form?id=${position._id}`)
+                      }
+                    />
+                    <DeleteButton onClick={(event) => handleIdPosition(event, position._id)} />
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
     </section>
   );
 }

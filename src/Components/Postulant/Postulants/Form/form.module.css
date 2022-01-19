@@ -18,7 +18,7 @@
 }
 
 .header h1{
-  padding: 10px 10px 10px 40px;
+  padding: 10px 9px 10px 40px;
   margin-bottom: 20px;
   height: 20px;
   width: 95%;
@@ -73,18 +73,4 @@
 
 .input {
   width: 20px;
-}
-
-.sendFormButton {
-  width: 200px;
-  height: 30px;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  margin-left: 40%;
-  border: none;
-  border-radius: 2px;
-  background-color: #9ED8D8;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
 }

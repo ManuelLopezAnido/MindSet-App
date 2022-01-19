@@ -11,7 +11,9 @@ const Header = () => {
 
   const location = useLocation();
   let entity = location.pathname;
-  entity = entity.charAt(1).toUpperCase() + entity.slice(2);
+  entity = entity.substring(7);
+  entity = entity.charAt(0).toUpperCase() + entity.slice(1);
+  console.log(entity);
   entity == '' ? (entity = 'Home') : entity;
   return (
     <header>
