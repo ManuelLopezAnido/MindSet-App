@@ -50,7 +50,7 @@ const Sessions = () => {
     const postulantName = postulants.find(
       (postulant) => postulant._id == session?.postulantId?._id
     );
-    return postulantName?.profile.name ?? 'Not defind';
+    return postulantName?.profile?.name ?? 'Not defind';
   };
 
   const changeProfile = (postulantProfile, postId, sessionToModify) => {
