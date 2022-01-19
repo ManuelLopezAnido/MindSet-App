@@ -25,7 +25,7 @@ const Sessions = () => {
   const [sessionsFiltred, setSessionsFiltred] = useState(undefined);
 
   const params = new URLSearchParams(window.location.search);
-  let thisPsychologist = '61e7466d5e16e1b312bd4d75';
+  let thisPsychologist = params.get('id');
 
   useEffect(() => {
     if (thisPsychologist) {
@@ -33,10 +33,11 @@ const Sessions = () => {
     } else {
       thisPsychologist = sessionStorage.getItem('id');
     }
-    dispatch(getSessions()).then(() => {
-      const sessionsFiltredConst = sessions.filter((session) =>
-        session?.counselorId
-          ? session.counselorId._id == thisPsychologist && session.postulantId
+    dispatch(getSessions()).then((response) => {
+      console.log('response', response);
+      const sessionsFiltredConst = response.payload.Sessions.filter((session) =>
+        session?.counselorId && session.postulantId
+          ? session.counselorId._id == thisPsychologist
           : false
       );
       setSessionsFiltred(sessionsFiltredConst);
@@ -123,7 +124,7 @@ const Sessions = () => {
                 <td>{postulantProfile(sessionFil)}</td>
                 <td> {sessionFil?.date.substring(6) + ' ' + sessionFil?.time}</td>
                 <td>
-                  {sessionFil.accomplished ? <text>Session done</text> : <text>Pending</text>}
+                  {sessionFil.accomplished ? <span>Session done</span> : <span>Pending</span>}
                 </td>
                 <td
                   onClick={() => {
