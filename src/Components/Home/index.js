@@ -1,9 +1,10 @@
 import JobOffers from 'Components/Postulant/JobOffers';
+import styles from './homePage.module.css';
 
 const homePage = () => {
   return (
     <section>
-      <div>
+      <div className={styles.textContainer}>
         <h1>
           Welcome to <span>MindSet!</span>
         </h1>

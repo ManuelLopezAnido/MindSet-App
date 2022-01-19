@@ -68,6 +68,7 @@ const JobOffers = () => {
               jobOffer.jobTitle?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
               jobOffer.clientName?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
               jobOffer.city?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              jobOffer.clientId?.clientName.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
               jobOffer.country?.toLowerCase().includes(inputSearchBar.toLowerCase())
             ) {
               return jobOffer;
@@ -85,6 +86,9 @@ const JobOffers = () => {
               </div>
               <p className={styles.jobDescription}>{jobs.jobDescription}</p>
               <div className={listStyles.footerContainer}>
+                <div className={listStyles.location}>
+                  <p>{jobs.clientId?.clientName}</p>
+                </div>
                 <div className={listStyles.location}>
                   <img src={locationIcon} />
                   <p>

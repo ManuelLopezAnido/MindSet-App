@@ -70,7 +70,6 @@ function Sessions() {
         buttonText="ok"
       />
       <div className={listStyles.titleAndButton}>
-        <h3>Sessions</h3>
         <Button onClick={() => history.push('/psychologists/sessions/form')} />
       </div>
       <table className={listStyles.list}>

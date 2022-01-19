@@ -11,7 +11,8 @@ import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import { login } from 'redux/auth/thunks';
 
 const Register = () => {
-  const isLoading = useSelector((store) => store.postulants.isLoading);
+  const isLoading1 = useSelector((store) => store.postulants.isLoading);
+  const isLoading2 = useSelector((store) => store.auth.isLoading);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -44,7 +45,7 @@ const Register = () => {
         const formValuesLogin = { email: formValuesOk.email, password: formValuesOk.password };
         dispatch(login(formValuesLogin)).then((response) => {
           if (response) {
-            history.push(`/auth/signUp?id=${response.data.mongoDBID}`);
+            history.push(`/auth/signUp?id=${response.payload.mongoDBID}`);
           }
         });
       }
@@ -60,7 +61,7 @@ const Register = () => {
 
   const required = (value) => (value ? undefined : 'Required');
 
-  if (isLoading) {
+  if (isLoading1 || isLoading2) {
     return <IsLoading />;
   }
 
@@ -72,39 +73,43 @@ const Register = () => {
         render={(formProps) => (
           <form onSubmit={formProps.handleSubmit} className={styles.form}>
             <h2>Register</h2>
-            <Field
-              name="firstName"
-              label="Name"
-              placeholder="john"
-              disabled={formProps.submitting}
-              component={Input}
-              validate={required}
-            />
-            <Field
-              name="lastName"
-              label="Last Name"
-              placeholder="Petrucci"
-              disabled={formProps.submitting}
-              component={Input}
-              validate={required}
-            />
-            <Field
-              name="phone"
-              label="Phone number"
-              placeholder="341 6443896"
-              type="number"
-              disabled={formProps.submitting}
-              component={Input}
-              validate={required}
-            />
-            <Field
-              name="address"
-              label="Address"
-              placeholder="Juan Jose Paso 8065"
-              disabled={formProps.submitting}
-              component={Input}
-              validate={required}
-            />
+            <div>
+              <Field
+                name="firstName"
+                label="Name"
+                placeholder="john"
+                disabled={formProps.submitting}
+                component={Input}
+                validate={required}
+              />
+              <Field
+                name="lastName"
+                label="Last Name"
+                placeholder="Petrucci"
+                disabled={formProps.submitting}
+                component={Input}
+                validate={required}
+              />
+            </div>
+            <div>
+              <Field
+                name="phone"
+                label="Phone number"
+                placeholder="341 6443896"
+                type="number"
+                disabled={formProps.submitting}
+                component={Input}
+                validate={required}
+              />
+              <Field
+                name="address"
+                label="Address"
+                placeholder="Juan Jose Paso 8065"
+                disabled={formProps.submitting}
+                component={Input}
+                validate={required}
+              />
+            </div>
             <Field
               name="email"
               label="Email"
@@ -113,28 +118,29 @@ const Register = () => {
               component={Input}
               validate={required}
             />
-            <Field
-              name="password"
-              label="Password"
-              placeholder="Insert Password"
-              type="password"
-              autocomplete="current-password"
-              disabled={formProps.submitting}
-              component={Input}
-              validate={required}
-            />
-            <Field
-              name="repeatPassword"
-              label="Password"
-              placeholder="repeat Password"
-              type="password"
-              autocomplete="current-password"
-              disabled={formProps.submitting}
-              component={Input}
-              validate={(value) =>
-                value !== formProps.values.password ? 'does not match' : undefined
-              }
-            />
+            <div>
+              <Field
+                name="password"
+                label="Password"
+                placeholder="Insert Password"
+                type="password"
+                autocomplete="current-password"
+                disabled={formProps.submitting}
+                component={Input}
+                validate={required}
+              />
+              <Field
+                name="repeatPassword"
+                label="Repeat password"
+                type="password"
+                autocomplete="current-password"
+                disabled={formProps.submitting}
+                component={Input}
+                validate={(value) =>
+                  value !== formProps.values.password ? 'does not match' : undefined
+                }
+              />
+            </div>
             <Button2
               type="submit"
               text="Continue"
