@@ -140,26 +140,60 @@ const Interviews = () => {
         text3={date}
         text4={time}
       />
+      <div className={styles.inputSearch}>
+        <InputSearch
+          type="text"
+          placeholder="Search"
+          onChange={(event) => setInputSearchBar(event.target.value)}
+        />
+      </div>
       {postulantHasSessions ? (
-        <table>
-          <thead>
-            <tr>
-              <th>Job Title</th>
-              <th>Client</th>
-              <th>Date and Hour</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtredInterviews.map((interview) => (
-              <tr key={interview._id}>
-                <td>{interview.jobTitle}</td>
-                <td>{interview.clientId.clientName}</td>
-                <td>{interview.time}</td>
+        <div className={listStyles.list}>
+          <table>
+            <thead>
+              <tr>
+                <th>Job Title</th>
+                <th>Client</th>
+                <th>Date and Hour</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filtredInterviews
+                .filter((interview) => {
+                  if (
+                    interview.jobTitle.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+                    interview.clientId?.clientName
+                      .toLowerCase()
+                      .includes(inputSearchBar.toLowerCase())
+                  ) {
+                    return interview;
+                  }
+                })
+                .map((interview) => (
+                  <tr key={interview._id}>
+                    <td>{interview.jobTitle}</td>
+                    <td>{interview.clientId.clientName}</td>
+                    <td>{interview.date}</td>
+                    <td>{interview.time}</td>
+                    <td>
+                      <DeleteButton onClick={(event) => handleIdInterview(event, interview._id)} />
+                      <VisualizeButton
+                        onClick={() =>
+                          Visualize(
+                            interview.jobTitle,
+                            interview.clientId.clientName,
+                            interview.date,
+                            interview.time
+                          )
+                        }
+                      />
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
       ) : (
         <div>
           {postulantHasSessionsAccomplished ? (

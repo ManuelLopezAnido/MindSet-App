@@ -6,7 +6,6 @@ import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import InputSearch from 'Components/Shared/InputSearch';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 import EditButton from 'Components/Shared/EditButton';
-import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getInterviews, deleteInterview } from 'redux/interviews/thunks';
 import { errorToDefault } from 'redux/interviews/actions';
@@ -91,23 +90,42 @@ const Interviews = () => {
           </tr>
         </thead>
         <tbody>
-          {interviews.map((interview) => (
-            <tr
-              key={interview._id}
-              onClick={() => {
-                window.location.replace(`interviews/form?id=${interview._id}`);
-              }}
-            >
-              <td>{interview.positionId?.jobTitle}</td>
-              <td>{interview.clientId.clientName}</td>
-              <td>{interview.date.substring(0, 10)}</td>
-              <td>{interview.time}</td>
-              <td>{interview.state}</td>
-              <td>
-                <DeleteButton onClick={(event) => handleIdInterview(event, interview._id)} />
-              </td>
-            </tr>
-          ))}
+          {interviews
+            .filter((interview) => {
+              if (
+                interview.positionId?.jobTitle
+                  .toLowerCase()
+                  .includes(inputSearchBar.toLowerCase()) ||
+                interview.clientId?.clientName
+                  .toLowerCase()
+                  .includes(inputSearchBar.toLowerCase()) ||
+                interview.state.toLowerCase().includes(inputSearchBar.toLowerCase())
+              ) {
+                return interview;
+              }
+            })
+            .map((interview) => (
+              <tr
+                key={interview._id}
+                onClick={() => {
+                  window.location.replace(`interviews/form?id=${interview._id}`);
+                }}
+              >
+                <td>{interview.positionId?.jobTitle}</td>
+                <td>{interview.clientId?.clientName}</td>
+                <td>{interview.date.substring(0, 10)}</td>
+                <td>{interview.time}</td>
+                <td>{interview.state}</td>
+                <td>
+                  <EditButton
+                    onClick={() =>
+                      (window.location.href = `/admin/interviews/form?id=${interview._id}`)
+                    }
+                  />
+                  <DeleteButton onClick={(event) => handleIdInterview(event, interview._id)} />
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </section>

@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { errorToDefault } from 'redux/positions/actions';
 import Modal from 'Components/Shared/Modal';
 import EditButton from 'Components/Shared/EditButton';
-import ErrorModal from 'Components/Shared/ErrorModal';
 import InputSearch from 'Components/Shared/InputSearch';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
@@ -84,7 +83,7 @@ function Positions() {
         <table>
           <thead>
             <tr>
-              <th>Job</th>
+              <th>Position</th>
               <th>Client</th>
               <th>Cancel postulation</th>
             </tr>
