@@ -76,65 +76,67 @@ const modalInterview = (props) => {
   }
   return (
     <div className={styles.backModal}>
-      <div className={styles.Modal}>
-        <div className={styles.modalTitle}>
-          Availability time of {postulantSelected.firstName + ' ' + postulantSelected.lastName}
-        </div>
-        <div className={styles.container}>
-          <label>Please select the day of the Interview</label>
-          <select onChange={giveValue} className={styles.select} defaultValue={''}>
-            <option value="" disabled hidden>
-              Choose a day..
-            </option>
-            {options.map((option) => (
-              <option key={option.key} value={option.value}>
-                {option.toShow}
-              </option>
-            ))}
-          </select>
-          {selectedDay ? (
-            <>
-              <label>Please select the time of the Interview</label>
-              <select onChange={giveValue2} className={styles.select} defaultValue={''}>
-                <option value="" disabled hidden>
-                  Choose a time..
-                </option>
-                {options2.map((option) => (
-                  <option key={option.key} value={option.value}>
-                    {option.toShow}
-                  </option>
-                ))}
-              </select>
-            </>
-          ) : null}
-        </div>
-        <div className={styles.buttonsContainer}>
-          <div>
-            <button
-              onClick={() => {
-                props.close();
-              }}
-            >
-              Cancel
-            </button>
+      <div className={styles.container}>
+        <div className={styles.Modal}>
+          <div className={styles.modalTitle}>
+            Availability time of {postulantSelected.firstName + ' ' + postulantSelected.lastName}
           </div>
-          <div>
-            <button
-              disabled={!selectedDay || !selectedTime}
-              onClick={() => {
-                props.close();
-                props.action(
-                  selectedDay,
-                  selectedTime,
-                  props.positionId,
-                  props.postId,
-                  props.clientId,
-                  props.appId
-                );
-              }}
-            >
-              Change
-            </button>
+          <div className={styles.container}>
+            <label>Please select the day of the Interview</label>
+            <select onChange={giveValue} className={styles.select} defaultValue={''}>
+              <option value="" disabled hidden>
+                Choose a day..
+              </option>
+              {options.map((option) => (
+                <option key={option.key} value={option.value}>
+                  {option.toShow}
+                </option>
+              ))}
+            </select>
+            {selectedDay ? (
+              <>
+                <label>Please select the time of the Interview</label>
+                <select onChange={giveValue2} className={styles.select} defaultValue={''}>
+                  <option value="" disabled hidden>
+                    Choose a time..
+                  </option>
+                  {options2.map((option) => (
+                    <option key={option.key} value={option.value}>
+                      {option.toShow}
+                    </option>
+                  ))}
+                </select>
+              </>
+            ) : null}
+          </div>
+          <div className={styles.buttonsContainer}>
+            <div>
+              <button
+                onClick={() => {
+                  props.close();
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+            <div>
+              <button
+                disabled={!selectedDay || !selectedTime}
+                onClick={() => {
+                  props.close();
+                  props.action(
+                    selectedDay,
+                    selectedTime,
+                    props.positionId,
+                    props.postId,
+                    props.clientId,
+                    props.appId
+                  );
+                }}
+              >
+                Change
+              </button>
+            </div>
           </div>
         </div>
       </div>
