@@ -223,7 +223,9 @@ const Interviews = () => {
                         )
                       }
                     >
-                      <td>{session.counselorId.firstName + ' ' + session.counselorId.lastName}</td>
+                      <td>
+                        {session.counselorId?.firstName + ' ' + session.counselorId?.lastName}
+                      </td>
                       <td>{session.date}</td>
                       <td>{session.time}</td>
                     </tr>
