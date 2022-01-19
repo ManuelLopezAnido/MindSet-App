@@ -72,39 +72,43 @@ const Register = () => {
         render={(formProps) => (
           <form onSubmit={formProps.handleSubmit} className={styles.form}>
             <h2>Register</h2>
-            <Field
-              name="firstName"
-              label="Name"
-              placeholder="john"
-              disabled={formProps.submitting}
-              component={Input}
-              validate={required}
-            />
-            <Field
-              name="lastName"
-              label="Last Name"
-              placeholder="Petrucci"
-              disabled={formProps.submitting}
-              component={Input}
-              validate={required}
-            />
-            <Field
-              name="phone"
-              label="Phone number"
-              placeholder="341 6443896"
-              type="number"
-              disabled={formProps.submitting}
-              component={Input}
-              validate={required}
-            />
-            <Field
-              name="address"
-              label="Address"
-              placeholder="Juan Jose Paso 8065"
-              disabled={formProps.submitting}
-              component={Input}
-              validate={required}
-            />
+            <div>
+              <Field
+                name="firstName"
+                label="Name"
+                placeholder="john"
+                disabled={formProps.submitting}
+                component={Input}
+                validate={required}
+              />
+              <Field
+                name="lastName"
+                label="Last Name"
+                placeholder="Petrucci"
+                disabled={formProps.submitting}
+                component={Input}
+                validate={required}
+              />
+            </div>
+            <div>
+              <Field
+                name="phone"
+                label="Phone number"
+                placeholder="341 6443896"
+                type="number"
+                disabled={formProps.submitting}
+                component={Input}
+                validate={required}
+              />
+              <Field
+                name="address"
+                label="Address"
+                placeholder="Juan Jose Paso 8065"
+                disabled={formProps.submitting}
+                component={Input}
+                validate={required}
+              />
+            </div>
             <Field
               name="email"
               label="Email"
@@ -113,28 +117,29 @@ const Register = () => {
               component={Input}
               validate={required}
             />
-            <Field
-              name="password"
-              label="Password"
-              placeholder="Insert Password"
-              type="password"
-              autocomplete="current-password"
-              disabled={formProps.submitting}
-              component={Input}
-              validate={required}
-            />
-            <Field
-              name="repeatPassword"
-              label="Password"
-              placeholder="repeat Password"
-              type="password"
-              autocomplete="current-password"
-              disabled={formProps.submitting}
-              component={Input}
-              validate={(value) =>
-                value !== formProps.values.password ? 'does not match' : undefined
-              }
-            />
+            <div>
+              <Field
+                name="password"
+                label="Password"
+                placeholder="Insert Password"
+                type="password"
+                autocomplete="current-password"
+                disabled={formProps.submitting}
+                component={Input}
+                validate={required}
+              />
+              <Field
+                name="repeatPassword"
+                label="repeatPassword"
+                type="password"
+                autocomplete="current-password"
+                disabled={formProps.submitting}
+                component={Input}
+                validate={(value) =>
+                  value !== formProps.values.password ? 'does not match' : undefined
+                }
+              />
+            </div>
             <Button2
               type="submit"
               text="Continue"
