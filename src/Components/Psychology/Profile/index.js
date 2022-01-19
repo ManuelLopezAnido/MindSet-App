@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOneCounselor } from 'redux/counselors/thunks';
 import styles from './profile.module.css';
+import listStyles from 'lists.module.css';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,14 @@ const Profile = () => {
     <>
       <div className={styles.container}>
         <div>
-          <div className={styles.imagePostulant}>{/* HERES THE PHOTO */}</div>
+          <div className={styles.imagePostulant}>
+            <img
+              className={listStyles.logoEntity}
+              src={
+                'https://images.ctfassets.net/wgv5567aci3o/post_1237_afb3a9585d91/d206e0e0798a2510128b0f2c00b100fd/post-1237-afb3a9585d91?w=800&h=800&q=80&fit=fill&f=faces'
+              }
+            />
+          </div>
           <div>
             <p className={styles.counselorName}>
               {selectedCounselor.firstName} {selectedCounselor.lastName}

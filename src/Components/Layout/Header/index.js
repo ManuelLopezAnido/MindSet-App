@@ -10,18 +10,10 @@ const Header = () => {
   };
 
   const location = useLocation();
-  let entity = location.pathname;
-  console.log(entity);
-  console.log(entity.substring(1, 6));
-  if (entity.substring(1, 6) === 'admin') {
-    entity = entity.substring(7);
-  } else if (entity.substring(1, 14) === 'psychologists') {
-    entity = entity.substring(15);
-  } else {
-    entity = entity.substring(11);
-  }
-  entity = entity.charAt(0).toUpperCase() + entity.slice(1);
-  console.log(entity);
+  let entity = location.pathname + '/';
+  const firstLetter = entity.indexOf('/', 1);
+  const lastLetter = entity.indexOf('/', firstLetter + 1);
+  entity = entity.charAt(firstLetter + 1).toUpperCase() + entity.slice(firstLetter + 2, lastLetter);
   entity == '' ? (entity = 'Home') : entity;
   return (
     <header>
