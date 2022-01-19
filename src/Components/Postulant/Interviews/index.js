@@ -77,7 +77,6 @@ const Interviews = () => {
         titleText="Error"
         buttonText="ok"
       />
-      <h2> News Interviews</h2>
       {postulantHasSessions ? (
         <table>
           <thead>
@@ -103,7 +102,9 @@ const Interviews = () => {
         <div>
           {postulantHasSessionsAccomplished ? (
             <div>
-              Please choise a date for the Session with the Counselor
+              <p className={styles.titleBox}>
+                Please choise a date for the Session with the Counselor
+              </p>
               <table>
                 <thead>
                   <tr>
@@ -127,7 +128,7 @@ const Interviews = () => {
                       )
                     }
                   >
-                    <td>{session.counselorId.firstName + ' ' + session.counselorId.lastName}</td>
+                    <td>{session.counselorId?.firstName + ' ' + session.counselorId?.lastName}</td>
                     <td>{session.date}</td>
                     <td>{session.time}</td>
                   </tr>

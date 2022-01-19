@@ -37,3 +37,7 @@
 .counselorsList:hover {
   cursor: pointer;
 }
+
+.titleBox {
+  margin-top: 15px;
+}
