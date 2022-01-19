@@ -3,8 +3,10 @@ import listStyles from 'lists.module.css';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
-import Button from 'Components/Shared/Button/Button';
+import AddButton from 'Components/Shared/AddButton';
+import InputSearch from 'Components/Shared/InputSearch';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
+import locationIcon from 'assets/images/location.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { getClients, deleteClient } from 'redux/clients/thunks';
 import { useHistory } from 'react-router-dom';
@@ -13,6 +15,7 @@ import { errorToDefault } from 'redux/clients/actions';
 function Clients() {
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
+  const [inputSearchBar, setInputSearchBar] = useState('');
 
   const history = useHistory();
 
@@ -47,7 +50,7 @@ function Clients() {
   if (isLoading) return <IsLoading />;
 
   return (
-    <section className={listStyles.container}>
+    <section className={listStyles.mainContainer}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -69,39 +72,54 @@ function Clients() {
         middleText={errorMessage}
         buttonText="ok"
       />
-      <div className={listStyles.titleAndButton}>
-        <h3>Clients</h3>
-        <Button onClick={() => history.push('/admin/clients/form')} value="Client" />
+      <div className={listStyles.headerList}>
+        <AddButton onClick={() => history.push('/admin/clients/form')} value="Client" />
+        <InputSearch
+          type="text"
+          placeholder="Search"
+          onChange={(event) => setInputSearchBar(event.target.value)}
+        />
       </div>
-      <table className={listStyles.list}>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Client Type</th>
-            <th>Email</th>
-            <th>Country</th>
-            <th>Phone</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {clients?.map((client) => (
-            <tr
-              key={client._id}
-              onClick={() => (window.location.href = `clients/form?id=${client._id}`)}
-            >
-              <td>{client.clientName}</td>
-              <td>{client.clientType}</td>
-              <td>{client.email}</td>
-              <td>{client.country}</td>
-              <td>{client.phone}</td>
-              <td>
+      <div className={listStyles.containerList}>
+        {clients
+          .filter((client) => {
+            if (
+              client.clientName?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              client.clientType?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              client.email?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              client.city?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+              client.country?.toLowerCase().includes(inputSearchBar.toLowerCase())
+            ) {
+              return client;
+            }
+          })
+          .map((client) => (
+            <div className={listStyles.container} key={client._id}>
+              <div className={listStyles.title}>
+                <p> {client.clientName} </p>
                 <DeleteButton onClick={(event) => handleIdClient(event, client._id)} />
-              </td>
-            </tr>
+              </div>
+              <p className={listStyles.description}>{client.clientType}</p>
+              <p className={listStyles.description}>{client.email}</p>
+              <p className={listStyles.description}>{client.phone}</p>
+              <div className={listStyles.footerContainer}>
+                <div className={listStyles.location}>
+                  <img src={locationIcon} />
+                  <p>
+                    {client.city}, {client.country}
+                  </p>
+                </div>
+                <button
+                  onClick={() => (window.location.href = `clients/form?id=${client._id}`)}
+                  className={listStyles.buttonPlus}
+                  type="submit"
+                >
+                  +
+                </button>
+              </div>
+            </div>
           ))}
-        </tbody>
-      </table>
+      </div>
     </section>
   );
 }

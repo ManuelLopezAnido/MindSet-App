@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import styles from './form.module.css';
+import listStyles from 'lists.module.css';
 import Input from 'Components/Shared/FormInput';
-import Button from 'Components/Admin/Counselors/Button';
+import SaveButton from 'Components/Shared/SaveButton';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
@@ -66,7 +66,7 @@ const CounselorsForm = () => {
   if (isLoading) return <IsLoading />;
 
   return (
-    <div className={styles.container}>
+    <div className={listStyles.mainFormContainer}>
       <Modal
         showModal={showModal}
         closeModal={() => setShowModal(false)}
@@ -87,100 +87,113 @@ const CounselorsForm = () => {
         middleText={errorMessage}
         buttonText="ok"
       />
-      <Form
-        onSubmit={onSubmit}
-        validate={validate}
-        initialValues={selectedCounselor}
-        render={(formProps) => (
-          <form className={styles.form} onSubmit={formProps.handleSubmit}>
-            <h2>Form</h2>
-            <Field
-              label="First Name"
-              name="firstName"
-              type="string"
-              component={Input}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please enter your first name')}
+      <h2> {`${counselorId == null ? 'Add a new Counselor' : 'Edit Counselor Profile'}`} </h2>
+      <div className={listStyles.containerForm}>
+        <div className={listStyles.headerForm}>
+          <div className={listStyles.imageEntity}>
+            <img
+              className={listStyles.logoEntity}
+              src={
+                counselorId
+                  ? 'http://3.bp.blogspot.com/_nKcd5vPHWY4/TJN_ySnkWCI/AAAAAAAAYvs/7h2_Z78Poj4/w1200-h630-p-k-no-nu/timthumb.jpg'
+                  : ''
+              }
             />
-            <Field
-              label="Last Name"
-              name="lastName"
-              type="string"
-              component={Input}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please enter your last name')}
-            />
-            <Field
-              label="Password"
-              name="password"
-              type="password"
-              component={Input}
-              disabled={formProps.submitting}
-            />
-            <Field
-              label="Email"
-              name="email"
-              type="email"
-              component={Input}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please enter your email')}
-            />
-            <Field
-              label="Gender"
-              name="gender"
-              type="string"
-              component={Input}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please enter your gender')}
-            />
-            <Field
-              label="Address"
-              name="address"
-              type="string"
-              component={Input}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please enter your address')}
-            />
-            <Field
-              label="Birthday"
-              name="birthday"
-              type="date"
-              component={Input}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please enter your birthday')}
-            />
-            <Field
-              label="City"
-              name="city"
-              type="string"
-              component={Input}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please enter a city')}
-            />
-            <Field
-              label="Country"
-              name="country"
-              type="string"
-              component={Input}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please enter a country')}
-            />
-            <Field
-              label="Phone"
-              name="phone"
-              type="number"
-              component={Input}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please enter your number phone')}
-            />
-            <Button
-              type="submit"
-              className={StyleSheet.submitButton}
-              disabled={formProps.submitting || formProps.pristine}
-            />
-          </form>
-        )}
-      />
+          </div>
+          <div className={listStyles.entityName}>
+            {counselorId == null
+              ? ''
+              : `${selectedCounselor.firstName} ${selectedCounselor.lastName}`}
+            <p>MindSet Counselor</p>
+          </div>
+        </div>
+        <div className={listStyles.form}>
+          <Form
+            onSubmit={onSubmit}
+            validate={validate}
+            initialValues={selectedCounselor}
+            render={(formProps) => (
+              <form className={listStyles.inputs} onSubmit={formProps.handleSubmit}>
+                <div className={listStyles.fields}>
+                  <Field
+                    label="First Name"
+                    name="firstName"
+                    type="string"
+                    component={Input}
+                    disabled={formProps.submitting}
+                    validate={(value) => (value ? undefined : 'please enter your first name')}
+                  />
+                  <Field
+                    label="Last Name"
+                    name="lastName"
+                    type="string"
+                    component={Input}
+                    disabled={formProps.submitting}
+                    validate={(value) => (value ? undefined : 'please enter your last name')}
+                  />
+                  <Field
+                    label="Email"
+                    name="email"
+                    type="email"
+                    component={Input}
+                    disabled={formProps.submitting}
+                    validate={(value) => (value ? undefined : 'please enter your email')}
+                  />
+                  <Field
+                    label="Gender"
+                    name="gender"
+                    type="string"
+                    component={Input}
+                    disabled={formProps.submitting}
+                    validate={(value) => (value ? undefined : 'please enter your gender')}
+                  />
+                  <Field
+                    label="Address"
+                    name="address"
+                    type="string"
+                    component={Input}
+                    disabled={formProps.submitting}
+                    validate={(value) => (value ? undefined : 'please enter your address')}
+                  />
+                  <Field
+                    label="Birthday"
+                    name="birthday"
+                    type="date"
+                    component={Input}
+                    disabled={formProps.submitting}
+                    validate={(value) => (value ? undefined : 'please enter your birthday')}
+                  />
+                  <Field
+                    label="City"
+                    name="city"
+                    type="string"
+                    component={Input}
+                    disabled={formProps.submitting}
+                    validate={(value) => (value ? undefined : 'please enter a city')}
+                  />
+                  <Field
+                    label="Country"
+                    name="country"
+                    type="string"
+                    component={Input}
+                    disabled={formProps.submitting}
+                    validate={(value) => (value ? undefined : 'please enter a country')}
+                  />
+                  <Field
+                    label="Phone"
+                    name="phone"
+                    type="number"
+                    component={Input}
+                    disabled={formProps.submitting}
+                    validate={(value) => (value ? undefined : 'please enter your number phone')}
+                  />
+                </div>
+                <SaveButton type="submit" disabled={formProps.submitting || formProps.pristine} />
+              </form>
+            )}
+          />
+        </div>
+      </div>
     </div>
   );
 };

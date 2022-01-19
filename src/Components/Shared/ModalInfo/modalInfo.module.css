@@ -1,9 +1,21 @@
+.mainContainer {
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0,0,0,0.8);
+}
+
 .container {
   position: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 330px;
+  max-height: 450px;
   width: 350px;
   background-color: #FFFFFF;
   box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
@@ -39,10 +51,12 @@
 .body p {
   margin-top: 5px;
   color: #325477;
+  text-align: center;
 }
 
 .buttonContainer button {
   margin-top: 30px;
+  margin-bottom: 10px;
   width: 200px;
   height: 25px;
   background-color: #9ED8D8;

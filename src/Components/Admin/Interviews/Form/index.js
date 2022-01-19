@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styles from './form.module.css';
-import Input from 'Components/Shared/FormInput';
+import listStyles from 'lists.module.css';
 import Modal from 'Components/Shared/Modal';
+import SaveButton from 'Components/Shared/SaveButton';
+import Input from 'Components/Shared/FormInput';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
-import Button from 'Components/Shared/Button/Button';
 import Select from 'Components/Shared/Select';
 import { useHistory } from 'react-router-dom';
 import { Field, Form } from 'react-final-form';
@@ -12,6 +13,7 @@ import { errorToDefault, selectedToDefault } from 'redux/admins/actions';
 import { getOneInterview, addInterview, updateInterview } from 'redux/interviews/thunks';
 import { getPostulants } from 'redux/postulants/thunks';
 import { getClients } from 'redux/clients/thunks';
+import { getPositions } from 'redux/positions/thunks';
 
 const InterviewsForm = () => {
   const [showModal, setShowModal] = useState(false);
@@ -27,11 +29,15 @@ const InterviewsForm = () => {
   const postulants = useSelector((store) => store.postulants.list);
 
   const params = new URLSearchParams(window.location.search);
+  const thisClient = params.get('clientId');
+  const thisPostulant = params.get('postulantId');
+  const thisPosition = params.get('position');
   const interviewId = params.get('id');
 
   useEffect(() => {
     dispatch(getClients());
     dispatch(getPostulants());
+    dispatch(getPositions());
     if (interviewId) {
       dispatch(getOneInterview(interviewId));
     } else {
@@ -39,7 +45,6 @@ const InterviewsForm = () => {
     }
   }, []);
 
-  //setting up selects
   useEffect(() => {
     const cli = clients.map((client) => {
       return { value: client._id, toShow: client.clientName };
@@ -88,7 +93,7 @@ const InterviewsForm = () => {
   if (isLoading) return <IsLoading />;
 
   return (
-    <div>
+    <section className={listStyles.mainFormContainer}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -115,78 +120,75 @@ const InterviewsForm = () => {
         leftButtonText="OK"
         rightButtonText="CLOSE"
       />
-      <h1>Form</h1>
-
-      <Form
-        onSubmit={onSubmit}
-        initialValues={selectedInterview}
-        render={(formProps) => (
-          <form className={styles.form} onSubmit={formProps.handleSubmit}>
-            <h2>Form</h2>
-            <Field
-              name="jobTitle"
-              label="jobTitle"
-              placeholder="Electrical engineer"
-              component={Input}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please state the job  offer')}
-            />
-            <Field
-              name="clientId"
-              label="Client"
-              placeholder="Coca-cola"
-              options={clientsToMap}
-              component={Select}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please select a client')}
-            />
-            <Field
-              name="postulantId"
-              label="Postulant"
-              placeholder="Jorge"
-              options={postulantsToMap}
-              component={Select}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please select a postulant')}
-            />
-            <Field
-              name="date"
-              label="Date"
-              type="date"
-              component={Input}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please select a date')}
-            />
-            <Field
-              name="time"
-              label="Time"
-              type="time"
-              component={Input}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please select a time')}
-            />
-            <Field
-              name="state"
-              label="State"
-              options={[
-                { value: 'FULFILLED', toShow: 'FULFILLED' },
-                { value: 'PENDING', toShow: 'PENDING' },
-                { value: 'REJECTED', toShow: 'REJECTED' },
-                { value: 'HIRED', toShow: 'HIRED' }
-              ]}
-              component={Select}
-              disabled={formProps.submitting}
-              validate={(value) => (value ? undefined : 'please select a time')}
-            />
-            <Button
-              type="submit"
-              className={styles.submitButton}
-              disabled={formProps.submitting || formProps.pristine}
-            />
-          </form>
-        )}
-      />
-    </div>
+      <h2> {`${interviewId == null ? 'Add a new Interview' : 'Edit the interview'}`} </h2>
+      <div className={styles.form}>
+        <Form
+          onSubmit={onSubmit}
+          initialValues={selectedInterview}
+          render={(formProps) => (
+            <form className={styles.inputs} onSubmit={formProps.handleSubmit}>
+              <div className={listStyles.fields}>
+                <Field
+                  initialValue={thisPosition}
+                  name="jobTitle"
+                  label="Position"
+                  type="string"
+                  component={Input}
+                  disabled={true}
+                />
+                <Field
+                  name="clientId"
+                  label="Client"
+                  options={clientsToMap}
+                  initialValue={thisClient}
+                  component={Select}
+                  disabled={true}
+                />
+                <Field
+                  name="postulantId"
+                  label="Postulant"
+                  options={postulantsToMap}
+                  initialValue={thisPostulant}
+                  component={Select}
+                  disabled={true}
+                />
+                <Field
+                  name="date"
+                  label="Date"
+                  type="date"
+                  component={Input}
+                  disabled={formProps.submitting}
+                  validate={(value) => (value ? undefined : 'please select a date')}
+                />
+                <Field
+                  name="state"
+                  label="State"
+                  initialValue="PENDING"
+                  options={[
+                    { value: 'FULFILLED', toShow: 'FULFILLED' },
+                    { value: 'PENDING', toShow: 'PENDING' },
+                    { value: 'REJECTED', toShow: 'REJECTED' },
+                    { value: 'HIRED', toShow: 'HIRED' }
+                  ]}
+                  component={Select}
+                  disabled={formProps.submitting}
+                  validate={(value) => (value ? undefined : 'please select a state')}
+                />
+                <Field
+                  name="time"
+                  label="Time"
+                  type="time"
+                  component={Input}
+                  disabled={formProps.submitting}
+                  validate={(value) => (value ? undefined : 'please select a time')}
+                />
+              </div>
+              <SaveButton type="submit" disabled={formProps.submitting || formProps.pristine} />
+            </form>
+          )}
+        />
+      </div>
+    </section>
   );
 };
 

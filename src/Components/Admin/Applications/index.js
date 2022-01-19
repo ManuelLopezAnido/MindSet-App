@@ -1,36 +1,34 @@
 import { useEffect, useState } from 'react';
+import styles from './application.module.css';
 import listStyles from 'lists.module.css';
-import NoData from 'Components/Shared/NoData';
 import { useSelector, useDispatch } from 'react-redux';
 import { getApplications, deleteApplication } from 'redux/applications/thunks.js';
 import { addInterview } from 'redux/interviews/thunks.js';
 import { errorToDefault } from 'redux/admins/actions';
-import Modal from 'Components/Shared/Modal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
-import Button from 'Components/Shared/Button/Button';
+import Modal from 'Components/Shared/Modal';
+import InputSearch from 'Components/Shared/InputSearch';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 import ModalInterview from './modalInterview';
 
 function Applications() {
   const [showModalInterview, setShowModalInterview] = useState(false);
+  const [inputSearchBar, setInputSearchBar] = useState('');
   const [positionId, setPositionId] = useState('');
   const [postIdSelected, setPostIdSelected] = useState('');
   const [clientId, setClientId] = useState('');
   const [selectedId, setSelectedId] = useState('');
   const [showModal, setShowModal] = useState(false);
-
   const dispatch = useDispatch();
   const listApplications = useSelector((store) => store.applications.list);
   const error = useSelector((store) => store.applications.error);
   const isLoading = useSelector((store) => store.applications.isLoading);
 
+  console.log(listApplications);
+
   useEffect(() => {
     dispatch(getApplications());
   }, []);
-
-  const addApplication = () => {
-    window.location.href = `/admin/applications/form`;
-  };
 
   const clickDeleteApplication = () => {
     dispatch(deleteApplication(selectedId));
@@ -69,7 +67,7 @@ function Applications() {
 
   if (isLoading) return <IsLoading />;
   return (
-    <section className={listStyles.container}>
+    <section className={listStyles.mainContainer}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -107,11 +105,13 @@ function Applications() {
         clientId={clientId}
         appId={selectedId}
       />
-      <div className={listStyles.titleAndButton}>
-        <h3>Applications</h3>
-        <Button onClick={addApplication} value="Applications" />
+      <div className={styles.inputSearch}>
+        <InputSearch
+          type="text"
+          placeholder="Search"
+          onChange={(event) => setInputSearchBar(event.target.value)}
+        />
       </div>
-      <NoData data={!listApplications?.length} />
       <table className={listStyles.list}>
         <thead>
           <tr>
@@ -122,30 +122,39 @@ function Applications() {
           </tr>
         </thead>
         <tbody>
-          {listApplications?.map((a) => (
-            <tr
-              key={a._id}
-              onClick={() => (window.location.href = `/admin/applications/form?id=${a._id}`)}
-            >
-              <td>{a.positionId ? a.positionId.jobTitle : 'Position not found'}</td>
-              <td>{a.clientId ? a.clientId.clientName : 'Client not found'}</td>
-              <td>
-                {a.postulantId
-                  ? a.postulantId.firstName + ' ' + a.postulantId.lastName
-                  : 'Postulant not found'}
-              </td>
-              <td>
-                <DeleteButton onClick={(e) => handleIdApplication(e, a._id)} />
-                <button
-                  onClick={(e) =>
-                    makeAnInterview(e, a.positionId._id, a.postulantId._id, a.clientId._id, a._id)
-                  }
-                >
-                  Make an interview
-                </button>
-              </td>
-            </tr>
-          ))}
+          {listApplications
+            .filter((a) => {
+              if (
+                a.positionId?.jobTitle.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+                a.postulantId?.firstName.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+                a.postulantId?.lastName.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+                a.clientId?.clientName.toLowerCase().includes(inputSearchBar.toLowerCase())
+              ) {
+                return a;
+              }
+            })
+            .map((a) => (
+              <tr key={a._id}>
+                <td>{a.positionId ? a.positionId.jobTitle : 'Position not found'}</td>
+                <td>{a.clientId ? a.clientId.clientName : 'Client not found'}</td>
+                <td>
+                  {a.postulantId
+                    ? a.postulantId.firstName + ' ' + a.postulantId.lastName
+                    : 'Postulant not found'}
+                </td>
+                <td>
+                  <DeleteButton onClick={(e) => handleIdApplication(e, a._id)} />
+                  <button
+                    className={styles.button}
+                    onClick={(e) =>
+                      makeAnInterview(e, a.positionId._id, a.postulantId._id, a.clientId._id, a._id)
+                    }
+                  >
+                    +
+                  </button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </section>

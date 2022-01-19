@@ -58,7 +58,7 @@ const ProfilesForm = () => {
   if (isLoading) return <IsLoading />;
 
   return (
-    <div className={styles.container}>
+    <div className={styles.mainFormContainer}>
       <Modal
         showModal={showModal}
         closeModal={() => setShowModal(false)}
@@ -79,12 +79,12 @@ const ProfilesForm = () => {
         middleText={errorMessage}
         buttonText="ok"
       />
+      <h2> {`${profileId == null ? 'Add a new Profile' : 'Edit the profile'}`} </h2>
       <Form
         onSubmit={onSubmit}
         initialValues={selectedProfile}
         render={(formProps) => (
           <form className={styles.form} onSubmit={formProps.handleSubmit}>
-            <h2>Form</h2>
             <Field
               name="name"
               label="Name"

@@ -1,0 +1,93 @@
+.mainContainer {
+  max-height: 580px;
+  box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
+  -webkit-box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
+  -moz-box-shadow: 2px 3px 10px 6px rgba(0,0,0,0.26);
+}
+
+.inputSearch {
+  display: flex;
+  justify-content: end;
+}
+
+.postulantList {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  max-height: 450px;
+  overflow-y: scroll;
+}
+
+.postulantContainer {
+  display: flex;
+  justify-content: space-around;
+  width: 42%;
+  margin: 25px;
+  margin-top: 1px;
+  box-shadow: 1px 2px 2px 1px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 1px 2px 2px 1px rgba(0,0,0,0.1);
+  -moz-box-shadow: 1px 2px 2px 1px rgba(0,0,0,0.1);
+}
+
+.imageCounselor {
+  overflow: hidden;
+  margin-top: 20px;
+  margin-left: 10px;
+  width: 90px;
+  height: 90px;
+  border: 5px solid #467599;
+  background-color: #e6e6e6;
+  border-radius: 100%;
+}
+
+.logoCounselor{
+  width: 100%;
+}
+
+.footerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px 20px 8px 15px;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 20px 14px 15px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #477599;
+}
+
+.description {
+  margin: 0px 0px 18px 15px;
+  font-size: 15px;
+  color: #707070;
+}
+
+.button{
+  margin-left: 30px;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 100%;
+  color: #FFF;
+  background: #9ed8d8;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.location >img {
+  width: 20px;
+  height: 20px;
+}
+
+.location {
+  display: flex;
+  flex-direction: row;
+  font-weight: bold;
+  color: #7c7c7c;
+}

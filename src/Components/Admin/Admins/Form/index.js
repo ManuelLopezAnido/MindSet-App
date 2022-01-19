@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import Input from 'Components/Shared/FormInput';
-import Button from 'Components/Admin/Admins/Button';
+import SaveButton from 'Components/Shared/SaveButton';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
@@ -69,7 +69,7 @@ const AdminsForm = () => {
   if (isLoading) return <IsLoading />;
 
   return (
-    <div className={styles.container}>
+    <div className={styles.mainFormContainer}>
       <Modal
         showModal={showModal}
         closeModal={() => setShowModal(false)}
@@ -90,16 +90,16 @@ const AdminsForm = () => {
         middleText={errorMessage}
         buttonText="ok"
       />
+      <h2> {`${adminId == null ? 'Add a new Admin' : 'Edit the Admin profile'}`} </h2>
       <Form
         onSubmit={onSubmit}
         validate={validate}
         initialValues={selectedAdmin}
         render={(formProps) => (
           <form className={styles.form} onSubmit={formProps.handleSubmit}>
-            <h2>Form</h2>
             <Field
               name="email"
-              label="email"
+              label="Email"
               placeholder="example@geemail.com"
               component={Input}
               disabled={formProps.submitting}
@@ -114,11 +114,7 @@ const AdminsForm = () => {
               disabled={formProps.submitting}
               validate={(value) => (value ? undefined : 'please enter your password')}
             />
-            <Button
-              type="submit"
-              className={styles.submitButton}
-              disabled={formProps.submitting || formProps.pristine}
-            />
+            <SaveButton type="submit" disabled={formProps.submitting || formProps.pristine} />
           </form>
         )}
       />

@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import listStyles from 'lists.module.css';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
+import InputSearch from 'Components/Shared/InputSearch';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
-import Button from 'Components/Shared/Button/Button';
+import AddButton from 'Components/Shared/AddButton';
+import EditButton from 'Components/Shared/EditButton';
 import DeleteButton from 'Components/Shared/DeleteButton/DeleteButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { getProfiles, deleteProfile } from 'redux/profiles/thunks';
@@ -13,7 +15,7 @@ import { errorToDefault } from 'redux/profiles/actions';
 function WorkProfiles() {
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
-
+  const [inputSearchBar, setInputSearchBar] = useState('');
   const history = useHistory();
 
   const dispatch = useDispatch();
@@ -49,7 +51,7 @@ function WorkProfiles() {
   }
 
   return (
-    <div className={listStyles.container}>
+    <section className={listStyles.mainContainer}>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -71,38 +73,51 @@ function WorkProfiles() {
         middleText={errorMessage}
         buttonText="ok"
       />
-      <div className={listStyles.titleAndButton}>
-        <h3>Profile</h3>
-        <Button onClick={() => history.push('/admin/workprofiles/form')} value="Profile" />
+      <div className={listStyles.headerList}>
+        <AddButton onClick={() => history.push('/admin/workprofiles/form')} value="Profile" />
+        <InputSearch
+          type="text"
+          placeholder="Search"
+          onChange={(event) => setInputSearchBar(event.target.value)}
+        />
       </div>
-      <table className={listStyles.list}>
-        <thead>
-          <tr>
-            <th> Name </th>
-            <th> Description </th>
-            <th> Actions </th>
-          </tr>
-        </thead>
-        <tbody>
-          {profiles.map((profile) => {
-            return (
-              <tr
-                key={profile._id}
-                onClick={() => {
-                  window.location.replace(`workprofiles/form?id=${profile._id}`);
-                }}
-              >
-                <td>{profile.name}</td>
-                <td>{profile.description}</td>
-                <td>
-                  <DeleteButton onClick={(event) => handleIdProfile(event, profile._id)} />
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+      <div className={listStyles.list}>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {profiles
+              .filter((profile) => {
+                if (
+                  profile.name?.toLowerCase().includes(inputSearchBar.toLowerCase()) ||
+                  profile.description?.toLowerCase().includes(inputSearchBar.toLowerCase())
+                ) {
+                  return profile;
+                }
+              })
+              .map((workProfile) => (
+                <tr key={workProfile._id}>
+                  <td>{workProfile.name}</td>
+                  <td>{workProfile.description}</td>
+                  <td>
+                    <EditButton
+                      onClick={() =>
+                        (window.location.href = `/admin/workprofiles/form?id=${workProfile._id}`)
+                      }
+                    />
+                    <DeleteButton onClick={(event) => handleIdProfile(event, workProfile._id)} />
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
   );
 }
 

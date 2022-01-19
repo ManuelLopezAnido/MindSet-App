@@ -7,7 +7,7 @@ import Select from 'Components/Shared/Select';
 import Modal from 'Components/Shared/Modal';
 import ErrorModal from 'Components/Shared/ErrorModal';
 import IsLoading from 'Components/Shared/IsLoading/IsLoading';
-import Button from 'Components/Shared/Button/Button';
+import Button from 'Components/Shared/AddButton';
 import { Field, Form } from 'react-final-form';
 import { validateMongoID } from 'validations';
 import { selectedToDefault } from 'redux/admins/actions';
