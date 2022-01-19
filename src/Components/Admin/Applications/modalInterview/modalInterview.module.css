@@ -7,15 +7,23 @@
   background-color: rgba(0, 0, 0, 0.8);
 }
 .Modal{
+  display: flex;
+  flex-direction: column;
   position: relative;
-  background-color: honeydew;
+  background-color: #fff;
   top:10vh;
   left:15vw;
   right:15vw;
-  height: 40vh;
   width: 70vw;
-  padding: 5px;
   border: solid 1px black;
+}
+.header{
+  background-color: #325477;
+  color: #FFF;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 30px;
 }
 .container {
   box-sizing: border-box;
@@ -39,4 +47,15 @@
 .select {
   padding: 10px;
   border-radius: 2px;
+  margin: 20px;
+}
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-self: end;
+  align-self: flex-end;
+  margin: 0px 20px 0px;
+}
+.buttonContainer > * {
+  padding: 40px;
 }
