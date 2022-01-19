@@ -101,7 +101,7 @@ function Positions() {
               .map((position) => (
                 <tr key={position._id}>
                   <td>{position.jobTitle}</td>
-                  <td>{position.clientName}</td>
+                  <td>{position.clientId.clientName}</td>
                   <td>
                     <EditButton
                       onClick={() =>
