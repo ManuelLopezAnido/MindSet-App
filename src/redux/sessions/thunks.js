@@ -21,7 +21,7 @@ const URL = process.env.REACT_APP_API;
 export const getSessions = () => (dispatch) => {
   const token = sessionStorage.getItem('token');
   dispatch(getSessionsFetching());
-  fetch(`${URL}/sessions`, { headers: { token } })
+  return fetch(`${URL}/sessions`, { headers: { token } })
     .then((data) => data.json())
     .then((response) => dispatch(getSessionsFulfilled(response)))
     .catch((error) => dispatch(getSessionsRejected(error)));
